@@ -35,7 +35,7 @@
                 
                  <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-                		<form class="form-horizontal" action="#" th:action="@{/projects/project/__${project.id}__/nextstep/save/}" th:object="${formAchievementModel}" method="POST">
+                		<form class="form-horizontal" action="#" th:action="@{/projects/project/__${project.id}__/nextstep/save/}" th:object="${formNextStepModel}" method="POST">
                     <input class="hidden" name="id" id="id"  th:value="${project.id}"/>
                     	
                     <div class="row">
@@ -57,13 +57,13 @@
 						                            <div class="form-group">
 			                                            <label class="col-md-2 control-label">Resumen Logro</label>
 			                                            <div class="col-md-10">
-			                                                <input name="summaryachievement" id="summaryachievement"  th:field="${formAchievementModel.summaryachievement}"  type="text" class="form-control" placeholder="Your name"/>
+			                                                <input name="summarynextstep" id="summarynextstep"  th:field="${formNextStepModel.summarynextstep}"  type="text" class="form-control" placeholder="Your name"/>
 			                                            </div>
 			                                        </div>
 			                                        <div class="form-group">
 			                                            <label class="col-md-2 control-label">Detalle Logro</label>
 			                                            <div class="col-md-10">
-			                                                <textarea  name="txtachievement" id="txtachievement"  th:field="${formAchievementModel.txtachievement}" class="form-control" rows="5" placeholder="Something about you"></textarea>
+			                                                <textarea  name="txtnextstep" id="txtnextstep"  th:field="${formNextStepModel.txtnextstep}" class="form-control" rows="5" placeholder="Something about you"></textarea>
 			                                            </div>
 			                                        </div> 
 		                                        </div>
@@ -73,7 +73,7 @@
 			                                        <div class="form-group">
 			                                            <label class="col-md-3 control-label">Fecha</label>
 			                                            <div class="col-md-8">
-			                                                 <input name="dateachievement" id="dateachievement"   th:field="${formAchievementModel.dateachievement}" type="text" class="form-control datepicker" value="2014-11-01" />                                            
+			                                                 <input name="datenextstep" id="datenextstep"   th:field="${formNextStepModel.datenextstep}" type="text" class="form-control datepicker" value="2014-11-01" />                                            
 			                                            </div>
 			                                        </div>
 			                                   </div>
@@ -81,7 +81,7 @@
 			                                        <div class="form-group">
 			                                            <label class="col-md-3 control-label">Semana</label>
 			                                            <div class="col-md-9">
-			                                                <input name="week" id="week"   th:field="${formAchievementModel.week}" type="text" class="form-control" placeholder="Your name"/>
+			                                                <input name="week" id="week"   th:field="${formNextStepModel.week}" type="text" class="form-control" placeholder="Your name"/>
 			                                            </div>
 			                                        </div>
 	                                    		</div>
@@ -227,10 +227,6 @@
         function nando(){
             alert("nando")
         }
-        
-
-	      
-	          
 	        
 	    </script>
     </body>

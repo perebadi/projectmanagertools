@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.User;
+import com.pbc.pmtool.model.SumValuesModel;
 
 
 @Repository("projectRepository")
@@ -21,8 +23,8 @@ public interface ProjectRepository  extends JpaRepository<Project, Serializable>
 	public abstract Page<Project> findByUser(User user, Pageable pageable);
 
 
-	//@Query(value = "SELECT sum(base) as sbase, tipoirpf,sum(irpf) as sirpf, tipoiva,sum(iva) as siva,sum(total) as stotal FROM factura_cliente WHERE fechafactura >= ?1 and fechafactura < ?2 GROUP BY tipoirpf,tipoiva", nativeQuery = true)	
-	//public List<Object[]> findProjectAchievements();
+	@Query(value = "SELECT sum(TVC) as sTVC, sum(TIC) as sTIC, sum(costestimated) as scostestimatedl FROM project WHERE  user_username =?1 AND projectactive=true", nativeQuery = true)	
+	public  List<Object[]> getActiveSum(String username);
 
 
 }

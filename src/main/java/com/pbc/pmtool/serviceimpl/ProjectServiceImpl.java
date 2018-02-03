@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.User;
+import com.pbc.pmtool.model.SumValuesModel;
 import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.service.ProjectService;
 
@@ -87,6 +88,33 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		
 		return projectRepository.save(project); 
+	}
+
+	@Override
+	public SumValuesModel getActiveSum(String username) {
+				
+		SumValuesModel sumValuesModel = new   SumValuesModel();;
+				
+		List<Object[]> ops =projectRepository.getActiveSum(username);
+		
+		
+		
+		for (Object[] op : ops ){
+			sumValuesModel.setsTIC((double) op[1]);
+			sumValuesModel.setsTVC((double) op[0]);
+			sumValuesModel.setScostestimated((double) op[2]);
+			sumValuesModel.setEACOP(0);
+			sumValuesModel.setOP(0);
+			
+			sumValuesModel.setEACOP((1-(double) op[2]/(double) op[0])*100);
+			sumValuesModel.setOP((1-(double) op[1]/(double) op[0])*100);
+			}
+		
+		
+		
+
+		
+		return sumValuesModel;
 	}
 
 }

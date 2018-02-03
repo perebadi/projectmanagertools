@@ -37,14 +37,117 @@
                 <div class="page-content-wrap">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="col-md-3">                        
+                            <!-- <div class="col-md-3">                        
 	                            <a href="#" th:href="@{/projects/__${username}__/}" class="tile tile-primary">
 	                                <span th:text="${numprojects}"></span>
 	                                <p>Tus Proyectos</p>
 	                                <div class="informer informer-warning"><span class="fa fa-caret-down"></span></div>
 	                                <div class="informer informer-default dir-tr"><span  th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span></div>
 	                            </a>
-                        		</div>
+                        		</div> -->
+                        		<div class="row"><!-- START ROW -->
+	                        		<div class="col-md-3">
+	
+		                            <div class="widget widget-primary">
+		                                <div class="widget-subtitle">Your Active Projects</div>
+		                                <div class="widget-subtitle"></div>
+		                                
+		                                <div class="widget-int"><span data-toggle="counter" data-to="1564" th:text="${numprojects}">1,564</span></div>
+		                                <div class="widget-controls">
+		                                    <a href="#" th:href="@{/projects/__${username}__/}" class="widget-control-right"><span class="fa fa-search"></span></a>
+		                                </div>
+		                            </div>
+		
+		                        </div>
+	                        </div><!-- END ROW -->
+                        		
+                        		
+                        		<div class="row"><!-- START ROW -->
+	                        		<div class="col-md-3">
+	
+		                            <div class="widget widget-info widget-no-subtitle">
+		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.sTVC, 0, 'POINT', 2, 'COMMA')}">1.200.000 €</span></div>                            
+		                                <div class="widget-subtitle">Global Active Projects TCV</div>
+		                                <div class="widget-controls">
+		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
+		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
+		                                </div>                            
+		                            </div>                        
+		
+		                        </div>
+		                        
+		                        <div class="col-md-3">
+	
+		                            <div class="widget widget-danger widget-no-subtitle">
+		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.sTIC, 0, 'POINT', 2, 'COMMA')}">888.000 €</span></div>                            
+		                                <div class="widget-subtitle">Global Active Projects TIC</div>
+		                                <div class="widget-controls">
+		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
+		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
+		                                </div>                            
+		                            </div>                        
+		
+		                        </div>
+	                        		
+	                        		<div class="col-md-3">
+	
+		                            <div class="widget widget-success widget-padding-sm">                            
+		                                <div class="widget-item-left">
+		                                    <input class="knob" data-width="100" data-height="100" data-min="0" data-max="100"   data-bgColor="#FFF" data-fgColor="#33414E" value="20%" data-readOnly="true" data-thickness=".2" th:value="${#numbers.formatDecimal(sumValuesModel.OP, 0, 'POINT', 2, 'COMMA')}"/>
+		                                </div> 
+		                                <div class="widget-data">
+		                                    <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.OP, 0, 'POINT', 2, 'COMMA')}">20</span>%</div>
+		                                    <div class="widget-title">Global OP Margin</div>
+		                                    <div class="widget-subtitle">Active Projects</div>                                
+		                                </div>                            
+		                                <div class="widget-controls">                                
+		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
+		                                </div>                            
+		                            </div>                        
+	
+	                        		</div>
+                        		</div><!-- END ROW -->
+                        		
+                        		<div class="row"><!-- START ROW -->
+	                        		<div class="col-md-3">
+	
+		                                                   
+		
+		                        </div>
+		                        
+		                        <div class="col-md-3">
+	
+		                            <div class="widget widget-danger widget-no-subtitle">
+		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.scostestimated, 0, 'POINT', 2, 'COMMA')}">888.000 €</span></div>                            
+		                                <div class="widget-subtitle">Global Active Projects Cost Estimated</div>
+		                                <div class="widget-controls">
+		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
+		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
+		                                </div>                            
+		                            </div>                        
+		
+		                        </div>
+	                        		
+	                        		<div class="col-md-3">
+	
+		                            <div class="widget widget-success widget-padding-sm">                            
+		                                <div class="widget-item-left">
+		                                    <input class="knob" data-width="100" data-height="100" data-min="0" data-max="100"   data-bgColor="#FFF" data-fgColor="#33414E" value="20%" data-readOnly="true" data-thickness=".2" th:value="${#numbers.formatDecimal(sumValuesModel.EACOP, 0, 'POINT', 2, 'COMMA')}"/>
+		                                </div> 
+		                                <div class="widget-data">
+		                                    <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.EACOP, 0, 'POINT', 2, 'COMMA')}">20</span>%</div>
+		                                    <div class="widget-title">Global OP Margin</div>
+		                                    <div class="widget-subtitle">Active Projects</div>                                
+		                                </div>                            
+		                                <div class="widget-controls">                                
+		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
+		                                </div>                            
+		                            </div>                        
+	
+	                        		</div>
+                        		</div><!-- END ROW -->
+                        		
+                        		
                         </div>
                     </div>                    
                 </div>
@@ -89,6 +192,8 @@
         
        
         <!-- END THIS PAGE PLUGINS -->       
+         <script type="text/javascript" src="js/plugins/knob/jquery.knob.min.js"></script>
+         <script th:src="@{/js/plugins/knob/jquery.knob.min.js}"></script>	
         
         <!-- START TEMPLATE -->
  	        	<script th:src="@{/js/settings.jss}"></script>	

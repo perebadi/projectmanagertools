@@ -1,17 +1,20 @@
 package com.pbc.pmtool.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectPhase;
+import com.pbc.pmtool.entity.ProjectProblem;
 
 
 @Repository("projectPhaseRepository")
-public interface ProjectPhaseRepository {
+public interface ProjectPhaseRepository extends JpaRepository<ProjectPhase, Serializable>{
 	public abstract ProjectPhase  findById(int id);
 	public abstract List<ProjectPhase> findAll();
 	public Page<ProjectPhase> findAllByOrderByIdDesc( Pageable pageable);

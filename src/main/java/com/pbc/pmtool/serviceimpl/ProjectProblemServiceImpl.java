@@ -2,16 +2,26 @@ package com.pbc.pmtool.serviceimpl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectProblem;
+import com.pbc.pmtool.repository.ProjectProblemRepository;
 import com.pbc.pmtool.service.ProjectProblemService;
 
+@Service("projectProblemServiceImpl")
 public class ProjectProblemServiceImpl implements ProjectProblemService {
+	
+	@Autowired
+	@Qualifier("projectProblemRepository")
+	private ProjectProblemRepository projectProblemRepository;
 
 	@Override
 	public ProjectProblem addProjectProblem(ProjectProblem projectProblem) {
 		// TODO Auto-generated method stub
-		return null;
+		return projectProblemRepository.save(projectProblem);
 	}
 
 	@Override

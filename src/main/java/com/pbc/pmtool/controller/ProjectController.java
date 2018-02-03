@@ -1,6 +1,11 @@
 package com.pbc.pmtool.controller;
 
 
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.isNotNull;
+import static org.mockito.Matchers.notNull;
+
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +17,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -27,15 +33,25 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
+import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
+import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
 import com.pbc.pmtool.model.FormAchievementModel;
+import com.pbc.pmtool.model.FormEscalationModel;
 import com.pbc.pmtool.model.FormNewProjectModel;
+import com.pbc.pmtool.model.FormNextStepModel;
+import com.pbc.pmtool.model.FormPhaseModel;
+import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
+import com.pbc.pmtool.repository.ProjectEscalationRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.ProjectAchievementService;
+import com.pbc.pmtool.service.ProjectEscalationService;
 import com.pbc.pmtool.service.ProjectNextStepService;
+import com.pbc.pmtool.service.ProjectPhaseService;
+import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
 
@@ -61,20 +77,40 @@ public class ProjectController {
 	private ProjectNextStepService projectNextStepService;
 	
 	@Autowired
+	@Qualifier("projectProblemServiceImpl")
+	private ProjectProblemService projectProblemService;
+	
+	@Autowired
 	@Qualifier("userRepository")
 	private UserRepository userRepository;
+	
+	@Autowired
+	@Qualifier("projectEscalationServiceImpl")
+	private ProjectEscalationService projectEscalationService;
+	
+	@Autowired
+	@Qualifier("projectPhaseServiceImpl")
+	private ProjectPhaseService projectPhaseService;
 		
-	//@PreAuthorize("hashRole('ROLE_USER')")
+	
 	@GetMapping("/")
-	public ModelAndView Welcome(){
+	public ModelAndView Welcome() throws IllegalArgumentException, IllegalAccessException{
 		ModelAndView mav = new ModelAndView(ViewConstant.WELCOME);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println("user : " + user.getUsername());
+		
+		
+		
+		mav.addObject("sumValuesModel", projectService.getActiveSum(user.getUsername()));
+		
+		
 		mav.addObject("username", user.getUsername());
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(user.getUsername())));
 		return mav;
 	}
 	
+	
+	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/createproject")
 	public ModelAndView CreateProject(){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORM);
@@ -102,29 +138,8 @@ public class ProjectController {
 		ProjectPhase projectPhaseKickOff = new ProjectPhase();
 		ProjectPhase projectPhaseGoLive = new ProjectPhase();
 
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			Date kickoffdate = df.parse(formNewProjectModel.getStart());
-			Date golivedate = df.parse(formNewProjectModel.getEnd());
-			
-			projectPhaseKickOff.setSummaryphase("Kick-Off");
-			projectPhaseKickOff.setStartdate(kickoffdate);
-			projectPhaseKickOff.setEnddate(kickoffdate);
-			projectPhaseKickOff.setProject(project);
-			
-			projectPhaseGoLive.setSummaryphase("Go-Live");
-			projectPhaseGoLive.setStartdate(golivedate);
-			projectPhaseGoLive.setEnddate(golivedate);
-			projectPhaseGoLive.setProject(project);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
 		
-		Set<ProjectPhase> phases = new HashSet<>();
-		phases.add(projectPhaseGoLive);
-		phases.add(projectPhaseKickOff);
-		project.setPhases(phases);
+
 		
 		project.setProjectBenefitsRealisation(projectStatusLightService.findProjectStatusLightByStatusname("G"));
 		project.setProjectBusinessChange(projectStatusLightService.findProjectStatusLightByStatusname("G"));
@@ -142,8 +157,44 @@ public class ProjectController {
 		
 		project.setUser(userRepository.findByUsername(user.getUsername()));
 
+		Project newproject = projectService.addProject(project);
 		
-		projectService.addProject(project);
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date kickoffdate = df.parse(formNewProjectModel.getStart());
+			Date golivedate = df.parse(formNewProjectModel.getEnd());
+			
+			projectPhaseKickOff.setSummaryphase("Kick-Off");
+			projectPhaseKickOff.setStartdate(kickoffdate);
+			projectPhaseKickOff.setEnddate(kickoffdate);
+			projectPhaseKickOff.setProject(newproject);
+			projectPhaseKickOff.setRag(projectStatusLightService.findProjectStatusLightById(1));
+			projectPhaseKickOff.setWeekdelay(0);
+			projectPhaseKickOff.setNewdate(kickoffdate);
+			projectPhaseKickOff.setProgress(0);
+
+			projectPhaseGoLive.setSummaryphase("Go-Live");
+			projectPhaseGoLive.setStartdate(golivedate);
+			projectPhaseGoLive.setEnddate(golivedate);
+			projectPhaseGoLive.setProject(newproject);
+			projectPhaseGoLive.setRag(projectStatusLightService.findProjectStatusLightById(1));
+			projectPhaseGoLive.setWeekdelay(0);
+			projectPhaseGoLive.setNewdate(golivedate);
+			projectPhaseGoLive.setProgress(0);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+		projectPhaseService.addProjectPhase(projectPhaseKickOff);
+		projectPhaseService.addProjectPhase(projectPhaseGoLive);
+
+	
+		
+		
+		
 	
 		return "redirect:/projects/";
 	}
@@ -171,6 +222,15 @@ public class ProjectController {
 		
 		List<ProjectNextStep> nextsteps = new ArrayList<>(projectService.findProjectById(id).getNextsteps());
 		mav.addObject("nextsteps",nextsteps);
+		
+		List<ProjectProblem> problems = new ArrayList<>(projectService.findProjectById(id).getProblems());
+		mav.addObject("problems",problems);
+		
+		List<ProjectEscalation> escalations = new ArrayList<>(projectService.findProjectById(id).getEscalations());
+		mav.addObject("escalations",escalations);
+		
+		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
+		mav.addObject("phases",phases);
 		
 		System.out.println(projectService.findProjectById(id).getProjectname());
 		System.out.println("id : "+id);
@@ -202,7 +262,7 @@ public class ProjectController {
 	
  
 	@PostMapping("/project/{id}/rag/save/")
-	public ModelAndView saveRAG(@PathVariable int id,@ModelAttribute("formRagModel") FormRagModel formRagModel){
+	public String saveRAG(@PathVariable int id,@ModelAttribute("formRagModel") FormRagModel formRagModel){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
 		
 		Project  project = projectService.findProjectById(id);
@@ -224,7 +284,7 @@ public class ProjectController {
 		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
 		mav.addObject("formRagModel", formRagModel);
 		
-		return mav;
+		return "redirect:/projects/project/"+id+"/";
 	}
 	
 	
@@ -288,10 +348,10 @@ public class ProjectController {
 	@GetMapping("/project/{id}/nextstep/")
 	public ModelAndView editNextSteps(@PathVariable int id){
 		ModelAndView mav = new ModelAndView(ViewConstant.NEXTSTEPSFORMEDIT);
-		FormAchievementModel formAchievementModel = new FormAchievementModel();
+		FormNextStepModel formNextStepModel = new FormNextStepModel();
 		
 		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("formAchievementModel",formAchievementModel);
+		mav.addObject("formNextStepModel",formNextStepModel);
 		
 		List<ProjectNextStep> nextsteps = new ArrayList<>(projectService.findProjectById(id).getNextsteps());
 		mav.addObject("nextsteps",nextsteps);
@@ -300,7 +360,7 @@ public class ProjectController {
 	}
 	
 	@PostMapping("/project/{id}/nextstep/save/")
-	public String saveNextSteps(@PathVariable int id,@ModelAttribute("formAchievementModel") FormAchievementModel formAchievementModel){
+	public String saveNextSteps(@PathVariable int id,@ModelAttribute("formNextStepModel") FormNextStepModel formNextStepModel){
 		
 		Project  project = projectService.findProjectById(id);
 		
@@ -308,12 +368,12 @@ public class ProjectController {
 	
 		
 		projectNextStep.setProject(project);
-		projectNextStep.setSummarynextstep(formAchievementModel.getSummaryachievement());
-		projectNextStep.setTxtnextstep(formAchievementModel.getTxtachievement());
-		projectNextStep.setWeek(formAchievementModel.getWeek());
+		projectNextStep.setSummarynextstep(formNextStepModel.getSummarynextstep());
+		projectNextStep.setTxtnextstep(formNextStepModel.getTxtnextstep());
+		projectNextStep.setWeek(formNextStepModel.getWeek());
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formAchievementModel.getDateachievement();
+        String dateInString =formNextStepModel.getDatenextstep();
 
         try {
 
@@ -325,16 +385,215 @@ public class ProjectController {
         }
 		
       
-        
         projectNextStepService.addProjectNextStep(projectNextStep);
 		
-
-		
 		return "redirect:/projects/project/"+id+"/nextstep/";
+	}	
+	//******************************************************************END NEXTSTEPS
+	
+	
+	//******************************************************************PROBLEMS *****************
+	
+	@GetMapping("/project/{id}/problem/")
+	public ModelAndView editProblems(@PathVariable int id){
+		ModelAndView mav = new ModelAndView(ViewConstant.PROBLEMFORMEDIT);
+		FormProblemModel formProblemModel = new FormProblemModel();
+		
+		mav.addObject("project",projectService.findProjectById(id));
+		mav.addObject("formProblemModel",formProblemModel);
+		
+		List<ProjectProblem> problems = new ArrayList<>(projectService.findProjectById(id).getProblems());
+		mav.addObject("problems",problems);
+
+		return mav;
 	}
 	
-	//******************************************************************END NEXTSTEPS
+	@PostMapping("/project/{id}/problem/save/")
+	public String saveNextSteps(@PathVariable int id,@ModelAttribute("formProblemModel") FormProblemModel formProblemModel){
+		
+		Project  project = projectService.findProjectById(id);
+		
+		ProjectProblem projectProblem  = new ProjectProblem();
+	
+		
+		projectProblem.setProject(project);
+		projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
+		projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
+		projectProblem.setWeek(formProblemModel.getWeek());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString =formProblemModel.getDateproblem();
 
+        try {
+
+            Date date = formatter.parse(dateInString);
+            projectProblem.setDateproblem(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+        
+        System.out.println(projectProblem.getSummaryproblem());
+      
+        projectProblemService.addProjectProblem(projectProblem);
+		
+		return "redirect:/projects/project/"+id+"/problem/";
+	}	
+	//******************************************************************END PROBLEMS
+	
+	
+	
+	//******************************************************************ESCALATIONS *****************
+	
+	@GetMapping("/project/{id}/escalation/")
+	public ModelAndView editScalations(@PathVariable int id){
+		ModelAndView mav = new ModelAndView(ViewConstant.ESCALATIONFORMEDIT);
+		FormEscalationModel formEscalationModel = new FormEscalationModel();
+		
+		mav.addObject("project",projectService.findProjectById(id));
+		mav.addObject("formEscalationModel",formEscalationModel);
+		
+		List<ProjectEscalation> escalations = new ArrayList<>(projectService.findProjectById(id).getEscalations());
+		mav.addObject("escalations",escalations);
+
+		
+		
+		return mav;
+	}
+	
+	@PostMapping("/project/{id}/escalation/save/")
+	public String saveScalation(@PathVariable int id,@ModelAttribute("formEscalationModel") FormEscalationModel formEscalationModel){
+		
+		Project  project = projectService.findProjectById(id);
+		ProjectEscalation projectEscalation  = new ProjectEscalation();
+		
+		projectEscalation.setProject(project);
+		projectEscalation.setSummaryescalation(formEscalationModel.getSummaryescalation());
+		projectEscalation.setTxtescalation(formEscalationModel.getTxtescalation());
+		projectEscalation.setWeek(formEscalationModel.getWeek());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString =formEscalationModel.getDateescalation();
+        try {
+
+            Date date = formatter.parse(dateInString);
+            projectEscalation.setDateescalation(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+      
+        projectEscalationService.addProjectEscalation(projectEscalation);
+		
+		return "redirect:/projects/project/"+id+"/escalation/";
+	}	
+	//******************************************************************END ESCALATIONS
+	
+	
+	
+
+	//******************************************************************PHASE *****************
+	
+	@GetMapping("/project/{id}/phase/")
+	public ModelAndView editPhases(@PathVariable int id){
+		ModelAndView mav = new ModelAndView(ViewConstant.PHASEFORMEDIT);
+		FormPhaseModel formPhaseModel = new FormPhaseModel();
+		
+		mav.addObject("project",projectService.findProjectById(id));
+		mav.addObject("formPhaseModel",formPhaseModel);
+		
+		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
+		mav.addObject("phases",phases);
+		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+
+
+		
+		
+		return mav;
+	}
+	
+	@GetMapping("/project/{id}/phase/{idphase}/")
+	public ModelAndView editPhase(@PathVariable int id, @PathVariable int idphase){
+		ModelAndView mav = new ModelAndView(ViewConstant.PHASEFORMEDIT);
+		
+		System.out.println("id      : "+ id);
+		System.out.println("idphase : "+ idphase);
+		
+		ProjectPhase projectPhase = projectPhaseService.findProjectPhaseById(idphase);
+		FormPhaseModel formPhaseModel = new FormPhaseModel();
+		
+		System.out.println("progress : "+  projectPhase.getProgress());
+		formPhaseModel.setIdphase(idphase);
+		formPhaseModel.setProgress( projectPhase.getProgress());
+		formPhaseModel.setRag( projectPhase.getRag().getId());
+		formPhaseModel.setSummaryphase(projectPhase.getSummaryphase() );
+		formPhaseModel.setWeekdelay( projectPhase.getWeekdelay());
+		
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		formPhaseModel.setEnddate(df.format(projectPhase.getEnddate()));
+		formPhaseModel.setNewdate( df.format(projectPhase.getNewdate()));
+		formPhaseModel.setStartdate(df.format(projectPhase.getStartdate()));
+		
+
+		mav.addObject("project",projectService.findProjectById(id));
+		mav.addObject("formPhaseModel",formPhaseModel);
+		
+		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
+		mav.addObject("phases",phases);
+		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+		
+		return mav;
+	}
+	
+	
+	
+	@PostMapping("/project/{id}/phase/save/")
+	public String savePhase(@PathVariable int id,@ModelAttribute("formPhaseModel") FormPhaseModel formPhaseModel){
+		
+		Project  project = projectService.findProjectById(id);
+		ProjectPhase projectPhase  = new ProjectPhase();
+		
+		projectPhase.setProject(project);
+		projectPhase.setSummaryphase(formPhaseModel.getSummaryphase());
+		projectPhase.setWeekdelay(formPhaseModel.getWeekdelay());
+		projectPhase.setProgress(formPhaseModel.getProgress());
+		projectPhase.setRag(projectStatusLightService.findProjectStatusLightById(formPhaseModel.getRag()));
+		
+		
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString;
+        Date sdate ;
+        try {
+
+        	   dateInString=formPhaseModel.getStartdate();
+           sdate = formatter.parse(dateInString);
+        	   projectPhase.setStartdate(sdate);
+        	   
+        	   dateInString=formPhaseModel.getEnddate();
+           sdate = formatter.parse(dateInString);
+           projectPhase.setEnddate(sdate);
+           
+           dateInString=formPhaseModel.getNewdate();
+           sdate = formatter.parse(dateInString);
+           projectPhase.setNewdate(sdate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        projectPhase.setId(formPhaseModel.getIdphase());
+      
+	    projectPhaseService.addProjectPhase(projectPhase);
+	 
+		return "redirect:/projects/project/"+id+"/phase/";
+	}	
+	//******************************************************************END PHASE
+	
+	
 }	
 	
 

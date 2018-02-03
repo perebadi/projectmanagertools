@@ -23,8 +23,11 @@ public class Project {
 
 	@Column(name = "projectname")
 	private String projectname;
-
-	@Column(name = "objectives")
+	
+	@Column(name = "projectactive")
+	private boolean projectactive = true;
+	
+	@Column(name = "objectives", columnDefinition = "TEXT")
 	private String objectives;
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -115,6 +118,8 @@ public class Project {
 		this.projectname = projectname;
 	}
 
+	
+	
 	public String getObjectives() {
 		return objectives;
 	}
@@ -315,17 +320,31 @@ public class Project {
 		this.invoiced = invoiced;
 	}
 
-	public Project(int id, String projectname, String objectives, ProjectStatusLight projectStatus,
-			ProjectStatusLight projectStatusConfidence, ProjectStatusLight projectDeliveryConfidence,
-			ProjectStatusLight projectGovernance, ProjectStatusLight projectBusinessChange,
-			ProjectStatusLight projectBenefitsRealisation, ProjectStatusLight projectDependency,
-			ProjectStatusLight projectResourcing, ProjectStatusLight projectScope, Set<ProjectAchievement> achievements,
-			Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps, Set<ProjectProblem> problems,
-			Set<ProjectPhase> phases, User user, Double tVC, Double tIC, Double oP, Double budgettodate,
-			Double costestimated, Double eACOP, Double variance, Double certifiedprogress, Double invoiced) {
+	
+	
+	public boolean isProjectactive() {
+		return projectactive;
+	}
+
+	public void setProjectactive(boolean projectactive) {
+		this.projectactive = projectactive;
+	}
+
+	
+
+	public Project(int id, String projectname, boolean projectactive, String objectives,
+			ProjectStatusLight projectStatus, ProjectStatusLight projectStatusConfidence,
+			ProjectStatusLight projectDeliveryConfidence, ProjectStatusLight projectGovernance,
+			ProjectStatusLight projectBusinessChange, ProjectStatusLight projectBenefitsRealisation,
+			ProjectStatusLight projectDependency, ProjectStatusLight projectResourcing, ProjectStatusLight projectScope,
+			Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps,
+			Set<ProjectProblem> problems, Set<ProjectPhase> phases, User user, Double tVC, Double tIC, Double oP,
+			Double budgettodate, Double costestimated, Double eACOP, Double variance, Double certifiedprogress,
+			Double invoiced) {
 		super();
 		this.id = id;
 		this.projectname = projectname;
+		this.projectactive = projectactive;
 		this.objectives = objectives;
 		this.projectStatus = projectStatus;
 		this.projectStatusConfidence = projectStatusConfidence;

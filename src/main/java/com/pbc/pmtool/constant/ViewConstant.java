@@ -12,6 +12,9 @@ public class ViewConstant {
 	public static final String RAGFORMEDIT = "rag_form_edit";
 	public static final String ACHIEVEMENTFORMEDIT = "achievement_form_edit";
 	public static final String NEXTSTEPSFORMEDIT = "nextsteps_form_edit";
-	
+	public static final String PROBLEMFORMEDIT = "problem_form_edit";
+	public static final String ESCALATIONFORMEDIT = "escalation_form_edit";
+	public static final String PHASEFORMEDIT = "phase_form_edit";
+
 
 }	

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.User;
+import com.pbc.pmtool.model.SumValuesModel;
 
 
 public interface ProjectService {
@@ -20,4 +21,6 @@ public interface ProjectService {
 	public abstract void removeSource(int id);
 	
 	public abstract Project updateProject(Project project);
+	
+	public abstract SumValuesModel getActiveSum(String username);
 }

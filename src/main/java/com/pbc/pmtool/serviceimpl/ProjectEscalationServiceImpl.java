@@ -2,16 +2,27 @@ package com.pbc.pmtool.serviceimpl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectEscalation;
+import com.pbc.pmtool.repository.ProjectEscalationRepository;
 import com.pbc.pmtool.service.ProjectEscalationService;
 
+
+@Service("projectEscalationServiceImpl")
 public class ProjectEscalationServiceImpl implements ProjectEscalationService {
+	
+	@Autowired
+	@Qualifier("projectEscalationRepository")
+	private ProjectEscalationRepository projectEscalationRepository;
 
 	@Override
 	public ProjectEscalation addProjectEscalation(ProjectEscalation projectEscalation) {
 		// TODO Auto-generated method stub
-		return null;
+		return projectEscalationRepository.save(projectEscalation);
 	}
 
 	@Override

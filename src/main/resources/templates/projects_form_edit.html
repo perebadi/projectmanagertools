@@ -186,7 +186,7 @@
 			                                </div>
 			                                <div class="panel-body">
 			                                     <ul class="list-group border-bottom">
-			                                        <li class="list-group-item" th:each="nextstep : ${nextsteps}" ><span th:text="${ nextstep.summarynextstep}"></span><span class="badge badge-success" th:text="${nextstep.week}"></span></li>
+			                                        <li class="list-group-item" th:each="nextstep : ${nextsteps}" ><span th:text="${ nextstep.summarynextstep}"></span><span class="badge badge-info" th:text="${nextstep.week}"></span></li>
 			                                    </ul>                                 
 			                                </div>
 			                            </div>
@@ -194,14 +194,14 @@
 			                    <div class="col-md-3">
 				                    	<div class="panel panel-default">
 			                                <div class="panel-heading">
-			                                    <h3 class="panel-title">Riesgos</h3>
+			                                    <h3 class="panel-title">Problemas</h3>
 			                                    <ul class="panel-controls">
-			                                        <li><a href="#" th:href="@{/projects/project/__${project.id}__/nextstep/}" class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
+			                                        <li><a href="#" th:href="@{/projects/project/__${project.id}__/problem/}" class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
 			                                    </ul>
 			                                </div>
 			                                <div class="panel-body">
 			                                     <ul class="list-group border-bottom">
-			                                        <li class="list-group-item" th:each="logro : ${logros}" ><span th:text="${ logro.summaryachievement}"></span><span class="badge badge-success" th:text="${logro.dateachievement}"></span></li>
+			                                        <li class="list-group-item" th:each="problem : ${problems}" ><span th:text="${ problem.summaryproblem}"></span><span class="badge badge-danger" th:text="${problem.dateproblem}"></span></li>
 			                                    </ul>                                  
 			                                </div>
 			                            </div>
@@ -211,12 +211,12 @@
 			                                <div class="panel-heading">
 			                                    <h3 class="panel-title">Escalaciones</h3>
 			                                    <ul class="panel-controls">
-			                                        <li><a href="#" th:href="@{/projects/project/__${project.id}__/nextstep/}" class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
+			                                        <li><a href="#" th:href="@{/projects/project/__${project.id}__/escalation/}" class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
 			                                    </ul>
 			                                </div>
 			                                <div class="panel-body">
 			                                    <ul class="list-group border-bottom">
-			                                        <li class="list-group-item" th:each="logro : ${logros}" ><span th:text="${ logro.summaryachievement}"></span><span class="badge badge-success" th:text="${logro.dateachievement}"></span></li>
+			                                        <li class="list-group-item" th:each="escalation : ${escalations}" ><span th:text="${ escalation.summaryescalation}"></span><span class="badge badge-warning" th:text="${escalation.dateescalation}"></span></li>
 			                                    </ul>                                 
 			                                </div>
 			                            </div>
@@ -224,46 +224,61 @@
 		                    </div>
 		                       
                             
+                            
+                            <!-- START DEFAULT DATATABLE -->
                             <div class="panel panel-default">
-                                
+                                <div class="panel-heading">                                
+                                    <h3 class="panel-title">Project Plan</h3>
+                                    <ul class="panel-controls">
+                                    		<li><a href="#" th:href="@{/projects/project/__${project.id}__/phase/}" class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
+			                       </ul>     
+                                </div>
                                 <div class="panel-body">
-                                    <table class="table datatable_simple">
+                                    <table class="table datatable">
                                         <thead>
                                             <tr>
-                                                <th width="10%" style="text-align:center;">ID Proyecto</th>
-                                                <th width="20%" style="text-align:center;">Nombre Proyecto</th>
-                                                <th width="20%" style="text-align:center;">Project Manager</th>
-                                                <th width="10%" style="text-align:center;">TVC</th>
-                                                <th width="20%" style="text-align:center;">Project Status</th>
-                                                <th width="20%" style="text-align:center;">Acciones</th>
+                                                <th style="text-align:center;">Phase</th>
+                                                <th style="text-align:center;">Start Date</th>
+                                                <th style="text-align:center;">End Date</th>
+                                                <th style="text-align:center;">Delay(Weeks)</th>
+                                                <th style="text-align:center;">New End Dates</th>
+                                                <th style="text-align:center;">Progress</th>
+                                                <th style="text-align:center;">Status</th>
+                                                <th style="text-align:center;">Modify</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           	<!-- <tr th:each="project : ${projects}">
-												<td th:text="${project.id}" align="center"></td>
-												<td th:text="${project.projectname}"></td>
-												<td th:text="${project.user.username}"></td>
-												<td th:text="${#numbers.formatDecimal(project.TVC, 1, 0) + ' €' }" align="right"/>
+                                        		<tr th:each="phase : ${phases}">
+												<td th:text="${phase.summaryphase}" align="center"></td>
+												<td th:text="${phase.startdate}" align="center"></td>
+												<td th:text="${phase.enddate}" align="center"></td>
+												<td th:text="${phase.weekdelay}" align="center"></td>
+												<td th:text="${phase.newdate}" align="center"></td>
+<!-- 												<td th:text="${phase.progress}" align="center"> -->
+												<td  align="center">
+													<div class="progress">
+				                                        <div class="progress-bar progress-bar-striped active"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" th:style="'width:'+${phase.progress}+'%;'"><span class="num-count" th:text="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}">20</span>% Complete</div>
+				                                    </div>    
+												
+												</td>
 												<td align="center">
-													<div th:switch="${project.projectStatus.statusname}"> 
+													<div th:switch="${phase.rag.statusname}"> 
 													  <span th:case="G"><button type="button" class="btn btn-success btn-rounded">Green</button></span>
 													  <span th:case="Y"><button type="button" class="btn btn-warning btn-rounded">Yellow</button></span>
 													  <span th:case="R"><button type="button" class="btn btn-danger btn-rounded">Red</button></span> 
 													</div>
 												</td>
 												<td align="center">
-													<a href="#" th:href="@{/projects/project/__${project.id}__/}" >
+													<a href="#" th:href="@{/projects/project/__${project.id}__/phase/__${phase.id}__/}" >
 														<button  type="button" class="btn btn-primary"><span class="fa fa-wrench" aria-hidden="true"></span>Editar</button>
 													</a>
 												</td>
-											</tr> -->
-                                            
+											</tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <!-- END SIMPLE DATATABLE -->
-                            
+                            <!-- END DEFAULT DATATABLE -->
 									
 									
 								
@@ -320,10 +335,17 @@
  	        	
 
        
-        <!-- END THIS PAGE PLUGINS -->       
+        <!-- THIS PAGE PLUGINS -->
         
-        <!-- START TEMPLATE -->
+        <script type="text/javascript" src="js/plugins/datatables/jquery.dataTables.min.js"></script> 
+ 	        	<script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>	
+        <!-- END PAGE PLUGINS -->
+        
+        	<!-- START TEMPLATE -->
  	        	<script th:src="@{/js/settings.js}"></script>	
+ 	        	<script th:src="@{/js/plugins.js}"></script>	
+ 	        	<script th:src="@{/js/actions.js}"></script>	
+ 	        	      
         <!-- END TEMPLATE -->
         
         <script type="text/javascript">

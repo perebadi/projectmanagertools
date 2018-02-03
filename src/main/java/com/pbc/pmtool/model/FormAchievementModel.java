@@ -6,12 +6,24 @@ package com.pbc.pmtool.model;
 
 public class FormAchievementModel {
 	
+	private int idachievement;
 	private String dateachievement;
 	private int week;
 	private String summaryachievement;
 	private String txtachievement;
 	
 	
+	
+	
+	
+	
+	
+	public int getIdachievement() {
+		return idachievement;
+	}
+	public void setIdachievement(int idachievement) {
+		this.idachievement = idachievement;
+	}
 	public String getDateachievement() {
 		return dateachievement;
 	}
@@ -36,15 +48,19 @@ public class FormAchievementModel {
 	public void setTxtachievement(String txtachievement) {
 		this.txtachievement = txtachievement;
 	}
-	public FormAchievementModel(String dateachievement, int week, String summaryachievement, String txtachievement) {
+	
+	
+	
+	
+	public FormAchievementModel(int idachievement, String dateachievement, int week, String summaryachievement,
+			String txtachievement) {
 		super();
+		this.idachievement = idachievement;
 		this.dateachievement = dateachievement;
 		this.week = week;
 		this.summaryachievement = summaryachievement;
 		this.txtachievement = txtachievement;
 	}
-	
-	
 	public FormAchievementModel() {
 		
 	}

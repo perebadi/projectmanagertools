@@ -1,6 +1,5 @@
 package com.pbc.pmtool.entity;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,8 +15,6 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-
-
 @Entity
 @Table(name = "projectescalation")
 public class ProjectEscalation {
@@ -25,23 +22,23 @@ public class ProjectEscalation {
 	@GeneratedValue
 	@Column(name = "id")
 	private int id;
-	
+
 	@NotNull
 	@Column(name = "dateescalation")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateescalation;
-	
-	@Column(name="week")
+
+	@Column(name = "week")
 	private int week;
-	
-	@Column(name="summaryphase")
-	private String summaryphase;
-	
-	@Column(name="txtescalation")
+
+	@Column(name = "summaryescalation")
+	private String summaryescalation;
+
+	@Column(name = "txtescalation")
 	private String txtescalation;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Project project;
 
 	public int getId() {
@@ -68,12 +65,12 @@ public class ProjectEscalation {
 		this.week = week;
 	}
 
-	public String getSummaryphase() {
-		return summaryphase;
+	public String getSummaryescalation() {
+		return summaryescalation;
 	}
 
-	public void setSummaryphase(String summaryphase) {
-		this.summaryphase = summaryphase;
+	public void setSummaryescalation(String summaryescalation) {
+		this.summaryescalation = summaryescalation;
 	}
 
 	public String getTxtescalation() {
@@ -92,19 +89,19 @@ public class ProjectEscalation {
 		this.project = project;
 	}
 
-	public ProjectEscalation(int id, Date dateescalation, int week, String summaryphase, String txtescalation,
+	public ProjectEscalation(int id, Date dateescalation, int week, String summaryescalation, String txtescalation,
 			Project project) {
 		super();
 		this.id = id;
 		this.dateescalation = dateescalation;
 		this.week = week;
-		this.summaryphase = summaryphase;
+		this.summaryescalation = summaryescalation;
 		this.txtescalation = txtescalation;
 		this.project = project;
 	}
-	
+
 	public ProjectEscalation() {
-		
+
 	}
 
 }
