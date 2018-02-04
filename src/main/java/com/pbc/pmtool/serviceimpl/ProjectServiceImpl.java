@@ -59,7 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> listPageableProjects(int pageno, User user) {
-		Page<Project> pageprojects = projectRepository.findByUser(user, new PageRequest(pageno, 6, Sort.Direction.DESC, "id"));
+		Page<Project> pageprojects = projectRepository.findByUser(user, new PageRequest(pageno, 20, Sort.Direction.DESC, "id"));
 		List<Project> projects = pageprojects.getContent();
 		return projects;
 	}

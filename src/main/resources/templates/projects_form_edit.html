@@ -222,6 +222,57 @@
 			                            </div>
 			                    </div>
 		                    </div>
+		                    
+		                    <!-- START TABLE HOVER ROWS -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Financials</h3>
+                                    <ul class="panel-controls">
+ 		                                   		<li><a href="#" th:href="@{/projects/project/__${project.id}__/phase/}" class="panel-fullscreen"><span class="fa fa-plus-square"></span></a></li>
+			                       </ul>
+                                </div>
+                                <div class="panel-body">
+<!--                                     <p>Add class <code>.table-hover</code> to table to highlight row on hover.</p>
+ -->                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center;">TCV</th>
+                                                <th style="text-align:center;">TIC</th>
+                                                <th style="text-align:center;">OP(P&amp;L)</th>
+                                                <th style="text-align:center;">Estimated Cost</th>
+                                                <th style="text-align:center;">EAC OP (P&amp;L)</th>
+                                                <th style="text-align:center;">Variance (TCV-EAC) </th>
+                                                <th style="text-align:center;">Certified Progress</th>
+                                                <th style="text-align:center;">Modify</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                            <td th:text="${#numbers.formatDecimal(project.TVC, 0, 'POINT', 2, 'COMMA')}+' €'" align="center"></td>
+                                            <td th:text="${#numbers.formatDecimal(project.TIC, 0, 'POINT', 2, 'COMMA')}+' €'" align="center"></td>
+                                            <td  align="center"><span class="badge badge-info" th:text="${#numbers.formatDecimal(project.OP, 0, 'POINT', 2, 'COMMA')}+' %'">2018-01-30</span></td>
+                                            <td th:text="${#numbers.formatDecimal(project.costestimated, 0, 'POINT', 2, 'COMMA')}+' €'" align="center"></td>
+                                            
+                                            <td  align="center"><span class="badge badge-info" th:text="${#numbers.formatDecimal(project.EACOP, 0, 'POINT', 2, 'COMMA')}+' %'">2018-01-30</span></td>
+                                            
+                                            <td th:text="${#numbers.formatDecimal(project.variance, 0, 'POINT', 2, 'COMMA')}+' €'" align="center"></td>
+                                            <td  align="center">
+                                            		<div class="progress">
+				                                        <div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" th:style="'width:'+${project.certifiedprogress}+'%;'"><span class="num-count" th:text="${#numbers.formatDecimal(project.certifiedprogress, 0, 'POINT', 0, 'COMMA')}">20</span>% Complete</div>
+				                            		</div>    
+											</td>
+											<td align="center">
+													<a href="#" th:href="@{/projects/project/__${project.id}__/finance/edit/}" >
+														<button  type="button" class="btn btn-primary"><span class="fa fa-wrench" aria-hidden="true"></span>Editar</button>
+													</a>
+												</td>
+												
+											</tr>
+                                        </tbody>
+                                    </table>                                
+                                </div>
+                            </div>
+                            <!-- END TABLE HOVER ROWS -->  
 		                       
                             
                             

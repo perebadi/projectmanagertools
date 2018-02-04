@@ -66,7 +66,7 @@
 	                        		<div class="col-md-3">
 	
 		                            <div class="widget widget-info widget-no-subtitle">
-		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.sTVC, 0, 'POINT', 2, 'COMMA')}">1.200.000 €</span></div>                            
+		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.sTVC, 0, 'POINT', 0, 'COMMA')}+ ' €'">1.200.000 €</span></div>                            
 		                                <div class="widget-subtitle">Global Active Projects TCV</div>
 		                                <div class="widget-controls">
 		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
@@ -79,7 +79,7 @@
 		                        <div class="col-md-3">
 	
 		                            <div class="widget widget-danger widget-no-subtitle">
-		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.sTIC, 0, 'POINT', 2, 'COMMA')}">888.000 €</span></div>                            
+		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.sTIC, 0, 'POINT', 0, 'COMMA')}+ ' €'">888.000 €</span></div>                            
 		                                <div class="widget-subtitle">Global Active Projects TIC</div>
 		                                <div class="widget-controls">
 		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
@@ -118,7 +118,7 @@
 		                        <div class="col-md-3">
 	
 		                            <div class="widget widget-danger widget-no-subtitle">
-		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.scostestimated, 0, 'POINT', 2, 'COMMA')}">888.000 €</span></div>                            
+		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.scostestimated, 0, 'POINT',0, 'COMMA')}+ ' €'">888.000 €</span></div>                            
 		                                <div class="widget-subtitle">Global Active Projects Cost Estimated</div>
 		                                <div class="widget-controls">
 		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
@@ -130,13 +130,13 @@
 	                        		
 	                        		<div class="col-md-3">
 	
-		                            <div class="widget widget-success widget-padding-sm">                            
+		                            <div class="widget widget-warning widget-padding-sm">                            
 		                                <div class="widget-item-left">
 		                                    <input class="knob" data-width="100" data-height="100" data-min="0" data-max="100"   data-bgColor="#FFF" data-fgColor="#33414E" value="20%" data-readOnly="true" data-thickness=".2" th:value="${#numbers.formatDecimal(sumValuesModel.EACOP, 0, 'POINT', 2, 'COMMA')}"/>
 		                                </div> 
 		                                <div class="widget-data">
 		                                    <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.EACOP, 0, 'POINT', 2, 'COMMA')}">20</span>%</div>
-		                                    <div class="widget-title">Global OP Margin</div>
+		                                    <div class="widget-title">Global EAC OP Margin</div>
 		                                    <div class="widget-subtitle">Active Projects</div>                                
 		                                </div>                            
 		                                <div class="widget-controls">                                

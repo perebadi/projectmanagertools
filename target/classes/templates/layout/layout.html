@@ -29,19 +29,54 @@
                     </li>                                                                      
                     <li class="xn-title">Navigation</li>
 					<li class="xn-openable active">
-                        <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Proyectos</span></a>
+						
+                        <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Projects</span></a>
                         <ul>
-                            <li><a href="" th:href="@{/projects/createproject}"><span class="fa fa-image"></span> Crear Projecto</a></li>
-                            <li><a href="#" th:href="@{/projects/__${username}__/}"><span class="fa fa-user"></span> Gestionar Proyectos</a></li>
+                            <li><a href="" th:href="@{/projects/createproject}"><span class="fa fa-image"></span> Create Project</a></li>
+                            <li><a href="#" th:href="@{/projects/__${username}__/}"><span class="fa fa-user"></span> Manage Project</a></li>
                             <li class="xn-openable">
-                                <a href="#"><span class="fa fa-clock-o"></span> Presupuesto</a>
+                                <a href="#"><span class="fa fa-clock-o"></span> Budget</a>
                                 <ul>
                                     <li><a href="pages-timeline.html"><span class="fa fa-align-center"></span> Default</a></li>
                                     <li><a href="pages-timeline-simple.html"><span class="fa fa-align-justify"></span> Full Width</a></li>
                                 </ul>
                             </li>                           
                         </ul>
-                    </li>                                       
+                    </li>       
+                    
+                    <li class="xn-openable active">
+						
+                        <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Tasks</span></a>
+                        <ul>
+                            <li><a href="" th:href="@{/task/}"><span class="fa fa-image"></span>Tasks Panel</a></li>
+                            <li><a href="#" th:href="@{/projects/__${username}__/}"><span class="fa fa-user"></span> Manage Project</a></li>
+                            <li class="xn-openable">
+                                <a href="#"><span class="fa fa-clock-o"></span> Budget</a>
+                                <ul>
+                                    <li><a href="pages-timeline.html"><span class="fa fa-align-center"></span> Default</a></li>
+                                    <li><a href="pages-timeline-simple.html"><span class="fa fa-align-justify"></span> Full Width</a></li>
+                                </ul>
+                            </li>                           
+                        </ul>
+                    </li> 
+                    
+                    <li class="xn-openable active">
+						
+                        <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Resources</span></a>
+                        <ul>
+                            <li><a href="" th:href="@{/projects/createproject}"><span class="fa fa-image"></span> Create Project</a></li>
+                            <li><a href="#" th:href="@{/projects/__${username}__/}"><span class="fa fa-user"></span> Manage Project</a></li>
+                            <li class="xn-openable">
+                                <a href="#"><span class="fa fa-clock-o"></span> Budget</a>
+                                <ul>
+                                    <li><a href="pages-timeline.html"><span class="fa fa-align-center"></span> Default</a></li>
+                                    <li><a href="pages-timeline-simple.html"><span class="fa fa-align-justify"></span> Full Width</a></li>
+                                </ul>
+                            </li>                           
+                        </ul>
+                    </li> 
+                    
+                                                    
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
@@ -128,7 +163,7 @@
         <!-- START PLUGINS -->
         
         	<script th:src="@{/js/plugins/jquery/jquery.min.js}"></script>
-        <script th:src="@{/s/plugins/jquery/jquery-ui.min.js}"></script>
+        <script th:src="@{/js/plugins/jquery/jquery-ui.min.js}"></script>
         <script th:src="@{/js/plugins/bootstrap/bootstrap.min.js}"></script>
              
         <!-- END PLUGINS -->
@@ -138,6 +173,7 @@
         <!-- END PAGE PLUGINS -->         
 
         <!-- START TEMPLATE -->
+        	<script th:src="@{/js/settings.js}"></script>
         	<script th:src="@{/js/plugins.js}"></script>
         	<script th:src="@{/js/actions.js}"></script>
         <!-- END TEMPLATE -->

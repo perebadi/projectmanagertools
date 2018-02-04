@@ -15,6 +15,8 @@ public class ViewConstant {
 	public static final String PROBLEMFORMEDIT = "problem_form_edit";
 	public static final String ESCALATIONFORMEDIT = "escalation_form_edit";
 	public static final String PHASEFORMEDIT = "phase_form_edit";
+	public static final String FINANCEFORMEDIT = "finance_form_edit";
+	public static final String TASKFORMEDIT = "task/task_form_edit";
 
 
 }	

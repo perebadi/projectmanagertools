@@ -40,6 +40,7 @@ import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
 import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormEscalationModel;
+import com.pbc.pmtool.model.FormFinancialModel;
 import com.pbc.pmtool.model.FormNewProjectModel;
 import com.pbc.pmtool.model.FormNextStepModel;
 import com.pbc.pmtool.model.FormPhaseModel;
@@ -59,6 +60,8 @@ import com.pbc.pmtool.service.ProjectStatusLightService;
 @Controller
 @RequestMapping("/projects")
 public class ProjectController {
+	
+	static String sessionuser;
 	
 	@Autowired
 	@Qualifier("projectServiceImpl")
@@ -99,12 +102,13 @@ public class ProjectController {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println("user : " + user.getUsername());
 		
+		sessionuser=user.getUsername();
 		
 		
 		mav.addObject("sumValuesModel", projectService.getActiveSum(user.getUsername()));
 		
 		
-		mav.addObject("username", user.getUsername());
+		mav.addObject("username", sessionuser);
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(user.getUsername())));
 		return mav;
 	}
@@ -114,6 +118,7 @@ public class ProjectController {
 	@GetMapping("/createproject")
 	public ModelAndView CreateProject(){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORM);
+		mav.addObject("username", sessionuser);
 		return mav;		
 	}
 	
@@ -204,7 +209,7 @@ public class ProjectController {
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);
 		
 		mav.addObject("projects", projectService.listPageableProjects(pageno,userRepository.findByUsername(username)));
-		
+		mav.addObject("username", sessionuser);
 		return mav;
 	}
 	
@@ -234,6 +239,8 @@ public class ProjectController {
 		
 		System.out.println(projectService.findProjectById(id).getProjectname());
 		System.out.println("id : "+id);
+		
+		mav.addObject("username", sessionuser);
 		return mav;
 	}
 	
@@ -256,6 +263,9 @@ public class ProjectController {
 		mav.addObject("formRagModel",formRagModel);
 		mav.addObject("project",projectService.findProjectById(id));
 		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+		
+		
+		mav.addObject("username", sessionuser);
 
 		return mav;
 	}
@@ -301,6 +311,8 @@ public class ProjectController {
 		projectService.findProjectById(id).getAchievements();
 		List<ProjectAchievement> achievements = new ArrayList<>(projectService.findProjectById(id).getAchievements());
 		mav.addObject("logros",achievements);
+		
+		mav.addObject("username", sessionuser);
 
 		return mav;
 	}
@@ -355,6 +367,8 @@ public class ProjectController {
 		
 		List<ProjectNextStep> nextsteps = new ArrayList<>(projectService.findProjectById(id).getNextsteps());
 		mav.addObject("nextsteps",nextsteps);
+		
+		mav.addObject("username", sessionuser);
 
 		return mav;
 	}
@@ -404,6 +418,9 @@ public class ProjectController {
 		
 		List<ProjectProblem> problems = new ArrayList<>(projectService.findProjectById(id).getProblems());
 		mav.addObject("problems",problems);
+		
+		
+		mav.addObject("username", sessionuser);
 
 		return mav;
 	}
@@ -456,6 +473,7 @@ public class ProjectController {
 		
 		List<ProjectEscalation> escalations = new ArrayList<>(projectService.findProjectById(id).getEscalations());
 		mav.addObject("escalations",escalations);
+		mav.addObject("username", sessionuser);
 
 		
 		
@@ -509,7 +527,7 @@ public class ProjectController {
 		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
 
 
-		
+		mav.addObject("username", sessionuser);
 		
 		return mav;
 	}
@@ -545,6 +563,8 @@ public class ProjectController {
 		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
 		mav.addObject("phases",phases);
 		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+		
+		mav.addObject("username", sessionuser);
 		
 		return mav;
 	}
@@ -593,6 +613,58 @@ public class ProjectController {
 	}	
 	//******************************************************************END PHASE
 	
+	
+
+	//******************************************************************FINANCE *****************
+	
+	@GetMapping("/project/{id}/finance/edit")
+	public ModelAndView editFinance(@PathVariable int id){
+		ModelAndView mav = new ModelAndView(ViewConstant.FINANCEFORMEDIT);
+		
+		FormFinancialModel formFinancialModel = new FormFinancialModel();
+		
+		formFinancialModel.setBudgettodate(projectService.findProjectById(id).getBudgettodate());
+		formFinancialModel.setCertifiedprogress(projectService.findProjectById(id).getCertifiedprogress());
+		formFinancialModel.setCostestimated(projectService.findProjectById(id).getCostestimated());
+		formFinancialModel.setEACOP(projectService.findProjectById(id).getEACOP());
+		formFinancialModel.setInvoiced(projectService.findProjectById(id).getInvoiced());
+		formFinancialModel.setOP(projectService.findProjectById(id).getOP());
+		formFinancialModel.setTIC(projectService.findProjectById(id).getTIC());
+		formFinancialModel.setTVC(projectService.findProjectById(id).getTVC());
+		formFinancialModel.setVariance(projectService.findProjectById(id).getVariance());
+		
+				
+		mav.addObject("formFinancialModel",formFinancialModel);
+
+		mav.addObject("project",projectService.findProjectById(id));
+		mav.addObject("username", sessionuser);
+		
+		return mav;
+	}
+	
+	
+	@PostMapping("/project/{id}/finance/save")
+	public String SaveFinance(@PathVariable int id, @ModelAttribute("formFinancialModel") FormFinancialModel formFinancialModel) {
+		
+		Project project = projectService.findProjectById(id);
+		project.setBudgettodate(formFinancialModel.getBudgettodate());
+		project.setCertifiedprogress(formFinancialModel.getCertifiedprogress());
+		project.setCostestimated(formFinancialModel.getCostestimated());
+		project.setEACOP(formFinancialModel.getEACOP());
+		project.setInvoiced(formFinancialModel.getInvoiced());
+		project.setOP(formFinancialModel.getOP());
+		project.setTIC(formFinancialModel.getTIC());
+		project.setTVC(formFinancialModel.getTVC());
+		project.setVariance(formFinancialModel.getVariance());
+		
+		projectService.addProject(project);
+		
+		
+		return "redirect:/projects/project/"+id+"/";
+		
+	}
+	//******************************************************************END FINANCE
+
 	
 }	
 	
