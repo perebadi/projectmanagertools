@@ -45,7 +45,9 @@
 			                                <div class="panel-heading">
 			                                    <h3 class="panel-title" th:text="${project.projectname}">Custom Content Scroller</h3>
 			                                    <ul class="panel-controls">
- 		                                   		<li><a href="#" th:href="@{/projects/project/__${project.id}__/rag/}" class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
+ 		                                   		<li>
+ 		                                   			<a href="#" th:href="@{/projects/project/__${project.id}__/rag/}" class="panel-fullscreen"><span class="fa fa-wrench"></span></a>
+ 		                                   		</li>
 			                                    </ul>
 			                                </div>
 
@@ -186,7 +188,7 @@
 			                                </div>
 			                                <div class="panel-body">
 			                                     <ul class="list-group border-bottom">
-			                                        <li class="list-group-item" th:each="nextstep : ${nextsteps}" ><span th:text="${ nextstep.summarynextstep}"></span><span class="badge badge-info" th:text="${nextstep.week}"></span></li>
+			                                        <li class="list-group-item" th:each="nextstep : ${nextsteps}" ><span th:text="${ nextstep.summarynextstep}"></span><span class="badge badge-info" th:text="'KW'+${nextstep.week}"></span></li>
 			                                    </ul>                                 
 			                                </div>
 			                            </div>
@@ -201,13 +203,40 @@
 			                                </div>
 			                                <div class="panel-body">
 			                                     <ul class="list-group border-bottom">
-			                                        <li class="list-group-item" th:each="problem : ${problems}" ><span th:text="${ problem.summaryproblem}"></span><span class="badge badge-danger" th:text="${problem.dateproblem}"></span></li>
+			                                        <li class="list-group-item" th:each="problem : ${problems}" ><span th:text="${ problem.summaryproblem}"></span><span class="badge badge-danger" th:text="'KW'+${problem.week}"></span></li>
 			                                    </ul>                                  
 			                                </div>
 			                            </div>
 			                    </div>
 			                    <div class="col-md-3">
-				                    	<div class="panel panel-default">
+			                    
+			                    <div class="panel panel-default">
+			                                <div class="panel-heading">
+			                                    <h3 class="panel-title">Escalaciones</h3>
+			                                    <ul class="panel-controls">
+			                                        <li><a href="#" th:href="@{/projects/project/__${project.id}__/escalation/}" class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
+			                                    </ul>
+			                                </div>
+			                                <div class="panel-body">
+			                    
+							                    <div class="panel-body panel-body-table">
+				                                    
+				                                    <div class="table-responsive">
+				                                        <table class="table table-bordered table-striped">
+				                                            
+				                                            <tbody>
+				                                                <tr th:each="escalation : ${escalations}">
+				                                                	<td width="80%" th:text="${ escalation.summaryescalation}"></td>
+				                                                	<td width="20%"><span class="badge badge-warning" th:text="${escalation.dateescalation}"></span></td>
+				                                                	
+				                                                </tr>
+				                                           </tbody>
+				                                        </table>
+				                                     </div>
+				                                   </div>
+				                             </div>
+				                        </div>
+				                    	<!-- <div class="panel panel-default">
 			                                <div class="panel-heading">
 			                                    <h3 class="panel-title">Escalaciones</h3>
 			                                    <ul class="panel-controls">
@@ -219,7 +248,7 @@
 			                                        <li class="list-group-item" th:each="escalation : ${escalations}" ><span th:text="${ escalation.summaryescalation}"></span><span class="badge badge-warning" th:text="${escalation.dateescalation}"></span></li>
 			                                    </ul>                                 
 			                                </div>
-			                            </div>
+			                            </div> -->
 			                    </div>
 		                    </div>
 		                    
@@ -371,7 +400,7 @@
         
    
 
- 	<footer th:replace="layout/layout :: footer"></footer>
+<!--  	<footer th:replace="layout/layout :: footer"></footer> -->
  	
  	<!-- THIS PAGE PLUGINS -->
  	        	<script th:src="@{/js/plugins/icheck/icheck.min.js}"></script>	
