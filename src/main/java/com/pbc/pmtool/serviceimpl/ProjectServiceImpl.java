@@ -45,8 +45,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> listProjectByUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Project> projects = projectRepository.findByUser(user);
+		return projects;
+	
 	}
 
 

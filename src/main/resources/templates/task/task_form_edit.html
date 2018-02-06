@@ -149,21 +149,73 @@
                 
                 <!-- PAGE TITLE -->
                 <div class="page-title">                    
-                    <h2><span class="fa fa-arrow-circle-o-left"></span> Portlet</h2>
+                    <h2><span class="fa fa-arrow-circle-o-left"></span> Kanban Tasks</h2>
                 </div>
-                <!-- END PAGE TITLE -->                
+                <!-- END PAGE TITLE -->   
+                
+                
+                              <!-- PAGE CONTENT WRAPPER -->
+                <div class="page-content-wrap">
+                		<form class="form-horizontal" action="#" method="POST">
+                    <div class="row"><div class="col-md-12">
+				                    	<div class="panel panel-default">
+			                                <div class="panel-heading">
+			                                    <h3 class="panel-title">RAG Indicators</h3>
+			                                    <ul class="panel-controls">
+			                                        <li><button id="rag" name="rag" type="button" class="btn btn-success btn-rounded fa fa-wrench"></button></li>
+			                                    </ul>
+			                                </div>
+			                                <div class="panel-body">
+			                                	<div class="row">
+				                                    <div class="col-md-6">
+				                                    		<div class="form-group">
+			                                            		<label class="col-md-1 control-label">Project</label>
+			                                            		<div class="col-md-5">                                        
+						                                            <select  id="projectStatus" name="projectStatus"   class="form-control select" data-live-search="true">
+															                <option th:each="project : ${projects}" 
+															                		th:value="${project.id}" th:text="${project.projectname}"></option>
+															        </select>
+						                                        </div>                      
+			                                    			</div>
+				                                    </div>
+			                                      </div> 
+			                                     <!--  END ROW -->
+			                                </div><!--  END PANEL BODY -->
+											<div class="panel-footer">
+			                                    <button class="btn btn-default">Clear Form</button>                                    
+			                                    <button class="btn btn-primary pull-right">Submit</button>
+			                                </div>			                                
+			                            </div>
+			                    </div>
+                    </div>                    
+                 </form>
+                </div>
+                <!-- END PAGE CONTENT WRAPPER -->                   
+                
                 
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-                
+						
                    
 
                     <!-- START PORTLET -->
                     <div class="row scRow">
-                        <div class="col-md-3 scCol droptarget" id="backlog" name="backlog" ondrop="drop(event)">
+                        <div class="col-md-3 scCol droptarget" id="backlog" name="backlog" data-task_status="backlog">
                         		<h3>BackLog</h3>
+                        		
+                        		
+								   <div class="panel panel-primary" draggable="true" id="grid_block_1" name="grid_block_1" data-id_task="grid_block_1" th:each="backlogs : ${backlogs}">
+		                                <div class="panel-heading">                                        
+		                                    <h3 class="panel-title">Sample block #1</h3>
+		                                </div>
+		                                <div class="panel-body">
+		                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
+		                                </div>
+		                            </div>
+								
 
-                            <div class="panel panel-primary" draggable="true" id="grid_block_1" name="grid_block_1">
+			
+                            <div class="panel panel-primary" draggable="true" id="grid_block_1" name="grid_block_1" data-id_task="grid_block_1">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #1</h3>
                                 </div>
@@ -172,7 +224,7 @@
                                 </div>
                             </div>
 
-                            <div class="panel panel-info" draggable="true" id="grid_block_2" name="grid_block_2">
+                            <div class="panel panel-info" draggable="true" id="grid_block_2" name="grid_block_2"  data-id_task="grid_block_2">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #2</h3>
                                 </div>
@@ -182,10 +234,10 @@
                             </div>
 
                         </div>
-                        <div class="col-md-3 scCol droptarget"  id="todo" name="todo" ondrop="drop(event)">
+                        <div class="col-md-3 scCol droptarget"  id="todo" name="todo"  data-task_status="todo">
                         <h3>To Do</h3>
 
-                            <div class="panel panel-warning"  draggable="true" id="grid_block_3" name="grid_block_3">
+                            <div class="panel panel-warning"  draggable="true" id="grid_block_3" name="grid_block_3"  data-id_task="grid_block_3">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #3</h3>
                                 </div>
@@ -194,7 +246,7 @@
                                 </div>
                             </div>
 
-                            <div class="panel panel-danger" draggable="true" id="grid_block_4" name="grid_block_4" >
+                            <div class="panel panel-danger" draggable="true" id="grid_block_4" name="grid_block_4"  data-id_task="grid_block_4">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #4</h3>
                                 </div>
@@ -205,9 +257,9 @@
 
                         </div>
                         
-                        <div class="col-md-3 scCol droptarget"  id="progress" name="progress" ondrop="drop(event)">
+                        <div class="col-md-3 scCol droptarget"  id="progress" name="progress"  data-task_status="progress">
 							<h3>In progress</h3>
-                            <div class="panel panel-warning"  draggable="true" id="grid_block_5" name="grid_block_5">
+                            <div class="panel panel-warning"  draggable="true" id="grid_block_5" name="grid_block_5" data-id_task="grid_block_5">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #3</h3>
                                 </div>
@@ -216,7 +268,7 @@
                                 </div>
                             </div>
 
-                            <div class="panel panel-danger"  draggable="true" id="grid_block_4">
+                            <div class="panel panel-danger"  draggable="true" d="grid_block_6" name="grid_block_6"  data-id_task="grid_block_6">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #4</h3>
                                 </div>
@@ -227,7 +279,7 @@
 
                         </div>
                         
-                        <div class="col-md-3 scCol droptarget"  id="done" name="done" ondrop="drop(event)">
+                        <div class="col-md-3 scCol droptarget"  id="done" name="done"  data-task_status="done">
                         		<h3>Done</h3>
 
                             <div class="panel panel-warning" draggable="true" id="grid_block_3">
@@ -290,8 +342,12 @@
         </div>
         <!-- END MESSAGE BOX-->
         
-        
-        
+        <script type="text/javascript">
+        function updateTaskStatus(taskId, status){
+		    alert(taskId);
+		    alert(status);
+		}
+		</script>
  	
 
         <!-- START PRELOADS -->
@@ -311,6 +367,12 @@
         <!-- THIS PAGE PLUGINS -->
         <script th:src="@{/js/plugins/icheck/icheck.min.js}"></script>	
  	    <script th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>	
+ 	   <script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>	
+ 	        	<script th:src="@{/js/plugins/bootstrap/bootstrap-timepicker.min.js}"></script>	
+ 	        	<script th:src="@{/js/plugins/bootstrap/bootstrap-colorpicker.js}"></script>	
+ 	        	<script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>	
+ 	        	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>	
+ 	        	<script th:src="@{/js/plugins/tagsinput/jquery.tagsinput.min.js}"></script>	
         <!-- END PAGE PLUGINS -->        
         
         <!-- START TEMPLATE -->

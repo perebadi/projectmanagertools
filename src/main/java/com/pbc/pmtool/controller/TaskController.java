@@ -55,6 +55,7 @@ import com.pbc.pmtool.service.ProjectPhaseService;
 import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
+import com.pbc.pmtool.service.ProjectTaskService;
 
 
 @Controller
@@ -94,17 +95,29 @@ public class TaskController {
 	@Autowired
 	@Qualifier("projectPhaseServiceImpl")
 	private ProjectPhaseService projectPhaseService;
-		
+
+	@Autowired
+	@Qualifier("projectTaskServiceImpl")
+	private ProjectTaskService projectTaskService;
 	
 	@GetMapping("/")
 	public ModelAndView Welcome() throws IllegalArgumentException, IllegalAccessException{
 		ModelAndView mav = new ModelAndView(ViewConstant.TASKFORMEDIT);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
+	
 		sessionuser=user.getUsername();
-				
 		mav.addObject("username", sessionuser);
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(user.getUsername())));
+		
+		mav.addObject("projects", projectService.listProjectByUser(userRepository.findByUsername(user.getUsername())));
+		
+
+		mav.addObject("backlogs", projectTaskService.listProjectTasks(1));
+		mav.addObject("todo2", projectTaskService.listProjectTasks(2));
+		mav.addObject("progresses", projectTaskService.listProjectTasks(3));
+		mav.addObject("dones", projectTaskService.listProjectTasks(4));
+		
+
 		return mav;
 	}
 	

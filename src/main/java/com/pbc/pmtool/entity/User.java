@@ -31,7 +31,10 @@ import javax.persistence.Table;
 		@OneToMany(fetch=FetchType.EAGER, mappedBy="user")
 		private Set<Project> projects = new HashSet<Project>();
 		
-
+		@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+		private Set<Task> tasks = new HashSet<Task>();
+		
+		
 		public String getUsername() {
 			return username;
 		}
@@ -64,16 +67,39 @@ import javax.persistence.Table;
 			this.userRole = userRole;
 		}
 
+		
+		
 	
 
-		public User(String username, String password, boolean enabled, Set<UserRole> userRole) {
+		public Set<Project> getProjects() {
+			return projects;
+		}
+
+		public void setProjects(Set<Project> projects) {
+			this.projects = projects;
+		}
+
+		public Set<Task> getTasks() {
+			return tasks;
+		}
+
+		public void setTasks(Set<Task> tasks) {
+			this.tasks = tasks;
+		}
+
+	
+		
+		public User(String username, String password, boolean enabled, Set<UserRole> userRole, Set<Project> projects,
+				Set<Task> tasks) {
 			super();
 			this.username = username;
 			this.password = password;
 			this.enabled = enabled;
 			this.userRole = userRole;
+			this.projects = projects;
+			this.tasks = tasks;
 		}
-		
+
 		public User(){}
 		
 }

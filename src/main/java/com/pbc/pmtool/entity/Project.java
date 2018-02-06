@@ -101,6 +101,10 @@ public class Project {
 
 	@Column(name = "invoiced")
 	private Double invoiced;
+	
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
+	private Set<Task> tasks = new HashSet<Task>();
 
 	public int getId() {
 		return id;
@@ -330,6 +334,18 @@ public class Project {
 		this.projectactive = projectactive;
 	}
 
+
+	
+	
+
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 	
 
 	public Project(int id, String projectname, boolean projectactive, String objectives,
@@ -340,7 +356,7 @@ public class Project {
 			Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps,
 			Set<ProjectProblem> problems, Set<ProjectPhase> phases, User user, Double tVC, Double tIC, Double oP,
 			Double budgettodate, Double costestimated, Double eACOP, Double variance, Double certifiedprogress,
-			Double invoiced) {
+			Double invoiced, Set<Task> tasks) {
 		super();
 		this.id = id;
 		this.projectname = projectname;
@@ -370,6 +386,7 @@ public class Project {
 		this.variance = variance;
 		this.certifiedprogress = certifiedprogress;
 		this.invoiced = invoiced;
+		this.tasks = tasks;
 	}
 
 	public Project() {
