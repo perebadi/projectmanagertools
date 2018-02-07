@@ -27,7 +27,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 	@Override
 	public Task findProjectTaskById(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return projectTaskRepository.findById(id);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.pbc.pmtool.controller;
 
 
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.intThat;
 import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Matchers.notNull;
 
@@ -38,6 +39,7 @@ import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
 import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
+import com.pbc.pmtool.entity.Task;
 import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormEscalationModel;
 import com.pbc.pmtool.model.FormFinancialModel;
@@ -113,13 +115,53 @@ public class TaskController {
 		
 
 		mav.addObject("backlogs", projectTaskService.listProjectTasks(1));
-		mav.addObject("todo2", projectTaskService.listProjectTasks(2));
+		mav.addObject("todos", projectTaskService.listProjectTasks(2));
 		mav.addObject("progresses", projectTaskService.listProjectTasks(3));
 		mav.addObject("dones", projectTaskService.listProjectTasks(4));
 		
 
 		return mav;
 	}
+	
+	@GetMapping("/move/{idtask}/{status}/")
+	public String Movetask(@PathVariable int idtask, @PathVariable String status) {
+		
+		
+		Task task = projectTaskService.findProjectTaskById(idtask);
+		
+
+		int defualtidstatus = task.getStatus();
+		
+		switch (status) {
+		case "backlog":
+			task.setStatus(1);
+			break;
+		case "todo":
+			task.setStatus(2);
+			break;
+		case "progress":
+			task.setStatus(3);
+			break;	
+		case "done":
+			task.setStatus(4);
+			break;
+		default:
+			task.setStatus(defualtidstatus);
+			break;
+		}
+		
+		projectTaskService.addProjectTask(task);
+
+		System.out.println("id tarea : " + idtask);
+		System.out.println("id status: " + status);
+		
+		System.out.println("result  task id: " + task.getId() + "status : " + task.getStatus());
+		
+		return "redirect:/tasks/";
+	
+	}
+	
+	
 	
 	
 	

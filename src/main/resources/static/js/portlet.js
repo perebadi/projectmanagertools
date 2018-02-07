@@ -1,9 +1,9 @@
-$(document).ready(function(){
+	$(document).ready(function(){
         
     if($(".sortableContent").length > 0){
         var scid = 'sc-'+$(".sortableContent").attr('id');
                 
-        var sCdata = portlet_get_data(scid);          
+        /*var sCdata = portlet_get_data(scid);          
 
         if(null != sCdata){            
             for(row=0;row<Object.size(sCdata); row++){                
@@ -14,7 +14,7 @@ $(document).ready(function(){
                 }               
             }
             onload();
-        }                    
+        }  */                 
        
         $(".sortableContent .scCol").sortable({
             connectWith: ".sortableContent .scCol",
@@ -43,7 +43,8 @@ $(document).ready(function(){
                     });
                     row++;
                 });
-                portlet_save_data(scid,JSON.stringify(sorted)); 
+                //portlet_save_data(scid,JSON.stringify(sorted)); 
+                
                 onload();
             }
         }).disableSelection();

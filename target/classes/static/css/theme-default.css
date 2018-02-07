@@ -64,7 +64,7 @@ body {
 .row [class^='col-sm-'],
 .row [class^='col-md-'],
 .row [class^='col-lg-'] {
-  min-height: 1px;
+  min-height: 10px;
   padding-left: 10px;
   padding-right: 10px;
 }

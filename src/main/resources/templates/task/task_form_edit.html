@@ -201,43 +201,21 @@
                     <!-- START PORTLET -->
                     <div class="row scRow">
                         <div class="col-md-3 scCol droptarget" id="backlog" name="backlog" data-task_status="backlog">
-                        		<h3>BackLog</h3>
-                        		
-                        		
-								   <div class="panel panel-primary" draggable="true" id="grid_block_1" name="grid_block_1" data-id_task="grid_block_1" th:each="backlogs : ${backlogs}">
-		                                <div class="panel-heading">                                        
-		                                    <h3 class="panel-title">Sample block #1</h3>
-		                                </div>
-		                                <div class="panel-body">
-		                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
-		                                </div>
-		                            </div>
-								
-
-			
-                            <div class="panel panel-primary" draggable="true" id="grid_block_1" name="grid_block_1" data-id_task="grid_block_1">
+                        		<h3>BackLog</h3>                        		
+						   <div class="panel panel-primary" draggable="true" th:value="${backlog.id}" th:name="${backlog.id}"   th:attr="data-id_task=${backlog.id}"   th:each="backlog : ${backlogs}">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #1</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="panel-body" >
                                     Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
                                 </div>
                             </div>
-
-                            <div class="panel panel-info" draggable="true" id="grid_block_2" name="grid_block_2"  data-id_task="grid_block_2">
-                                <div class="panel-heading">                                        
-                                    <h3 class="panel-title">Sample block #2</h3>
-                                </div>
-                                <div class="panel-body">
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
-                                </div>
-                            </div>
-
                         </div>
+                        
                         <div class="col-md-3 scCol droptarget"  id="todo" name="todo"  data-task_status="todo">
                         <h3>To Do</h3>
 
-                            <div class="panel panel-warning"  draggable="true" id="grid_block_3" name="grid_block_3"  data-id_task="grid_block_3">
+						   <div class="panel panel-primary" draggable="true" th:value="${todo.id}" th:name="${todo.id}"   th:attr="data-id_task=${todo.id}"   th:each="todo : ${todos}">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #3</h3>
                                 </div>
@@ -245,21 +223,12 @@
                                     Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
                                 </div>
                             </div>
-
-                            <div class="panel panel-danger" draggable="true" id="grid_block_4" name="grid_block_4"  data-id_task="grid_block_4">
-                                <div class="panel-heading">                                        
-                                    <h3 class="panel-title">Sample block #4</h3>
-                                </div>
-                                <div class="panel-body">
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
-                                </div>
-                            </div>
-
                         </div>
                         
                         <div class="col-md-3 scCol droptarget"  id="progress" name="progress"  data-task_status="progress">
-							<h3>In progress</h3>
-                            <div class="panel panel-warning"  draggable="true" id="grid_block_5" name="grid_block_5" data-id_task="grid_block_5">
+                        <h3>In Progress</h3>
+
+						   <div class="panel panel-primary" draggable="true" th:value="${progress.id}" th:name="${progress.id}"   th:attr="data-id_task=${progress.id}"   th:each="progress : ${progresses}">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #3</h3>
                                 </div>
@@ -267,22 +236,12 @@
                                     Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
                                 </div>
                             </div>
-
-                            <div class="panel panel-danger"  draggable="true" d="grid_block_6" name="grid_block_6"  data-id_task="grid_block_6">
-                                <div class="panel-heading">                                        
-                                    <h3 class="panel-title">Sample block #4</h3>
-                                </div>
-                                <div class="panel-body">
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
-                                </div>
-                            </div>
-
                         </div>
                         
                         <div class="col-md-3 scCol droptarget"  id="done" name="done"  data-task_status="done">
-                        		<h3>Done</h3>
+                        <h3>Done</h3>
 
-                            <div class="panel panel-warning" draggable="true" id="grid_block_3">
+						   <div class="panel panel-primary" draggable="true" th:value="${done.id}" th:name="${done.id}"   th:attr="data-id_task=${done.id}"   th:each="done : ${dones}">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #3</h3>
                                 </div>
@@ -290,17 +249,9 @@
                                     Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
                                 </div>
                             </div>
-
-                            <div class="panel panel-danger" draggable="true" id="grid_block_4">
-                                <div class="panel-heading">                                        
-                                    <h3 class="panel-title">Sample block #4</h3>
-                                </div>
-                                <div class="panel-body">
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
-                                </div>
-                            </div>
-
                         </div>
+                        
+                        
                     </div>
 
                                    
@@ -346,6 +297,13 @@
         function updateTaskStatus(taskId, status){
 		    alert(taskId);
 		    alert(status);
+		    
+		    
+		 
+		    
+		    
+		   window.location.assign('http://localhost:8080/tasks/'+'move/'+taskId+'/'+status+'/');
+		    alert("lll");
 		}
 		</script>
  	
@@ -384,34 +342,6 @@
     <!-- END SCRIPTS -->         
     
     
-    <script type="text/javascript">
-        document.getElementsByName("grid_block_4")[0].addEventListener('ondragend', rag);
-        document.getElementsByName("grid_block_1")[0].addEventListener('ondragend', rag);
-        document.getElementsByName("backlog")[0].addEventListener('ondragend', rag);
-        document.getElementsByName("todo")[0].addEventListener('ondragend', rag);
-        document.getElementsByName("progress")[0].addEventListener('ondragend', rag);
-        document.getElementsByName("done")[0].addEventListener('ondragend', rag);
-
-        
-        document.getElementsByName("backlog")[0].addEventListener('ondrop', rag);
-        document.getElementsByName("todo")[0].addEventListener('ondrop', rag);
-        document.getElementsByName("progress")[0].addEventListener('ondrop', rag);
-        document.getElementsByName("done")[0].addEventListener('ondrop', rag);
-        
-        
-        function rag(){
-            alert("rag");
-        }
-
-        function drop(event) {
-            event.preventDefault();
-            alert("rag");
-        }
-
-	      
-	          
-	        
-	    </script> 
         
     </body>
 </html>
