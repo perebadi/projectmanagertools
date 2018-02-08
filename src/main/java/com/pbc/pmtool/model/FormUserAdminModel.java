@@ -1,5 +1,7 @@
 package com.pbc.pmtool.model;
 
+import javax.validation.constraints.Size;
+
 /**
  * Modelo de administración usuario
  * 
@@ -13,6 +15,7 @@ public class FormUserAdminModel {
 	 * Atributos
 	 */
 	private String username;
+	@Size(min=1, max=50)
 	private String name;
 	private boolean enabled;
 	private float rate;

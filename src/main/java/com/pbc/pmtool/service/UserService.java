@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
 
@@ -36,4 +37,15 @@ public interface UserService extends UserDetailsService {
 	 */
 	public FormUserAddModel addUser(FormUserAddModel newUser);
 	
+	/**
+	 * Elimina un usuario
+	 * 
+	 * @return boolean
+	 */
+	public void removeUser(String username);
+	
+	/**
+	 * Actualiza una contraseña
+	 */
+	public FormResetPasswordModel resetPassword(FormResetPasswordModel resetPasswordModel);
 }

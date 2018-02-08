@@ -67,6 +67,7 @@ public class FormUserAddConverter {
 		formUserAddModel.setName(user.getName());
 		formUserAddModel.setUsername(user.getUsername());
 		formUserAddModel.setPassword(user.getPassword());
+		formUserAddModel.setConfirmPassword(user.getPassword());
 		
 		//Devolvemos el modelo de nuevo usuario
 		return formUserAddModel;

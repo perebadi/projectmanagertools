@@ -55,8 +55,8 @@
                                             <div class="contact-info">
                                                 <form method="POST" action="#" th:action="@{/users/saveuser}" >
                                                 	<input type="hidden" id="username" name="username" th:value="${user.username}" />
-                                                    <p><large>Nombre</large><br /><input type="text" class="form-control" id="name" name="name" th:value="${user.name}" /></p>
-                                                    <p><large>Salario</large><br/><input type="number" class="form-control" id="rate" name="rate" th:value="${user.rate}" min="0" /></p>
+                                                    <p><large>Nombre</large><br /><input type="text" class="form-control" id="name" name="name" th:value="${user.name}" required="true" /></p>
+                                                    <p><large>Salario</large><br/><input type="number" class="form-control" id="rate" name="rate" th:value="${user.rate}" min="0" required="true" /></p>
                                                     <p><large>Activo</large><br/><input type="checkbox" class="icheckbox" id="enabled" name="enabled" th:checked="${user.enabled}" /></p>
                                                     
                                                     <br /><br />
@@ -65,11 +65,23 @@
                                                     		<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
                                                     		Guardar
                                                     	</button>
-                                                    	<button type="button" class="btn btn-danger">
-                                                    		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
-                                                    		Eliminar
-                                                    	</button>
                                                     </p>
+                                                </form>
+                                                <form method="POST" action="#" th:action="@{/users/removeuser}" th:id="'deleteUserForm_' + ${user.username}" >
+	                                            	<input type="hidden" id="username" name="username" th:value="${user.username}" />
+	                                            	<button type="submit" class="btn btn-danger" >
+		                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+		                                            	Eliminar
+		                                            </button>
+                                                </form>
+                                                
+                                                <br/>
+                                                <form method="POST" th:action="@{/users/resetpassword}"  >
+                                                	<input type="hidden" id="username" name="username" th:value="${user.username}" />
+                                                	<p><large>Password</large><br/><input type="password" class="form-control" id="password" name="password" /></p>
+                                                    <p><large>Confirmar</large><br/><input type="password" class="form-control" id="confirmPassword" name="confirmPassword" /></p>
+                                                    
+                                                    <input type="submit" />
                                                 </form>
                                             </div>
                                         </div>                                
@@ -109,7 +121,7 @@
 
         <footer th:replace="layout/layout :: footer"></footer>
 
-        <!-- THIS PAGE PLUGINS -->
+        <!-- THIS PAGE PLUGINS -->        
         <script th:src="@{/js/plugins/icheck/icheck.min.js}"></script>	
         <script th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
 

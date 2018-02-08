@@ -31,31 +31,28 @@
 						<label class="col-md-3 control-label">Nombre:</label>
 						<div class="col-md-9">
 							<input type="text" class="form-control" th:field="*{name}" th:value="${user.name}" />
-							<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+							<span class="help-block" th:errors="*{name}"></span>
 						</div>
 					</div>
 					<div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error" >
 						<label class="col-md-3 control-label">Email:</label>
 						<div class="col-md-9">
-							<input type="text"
-								class="validate[required,maxSize[8]] form-control" th:field="*{username}" th:value="${user.username}" />
-							<span class="help-block" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+							<input type="text" class="form-control" th:field="*{username}" th:value="${user.username}" />
+							<span class="help-block" th:errors="*{username}"></span>
 						</div>
 					</div>
 					<div class="form-group" th:classappend="${#fields.hasErrors('password')} ? has-error" >
 						<label class="col-md-3 control-label">Password:</label>
 						<div class="col-md-9">
-							<input type="password"
-								class="validate[required,minSize[5],maxSize[10]] form-control"
-								id="password" th:field="*{password}" th:value="${user.password}" />
-							<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+							<input type="password" class="form-control" th:field="*{password}" th:value="${user.password}" />
+							<span class="help-block" th:errors="*{password}"></span>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-md-3 control-label">Confirm:</label>
+					<div class="form-group" >
+						<label class="col-md-3 control-label">Confirmar:</label>
 						<div class="col-md-9">
-							<input type="password"
-								class="validate[required,equals[password]] form-control" />
+							<input type="password" class="form-control" th:field="*{confirmPassword}" th:value="${confirmPassword}" />
+							<span class="help-block" th:errors="${user}"></span>
 						</div>
 					</div>
 					<br />

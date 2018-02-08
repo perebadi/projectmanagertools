@@ -13,10 +13,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.pbc.pmtool.component.FormResetPasswordConverter;
 import com.pbc.pmtool.component.FormUserAddConverter;
 import com.pbc.pmtool.component.FormUserAdminConverter;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.entity.UserRole;
+import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
 import com.pbc.pmtool.repository.UserRepository;
@@ -41,6 +43,10 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	@Qualifier("formUserAddConverter")
 	private FormUserAddConverter userAddConverter;
+	
+	@Autowired
+	@Qualifier("resetPasswordConverter")
+	private FormResetPasswordConverter resetPasswordConverter;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -108,4 +114,27 @@ public class UserServiceImpl implements UserService{
 		return userAddConverter.User2FormUserAddModel(userAdded);
 	}
 	
+	/**
+	 * Elimina un usuario
+	 */
+	@Override
+	public void removeUser(String username) {
+		//Comprovamos si existe el usuario en la BBDD
+		if(userRepository.findByUsername(username) != null) {
+			//Eliminamos el usuario de la BBDD
+			userRepository.delete(username);
+		}
+	}
+
+	/**
+	 * Actualiza una contraseña
+	 */
+	@Override
+	public FormResetPasswordModel resetPassword(FormResetPasswordModel resetPasswordModel) {
+		//Actualizamos la contraseña
+		User passwordResetEntity = userRepository.save(resetPasswordConverter.FormResetPasswordModel2User(resetPasswordModel));
+		
+		//Devolvemos el modelo
+		return resetPasswordConverter.User2FormResetPasswordModel(passwordResetEntity);
+	}
 }
