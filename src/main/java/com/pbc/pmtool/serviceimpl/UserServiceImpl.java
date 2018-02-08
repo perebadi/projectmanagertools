@@ -13,8 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.pbc.pmtool.component.FormUserAddConverter;
+import com.pbc.pmtool.component.FormUserAdminConverter;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.entity.UserRole;
+import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.UserService;
@@ -30,6 +33,14 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	@Qualifier("userRepository")
 	private UserRepository userRepository;
+	
+	@Autowired
+	@Qualifier("userConverter")
+	private FormUserAdminConverter userConverter;
+	
+	@Autowired
+	@Qualifier("formUserAddConverter")
+	private FormUserAddConverter userAddConverter;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -65,10 +76,36 @@ public class UserServiceImpl implements UserService{
 		
 		//Recorremos todos los usuarios
 		for(User userEntity : userRepository.findAll()) {
-			
+			//Convertimos la entidad a modelo
+			usersModel.add(userConverter.UserEntity2FormUserAdminModel(userEntity));
 		}
 		
+		//Devolvemos el listado de usuarios modelo
 		return usersModel;
+	}
+
+	/**
+	 * Guarda un usuario
+	 */
+	@Override
+	public FormUserAdminModel saveUser(FormUserAdminModel saveUser) {
+		//Guardamos el usuario
+		User userSaved = userRepository.save(userConverter.FormUserAdminModel2UserEntity(saveUser));
+		
+		// TODO Auto-generated method stub
+		return userConverter.UserEntity2FormUserAdminModel(userSaved);
+	}
+
+	/**
+	 * Añade un usuario
+	 */
+	@Override
+	public FormUserAddModel addUser(FormUserAddModel newUser) {
+		//Creamos el nuevo usuario
+		User userAdded = userRepository.save(userAddConverter.FormUserAddModel2User(newUser));
+		
+		//Devolvemos el usuario creado
+		return userAddConverter.User2FormUserAddModel(userAdded);
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
 
 /**
@@ -21,5 +22,18 @@ public interface UserService extends UserDetailsService {
 	 * @return List<User>
 	 */
 	public List<FormUserAdminModel> getAllUsers(); 
+	
+	/**
+	 * Guarda un modelo de usuario en la base de datos
+	 */
+	public FormUserAdminModel saveUser(FormUserAdminModel saveUser);
+	
+	/**
+	 * Crea un nuevo usuario
+	 * 
+	 * @param newUser
+	 * @return FormUserAddModel
+	 */
+	public FormUserAddModel addUser(FormUserAddModel newUser);
 	
 }
