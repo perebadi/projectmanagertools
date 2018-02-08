@@ -70,4 +70,10 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
 	}
 
+	@Override
+	public List<Task> listProjectTasks(Project project, int status) {
+		// TODO Auto-generated method stub
+		return projectTaskRepository.findByProjectAndStatus(project,status);
+	}
+
 }

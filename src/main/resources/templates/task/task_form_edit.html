@@ -141,9 +141,8 @@
                 
                 <!-- START BREADCRUMB -->
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">UI Kits</a></li>
-                    <li class="active">Portlet</li>
+                    <li><a href="#">pmtool</a></li>
+                    <li class="active">kanban</li>
                 </ul>
                 <!-- END BREADCRUMB -->
                 
@@ -156,9 +155,9 @@
                 
                               <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-                		<form class="form-horizontal" action="#" method="POST">
                     <div class="row"><div class="col-md-12">
 				                    	<div class="panel panel-default">
+<!-- 				                    		<form class="form-horizontal" action="#" method="POST"> -->
 			                                <div class="panel-heading">
 			                                    <h3 class="panel-title">RAG Indicators</h3>
 			                                    <ul class="panel-controls">
@@ -170,10 +169,12 @@
 				                                    <div class="col-md-6">
 				                                    		<div class="form-group">
 			                                            		<label class="col-md-1 control-label">Project</label>
-			                                            		<div class="col-md-5">                                        
-						                                            <select  id="projectStatus" name="projectStatus"   class="form-control select" data-live-search="true">
+			                                            		<div class="col-md-5" id="selectpicker-container">                                        
+						                                            <select  id="pmprojects" name="pmprojects"   class="form-control select selectpicker" data-live-search="true" >
 															                <option th:each="project : ${projects}" 
 															                		th:value="${project.id}" th:text="${project.projectname}"></option>
+															                		
+															                	<opion selected="selected"></opion>
 															        </select>
 						                                        </div>                      
 			                                    			</div>
@@ -181,14 +182,15 @@
 			                                      </div> 
 			                                     <!--  END ROW -->
 			                                </div><!--  END PANEL BODY -->
-											<div class="panel-footer">
+											<!-- <div class="panel-footer">
 			                                    <button class="btn btn-default">Clear Form</button>                                    
 			                                    <button class="btn btn-primary pull-right">Submit</button>
-			                                </div>			                                
-			                            </div>
+			                                </div>
+			                                </form>	-->		                                
+			                            </div> 
 			                    </div>
                     </div>                    
-                 </form>
+                 
                 </div>
                 <!-- END PAGE CONTENT WRAPPER -->                   
                 
@@ -253,18 +255,8 @@
                         
                         
                     </div>
-
                                    
-                    <!-- END PORTLET -->
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button class="btn btn-primary sc-set-default pull-right">Remove saved data</button>
-                        </div>
-                        <div class="col-md-12">
-                            &nbsp;
-                        </div>
-                    </div>  
+                    <!-- END PORTLET --> 
                 
                 </div>
                 <!-- PAGE CONTENT WRAPPER -->                                                
@@ -292,20 +284,19 @@
             </div>
         </div>
         <!-- END MESSAGE BOX-->
-        
+    
+		
         <script type="text/javascript">
-        function updateTaskStatus(taskId, status){
-		    alert(taskId);
-		    alert(status);
-		    
-		    
-		 
-		    
-		    
-		   window.location.assign('http://localhost:8080/tasks/'+'move/'+taskId+'/'+status+'/');
-		    alert("lll");
-		}
-		</script>
+	        function updateTaskStatus(taskId, status){
+			   window.location.assign('/tasks/'+'move/'+taskId+'/'+status+'/');
+			}
+	        
+	      
+        
+        </script>
+       
+        
+      
  	
 
         <!-- START PRELOADS -->
@@ -340,6 +331,21 @@
  		<script th:src="@{/js/portlet.js}"></script>	
         <!-- END PAGE PLUGINS -->        
     <!-- END SCRIPTS -->         
+    
+    
+    <script>
+    
+    $('.selectpicker').change(function (e) {
+        alert(e.target.value);
+		   window.location.assign('/tasks/'+'project/'+e.target.value+'/');
+
+    });
+    </script>
+    
+    
+    
+
+     
     
     
         

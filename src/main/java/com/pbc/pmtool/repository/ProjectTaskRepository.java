@@ -20,6 +20,7 @@ public interface ProjectTaskRepository   extends JpaRepository<Task, Serializabl
 	public Page<Task> findAllByOrderByIdDesc( Pageable pageable);
 	public abstract List<Task> findByProject(Project project);
 	
+	public abstract List<Task>  findByProjectAndStatus(Project project, int status);
 	public abstract List<Task>  findByStatus(int status);
 
 

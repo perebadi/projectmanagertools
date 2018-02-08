@@ -19,6 +19,7 @@ public interface ProjectTaskService {
 	public abstract List<Task> listProjectTasks();
 	
 	public abstract List<Task> listProjectTasks(int status);
+	public abstract List<Task> listProjectTasks(Project project, int status);
 
 	public abstract int countRecords();
 	public abstract void removeSource(int id);

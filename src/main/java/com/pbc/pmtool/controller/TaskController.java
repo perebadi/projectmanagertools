@@ -162,6 +162,27 @@ public class TaskController {
 	}
 	
 	
+	@GetMapping("/project/{idproject}/")
+	public ModelAndView Projecttask(@PathVariable int idproject) {
+		
+		ModelAndView mav = new ModelAndView(ViewConstant.TASKFORMEDIT);
+		
+		mav.addObject("username", sessionuser);
+		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(sessionuser)));
+		
+		mav.addObject("projects", projectService.listProjectByUser(userRepository.findByUsername(sessionuser)));
+		
+		
+		mav.addObject("backlogs", projectTaskService.listProjectTasks(projectService.findProjectById(idproject), 1));
+		mav.addObject("todos", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),2));
+		mav.addObject("progresses", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),3));
+		mav.addObject("dones", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),4));
+		
+		return mav;
+		
+	}
+	
+	
 	
 	
 	
