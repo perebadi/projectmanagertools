@@ -3,7 +3,6 @@ package com.pbc.pmtool.model;
 import javax.validation.constraints.Size;
 
 import com.pbc.pmtool.validation.MatchPasswordConstraint;
-import com.pbc.pmtool.validation.UniqueUsernameConstraint;
 
 @MatchPasswordConstraint
 public class FormResetPasswordModel extends MatchPasswordModel {

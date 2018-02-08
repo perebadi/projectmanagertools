@@ -27,29 +27,29 @@
 				</div>
 
 				<form role="form" class="form-horizontal" action="#" th:action="@{/createuser}" method="POST" th:object="${user}">
-					<div class="form-group" th:classappend="${#fields.hasErrors('name')} ? has-error" >
-						<label class="col-md-3 control-label">Nombre:</label>
+					<div class="form-group" >
+						<label class="col-md-3 control-label" style="color: #AAB2BD;">Nombre:</label>
 						<div class="col-md-9">
 							<input type="text" class="form-control" th:field="*{name}" th:value="${user.name}" />
 							<span class="help-block" th:errors="*{name}"></span>
 						</div>
 					</div>
-					<div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error" >
-						<label class="col-md-3 control-label">Email:</label>
+					<div class="form-group" >
+						<label class="col-md-3 control-label" style="color: #AAB2BD;">Email:</label>
 						<div class="col-md-9">
 							<input type="text" class="form-control" th:field="*{username}" th:value="${user.username}" />
 							<span class="help-block" th:errors="*{username}"></span>
 						</div>
 					</div>
-					<div class="form-group" th:classappend="${#fields.hasErrors('password')} ? has-error" >
-						<label class="col-md-3 control-label">Password:</label>
+					<div class="form-group" >
+						<label class="col-md-3 control-label" style="color: #AAB2BD;">Password:</label>
 						<div class="col-md-9">
 							<input type="password" class="form-control" th:field="*{password}" th:value="${user.password}" />
 							<span class="help-block" th:errors="*{password}"></span>
 						</div>
 					</div>
 					<div class="form-group" >
-						<label class="col-md-3 control-label">Confirmar:</label>
+						<label class="col-md-3 control-label" style="color: #AAB2BD;">Confirmar:</label>
 						<div class="col-md-9">
 							<input type="password" class="form-control" th:field="*{confirmPassword}" th:value="${confirmPassword}" />
 							<span class="help-block" th:errors="${user}"></span>

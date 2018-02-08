@@ -33,6 +33,45 @@
                     <h2><span class="fa fa-thumbs-up"></span> Bienvenido  <span th:text="${username}"></span>!!!</h2>
                 </div>               
 
+				<!-- ALERTAS AL GUARDAR UN USUARIO -->
+				<div class="alert alert-success" role="alert" th:if="${savesucces}">
+					<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <strong>Correcto!</strong> Usuario modificado correctamente.
+                </div>
+
+				<div class="alert alert-danger" role="alert" th:if="${saveerror}">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                	<strong>Ups!</strong> No se pudo modificar el usuario.
+                </div> 
+                <!-- FIN ALERTAS AL GUARDAR UN USUARIO -->
+
+				<!-- ALERTAS AL ACTUALIZAR LA PWD -->
+				<div class="alert alert-success" role="alert" th:if="${resetpasswordsuccess}">
+					<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <strong>Correcto!</strong> Password modificada correctamente.
+                </div>
+
+				<div class="alert alert-danger" role="alert" th:if="${resetpassworderror}">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                	<strong>Ups!</strong> No se pudo actualizar la password. 
+                </div> 
+				<!-- FIN ALERTAS AL ACTUALIZAR LA PWD -->
+
+				<!-- ALERTAS AL ELIMINAR UN USUARIO -->
+				<div class="alert alert-success" role="alert" th:if="${removesuccess}">
+					<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <strong>Correcto!</strong> Usuario eliminado correctamente.
+                </div>
+
+				<div class="alert alert-danger" role="alert" th:if="${removeerror}">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                	<strong>Ups!</strong> No se pudo eliminar el usuario. 
+                </div> 
+				<!-- FIN ALERTAS AL ELIMINAR UN USUARIO -->
+
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
                     <div class="row">
@@ -43,9 +82,6 @@
                                     <!-- CONTACT ITEM -->
                                     <div class="panel panel-default">
                                         <div class="panel-body profile">
-                                            <div class="profile-image">
-                                                <img src="assets/images/users/user3.jpg" alt="Nadia Ali"/>
-                                            </div>
                                             <div class="profile-data">
                                                 <div class="profile-data-name"><span th:text="${user.name}"></span></div>
                                                 <div class="profile-data-title"><span th:text="${user.username}"></span></div>
@@ -54,10 +90,10 @@
                                         <div class="panel-body">                                    
                                             <div class="contact-info">
                                                 <form method="POST" action="#" th:action="@{/users/saveuser}" >
-                                                	<input type="hidden" id="username" name="username" th:value="${user.username}" />
-                                                    <p><large>Nombre</large><br /><input type="text" class="form-control" id="name" name="name" th:value="${user.name}" required="true" /></p>
-                                                    <p><large>Salario</large><br/><input type="number" class="form-control" id="rate" name="rate" th:value="${user.rate}" min="0" required="true" /></p>
-                                                    <p><large>Activo</large><br/><input type="checkbox" class="icheckbox" id="enabled" name="enabled" th:checked="${user.enabled}" /></p>
+                                                	<input type="hidden" name="username" th:value="${user.username}" />
+                                                    <p><large>Nombre</large><br /><input type="text" class="form-control" name="name" th:value="${user.name}" required="true" /></p>
+                                                    <p><large>Salario</large><br/><input type="number" class="form-control" name="rate" th:value="${user.rate}" min="0" required="true" /></p>
+                                                    <p><large>Activo</large><br/><input type="checkbox" class="icheckbox" name="enabled" th:checked="${user.enabled}" /></p>
                                                     
                                                     <br /><br />
                                                     <p>
@@ -65,23 +101,28 @@
                                                     		<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
                                                     		Guardar
                                                     	</button>
+                                                    	<button type="button" class="btn btn-danger" data-toggle="confirmation" name="userDeleteButton" th:attr="data-username=${user.username}" >
+			                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+			                                            	Eliminar
+			                                            </button>
                                                     </p>
                                                 </form>
-                                                <form method="POST" action="#" th:action="@{/users/removeuser}" th:id="'deleteUserForm_' + ${user.username}" >
-	                                            	<input type="hidden" id="username" name="username" th:value="${user.username}" />
-	                                            	<button type="submit" class="btn btn-danger" >
-		                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
-		                                            	Eliminar
-		                                            </button>
+                                                <form method="POST" action="#" th:action="@{/users/removeuser}" th:id="'userDeleteForm_' + ${user.username}" >
+	                                            	<input type="hidden" name="username" th:value="${user.username}" />
                                                 </form>
                                                 
                                                 <br/>
+                                                <br/>
                                                 <form method="POST" th:action="@{/users/resetpassword}"  >
-                                                	<input type="hidden" id="username" name="username" th:value="${user.username}" />
-                                                	<p><large>Password</large><br/><input type="password" class="form-control" id="password" name="password" /></p>
-                                                    <p><large>Confirmar</large><br/><input type="password" class="form-control" id="confirmPassword" name="confirmPassword" /></p>
-                                                    
-                                                    <input type="submit" />
+                                                	<h3>Reiniciar password:</h3>
+                                                	<input type="hidden" name="username" th:value="${user.username}" />
+                                                	<p><large>Password</large><br/><input type="password" class="form-control" name="password" required="true" /></p>
+                                                    <p><large>Confirmar</large><br/><input type="password" class="form-control" name="confirmPassword" required="true" /></p>
+                                                    <br/>
+                                                    <button type="submit" class="btn btn-primary">
+                                                    	<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                                    	Actualizar
+                                                    </button>
                                                 </form>
                                             </div>
                                         </div>                                
@@ -121,7 +162,7 @@
 
         <footer th:replace="layout/layout :: footer"></footer>
 
-        <!-- THIS PAGE PLUGINS -->        
+        <!-- THIS PAGE PLUGINS -->     
         <script th:src="@{/js/plugins/icheck/icheck.min.js}"></script>	
         <script th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
 
@@ -129,9 +170,10 @@
         <script th:src="@{/js/plugins/bootstrap/bootstrap-timepicker.min.js}"></script>	
         <script th:src="@{/js/plugins/bootstrap/bootstrap-colorpicker.js}"></script>	
         <script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>	
-        <script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>	
+        <script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
         <script th:src="@{/js/plugins/tagsinput/jquery.tagsinput.min.js}"></script>	
-
+		<script th:src="@{/js/bootbox.min.js}"></script>
+		<script th:src="@{/js/delete_user.js}"></script>
 
         <!-- END THIS PAGE PLUGINS -->       
         <script type="text/javascript" src="js/plugins/knob/jquery.knob.min.js"></script>
@@ -140,6 +182,5 @@
         <!-- START TEMPLATE -->
         <script th:src="@{/js/settings.jss}"></script>	
         <!-- END TEMPLATE -->
-
     </body>
 </html>

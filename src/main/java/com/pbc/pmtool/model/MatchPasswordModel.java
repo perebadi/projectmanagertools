@@ -3,6 +3,7 @@ package com.pbc.pmtool.model;
 import javax.validation.constraints.Size;
 
 public class MatchPasswordModel {
+	
 	@Size(min = 5, max = 60)
 	private String confirmPassword;
 	@Size(min = 5, max = 60)

@@ -1,7 +1,5 @@
 package com.pbc.pmtool.controller;
 
-import java.util.logging.Logger;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.constant.ViewConstant;
@@ -45,21 +44,17 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/resetpassword")
-	public String resetPassword(@Valid @ModelAttribute("resetPassword") FormResetPasswordModel resetPassword, BindingResult bindingResult) {
-		Logger.getGlobal().info("Username:" + resetPassword.getUsername());
-		Logger.getGlobal().info("Pwd:" + resetPassword.getPassword());
-		Logger.getGlobal().info("Confirm Pwd:" + resetPassword.getConfirmPassword());
-		
+	public String resetPassword(@Valid @ModelAttribute("resetPassword") FormResetPasswordModel resetPassword, BindingResult bindingResult) {		
 		//Comprovamos que no hayan errores
 		if(!(bindingResult.hasErrors())) {
 			//Guardamos las credenciales nuevas
 			userService.resetPassword(resetPassword);
 			
 			//Redirigimos
-			return "redirect:/users/show?passwordchanged";
+			return "redirect:/users/show?resetpasswordsuccess";
 		}else {
 			//Redirigimos
-			return "redirect:/users/show?nopasswordmatches";
+			return "redirect:/users/show?resetpassworderror";
 		}
 	}
 	
@@ -69,9 +64,22 @@ public class UserController {
 	 * @return ModelAndView
 	 */
 	@GetMapping("/show")
-	public ModelAndView showUsers() {
+	public ModelAndView showUsers(@RequestParam(name="savesuccess", required=false) String savesucces,
+			@RequestParam(name="saveerror", required=false) String saveerror, 
+			@RequestParam(name="resetpasswordsuccess", required=false) String resetpasswordsuccess,
+			@RequestParam(name="resetpassworderror", required=false) String resetpassworderror,
+			@RequestParam(name="removesuccess", required=false) String removesuccess,
+			@RequestParam(name="removeerror", required=false) String removeerror) {
 		//Creamos la vista
 		ModelAndView mav = new ModelAndView(ViewConstant.LIST_USERS);
+		
+		//Pasamos los resultados de las acciones a la vista
+		mav.addObject("saveerror", saveerror);
+		mav.addObject("savesucces", savesucces);
+		mav.addObject("resetpasswordsuccess", resetpasswordsuccess);
+		mav.addObject("resetpassworderror", resetpassworderror);
+		mav.addObject("removesuccess", removesuccess);
+		mav.addObject("removeerror", removeerror);
 		
 		//Obtenemos todos los usuarios
 		mav.addObject("users", userService.getAllUsers());
@@ -94,10 +102,10 @@ public class UserController {
 			userService.saveUser(formUserAdminModel);
 			
 			//Redirigimos al listado de usuarios
-			return "redirect:/users/show?usersaved";
+			return "redirect:/users/show?savesuccess";
 		}else {
 			//Redirigimos al listado de usuarios
-			return "redirect:/users/show?errorusersaved";
+			return "redirect:/users/show?saveerror";
 		}
 	}
 	
@@ -108,11 +116,17 @@ public class UserController {
 	 * @return redirect
 	 */
 	@PostMapping("/removeuser")
-	public String removeUser(@ModelAttribute(name="user") FormUserAdminModel userDelete) {
-		//Eliminamos el usuario
-		userService.removeUser(userDelete.getUsername());
-		
-		//Redirigimos al listado de usuarios
-		return "redirect:/users/show";
+	public String removeUser(@Valid @ModelAttribute(name="user") FormUserAdminModel userDelete, BindingResult bindingResult) {
+		//Validamos que el usuario a eliminar sea correcto
+		if(!(bindingResult.hasErrors())) {
+			//Eliminamos el usuario
+			userService.removeUser(userDelete.getUsername());
+			
+			//Redirigimos al listado de usuarios
+			return "redirect:/users/show?removesuccess";
+		}else {
+			//Redirigimos con error
+			return "redirect:/users/show?removeerror";
+		}
 	}
 }

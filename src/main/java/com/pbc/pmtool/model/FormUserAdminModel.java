@@ -1,5 +1,6 @@
 package com.pbc.pmtool.model;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -14,10 +15,13 @@ public class FormUserAdminModel {
 	/**
 	 * Atributos
 	 */
+	@Size(min=1, max=45)
 	private String username;
 	@Size(min=1, max=50)
 	private String name;
+	@NotNull
 	private boolean enabled;
+	@NotNull
 	private float rate;
 	
 	public FormUserAdminModel() {
