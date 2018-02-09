@@ -1,5 +1,19 @@
 window.onload = function(){
-	//Obtenemos todos los botones de eliminar
+	//--- EDICIÓN USUARIO---
+    //Obtenemos todos los botones de editar
+    var userEditButton = document.getElementsByName("userEditButton");
+    var userEditForm = document.getElementsByName("userEditForm");
+    
+    //Recorremos todos los botones
+    for(var i = 0; i < userEditButton.length; i++){
+    	//Linkamos el modal que abre
+    	userEditButton[i].setAttribute('data-target', "#userEditForm_" + i);
+    	//Linkamos el form
+    	userEditForm[i].id = "userEditForm_" + i;
+    }
+    
+    //--- ELIMINAR USUARIO
+    //Obtenemos todos los botones de eliminar
     var userDeleteButton = document.getElementsByName("userDeleteButton");
     
     //Recorremos todos los botones de eliminar

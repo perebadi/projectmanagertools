@@ -23,13 +23,13 @@ import javax.persistence.Table;
 		@Column(name = "password", nullable=false, length=60)
 		private String password;
 
-		@Column(name = "enabled",nullable=false)
+		@Column(name = "enabled", nullable=false)
 		private boolean enabled;
 		
 		@Column(name = "name", nullable=false, length=50)
 		private String name;
 		
-		@Column(name = "rate", nullable=true)
+		@Column(name = "rate", nullable=false)
 		private float rate;
 		
 		@OneToMany(fetch=FetchType.EAGER, mappedBy="user", cascade=CascadeType.ALL)

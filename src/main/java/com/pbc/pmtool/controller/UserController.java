@@ -1,5 +1,7 @@
 package com.pbc.pmtool.controller;
 
+import java.util.logging.Logger;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,18 +97,24 @@ public class UserController {
 	 * @return redirect
 	 */
 	@PostMapping("/saveuser")
-	public String saveUser(@Valid @ModelAttribute(name="user") FormUserAdminModel formUserAdminModel, BindingResult bindingResult) {
+	public String saveUser(@ModelAttribute(name="user") FormUserAdminModel formUserAdminModel) {
 		//Validamos si el usuario es valido
-		if(!(bindingResult.hasErrors())) {
+		//if(!(bindingResult.hasErrors())) {
+			if(formUserAdminModel.isEnabled()) {
+				Logger.getGlobal().info("activo");
+			}else {
+				Logger.getGlobal().info("no activo");
+			}
+			
 			//Guardamos el usuario
 			userService.saveUser(formUserAdminModel);
 			
 			//Redirigimos al listado de usuarios
 			return "redirect:/users/show?savesuccess";
-		}else {
+		//}else {
 			//Redirigimos al listado de usuarios
-			return "redirect:/users/show?saveerror";
-		}
+		//	return "redirect:/users/show?saveerror";
+		//}
 	}
 	
 	

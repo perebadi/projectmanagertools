@@ -19,9 +19,7 @@ public class FormUserAdminModel {
 	private String username;
 	@Size(min=1, max=50)
 	private String name;
-	@NotNull
 	private boolean enabled;
-	@NotNull
 	private float rate;
 	
 	public FormUserAdminModel() {
