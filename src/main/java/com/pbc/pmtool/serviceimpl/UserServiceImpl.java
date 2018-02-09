@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -76,12 +77,12 @@ public class UserServiceImpl implements UserService{
 	 * Devuelve todos los usuarios
 	 */
 	@Override
-	public List<FormUserAdminModel> getAllUsers() {
+	public List<FormUserAdminModel> getAllUsers(Pageable pageable) {
 		//Obtenemos todos los usuarios
 		ArrayList<FormUserAdminModel> usersModel = new ArrayList<FormUserAdminModel>();
 		
 		//Recorremos todos los usuarios
-		for(User userEntity : userRepository.findAll()) {
+		for(User userEntity : userRepository.findAll(pageable).getContent()) {
 			//Convertimos la entidad a modelo
 			usersModel.add(userConverter.UserEntity2FormUserAdminModel(userEntity));
 		}

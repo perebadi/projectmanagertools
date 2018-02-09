@@ -2,6 +2,7 @@ package com.pbc.pmtool.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.pbc.pmtool.model.FormResetPasswordModel;
@@ -22,7 +23,7 @@ public interface UserService extends UserDetailsService {
 	 * 
 	 * @return List<User>
 	 */
-	public List<FormUserAdminModel> getAllUsers(); 
+	public List<FormUserAdminModel> getAllUsers(Pageable pageable); 
 	
 	/**
 	 * Guarda un modelo de usuario en la base de datos

@@ -1,8 +1,9 @@
 package com.pbc.pmtool.repository;
 
 import java.io.Serializable;
-import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,5 @@ public interface UserRepository extends JpaRepository<User, Serializable>{
 	/**
 	 * Devuelve todos los usuarios
 	 */
-	public abstract List<User> findAll();
+	public abstract Page<User> findAll(Pageable pageable);
 }

@@ -12,7 +12,7 @@ window.onload = function(){
     	userEditForm[i].id = "userEditForm_" + i;
     }
     
-    //--- ELIMINAR USUARIO
+    //--- ELIMINAR USUARIO---
     //Obtenemos todos los botones de eliminar
     var userDeleteButton = document.getElementsByName("userDeleteButton");
     

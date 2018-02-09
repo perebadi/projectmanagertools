@@ -1,11 +1,12 @@
 package com.pbc.pmtool.controller;
 
-import java.util.logging.Logger;
-
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +72,9 @@ public class UserController {
 			@RequestParam(name="resetpasswordsuccess", required=false) String resetpasswordsuccess,
 			@RequestParam(name="resetpassworderror", required=false) String resetpassworderror,
 			@RequestParam(name="removesuccess", required=false) String removesuccess,
-			@RequestParam(name="removeerror", required=false) String removeerror) {
+			@RequestParam(name="removeerror", required=false) String removeerror, 
+			@RequestParam(name="page", required=false, defaultValue="0") int page) {
+		
 		//Creamos la vista
 		ModelAndView mav = new ModelAndView(ViewConstant.LIST_USERS);
 		
@@ -82,9 +85,10 @@ public class UserController {
 		mav.addObject("resetpassworderror", resetpassworderror);
 		mav.addObject("removesuccess", removesuccess);
 		mav.addObject("removeerror", removeerror);
+		mav.addObject("page", page);
 		
 		//Obtenemos todos los usuarios
-		mav.addObject("users", userService.getAllUsers());
+		mav.addObject("users", userService.getAllUsers(new PageRequest(page, 1, Sort.Direction.ASC, "username")));
 		
 		//Devolvemos la vista
 		return mav;
@@ -97,24 +101,20 @@ public class UserController {
 	 * @return redirect
 	 */
 	@PostMapping("/saveuser")
-	public String saveUser(@ModelAttribute(name="user") FormUserAdminModel formUserAdminModel) {
+	public String saveUser(@Valid @ModelAttribute(name="user") FormUserAdminModel formUserAdminModel, 
+			@RequestParam("page") int page, 
+			BindingResult bindingResult) {
 		//Validamos si el usuario es valido
-		//if(!(bindingResult.hasErrors())) {
-			if(formUserAdminModel.isEnabled()) {
-				Logger.getGlobal().info("activo");
-			}else {
-				Logger.getGlobal().info("no activo");
-			}
-			
+		if(!(bindingResult.hasErrors())) {			
 			//Guardamos el usuario
 			userService.saveUser(formUserAdminModel);
 			
 			//Redirigimos al listado de usuarios
-			return "redirect:/users/show?savesuccess";
-		//}else {
+			return "redirect:/users/show?page=" + page + "&savesuccess";
+		}else {
 			//Redirigimos al listado de usuarios
-		//	return "redirect:/users/show?saveerror";
-		//}
+			return "redirect:/users/show?page=" + page + "&saveerror";
+		}
 	}
 	
 	
@@ -124,17 +124,19 @@ public class UserController {
 	 * @return redirect
 	 */
 	@PostMapping("/removeuser")
-	public String removeUser(@Valid @ModelAttribute(name="user") FormUserAdminModel userDelete, BindingResult bindingResult) {
+	public String removeUser(@Valid @ModelAttribute(name="user") FormUserAdminModel userDelete, 
+			@RequestParam("page") int page,
+			BindingResult bindingResult) {
 		//Validamos que el usuario a eliminar sea correcto
 		if(!(bindingResult.hasErrors())) {
 			//Eliminamos el usuario
 			userService.removeUser(userDelete.getUsername());
 			
 			//Redirigimos al listado de usuarios
-			return "redirect:/users/show?removesuccess";
+			return "redirect:/users/show?page=" + page + "&removesuccess";
 		}else {
 			//Redirigimos con error
-			return "redirect:/users/show?removeerror";
+			return "redirect:/users/show?page=" + page + "&removeerror";
 		}
 	}
 }

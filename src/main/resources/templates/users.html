@@ -22,15 +22,10 @@
                 </ul>
                 <!-- END X-NAVIGATION VERTICAL -->                                   
 
-                <!-- START BREADCRUMB -->
-                <ul class="breadcrumb">
-                    <li><a href="#">Link</a></li>                    
-                    <li class="active">Active</li>
-                </ul>
-                <!-- END BREADCRUMB -->       
-
+				<div class="col-xs-12" style="height:20px;"></div>
+				
                 <div class="page-title">                    
-                    <h2><span class="fa fa-thumbs-up"></span> Bienvenido  <span th:text="${username}"></span>!!!</h2>
+                    <h2>Administrar usuarios</h2>
                 </div>               
 
                 <!-- PAGE CONTENT WRAPPER -->
@@ -79,7 +74,7 @@
                                     </div> 
                                     <!-- FIN ALERTAS AL ELIMINAR UN USUARIO -->
 
-                                    <!-- CONTACT TABLE -->
+                                    <!-- CONTACT TABLE -->									
                                     <table class="table table-bordered table-striped table-actions">
                                         <thead>
                                             <tr>
@@ -94,21 +89,23 @@
                                             <!-- USER ITEM -->                                    
                                             <tr id="trow_1" th:each="user : ${users}">
                                                 <td class="text-center"><span th:text="${user.name}"></span></td>
-                                                <td><strong><span th:text="${user.username}"></span></strong></td>
+                                                <td><span th:text="${user.username}"></span></td>
                                                 <td><span th:text="${user.rate}"></span></td>
                                                 <td>
                                                     <span class="label label-success" th:if="${user.enabled}">Activada</span>
                                                     <span class="label label-danger" th:if="!(${user.enabled})">Desactivada</span>
                                                 </td>
                                                 <td>
-                                                    <!-- ACTION BUTTONS -->
-                                                    <button class="btn btn-default btn-rounded btn-sm" data-toggle="modal" name="userEditButton">
-                                                        <span class="fa fa-pencil"></span>
-                                                    </button>
-                                                    <button class="btn btn-danger btn-rounded btn-sm" data-toggle="confirmation" name="userDeleteButton" th:attr="data-username=${user.username}">
-                                                        <span class="fa fa-times"></span>
-                                                    </button>
-                                                    <!-- END ACTION BUTTONS -->
+                                                	<div class="btn-group">
+	                                                    <!-- ACTION BUTTONS -->
+	                                                    <button class="btn btn-default btn-rounded btn-sm" data-toggle="modal" name="userEditButton">
+	                                                        <span class="fa fa-pencil"></span>
+	                                                    </button>
+	                                                    <button class="btn btn-danger btn-rounded btn-sm" data-toggle="confirmation" name="userDeleteButton" th:attr="data-username=${user.username}">
+	                                                        <span class="fa fa-times"></span>
+	                                                    </button>
+	                                                    <!-- END ACTION BUTTONS -->
+	                                            	</div>
                                                 </td>
                                             </tr>
                                             <!-- END USER ITEM -->
@@ -121,6 +118,7 @@
                                         <!-- USER DELETE FORM -->    
                                         <form method="POST" action="#" th:action="@{/users/removeuser}" th:id="'userDeleteForm_' + ${user.username}" >
                                             <input type="hidden" name="username" th:value="${user.username}" />
+                                            <input type="hidden" name="page" th:value="${page}" />
                                         </form>
                                         <!-- END USER DELETE FORM -->
 
@@ -131,18 +129,19 @@
                                                     <div class="modal-body">
                                                         <form method="POST" action="#" th:action="@{/users/saveuser}" >
                                                             <h3>Editar usuario</h3>
-
+															<input type="hidden" name="page" th:value="${page}" />
                                                             <input type="hidden" name="username" th:value="${user.username}" />
                                                             <p><large>Nombre</large><br /><input type="text" class="form-control" name="name" th:value="${user.name}" required="true" /></p>
                                                             <p><large>Salario</large><br/><input type="number" class="form-control" name="rate" th:value="${user.rate}" min="0" required="true" /></p>
                                                             <p><large>Activo</large><br/><input type="checkbox" class="icheckbox" name="enabled" th:checked="${user.enabled}" /></p>	                                                    
 
-                                                            <p>
+                                                            <div class="btn-group">
                                                                 <button type="submit" class="btn btn-primary">
                                                                     <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
                                                                     Guardar
                                                                 </button>
-                                                            </p>
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -188,16 +187,11 @@
         <!-- THIS PAGE PLUGINS -->     
         <script th:src="@{/js/plugins/icheck/icheck.min.js}"></script>	
         <script th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
-
-        <script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>	
-        <script th:src="@{/js/plugins/bootstrap/bootstrap-timepicker.min.js}"></script>	
-        <script th:src="@{/js/plugins/bootstrap/bootstrap-colorpicker.js}"></script>	
-        <script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>	
         <script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
         <script th:src="@{/js/plugins/tagsinput/jquery.tagsinput.min.js}"></script>	
         <script th:src="@{/js/bootbox.min.js}"></script>
         <script th:src="@{/js/user_actions.js}"></script>
-
+        <script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>
 
         <!-- END THIS PAGE PLUGINS -->       
         <script type="text/javascript" src="js/plugins/knob/jquery.knob.min.js"></script>
