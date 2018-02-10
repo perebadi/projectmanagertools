@@ -3,6 +3,7 @@ package com.pbc.pmtool.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,10 +24,16 @@ import javax.persistence.Table;
 		@Column(name = "password", nullable=false, length=60)
 		private String password;
 
-		@Column(name = "enabled",nullable=false)
+		@Column(name = "enabled", nullable=false)
 		private boolean enabled;
 		
-		@OneToMany(fetch=FetchType.EAGER, mappedBy="user")
+		@Column(name = "name", nullable=false, length=50)
+		private String name;
+		
+		@Column(name = "rate", nullable=false)
+		private float rate;
+		
+		@OneToMany(fetch=FetchType.EAGER, mappedBy="user", cascade=CascadeType.ALL)
 		private Set<UserRole> userRole = new HashSet<UserRole>();
 		
 		@OneToMany(fetch=FetchType.EAGER, mappedBy="user")
@@ -35,10 +42,21 @@ import javax.persistence.Table;
 		@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 		private Set<Task> tasks = new HashSet<Task>();
 		
+<<<<<<< HEAD
 		@ManyToOne(fetch=FetchType.EAGER)
 		private Project project;
 		
 		
+=======
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+>>>>>>> 2f69b1d78384f25db9148933f1f823ce86775d24
 		public String getUsername() {
 			return username;
 		}
@@ -71,10 +89,6 @@ import javax.persistence.Table;
 			this.userRole = userRole;
 		}
 
-		
-		
-	
-
 		public Set<Project> getProjects() {
 			return projects;
 		}
@@ -90,11 +104,17 @@ import javax.persistence.Table;
 		public void setTasks(Set<Task> tasks) {
 			this.tasks = tasks;
 		}
-
-	
 		
+		public float getRate() {
+			return rate;
+		}
+
+		public void setRate(float rate) {
+			this.rate = rate;
+		}
+
 		public User(String username, String password, boolean enabled, Set<UserRole> userRole, Set<Project> projects,
-				Set<Task> tasks) {
+				Set<Task> tasks, String name, float rate) {
 			super();
 			this.username = username;
 			this.password = password;
@@ -102,6 +122,8 @@ import javax.persistence.Table;
 			this.userRole = userRole;
 			this.projects = projects;
 			this.tasks = tasks;
+			this.name = name;
+			this.rate = rate;
 		}
 
 		public User(){}
