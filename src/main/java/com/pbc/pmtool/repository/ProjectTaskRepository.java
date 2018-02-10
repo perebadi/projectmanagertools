@@ -6,11 +6,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.Task;
+import com.pbc.pmtool.model.ProjectTaskModel;
 
 
 @Repository("projectTaskRepository")
@@ -24,8 +26,8 @@ public interface ProjectTaskRepository   extends JpaRepository<Task, Serializabl
 	public abstract List<Task>  findByStatus(int status);
 
 
-	//@Query(value = "SELECT sum(base) as sbase, tipoirpf,sum(irpf) as sirpf, tipoiva,sum(iva) as siva,sum(total) as stotal FROM factura_cliente WHERE fechafactura >= ?1 and fechafactura < ?2 GROUP BY tipoirpf,tipoiva", nativeQuery = true)	
-	//public List<Object[]> findProjectProblems();
+	@Query(value = "SELECT id, projectname, user_username, projectactive, backlog, todo, inprogress, done FROM view_project_task WHERE  user_username =?1", nativeQuery = true)	
+	public List<Object[]> findProjectTask(String username);
 
 
 }

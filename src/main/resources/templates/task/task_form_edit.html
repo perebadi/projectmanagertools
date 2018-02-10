@@ -150,49 +150,19 @@
                 <div class="page-title">                    
                     <h2><span class="fa fa-arrow-circle-o-left"></span> Kanban Tasks</h2>
                 </div>
+                <div class="panel-footer">
+			          <button class="btn btn-default" data-toggle="modal" data-target="#create_task_modal">Create Task</button>                                
+			                                         
+			   </div>
                 <!-- END PAGE TITLE -->   
                 
                 
-                              <!-- PAGE CONTENT WRAPPER -->
-                <div class="page-content-wrap">
-                    <div class="row"><div class="col-md-12">
-				                    	<div class="panel panel-default">
-<!-- 				                    		<form class="form-horizontal" action="#" method="POST"> -->
-			                                <div class="panel-heading">
-			                                    <h3 class="panel-title">RAG Indicators</h3>
-			                                    <ul class="panel-controls">
-			                                        <li><button id="rag" name="rag" type="button" class="btn btn-success btn-rounded fa fa-wrench"></button></li>
-			                                    </ul>
-			                                </div>
-			                                <div class="panel-body">
-			                                	<div class="row">
-				                                    <div class="col-md-6">
-				                                    		<div class="form-group">
-			                                            		<label class="col-md-1 control-label">Project</label>
-			                                            		<div class="col-md-5" id="selectpicker-container">                                        
-						                                            <select  id="pmprojects" name="pmprojects"   class="form-control select selectpicker" data-live-search="true" >
-															                <option th:each="project : ${projects}" 
-															                		th:value="${project.id}" th:text="${project.projectname}"></option>
-															                		
-															                	<opion selected="selected"></opion>
-															        </select>
-						                                        </div>                      
-			                                    			</div>
-				                                    </div>
-			                                      </div> 
-			                                     <!--  END ROW -->
-			                                </div><!--  END PANEL BODY -->
-											<!-- <div class="panel-footer">
-			                                    <button class="btn btn-default">Clear Form</button>                                    
-			                                    <button class="btn btn-primary pull-right">Submit</button>
-			                                </div>
-			                                </form>	-->		                                
-			                            </div> 
-			                    </div>
-                    </div>                    
-                 
-                </div>
-                <!-- END PAGE CONTENT WRAPPER -->                   
+                
+                
+                
+                
+                
+                              
                 
                 
                 <!-- PAGE CONTENT WRAPPER -->
@@ -265,25 +235,123 @@
         </div>
         <!-- END PAGE CONTAINER -->
 
-        <!-- MESSAGE BOX-->
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
-            <div class="mb-container">
-                <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
-                    <div class="mb-content">
-                        <p>Are you sure you want to log out?</p>                    
-                        <p>Press No if youwant to continue work. Press Yes to logout current user.</p>
+        <!-- CREATE TASK MODAL -->
+<!--                                         <div class="modal fade" role="dialog" name="#create_task_modal"> -->
+<!--                                             <div class="modal-dialog"> -->
+<!--                                                 <div class="modal-content"> -->
+<!--                                                     <div class="modal-body"> -->
+<!--                                                         <form method="POST" action="#"  > -->
+<!--                                                             <h3>Editar usuario</h3> -->
+<!-- 															<input type="hidden" name="page" /> -->
+<!--                                                             <input type="hidden" name="username"/> -->
+<!--                                                             <p><large>Nombre</large><br /><input type="text" class="form-control" name="name"  required="true" /></p> -->
+<!--                                                             <p><large>Salario</large><br/><input type="number" class="form-control" name="rate"  min="0" required="true" /></p> -->
+<!--                                                             <p><large>Activo</large><br/><input type="checkbox" class="icheckbox" name="enabled"  /></p>	                                                     -->
+
+<!--                                                             <div class="btn-group"> -->
+<!--                                                                 <button type="submit" class="btn btn-primary"> -->
+<!--                                                                     <span class="glyphicon glyphicon-save" aria-hidden="true"></span> -->
+<!--                                                                     Guardar -->
+<!--                                                                 </button> -->
+<!--                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button> -->
+<!--                                                             </div> -->
+<!--                                                         </form> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                             </div> -->
+<!--                                         </div> -->
+
+
+
+ <div class="modal" id="create_task_modal" tabindex="-1" role="dialog" aria-labelledby="#create_task_modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="largeModalHead">Create Task</h4>
                     </div>
-                    <div class="mb-footer">
-                        <div class="pull-right">
-                            <a href="pages-login.html" class="btn btn-success btn-lg">Yes</a>
-                            <button class="btn btn-default btn-lg mb-control-close">No</button>
-                        </div>
+                    <div class="modal-body">
+                                <form class="form-horizontal" role="form">   
+                                		<input type="hidden" name="project"  />
+                                		<input type="hidden" name="username"  />                                 
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Summary</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" value="Some text value..." type="text" />
+                                        </div>
+                                    </div>
+                                    
+                                   <div class="form-group">
+                                        <label class="col-md-2 control-label">Task Details</label>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control" rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Estimated hours</label>
+                                        <div class="col-md-10">                                                                                
+                                            <select class="form-control select" data-live-search="true">
+                                                <option>1 hour</option>
+                                                <option>2 hours</option>
+                                                <option>3 hours</option>
+                                                <option>4 hours</option>
+                                                <option>5 hours</option>
+                                                <option>6 hours</option>
+                                                <option>7 hours</option>
+                                                <option>1 day</option>
+                                                <option>1 day and a half</option>
+                                                <option>2 day</option>
+                                                <option>2 day and a half</option>                                                <option>1 day</option>
+                                                <option>3 day</option>
+                                                <option>3 day and a half</option>  
+                                                <option>4 day</option>
+                                                <option>4 day and a half</option>  
+                                                <option>5 day</option>
+                                                <option>5 day and a half</option>  
+                                                <option>6 day</option>
+                                                <option>6 day and a half</option>                                                  
+                                                <option>7 day</option>
+                                                <option>7 day and a half</option>                                                  
+                                                <option>8 day</option>
+                                                <option>8 day and a half</option>                                                  
+                                                <option>9 day</option>
+                                                <option>9 day and a half</option>  
+                                                <option>10 day</option>
+                                                <option>10 day and a half</option>                                                  
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                                                    
+                                </form>
+                        
+                        
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                        
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- END MESSAGE BOX-->
+        </div> 
+        <!-- END CREATE TASK MODAL-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
 		
         <script type="text/javascript">
@@ -335,7 +403,7 @@
     
     <script>
     
-    $('.selectpicker').change(function (e) {
+    $('.selectpicker').select(function (e) {
         alert(e.target.value);
 		   window.location.assign('/tasks/'+'project/'+e.target.value+'/');
 

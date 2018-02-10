@@ -74,6 +74,9 @@ public class Project {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
+	private Set<User> assigneds = new HashSet<User>();
 
 	@Column(name = "TVC")
 	private Double TVC;

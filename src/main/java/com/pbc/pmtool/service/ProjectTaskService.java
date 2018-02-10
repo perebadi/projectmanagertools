@@ -5,6 +5,8 @@ import java.util.List;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.Task;
+import com.pbc.pmtool.entity.User;
+import com.pbc.pmtool.model.ProjectTaskModel;
 
 
 public interface ProjectTaskService {
@@ -21,6 +23,6 @@ public interface ProjectTaskService {
 	public abstract List<Task> listProjectTasks(int status);
 	public abstract List<Task> listProjectTasks(Project project, int status);
 
-	public abstract int countRecords();
+	public abstract List<ProjectTaskModel> countRecordsByProject(String username);
 	public abstract void removeSource(int id);
 }

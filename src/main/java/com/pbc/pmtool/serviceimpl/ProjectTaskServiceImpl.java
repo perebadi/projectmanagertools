@@ -1,5 +1,7 @@
 package com.pbc.pmtool.serviceimpl;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.Task;
+import com.pbc.pmtool.model.ProjectTaskModel;
 import com.pbc.pmtool.repository.ProjectTaskRepository;
 import com.pbc.pmtool.service.ProjectTaskService;
 
@@ -59,9 +62,42 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
 
 	@Override
-	public int countRecords() {
-		// TODO Auto-generated method stub
-		return 0;
+	public List<ProjectTaskModel> countRecordsByProject(String username) {
+		List<ProjectTaskModel> projectTastModels  = new ArrayList<ProjectTaskModel>();
+		List<Object[]> salida = projectTaskRepository.findProjectTask(username);
+		System.out.println("before");
+
+		ProjectTaskModel fModel;
+		
+		for (Object[] res : salida ){
+			fModel = new ProjectTaskModel();
+
+			System.out.println((Integer)res[0]);
+			System.out.println((String)res[1]);
+			System.out.println((String)res[2]);
+			System.out.println((Boolean)res[3]);
+			System.out.println((BigInteger)res[4]);
+			System.out.println((BigInteger)res[5]);
+			System.out.println((BigInteger)res[6]);
+			System.out.println((BigInteger)res[7]);
+			
+			
+			
+			fModel.setId((Integer)res[0]);
+			fModel.setProjectname((String)res[1]);
+			fModel.setUsername((String)res[2]);
+			fModel.setProjectactive((Boolean)res[3]);
+			fModel.setBacklog((BigInteger)res[4]);
+			fModel.setTodo((BigInteger)res[5]);
+			fModel.setInprogress((BigInteger)res[6]);
+			fModel.setDone((BigInteger)res[7]);
+			
+			
+			System.out.println(fModel.getProjectname());
+			projectTastModels.add(fModel);
+			
+		}	
+		return projectTastModels;
 	}
 
 	@Override

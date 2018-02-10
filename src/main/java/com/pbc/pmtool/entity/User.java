@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -33,6 +34,9 @@ import javax.persistence.Table;
 		
 		@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 		private Set<Task> tasks = new HashSet<Task>();
+		
+		@ManyToOne(fetch=FetchType.EAGER)
+		private Project project;
 		
 		
 		public String getUsername() {
