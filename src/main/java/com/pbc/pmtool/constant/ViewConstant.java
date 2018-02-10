@@ -17,12 +17,7 @@ public class ViewConstant {
 	public static final String PHASEFORMEDIT = "phase_form_edit";
 	public static final String FINANCEFORMEDIT = "finance_form_edit";
 	public static final String TASKFORMEDIT = "task/task_form_edit";
-<<<<<<< HEAD
 	public static final String TASKPROJECTS = "task/task_projects";
-
-
-=======
-	public static final String LIST_USERS = "users";
+	public static final String LIST_USERS = "resource/users";
 	public static final String CREATEACOUNT = "createacount";
->>>>>>> 2f69b1d78384f25db9148933f1f823ce86775d24
 }	

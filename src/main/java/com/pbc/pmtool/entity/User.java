@@ -42,12 +42,10 @@ import javax.persistence.Table;
 		@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 		private Set<Task> tasks = new HashSet<Task>();
 		
-<<<<<<< HEAD
 		@ManyToOne(fetch=FetchType.EAGER)
 		private Project project;
 		
 		
-=======
 		public String getName() {
 			return name;
 		}
@@ -56,7 +54,6 @@ import javax.persistence.Table;
 			this.name = name;
 		}
 
->>>>>>> 2f69b1d78384f25db9148933f1f823ce86775d24
 		public String getUsername() {
 			return username;
 		}
