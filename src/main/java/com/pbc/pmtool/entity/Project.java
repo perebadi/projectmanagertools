@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -23,10 +24,10 @@ public class Project {
 
 	@Column(name = "projectname")
 	private String projectname;
-	
+
 	@Column(name = "projectactive")
 	private boolean projectactive = true;
-	
+
 	@Column(name = "objectives", columnDefinition = "TEXT")
 	private String objectives;
 
@@ -72,11 +73,11 @@ public class Project {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<ProjectPhase> phases = new HashSet<ProjectPhase>();
 
+	@ManyToMany(mappedBy = "assigneds")
+	private Set<User> assigneds;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
-	private Set<User> assigneds = new HashSet<User>();
 
 	@Column(name = "TVC")
 	private Double TVC;
@@ -104,8 +105,7 @@ public class Project {
 
 	@Column(name = "invoiced")
 	private Double invoiced;
-	
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<Task> tasks = new HashSet<Task>();
 
@@ -125,22 +125,20 @@ public class Project {
 		this.projectname = projectname;
 	}
 
-	
-	
+	public boolean isProjectactive() {
+		return projectactive;
+	}
+
+	public void setProjectactive(boolean projectactive) {
+		this.projectactive = projectactive;
+	}
+
 	public String getObjectives() {
 		return objectives;
 	}
 
 	public void setObjectives(String objectives) {
 		this.objectives = objectives;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public ProjectStatusLight getProjectStatus() {
@@ -255,6 +253,8 @@ public class Project {
 		this.phases = phases;
 	}
 
+
+
 	public Double getTVC() {
 		return TVC;
 	}
@@ -327,20 +327,6 @@ public class Project {
 		this.invoiced = invoiced;
 	}
 
-	
-	
-	public boolean isProjectactive() {
-		return projectactive;
-	}
-
-	public void setProjectactive(boolean projectactive) {
-		this.projectactive = projectactive;
-	}
-
-
-	
-	
-
 	public Set<Task> getTasks() {
 		return tasks;
 	}
@@ -350,6 +336,24 @@ public class Project {
 	}
 
 	
+	
+	public Set<User> getAssigneds() {
+		return assigneds;
+	}
+
+	public void setAssigneds(Set<User> assigneds) {
+		this.assigneds = assigneds;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
 
 	public Project(int id, String projectname, boolean projectactive, String objectives,
 			ProjectStatusLight projectStatus, ProjectStatusLight projectStatusConfidence,
@@ -357,9 +361,9 @@ public class Project {
 			ProjectStatusLight projectBusinessChange, ProjectStatusLight projectBenefitsRealisation,
 			ProjectStatusLight projectDependency, ProjectStatusLight projectResourcing, ProjectStatusLight projectScope,
 			Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps,
-			Set<ProjectProblem> problems, Set<ProjectPhase> phases, User user, Double tVC, Double tIC, Double oP,
-			Double budgettodate, Double costestimated, Double eACOP, Double variance, Double certifiedprogress,
-			Double invoiced, Set<Task> tasks) {
+			Set<ProjectProblem> problems, Set<ProjectPhase> phases, Set<User> assigneds, User user, Double tVC,
+			Double tIC, Double oP, Double budgettodate, Double costestimated, Double eACOP, Double variance,
+			Double certifiedprogress, Double invoiced, Set<Task> tasks) {
 		super();
 		this.id = id;
 		this.projectname = projectname;
@@ -379,6 +383,7 @@ public class Project {
 		this.nextsteps = nextsteps;
 		this.problems = problems;
 		this.phases = phases;
+		this.assigneds = assigneds;
 		this.user = user;
 		TVC = tVC;
 		TIC = tIC;

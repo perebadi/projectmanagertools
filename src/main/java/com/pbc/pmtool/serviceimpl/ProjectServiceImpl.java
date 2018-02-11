@@ -69,7 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<Project> listProjects() {
 		// TODO Auto-generated method stub
-		return null;
+		return projectRepository.findAll();
 	}
 
 	@Override

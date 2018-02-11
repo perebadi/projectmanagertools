@@ -1,5 +1,7 @@
 package com.pbc.pmtool.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
@@ -8,17 +10,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.constant.ViewConstant;
+import com.pbc.pmtool.model.FormAssignToProjectModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
+import com.pbc.pmtool.model.Response;
+import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.UserService;
 
 /**
@@ -38,6 +45,10 @@ public class UserController {
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("projectServiceImpl")
+	private ProjectService projectService;
 	
 	/**
 	 * Actualiza la password de los usuarios
@@ -86,9 +97,10 @@ public class UserController {
 		mav.addObject("removesuccess", removesuccess);
 		mav.addObject("removeerror", removeerror);
 		mav.addObject("page", page);
+		mav.addObject("projects", projectService.listProjects());
 		
 		//Obtenemos todos los usuarios
-		mav.addObject("users", userService.getAllUsers(new PageRequest(page, 1, Sort.Direction.ASC, "username")));
+		mav.addObject("users", userService.getAllUsers(new PageRequest(page, 10, Sort.Direction.ASC, "username")));
 		
 		//Devolvemos la vista
 		return mav;
@@ -139,4 +151,9 @@ public class UserController {
 			return "redirect:/users/show?page=" + page + "&removeerror";
 		}
 	}
+	
+	
+	
+	
+	
 }

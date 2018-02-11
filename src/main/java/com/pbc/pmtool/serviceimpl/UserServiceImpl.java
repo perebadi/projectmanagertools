@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.procedure.internal.Util.ResultClassesResolutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
@@ -84,6 +85,7 @@ public class UserServiceImpl implements UserService{
 		//Recorremos todos los usuarios
 		for(User userEntity : userRepository.findAll(pageable).getContent()) {
 			//Convertimos la entidad a modelo
+			System.out.println(userEntity.getName());
 			usersModel.add(userConverter.UserEntity2FormUserAdminModel(userEntity));
 		}
 		
@@ -137,5 +139,16 @@ public class UserServiceImpl implements UserService{
 		
 		//Devolvemos el modelo
 		return resetPasswordConverter.User2FormResetPasswordModel(passwordResetEntity);
+	}
+
+	@Override
+	public User getUser(String username) {
+		return userRepository.findByUsername(username);
+	}
+
+	@Override
+	public User addUser(User user) {
+		// TODO Auto-generated method stub
+		return userRepository.save(user);
 	}
 }

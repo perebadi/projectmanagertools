@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.pbc.pmtool.entity.Project;
+import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
@@ -49,4 +51,12 @@ public interface UserService extends UserDetailsService {
 	 * Actualiza una contraseña
 	 */
 	public FormResetPasswordModel resetPassword(FormResetPasswordModel resetPasswordModel);
+	
+	
+	/** Get User By Username*/
+	public User getUser (String username);
+	
+	/** Save User*/
+	public abstract User addUser(User user);
+
 }
