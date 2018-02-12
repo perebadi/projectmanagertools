@@ -1,19 +1,11 @@
 package com.pbc.pmtool.entity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 
 
 @Entity
@@ -81,7 +73,7 @@ public class Project {
           CascadeType.MERGE
       },
       mappedBy = "assigneds")
-	private Set<User> assigneds;
+	private List<User> assigneds;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
@@ -116,148 +108,244 @@ public class Project {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<Task> tasks = new HashSet<Task>();
 
+	
+
 	public int getId() {
 		return id;
 	}
+
+
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
+
+
 	public String getProjectname() {
 		return projectname;
 	}
+
+
 
 	public void setProjectname(String projectname) {
 		this.projectname = projectname;
 	}
 
+
+
 	public boolean isProjectactive() {
 		return projectactive;
 	}
+
+
 
 	public void setProjectactive(boolean projectactive) {
 		this.projectactive = projectactive;
 	}
 
+
+
 	public String getObjectives() {
 		return objectives;
 	}
+
+
 
 	public void setObjectives(String objectives) {
 		this.objectives = objectives;
 	}
 
+
+
 	public ProjectStatusLight getProjectStatus() {
 		return projectStatus;
 	}
+
+
 
 	public void setProjectStatus(ProjectStatusLight projectStatus) {
 		this.projectStatus = projectStatus;
 	}
 
+
+
 	public ProjectStatusLight getProjectStatusConfidence() {
 		return projectStatusConfidence;
 	}
+
+
 
 	public void setProjectStatusConfidence(ProjectStatusLight projectStatusConfidence) {
 		this.projectStatusConfidence = projectStatusConfidence;
 	}
 
+
+
 	public ProjectStatusLight getProjectDeliveryConfidence() {
 		return projectDeliveryConfidence;
 	}
+
+
 
 	public void setProjectDeliveryConfidence(ProjectStatusLight projectDeliveryConfidence) {
 		this.projectDeliveryConfidence = projectDeliveryConfidence;
 	}
 
+
+
 	public ProjectStatusLight getProjectGovernance() {
 		return projectGovernance;
 	}
+
+
 
 	public void setProjectGovernance(ProjectStatusLight projectGovernance) {
 		this.projectGovernance = projectGovernance;
 	}
 
+
+
 	public ProjectStatusLight getProjectBusinessChange() {
 		return projectBusinessChange;
 	}
+
+
 
 	public void setProjectBusinessChange(ProjectStatusLight projectBusinessChange) {
 		this.projectBusinessChange = projectBusinessChange;
 	}
 
+
+
 	public ProjectStatusLight getProjectBenefitsRealisation() {
 		return projectBenefitsRealisation;
 	}
+
+
 
 	public void setProjectBenefitsRealisation(ProjectStatusLight projectBenefitsRealisation) {
 		this.projectBenefitsRealisation = projectBenefitsRealisation;
 	}
 
+
+
 	public ProjectStatusLight getProjectDependency() {
 		return projectDependency;
 	}
+
+
 
 	public void setProjectDependency(ProjectStatusLight projectDependency) {
 		this.projectDependency = projectDependency;
 	}
 
+
+
 	public ProjectStatusLight getProjectResourcing() {
 		return projectResourcing;
 	}
+
+
 
 	public void setProjectResourcing(ProjectStatusLight projectResourcing) {
 		this.projectResourcing = projectResourcing;
 	}
 
+
+
 	public ProjectStatusLight getProjectScope() {
 		return projectScope;
 	}
+
+
 
 	public void setProjectScope(ProjectStatusLight projectScope) {
 		this.projectScope = projectScope;
 	}
 
+
+
 	public Set<ProjectAchievement> getAchievements() {
 		return achievements;
 	}
+
+
 
 	public void setAchievements(Set<ProjectAchievement> achievements) {
 		this.achievements = achievements;
 	}
 
+
+
 	public Set<ProjectEscalation> getEscalations() {
 		return escalations;
 	}
+
+
 
 	public void setEscalations(Set<ProjectEscalation> escalations) {
 		this.escalations = escalations;
 	}
 
+
+
 	public Set<ProjectNextStep> getNextsteps() {
 		return nextsteps;
 	}
+
+
 
 	public void setNextsteps(Set<ProjectNextStep> nextsteps) {
 		this.nextsteps = nextsteps;
 	}
 
+
+
 	public Set<ProjectProblem> getProblems() {
 		return problems;
 	}
+
+
 
 	public void setProblems(Set<ProjectProblem> problems) {
 		this.problems = problems;
 	}
 
+
+
 	public Set<ProjectPhase> getPhases() {
 		return phases;
 	}
 
+
+
 	public void setPhases(Set<ProjectPhase> phases) {
 		this.phases = phases;
+	}
+
+
+
+	public List<User> getAssigneds() {
+		return assigneds;
+	}
+
+
+
+	public void setAssigneds(List<User> assigneds) {
+		this.assigneds = assigneds;
+	}
+
+
+
+	public User getUser() {
+		return user;
+	}
+
+
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 
@@ -266,98 +354,118 @@ public class Project {
 		return TVC;
 	}
 
+
+
 	public void setTVC(Double tVC) {
 		TVC = tVC;
 	}
+
+
 
 	public Double getTIC() {
 		return TIC;
 	}
 
+
+
 	public void setTIC(Double tIC) {
 		TIC = tIC;
 	}
+
+
 
 	public Double getOP() {
 		return OP;
 	}
 
+
+
 	public void setOP(Double oP) {
 		OP = oP;
 	}
+
+
 
 	public Double getBudgettodate() {
 		return budgettodate;
 	}
 
+
+
 	public void setBudgettodate(Double budgettodate) {
 		this.budgettodate = budgettodate;
 	}
+
+
 
 	public Double getCostestimated() {
 		return costestimated;
 	}
 
+
+
 	public void setCostestimated(Double costestimated) {
 		this.costestimated = costestimated;
 	}
+
+
 
 	public Double getEACOP() {
 		return EACOP;
 	}
 
+
+
 	public void setEACOP(Double eACOP) {
 		EACOP = eACOP;
 	}
+
+
 
 	public Double getVariance() {
 		return variance;
 	}
 
+
+
 	public void setVariance(Double variance) {
 		this.variance = variance;
 	}
+
+
 
 	public Double getCertifiedprogress() {
 		return certifiedprogress;
 	}
 
+
+
 	public void setCertifiedprogress(Double certifiedprogress) {
 		this.certifiedprogress = certifiedprogress;
 	}
+
+
 
 	public Double getInvoiced() {
 		return invoiced;
 	}
 
+
+
 	public void setInvoiced(Double invoiced) {
 		this.invoiced = invoiced;
 	}
+
+
 
 	public Set<Task> getTasks() {
 		return tasks;
 	}
 
+
+
 	public void setTasks(Set<Task> tasks) {
 		this.tasks = tasks;
-	}
-
-	
-	
-	public Set<User> getAssigneds() {
-		return assigneds;
-	}
-
-	public void setAssigneds(Set<User> assigneds) {
-		this.assigneds = assigneds;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 
@@ -368,7 +476,7 @@ public class Project {
 			ProjectStatusLight projectBusinessChange, ProjectStatusLight projectBenefitsRealisation,
 			ProjectStatusLight projectDependency, ProjectStatusLight projectResourcing, ProjectStatusLight projectScope,
 			Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps,
-			Set<ProjectProblem> problems, Set<ProjectPhase> phases, Set<User> assigneds, User user, Double tVC,
+			Set<ProjectProblem> problems, Set<ProjectPhase> phases, List<User> assigneds, User user, Double tVC,
 			Double tIC, Double oP, Double budgettodate, Double costestimated, Double eACOP, Double variance,
 			Double certifiedprogress, Double invoiced, Set<Task> tasks) {
 		super();
@@ -403,6 +511,8 @@ public class Project {
 		this.invoiced = invoiced;
 		this.tasks = tasks;
 	}
+
+
 
 	public Project() {
 

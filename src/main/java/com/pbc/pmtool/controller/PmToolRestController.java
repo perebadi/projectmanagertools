@@ -51,18 +51,6 @@ public class PmToolRestController {
 	@PostMapping(value = "/assign/")
 	public Response addToProject( @RequestBody FormAssignToProjectModel formAssignToProjectModel) {
 		
-
-		/*Project project = projectService.findProjectById(formAssignToProjectModel.getProjectid());
-		User  user = userService.getUser(formAssignToProjectModel.getUsername());
-		
-		user.getProjects().add(project);
-		project.getAssigneds().add(userService.getUser(formAssignToProjectModel.getUsername()));
-		
-		System.out.println("Graba project");
-		System.out.println("Graba user");		
-		userRepository.save(user);*/
-		
-		/*****NEW****/
 		
 		User  user = userService.getUser(formAssignToProjectModel.getUsername());
 		Project project = projectService.findProjectById(formAssignToProjectModel.getProjectid());
@@ -71,18 +59,20 @@ public class PmToolRestController {
 		/*subjectRepository.save(math);
 		subjectRepository.save(computer);*/
 		
-		Set<Project> projects = new HashSet<Project>();
+		List<Project> projects = new ArrayList<Project>();	
 		projects.add(project);
-		user.setProjects(projects);
+		user.setAssigneds(projects);
 		userRepository.save(user);
 		
 		
 	
 		
+	/*	List<Project> projects = new ArrayList<Project>();	
+
 		Set<User> users = new HashSet<User>();
 		users.add(user);
 		project.setAssigneds(users);
-		projectRepository.save(project);
+		projectRepository.save(project);*/
 	
 		
 		Response res = new Response("Done", "Done");
