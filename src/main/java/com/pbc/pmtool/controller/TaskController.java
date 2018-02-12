@@ -164,9 +164,13 @@ public class TaskController {
 	@GetMapping("/project/yourprojects/")
 	public ModelAndView viewProject(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno) {
 		ModelAndView mav = new ModelAndView(ViewConstant.TASKPROJECTS);
-		//mav.addObject("projects", projectService.listPageableProjects(pageno,userRepository.findByUsername(sessionuser)));
-		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(sessionuser)));
+
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		sessionuser=user.getUsername();
 		
+		
+		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(sessionuser)));
+
 		mav.addObject("projects",projectTaskService.countRecordsByProject(sessionuser));
 		mav.addObject("username", sessionuser);
 		return mav;
@@ -184,6 +188,8 @@ public class TaskController {
 		mav.addObject("todos", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),2));
 		mav.addObject("progresses", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),3));
 		mav.addObject("dones", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),4));
+		mav.addObject("assigneds",projectService.findProjectById(idproject).getAssigneds());
+
 		
 		return mav;
 	}

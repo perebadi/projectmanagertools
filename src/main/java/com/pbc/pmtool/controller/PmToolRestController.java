@@ -59,7 +59,7 @@ public class PmToolRestController {
 		/*subjectRepository.save(math);
 		subjectRepository.save(computer);*/
 		
-		List<Project> projects = new ArrayList<Project>();	
+		List<Project> projects = user.getAssigneds()	;
 		projects.add(project);
 		user.setAssigneds(projects);
 		userRepository.save(user);

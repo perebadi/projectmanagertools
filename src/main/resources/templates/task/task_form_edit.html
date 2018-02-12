@@ -236,34 +236,8 @@
         <!-- END PAGE CONTAINER -->
 
         <!-- CREATE TASK MODAL -->
-<!--                                         <div class="modal fade" role="dialog" name="#create_task_modal"> -->
-<!--                                             <div class="modal-dialog"> -->
-<!--                                                 <div class="modal-content"> -->
-<!--                                                     <div class="modal-body"> -->
-<!--                                                         <form method="POST" action="#"  > -->
-<!--                                                             <h3>Editar usuario</h3> -->
-<!-- 															<input type="hidden" name="page" /> -->
-<!--                                                             <input type="hidden" name="username"/> -->
-<!--                                                             <p><large>Nombre</large><br /><input type="text" class="form-control" name="name"  required="true" /></p> -->
-<!--                                                             <p><large>Salario</large><br/><input type="number" class="form-control" name="rate"  min="0" required="true" /></p> -->
-<!--                                                             <p><large>Activo</large><br/><input type="checkbox" class="icheckbox" name="enabled"  /></p>	                                                     -->
 
-<!--                                                             <div class="btn-group"> -->
-<!--                                                                 <button type="submit" class="btn btn-primary"> -->
-<!--                                                                     <span class="glyphicon glyphicon-save" aria-hidden="true"></span> -->
-<!--                                                                     Guardar -->
-<!--                                                                 </button> -->
-<!--                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button> -->
-<!--                                                             </div> -->
-<!--                                                         </form> -->
-<!--                                                     </div> -->
-<!--                                                 </div> -->
-<!--                                             </div> -->
-<!--                                         </div> -->
-
-
-
- <div class="modal" id="create_task_modal" tabindex="-1" role="dialog" aria-labelledby="#create_task_modal" aria-hidden="true">
+ 		<div class="modal" id="create_task_modal" tabindex="-1" role="dialog" aria-labelledby="#create_task_modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -321,6 +295,17 @@
                                                 <option>10 day and a half</option>                                                  
                                                 
                                             </select>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Estimated hours</label>
+                                        <div class="col-md-10">                                                                                
+                                            <select  id="username" name="username"   class="form-control select" data-live-search="true">
+													<option th:each="assigned : ${assigneds}" 
+														th:value="${assigned.username}" th:text="${assigned.name}"></option>
+											</select> 
                                         </div>
                                     </div>
                                     
