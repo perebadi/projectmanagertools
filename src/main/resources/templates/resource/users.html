@@ -20,7 +20,7 @@
 				<div class="col-xs-12" style="height:20px;"></div>
 				
                 <div class="page-title">                    
-                    <h2><span class="fa fa-users"></span> Manage Users edit</h2>
+                    <h2><span class="fa fa-users"></span> Manage Users</h2>
                 </div>              
 
                 <!-- PAGE CONTENT WRAPPER -->
@@ -34,43 +34,30 @@
                                     <div class="alert alert-success" role="alert" th:if="${savesucces}">
                                         <button type="button" class="close" data-dismiss="alert">
                                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <strong>Correcto!</strong> Usuario modificado correctamente.
+                                        <strong>Success!</strong> User modified correctly.
                                     </div>
 
                                     <div class="alert alert-danger" role="alert" th:if="${saveerror}">
                                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <strong>Ups!</strong> No se pudo modificar el usuario.
+                                        <strong>Ups!</strong> The user could not be modified.
                                     </div> 
                                     <!-- FIN ALERTAS AL GUARDAR UN USUARIO -->
-
-                                    <!-- ALERTAS AL ACTUALIZAR LA PWD -->
-                                    <div class="alert alert-success" role="alert" th:if="${resetpasswordsuccess}">
-                                        <button type="button" class="close" data-dismiss="alert">
-                                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <strong>Correcto!</strong> Password modificada correctamente.
-                                    </div>
-
-                                    <div class="alert alert-danger" role="alert" th:if="${resetpassworderror}">
-                                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <strong>Ups!</strong> No se pudo actualizar la password. 
-                                    </div> 
-                                    <!-- FIN ALERTAS AL ACTUALIZAR LA PWD -->
 
                                     <!-- ALERTAS AL ELIMINAR UN USUARIO -->
                                     <div class="alert alert-success" role="alert" th:if="${removesuccess}">
                                         <button type="button" class="close" data-dismiss="alert">
                                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <strong>Correcto!</strong> Usuario eliminado correctamente.
+                                        <strong>Success!</strong> User successfully deleted.
                                     </div>
 
                                     <div class="alert alert-danger" role="alert" th:if="${removeerror}">
                                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <strong>Ups!</strong> No se pudo eliminar el usuario. 
+                                        <strong>Ups!</strong> The user could not be deleted.
                                     </div> 
                                     <!-- FIN ALERTAS AL ELIMINAR UN USUARIO -->
 
                                     <!-- CONTACT TABLE -->		
-                                    <input type="search" class="form-control input-sm" placeholder="Buscar..." id="searchInput" th:value="${lastSearch}" />	
+                                    <input type="search" class="form-control input-sm" placeholder="Search..." id="searchInput" th:value="${lastSearch}" />	
 									<br />							
                                     <table class="table table-bordered table-striped table-actions" id="usersTable">
                                         <thead>
@@ -115,8 +102,8 @@
 									<!-- NAVIGATION BUTTON EVENTS -->
 									<div>
 										<span>
-											P&aacute;gina <span th:text="${page} + 1"/> de <span th:text="${totalUsersPages} + 1"/>.
-											Total usuarios: <span th:text="${totalUsers}"/>
+											Page <span th:text="${page} + 1"/> of <span th:text="${totalUsersPages} + 1"/>.
+											Total users: <span th:text="${totalUsers}"/>
 										</span>
 									</div>
 									<!-- INPUT CON EL NÚMERO DE PÁGINA ACTUAL -->

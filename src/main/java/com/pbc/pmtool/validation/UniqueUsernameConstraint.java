@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueUsernameConstraint {
-	String message() default "Ya existe una cuenta asociada a este correo";
+	String message() default "An account associated with this email already exists";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

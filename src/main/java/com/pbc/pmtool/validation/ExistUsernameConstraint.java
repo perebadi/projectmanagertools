@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExistUsernameConstraint {
-	String message() default "No existe una cuenta asociada a este correo";
+	String message() default "The indicated account does not exist";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

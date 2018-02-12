@@ -7,6 +7,8 @@ $(document).ready(function(){
 	//Ocultamos el formulario de reset de password
 	$("#resetPasswordForm").hide();
 	
+	$("#passwordUpdateSuccess").hide();
+	
 	//Ajax para reiniciar la password
 	$("#resetPasswordButton").click(function(event) {
 		//Validem el formulari de reset password
@@ -31,14 +33,11 @@ $(document).ready(function(){
     		    
     			success : function(result) {
     				if(result.status == "Done"){
-    					alert("oki");
-    				}else{
+    					$("#passwordUpdateSuccess").show(200);
     				}
-    				console.log(result);
     			},
     			error : function(e) {
-    				alert("Error!")
-    				console.log("ERROR: ", e);
+    				
     			}
     		});
 		}
