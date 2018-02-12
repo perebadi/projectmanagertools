@@ -304,43 +304,7 @@ public class ProjectController {
 		mav.addObject("username", sessionuser);
 
 		return mav;
-	}
-	
-	@PostMapping("/project/{id}/achievement/save/")
-	public String saveAchievement(@PathVariable int id,@ModelAttribute("formAchievementModel") FormAchievementModel formAchievementModel){
-		
-		Project  project = projectService.findProjectById(id);
-		
-		ProjectAchievement projectAchievement  = new ProjectAchievement();
-	
-		
-		projectAchievement.setProject(project);
-		projectAchievement.setSummaryachievement(formAchievementModel.getSummaryachievement());
-		projectAchievement.setTxtachievement(formAchievementModel.getTxtachievement());
-		projectAchievement.setWeek(formAchievementModel.getWeek());
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formAchievementModel.getDateachievement();
-
-        try {
-
-            Date date = formatter.parse(dateInString);
-            projectAchievement.setDateachievement(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-		
-        System.out.println("Project     :" + project.getProjectname());
-        System.out.println("Achievement :" + projectAchievement.getSummaryachievement());
-        
-        projectAchievementService.addProjectAchievement(projectAchievement);
-		
-
-		
-		return "redirect:/projects/project/"+id+"/achievement/";
-	}
-	
+	}	
 	//******************************************************************END ACHIEVEMENTS
 
 	
@@ -361,37 +325,6 @@ public class ProjectController {
 
 		return mav;
 	}
-	
-	@PostMapping("/project/{id}/nextstep/save/")
-	public String saveNextSteps(@PathVariable int id,@ModelAttribute("formNextStepModel") FormNextStepModel formNextStepModel){
-		
-		Project  project = projectService.findProjectById(id);
-		
-		ProjectNextStep projectNextStep  = new ProjectNextStep();
-	
-		
-		projectNextStep.setProject(project);
-		projectNextStep.setSummarynextstep(formNextStepModel.getSummarynextstep());
-		projectNextStep.setTxtnextstep(formNextStepModel.getTxtnextstep());
-		projectNextStep.setWeek(formNextStepModel.getWeek());
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formNextStepModel.getDatenextstep();
-
-        try {
-
-            Date date = formatter.parse(dateInString);
-            projectNextStep.setDatenextstep(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-		
-      
-        projectNextStepService.addProjectNextStep(projectNextStep);
-		
-		return "redirect:/projects/project/"+id+"/nextstep/";
-	}	
 	//******************************************************************END NEXTSTEPS
 	
 	
@@ -413,39 +346,6 @@ public class ProjectController {
 
 		return mav;
 	}
-	
-	@PostMapping("/project/{id}/problem/save/")
-	public String saveNextSteps(@PathVariable int id,@ModelAttribute("formProblemModel") FormProblemModel formProblemModel){
-		
-		Project  project = projectService.findProjectById(id);
-		
-		ProjectProblem projectProblem  = new ProjectProblem();
-	
-		
-		projectProblem.setProject(project);
-		projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
-		projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
-		projectProblem.setWeek(formProblemModel.getWeek());
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formProblemModel.getDateproblem();
-
-        try {
-
-            Date date = formatter.parse(dateInString);
-            projectProblem.setDateproblem(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-		
-        
-        System.out.println(projectProblem.getSummaryproblem());
-      
-        projectProblemService.addProjectProblem(projectProblem);
-		
-		return "redirect:/projects/project/"+id+"/problem/";
-	}	
 	//******************************************************************END PROBLEMS
 	
 	
@@ -468,34 +368,6 @@ public class ProjectController {
 		
 		return mav;
 	}
-	
-	@PostMapping("/project/{id}/escalation/save/")
-	public String saveScalation(@PathVariable int id,@ModelAttribute("formEscalationModel") FormEscalationModel formEscalationModel){
-		
-		Project  project = projectService.findProjectById(id);
-		ProjectEscalation projectEscalation  = new ProjectEscalation();
-		
-		projectEscalation.setProject(project);
-		projectEscalation.setSummaryescalation(formEscalationModel.getSummaryescalation());
-		projectEscalation.setTxtescalation(formEscalationModel.getTxtescalation());
-		projectEscalation.setWeek(formEscalationModel.getWeek());
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formEscalationModel.getDateescalation();
-        try {
-
-            Date date = formatter.parse(dateInString);
-            projectEscalation.setDateescalation(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        
-      
-        projectEscalationService.addProjectEscalation(projectEscalation);
-		
-		return "redirect:/projects/project/"+id+"/escalation/";
-	}	
 	//******************************************************************END ESCALATIONS
 	
 	

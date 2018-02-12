@@ -1,9 +1,9 @@
 package com.pbc.pmtool.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -13,22 +13,52 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbc.pmtool.entity.Project;
+import com.pbc.pmtool.entity.ProjectAchievement;
+import com.pbc.pmtool.entity.ProjectEscalation;
+import com.pbc.pmtool.entity.ProjectNextStep;
+import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.User;
+import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormAssignToProjectModel;
+import com.pbc.pmtool.model.FormEscalationModel;
+import com.pbc.pmtool.model.FormNextStepModel;
+import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.Response;
+import com.pbc.pmtool.service.ProjectAchievementService;
+import com.pbc.pmtool.service.ProjectEscalationService;
+import com.pbc.pmtool.service.ProjectNextStepService;
+import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.UserService;
 
 @RestController
 @RequestMapping("/api/")
 public class PmToolRestController {
+	
+	@Autowired
+	@Qualifier("projectProblemServiceImpl")
+	private ProjectProblemService projectProblemService;
+	
+	@Autowired
+	@Qualifier("projectAchievementServiceImpl")
+	private ProjectAchievementService projectAchievementService;
+	
+	@Autowired
+	@Qualifier("projectNextStepServiceImpl")
+	private ProjectNextStepService projectNextStepService;
+	
+	@Autowired
+	@Qualifier("projectEscalationServiceImpl")
+	private ProjectEscalationService projectEscalationService;
 	
 	@Autowired
 	@Qualifier("projectServiceImpl")
@@ -73,6 +103,133 @@ public class PmToolRestController {
 		
 		Response res = new Response("Done", "Done");
 		return res;
+	}
+	
+	@PostMapping("/project/{id}/escalation/save/")
+	public Response saveScalation(@PathVariable int id,@RequestBody FormEscalationModel formEscalationModel){
+		
+		Project  project = projectService.findProjectById(id);
+		ProjectEscalation projectEscalation  = new ProjectEscalation();
+		
+		projectEscalation.setProject(project);
+		projectEscalation.setSummaryescalation(formEscalationModel.getSummaryescalation());
+		projectEscalation.setTxtescalation(formEscalationModel.getTxtescalation());
+		projectEscalation.setWeek(formEscalationModel.getWeek());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString =formEscalationModel.getDateescalation();
+        try {
+
+            Date date = formatter.parse(dateInString);
+            projectEscalation.setDateescalation(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+      
+        projectEscalationService.addProjectEscalation(projectEscalation);
+		
+		return new Response("Done", "Done");
+	}	
+	
+	@PostMapping("/project/{id}/problem/save/")
+	public Response saveNextSteps(@PathVariable int id,@RequestBody FormProblemModel formProblemModel){
+		
+		Project  project = projectService.findProjectById(id);
+		
+		ProjectProblem projectProblem  = new ProjectProblem();
+	
+		
+		projectProblem.setProject(project);
+		projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
+		projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
+		projectProblem.setWeek(formProblemModel.getWeek());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString =formProblemModel.getDateproblem();
+
+        try {
+
+            Date date = formatter.parse(dateInString);
+            projectProblem.setDateproblem(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+        
+        System.out.println(projectProblem.getSummaryproblem());
+      
+        projectProblemService.addProjectProblem(projectProblem);
+		
+		return new Response("Done", "Done");
+	}	
+	
+	@PostMapping("/project/{id}/nextstep/save/")
+	public Response saveNextSteps(@PathVariable int id,@RequestBody FormNextStepModel formNextStepModel){
+		
+		Project  project = projectService.findProjectById(id);
+		
+		ProjectNextStep projectNextStep  = new ProjectNextStep();
+	
+		
+		projectNextStep.setProject(project);
+		projectNextStep.setSummarynextstep(formNextStepModel.getSummarynextstep());
+		projectNextStep.setTxtnextstep(formNextStepModel.getTxtnextstep());
+		projectNextStep.setWeek(formNextStepModel.getWeek());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString =formNextStepModel.getDatenextstep();
+
+        try {
+
+            Date date = formatter.parse(dateInString);
+            projectNextStep.setDatenextstep(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+      
+        projectNextStepService.addProjectNextStep(projectNextStep);
+		
+		return new Response("Done", "Done");
+	}	
+	
+	@PostMapping("/project/{id}/achievement/save/")
+	public Response saveAchievement(@PathVariable int id,@RequestBody FormAchievementModel formAchievementModel){
+		
+		Project  project = projectService.findProjectById(id);
+		
+		ProjectAchievement projectAchievement  = new ProjectAchievement();
+	
+		
+		projectAchievement.setProject(project);
+		projectAchievement.setSummaryachievement(formAchievementModel.getSummaryachievement());
+		projectAchievement.setTxtachievement(formAchievementModel.getTxtachievement());
+		projectAchievement.setWeek(formAchievementModel.getWeek());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString =formAchievementModel.getDateachievement();
+
+        try {
+
+            Date date = formatter.parse(dateInString);
+            projectAchievement.setDateachievement(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+        System.out.println("Project     :" + project.getProjectname());
+        System.out.println("Achievement :" + projectAchievement.getSummaryachievement());
+        
+        projectAchievementService.addProjectAchievement(projectAchievement);
+		
+
+		
+		return new Response("Done", "Done");
 	}
 	
 	@PostMapping("/resetpassword")

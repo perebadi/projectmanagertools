@@ -4,6 +4,7 @@
 <body>
 	<!-- START PAGE CONTAINER -->
 	<div class="page-container">
+
 		<!-- START PAGE SIDEBAR -->
 		<div th:replace="layout/layout :: page-sidebar"></div>
 		<!-- END PAGE SIDEBAR -->
@@ -12,14 +13,25 @@
 		<div class="page-content">
 
 			<!-- START X-NAVIGATION VERTICAL -->
-			<ul th:replace="layout/layout :: page-topbar"></ul>
+			<ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+				<!-- TOGGLE NAVIGATION -->
+				<li class="xn-icon-button"><a href="#"
+					class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
+				</li>
+				<!-- END TOGGLE NAVIGATION -->
+			</ul>
 			<!-- END X-NAVIGATION VERTICAL -->
 
-			<div class="col-xs-12" style="height: 20px;"></div>
+			<!-- START BREADCRUMB -->
+			<ul class="breadcrumb">
+				<li><a href="#">Link</a></li>
+				<li class="active">Active</li>
+			</ul>
+			<!-- END BREADCRUMB -->
 
-			<!-- PROJECT ID -->
-			<input type="hidden" id="projectId" th:value="${project.id}" />
-			<!-- END PROJECT ID -->
+			<!-- <div class="page-title">                    
+                    <h2><span class="fa fa-tags"></span> Proyecto  <span th_text="${culo}"></span></h2>
+                </div>   -->
 
 			<!-- PAGE CONTENT WRAPPER -->
 			<div class="page-content-wrap">
@@ -28,6 +40,7 @@
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-6">
+									<!-- START SCROLLBAR -->
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<h3 class="panel-title" th:text="${project.projectname}">Custom
@@ -39,12 +52,17 @@
 												</li>
 											</ul>
 										</div>
+
 										<div class="panel-body scroll" style="height: 150px;">
 											<p>
 												<span th:text="${project.objectives}">f</span>
 											</p>
 										</div>
 									</div>
+									<!-- END SCROLLBAR -->
+
+
+
 								</div>
 
 								<div class="col-md-6">
@@ -167,21 +185,24 @@
 													</div>
 												</div>
 											</div>
+
+
 										</div>
 									</div>
 								</div>
+
+
 							</div>
 							<div class="row">
+
 								<div class="col-md-3">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<h3 class="panel-title">Logros alcanzados</h3>
 											<ul class="panel-controls">
-												<!--  
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/achievement/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="achievementModal"><span class="fa fa-wrench"></span></a></li>
+													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
 
@@ -200,11 +221,9 @@
 										<div class="panel-heading">
 											<h3 class="panel-title">Futuras actividades</h3>
 											<ul class="panel-controls">
-											<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/nextstep/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-											<li><a href="#" id="nextStepModal"><span class="fa fa-wrench"></span></a></li>
+													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
@@ -222,11 +241,9 @@
 										<div class="panel-heading">
 											<h3 class="panel-title">Problemas</h3>
 											<ul class="panel-controls">
-												<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/problem/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="problemModal"><span class="fa fa-wrench"></span></a></li>
+													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
@@ -244,11 +261,9 @@
 										<div class="panel-heading">
 											<h3 class="panel-title">Escalaciones</h3>
 											<ul class="panel-controls">
-												<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/escalation/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="escalationModal"><span class="fa fa-wrench"></span></a></li>
+													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
@@ -287,6 +302,8 @@
 			                            </div> -->
 								</div>
 							</div>
+
+							<!-- START TABLE HOVER ROWS -->
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">Financials</h3>
@@ -356,6 +373,11 @@
 									</table>
 								</div>
 							</div>
+							<!-- END TABLE HOVER ROWS -->
+
+
+
+							<!-- START DEFAULT DATATABLE -->
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">Project Plan</h3>
@@ -366,6 +388,7 @@
 									</ul>
 								</div>
 								<div class="panel-body">
+									<!-- <table class="table datatable">-->
 									<table class="table datatable">
 										<thead>
 											<tr>
@@ -421,35 +444,99 @@
 									</table>
 								</div>
 							</div>
+							<!-- END DEFAULT DATATABLE -->
+
+
+
+
+
+
 						</div>
 					</div>
+
 				</form>
 			</div>
+
 			<!-- END PAGE CONTENT WRAPPER -->
 		</div>
 		<!-- END PAGE CONTENT -->
 	</div>
-	<!-- END START PAGE CONTAINER -->
+	<!-- END PAGE CONTAINER -->
+
+	<!-- MESSAGE BOX-->
+	<div class="message-box animated fadeIn" data-sound="alert"
+		id="mb-signout">
+		<div class="mb-container">
+			<div class="mb-middle">
+				<div class="mb-title">
+					<span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?
+				</div>
+				<div class="mb-content">
+					<p>Are you sure you want to log out?</p>
+					<p>Press No if youwant to continue work. Press Yes to logout
+						current user.</p>
+				</div>
+				<div class="mb-footer">
+					<div class="pull-right">
+						<a href="pages-login.html" class="btn btn-success btn-lg">Yes</a>
+						<button class="btn btn-default btn-lg mb-control-close">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END MESSAGE BOX-->
 
 	<!-- PROJECT MODALS -->
 	<div th:replace="modal/project_modals :: project_modals"></div>
 	<!-- END PROJECT MODALS -->
 
-	<!-- FOOTER -->
-	<footer th:replace="layout/layout :: footer"></footer>
-	<!-- END FOOTER -->
+	<!--  	<footer th:replace="layout/layout :: footer"></footer> -->
 
 	<!-- THIS PAGE PLUGINS -->
+	<script th:src="@{/js/plugins/icheck/icheck.min.js}"></script>
+	<script
+		th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
+
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-timepicker.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-colorpicker.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
+	<script th:src="@{/js/plugins/tagsinput/jquery.tagsinput.min.js}"></script>
+
+
+
+	<!-- THIS PAGE PLUGINS -->
+
 	<script type="text/javascript"
 		src="js/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>
-	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
-	<script th:src="@{/js/project_actions.js}"></script>		
 	<!-- END PAGE PLUGINS -->
 
 	<!-- START TEMPLATE -->
-	<script th:src="@{/js/settings.jss}"></script>
+	<script th:src="@{/js/settings.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	<script th:src="@{/js/actions.js}"></script>
+
 	<!-- END TEMPLATE -->
 
+	<script type="text/javascript">
+		document.getElementsByName("res")[0].addEventListener('click', res);
+		document.getElementsByName("nando")[0].addEventListener('click', nando);
+		document.getElementsByName("rag")[0].addEventListener('click', rag);
+
+		function rag() {
+			alert("rag")
+		}
+
+		function res() {
+			alert("res")
+		}
+
+		function nando() {
+			alert("nando")
+		}
+	</script>
 </body>
 </html>
