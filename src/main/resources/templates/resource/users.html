@@ -245,7 +245,6 @@
 	        	
 	        	
 	        	var token = document.getElementsByName("_csrf")[0].value;
-	   		alert (token);
 	   		
 	   		/* $.ajaxSetup({
 	   	        beforeSend: function(xhr) {
@@ -266,7 +265,7 @@
 	    		    
 	    			success : function(result) {
 	    				if(result.status == "Done"){
-	    					
+	    					alert("done");
 	    				}else{
 	    				}
 	    				console.log(result);

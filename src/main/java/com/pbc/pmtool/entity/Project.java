@@ -3,6 +3,7 @@ package com.pbc.pmtool.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "project")
@@ -73,7 +75,12 @@ public class Project {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<ProjectPhase> phases = new HashSet<ProjectPhase>();
 
-	@ManyToMany(mappedBy = "assigneds")
+	  @ManyToMany(fetch = FetchType.LAZY,
+      cascade = {
+          CascadeType.PERSIST,
+          CascadeType.MERGE
+      },
+      mappedBy = "assigneds")
 	private Set<User> assigneds;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

@@ -17,6 +17,8 @@ import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormAssignToProjectModel;
 import com.pbc.pmtool.model.Response;
+import com.pbc.pmtool.repository.ProjectRepository;
+import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.UserService;
 
@@ -33,6 +35,13 @@ public class PmToolRestController {
 	@Qualifier("userService")
 	private UserService userService;
 	
+	@Autowired
+	@Qualifier("userRepository")
+	private UserRepository userRepository;
+	
+	@Autowired
+	@Qualifier("projectRepository")
+	private ProjectRepository projectRepository;
 	
 	@GetMapping(value = "/projects/all")
 	public List<Project> getProject(){
@@ -43,27 +52,38 @@ public class PmToolRestController {
 	public Response addToProject( @RequestBody FormAssignToProjectModel formAssignToProjectModel) {
 		
 
-		Project project = projectService.findProjectById(formAssignToProjectModel.getProjectid());
-		
-		/*List<User> users = new ArrayList<>(projectService.findProjectById(formAssignToProjectModel.getProjectid()).getAssigneds() );
-		users.add(userService.getUser(formAssignToProjectModel.getUsername()));
-		
-		Set<User> assigneds = new HashSet<User>(users);
-
-		
-		project.setAssigneds(assigneds);
-		*/
+		/*Project project = projectService.findProjectById(formAssignToProjectModel.getProjectid());
 		User  user = userService.getUser(formAssignToProjectModel.getUsername());
-		
-		
 		
 		user.getProjects().add(project);
 		project.getAssigneds().add(userService.getUser(formAssignToProjectModel.getUsername()));
 		
-		System.out.println(userService.getUser(formAssignToProjectModel.getUsername()).getName());
+		System.out.println("Graba project");
+		System.out.println("Graba user");		
+		userRepository.save(user);*/
 		
-		projectService.addProject(project);
-		userService.addUser(user);
+		/*****NEW****/
+		
+		User  user = userService.getUser(formAssignToProjectModel.getUsername());
+		Project project = projectService.findProjectById(formAssignToProjectModel.getProjectid());
+
+		
+		/*subjectRepository.save(math);
+		subjectRepository.save(computer);*/
+		
+		Set<Project> projects = new HashSet<Project>();
+		projects.add(project);
+		user.setProjects(projects);
+		userRepository.save(user);
+		
+		
+	
+		
+		Set<User> users = new HashSet<User>();
+		users.add(user);
+		project.setAssigneds(users);
+		projectRepository.save(project);
+	
 		
 		Response res = new Response("Done", "Done");
 		return res;

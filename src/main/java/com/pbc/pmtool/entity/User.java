@@ -43,7 +43,13 @@ public class User {
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="user")
 	private Set<Project> projects = new HashSet<Project>();
 
-	@ManyToMany(cascade = CascadeType.ALL)
+
+	
+	@ManyToMany(fetch = FetchType.LAZY,
+    cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
 	@JoinTable(name = "project_user", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"), inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
 	private Set<Project> assigneds;
 
