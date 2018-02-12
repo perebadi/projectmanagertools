@@ -13,19 +13,14 @@
             <div class="page-content">
 
                 <!-- START X-NAVIGATION VERTICAL -->
-                <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
-                    <!-- TOGGLE NAVIGATION -->
-                    <li class="xn-icon-button">
-                        <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
-                    </li>
-                    <!-- END TOGGLE NAVIGATION -->                    
+                <ul th:replace="layout/layout :: page-topbar" >
                 </ul>
                 <!-- END X-NAVIGATION VERTICAL -->                                   
 
 				<div class="col-xs-12" style="height:20px;"></div>
 				
                 <div class="page-title">                    
-                    <h2><span class="fa fa-users"></span> Manage Users</h2>
+                    <h2><span class="fa fa-users"></span> Manage Users edit</h2>
                 </div>              
 
                 <!-- PAGE CONTENT WRAPPER -->
@@ -74,8 +69,10 @@
                                     </div> 
                                     <!-- FIN ALERTAS AL ELIMINAR UN USUARIO -->
 
-                                    <!-- CONTACT TABLE -->									
-                                    <table class="table table-bordered table-striped table-actions">
+                                    <!-- CONTACT TABLE -->		
+                                    <input type="search" class="form-control input-sm" placeholder="Buscar..." id="searchInput" th:value="${lastSearch}" />	
+									<br />							
+                                    <table class="table table-bordered table-striped table-actions" id="usersTable">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center;">Name</th>
@@ -115,12 +112,31 @@
                                     </table>
                                     <!-- END CONTACT TABLE -->
 
+									<!-- NAVIGATION BUTTON EVENTS -->
+									<div>
+										<span>
+											P&aacute;gina <span th:text="${page} + 1"/> de <span th:text="${totalUsersPages} + 1"/>.
+											Total usuarios: <span th:text="${totalUsers}"/>
+										</span>
+									</div>
+									<!-- INPUT CON EL NÚMERO DE PÁGINA ACTUAL -->
+									<input type="hidden" id="pageNumber" th:value="${page}" />
+									<input type="hidden" id="lastSearch" th:value="${lastSearch}" />
+									<!-- FIN INPUT CON EL NÚMERO DE PÁGINA ACTUAL -->
+									
+									<div class="btn-group pull-right">
+										<button type="button" class="btn btn-default" id="previousButton" th:disabled="${page} &lt;= 0">Previous</button>
+										<button type="button" class="btn btn-default" id="nextButton" th:disabled="${page} &gt;= ${totalUsersPages}">Next</button>
+									</div>
+									<!-- END NAVIGATION BUTTON EVENTS -->
+
                                     <!-- USER EDIT FORMS -->
                                     <div th:each="user : ${users}">
                                         <!-- USER DELETE FORM -->    
                                         <form method="POST" action="#" th:action="@{/users/removeuser}" th:id="'userDeleteForm_' + ${user.username}" >
                                             <input type="hidden" name="username" th:value="${user.username}" />
                                             <input type="hidden" name="page" th:value="${page}" />
+                                            <input type="hidden" name="search" th:value="${lastSearch}" />
                                         </form>
                                         <!-- END USER DELETE FORM -->
 
@@ -133,9 +149,20 @@
                                                             <h3>Editar usuario</h3>
 															<input type="hidden" name="page" th:value="${page}" />
                                                             <input type="hidden" name="username" th:value="${user.username}" />
+                                                            <input type="hidden" name="search" th:value="${lastSearch}" />
                                                             <p><large>Ful Name</large><br /><input type="text" class="form-control" name="name" th:value="${user.name}" required="true" /></p>
                                                             <p><large>Rate</large><br/><input type="number" class="form-control" name="rate" th:value="${user.rate}" min="0" required="true" /></p>
                                                             <p><large>Active</large><br/><input type="checkbox" class="icheckbox" name="enabled" th:checked="${user.enabled}" /></p>	                                                    
+
+															<p><large>Roles:</large></p>
+															<select class="selectpicker" multiple="true" name="userRoles" required="true" >
+																<option th:each="role : ${user.userRoles}" th:selected="${user.hasRole(role)}">
+																	<span th:text="${role}"></span>
+																</option>
+															</select>
+
+															<br/>
+															<br/>
 
                                                             <div class="btn-group">
                                                                 <button type="submit" class="btn btn-primary">
@@ -218,6 +245,7 @@
         <script th:src="@{/js/bootbox.min.js}"></script>
         <script th:src="@{/js/user_actions.js}"></script>
         <script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/js/plugins/bootstrap/bootstrap-select-silviomoreto.min.js}"></script>
 
         <!-- END THIS PAGE PLUGINS -->       
         <script type="text/javascript" src="js/plugins/knob/jquery.knob.min.js"></script>

@@ -1,7 +1,11 @@
 package com.pbc.pmtool.model;
 
+import java.util.Set;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.pbc.pmtool.entity.UserRole;
 
 /**
  * Modelo de administración usuario
@@ -21,6 +25,9 @@ public class FormUserAdminModel {
 	private String name;
 	private boolean enabled;
 	private float rate;
+	@NotNull
+	private Set<String> userRoles;
+	private Set<UserRole> rolesAsigned;
 	
 	public FormUserAdminModel() {
 	}
@@ -31,6 +38,62 @@ public class FormUserAdminModel {
 		this.name = name;
 		this.enabled = enabled;
 		this.rate = rate;
+	}
+	
+	/**
+	 * Devuelve si el usuario tiene asignado un rol
+	 * 
+	 * @param role
+	 * @return boolean
+	 */
+	public boolean hasRole(String role) {
+		//Recorremos todos los roles del usuario
+		for(UserRole userRoles : getRolesAsigned()) {
+			//Comprovamos si el usuario tiene el rol
+			if(userRoles.getRole().equals(role)) {
+				//Tiene el rol
+				return true;
+			}
+		}
+		
+		//No tiene el rol
+		return false;
+	}
+	
+	/**
+	 * Devuelve el rol que tiene el usuario asignado
+	 * 
+	 * @param role
+	 * @return UserRole
+	 */
+	public UserRole getRole(String role) {
+		//Recorremos todos los roles del usuario
+		for(UserRole userRoles : getRolesAsigned()) {
+			//Comprovamos si el usuario tiene el rol
+			if(userRoles.getRole().equals(role)) {
+				//Devolvemos el rol
+				return userRoles;
+			}
+		}
+		
+		//Devuelve nulo
+		return null;
+	}
+	
+	public Set<UserRole> getRolesAsigned() {
+		return rolesAsigned;
+	}
+
+	public void setRolesAsigned(Set<UserRole> rolesAsigned) {
+		this.rolesAsigned = rolesAsigned;
+	}
+
+	public Set<String> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(Set<String> userRoles) {
+		this.userRoles = userRoles;
 	}
 	
 	public float getRate() {

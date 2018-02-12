@@ -19,4 +19,13 @@ public interface UserRepository extends JpaRepository<User, Serializable>{
 	 * Devuelve todos los usuarios
 	 */
 	public abstract Page<User> findAll(Pageable pageable);
+	
+	/**
+	 * Devuelve los usuarios por username o name
+	 * 
+	 * @param pageable
+	 * @param name
+	 * @return Page<User>
+	 */
+	public abstract Page<User> findUsersByUsernameContainingOrNameContaining(String username, String name, Pageable pageable);
 }

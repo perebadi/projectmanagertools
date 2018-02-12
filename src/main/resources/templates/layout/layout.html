@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.springframework.org/security/tags">
     <head th:fragment="head">
         <!-- META SECTION -->
         <title>TITLE</title>            
@@ -12,7 +12,7 @@
         
         <!-- CSS INCLUDE -->        
         <link id="theme" href="#" th:href="@{/css/theme-default.css}" rel="stylesheet" />
-        
+        <link rel="stylesheet" href="/css/bootstrap/bootstrap-select.min.css" />
         <!-- EOF CSS INCLUDE -->
     </head>
     <body>
@@ -78,6 +78,15 @@
                         </ul>
                     </li> 
                     
+                    <!-- ADMIN LATERAL TAB -->
+                    <li class="xn-openable active" sec:authorize="hasAuthority('ROLE_ADMIN')">
+						
+                        <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Admin</span></a>
+                        <ul>
+                            <li><a href="" th:href="@{/users/show}"><span class="fa fa-user"></span> Admin users</a></li>
+                        </ul>
+                    </li>
+					<!-- END ADMIN LATERAL TAB -->  
                                                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -88,11 +97,67 @@
             <div class="page-content">
                 
                 <!-- START X-NAVIGATION VERTICAL -->
-                <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+                <ul class="x-navigation x-navigation-horizontal x-navigation-panel" th:fragment="page-topbar">
                     <!-- TOGGLE NAVIGATION -->
                     <li class="xn-icon-button">
                         <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
                     </li>
+                    
+                    <!-- USER PROFILE -->
+                    <li class="xn-icon-button pull-right">
+                        <a href="#"><span class="fa fa-user"></span></a>
+                        <div class="panel panel-primary animated zoomIn xn-drop-left">
+                        	<!-- BOTON PARA DESPLEGAR LAS OPCIONES DE MI CUENTA -->
+                            <div class="panel-heading">
+                                <h1 class="panel-title" style="font-size: 20px;"><span class="fa fa-user"></span> <strong>Mi cuenta</strong></h1>                                
+                            </div>
+                            <!-- END BOTON PARA DESPLEGAR LAS OPCIONES DE MI CUENTA -->
+                            
+                            <!-- CONTENIDO DEL PERFIL DE USUARIO -->
+                            <div class="panel-body list-group list-group-contacts scroll" style="height: 400px;">
+                            	<!-- CAMBIAR PASSWORD -->
+                                <a href="#" class="list-group-item" >
+                                    <p>
+                                    	<span style="color:#428bca;" id="resetPasswordText" >
+                                    		Cambiar contrase&ntilde;a
+                                    	</span>
+                                    </p>
+
+									<!-- FORM PARA REINICIAR EL PASSWORD -->
+                                   	<form id="resetPasswordForm" class="form-horizontal" method="POST" th:action="@{/users/resetpassword}">
+                                    	<br />
+                                    	
+                                    	<h2>Cambiar contrase&ntilde;a</h2>
+                                   		<p>
+                                   			<large>Nueva contrase&ntilde;a</large><br />
+                                   			<input type="password" name="password" class="validate[required,minSize[5],maxSize[60]] form-control" id="passwordText" />
+                                   		</p>
+                                   		<p>
+                                   			<large>Repetir contrase&ntilde;a</large><br />
+                                   			<input type="password" name="confirmPassword" class="validate[required,equals[password]] form-control" id="confirmPasswordText" />
+                                   		</p>
+                                   		
+                                   		<br/>
+                                   		<button type="button" class="btn btn-primary" id="resetPasswordButton">Cambiar contrase&ntilde;a</button>
+                                   		
+                                   		<br />
+                                   		<br />
+                                   	</form>
+                                   	<!-- FORM PARA REINICIAR EL PASSWORD -->
+                                </a>
+                                <!-- END CAMBIAR PASSWORD -->
+                                <a href="#" class="list-group-item">
+                                    <p><span style="color:#428bca;">Salir</span></p>
+                                </a>
+                            </div>     
+                            <!-- END CONTENIDO DEL PERFIL DE USUARIO -->
+                            
+                            <div class="panel-footer text-center">
+                                
+                            </div>                            
+                        </div>                        
+                    </li>
+                    <!-- END USER PROFILE -->
                     <!-- END TOGGLE NAVIGATION -->                    
                 </ul>
                 <!-- END X-NAVIGATION VERTICAL -->                     
@@ -163,15 +228,14 @@
         
     <!-- START SCRIPTS -->
         <!-- START PLUGINS -->
-        
-        	<script th:src="@{/js/plugins/jquery/jquery.min.js}"></script>
+        <script th:src="@{/js/plugins/jquery/jquery.min.js}"></script>
         <script th:src="@{/js/plugins/jquery/jquery-ui.min.js}"></script>
         <script th:src="@{/js/plugins/bootstrap/bootstrap.min.js}"></script>
-             
         <!-- END PLUGINS -->
 
         <!-- THIS PAGE PLUGINS -->
-
+        <script th:src='@{/js/plugins/jquery-validation/jquery.validate.js}'></script> 
+		<script th:src="@{/js/myprofile_actions.js}"></script>
         <!-- END PAGE PLUGINS -->         
 
         <!-- START TEMPLATE -->
@@ -179,6 +243,28 @@
         	<script th:src="@{/js/plugins.js}"></script>
         	<script th:src="@{/js/actions.js}"></script>
         <!-- END TEMPLATE -->
+        
+        <!-- RESET PASSWORD VALIDATION -->
+	        <script type="text/javascript">
+	        var jvalidate = $("#resetPasswordForm").validate({
+                ignore: [],
+                rules: {                                            
+                        password: {
+                                required: true,
+                                minlength: 5,
+                                maxlength: 60
+                        },
+                        confirmPassword: {
+                                required: true,
+                                minlength: 5,
+                                maxlength: 60,
+                                equalTo: "#passwordText"
+                        }
+                    }                                        
+                });   
+	        </script>
+	        <!-- END RESET PASSWORD VALIDATION -->
+	        
     <!-- END SCRIPTS -->   
     </footer>      
     </body>

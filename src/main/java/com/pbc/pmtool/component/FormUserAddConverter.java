@@ -35,9 +35,7 @@ public class FormUserAddConverter {
 		
 		//Creamos el rol USER para todos los usuarios por defecto
 		UserRole userRole = new UserRole();
-		
 		userRole.setUser(userEntity);
-		userRole.setRole("USER");
 		
 		//Creamos el set de roles para el nuevo usuario
 		Set<UserRole> userRoles = new HashSet<UserRole>();

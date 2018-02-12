@@ -1,6 +1,7 @@
 package com.pbc.pmtool.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +24,7 @@ import com.pbc.pmtool.entity.UserRole;
 import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
+import com.pbc.pmtool.model.LoginResetPasswordModel;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.UserService;
 
@@ -78,21 +80,57 @@ public class UserServiceImpl implements UserService{
 	 * Devuelve todos los usuarios
 	 */
 	@Override
-	public List<FormUserAdminModel> getAllUsers(Pageable pageable) {
-		//Obtenemos todos los usuarios
+	public HashMap<String, Object> getAllUsers(Pageable pageable) {
+		// Creamos el mapa
+		HashMap<String, Object> allUsers = new HashMap<String, Object>();
+
+		// Creamos el listado de usuarios
 		ArrayList<FormUserAdminModel> usersModel = new ArrayList<FormUserAdminModel>();
-		
-		//Recorremos todos los usuarios
-		for(User userEntity : userRepository.findAll(pageable).getContent()) {
-			//Convertimos la entidad a modelo
-			System.out.println(userEntity.getName());
+
+		// Recorremos todos los usuarios
+		for (User userEntity : userRepository.findAll(pageable).getContent()) {
+			// Convertimos la entidad a modelo
 			usersModel.add(userConverter.UserEntity2FormUserAdminModel(userEntity));
 		}
-		
-		//Devolvemos el listado de usuarios modelo
-		return usersModel;
+
+		// Añadimos los usuarios al mapa
+		allUsers.put("users", usersModel);
+
+		// Añadimos la info
+		allUsers.put("totalUsersPages", userRepository.findAll(pageable).getTotalPages() - 1);
+		allUsers.put("totalUsers", userRepository.findAll(pageable).getTotalElements());
+
+		// Devolvemos el listado de usuarios modelo
+		return allUsers;
 	}
 
+	public HashMap<String, Object> getUsersByUsernameOrName(Pageable pageable, String username) {
+		// Creamos el mapa
+		HashMap<String, Object> allUsers = new HashMap<String, Object>();
+
+		// Creamos el listado de usuarios
+		ArrayList<FormUserAdminModel> usersModel = new ArrayList<FormUserAdminModel>();
+
+		// Recorremos todos los usuarios
+		for (User userEntity : userRepository
+				.findUsersByUsernameContainingOrNameContaining(username, username, pageable).getContent()) {
+			// Convertimos la entidad a modelo
+			usersModel.add(userConverter.UserEntity2FormUserAdminModel(userEntity));
+		}
+
+		// Añadimos los usuarios al mapa
+		allUsers.put("users", usersModel);
+
+		// Añadimos la info
+		allUsers.put("totalUsersPages", userRepository
+				.findUsersByUsernameContainingOrNameContaining(username, username, pageable).getTotalPages() - 1);
+		allUsers.put("totalUsers", userRepository
+				.findUsersByUsernameContainingOrNameContaining(username, username, pageable).getTotalElements());
+
+		// Devolvemos el listado de usuarios modelo
+		return allUsers;
+	}
+	
 	/**
 	 * Guarda un usuario
 	 */
@@ -150,5 +188,18 @@ public class UserServiceImpl implements UserService{
 	public User addUser(User user) {
 		// TODO Auto-generated method stub
 		return userRepository.save(user);
+	}
+	
+	/**
+	 * Guarda una nueva pasword generada
+	 */
+	@Override
+	public LoginResetPasswordModel saveNewPassword(LoginResetPasswordModel resetPasswordModel) {
+		// Actualizamos la contraseña
+		User passwordResetEntity = userRepository
+				.save(resetPasswordConverter.LoginResetPasswordModel2User(resetPasswordModel));
+
+		// Devolvemos el modelo
+		return resetPasswordConverter.User2LoginResetPasswordModel(passwordResetEntity);
 	}
 }

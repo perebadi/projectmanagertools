@@ -5,8 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormAssignToProjectModel;
+import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.UserService;
@@ -69,8 +75,28 @@ public class PmToolRestController {
 		return res;
 	}
 	
-	
-	
+	@PostMapping("/resetpassword")
+	public Response resetPassword(@Valid @RequestBody FormResetPasswordModel resetPassword, 
+			BindingResult bindingResult) {		
+		
+		//Comprovamos que no hayan errores
+		if(!(bindingResult.hasErrors())) {
+			//Obtenemos el usuario logeado
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			
+			//Asignamos al modelo de reset password el nombre del usuario
+			resetPassword.setUsername(auth.getName());
+			
+			//Guardamos las credenciales nuevas
+			userService.resetPassword(resetPassword);
+			
+			//Redirigimos
+			return new Response("Done", "Done");
+		}else {
+			//Redirigimos
+			return new Response("Fail", "Fail");
+		}
+	}
 
 }
 

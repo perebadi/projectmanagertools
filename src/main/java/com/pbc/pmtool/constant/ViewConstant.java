@@ -20,4 +20,5 @@ public class ViewConstant {
 	public static final String TASKPROJECTS = "task/task_projects";
 	public static final String LIST_USERS = "resource/users";
 	public static final String CREATEACOUNT = "createacount";
+	public static final String RESETPASSWORD = "resetpassword";
 }	

@@ -10,7 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity
+@DynamicInsert
 @Table(name = "user_role", uniqueConstraints=@UniqueConstraint(columnNames = {"role","username"}))
 public class UserRole {
 	
@@ -23,8 +26,8 @@ public class UserRole {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="username", nullable=false)
 	private User user;
-	
-	@Column(name = "role", nullable=false, length=45)
+
+	@Column(name = "role", length=45, columnDefinition="VARCHAR(45) DEFAULT 'ROLE_SPECIALIST'")
 	private String role;
 	
 	public Integer getUserRoleId() {
