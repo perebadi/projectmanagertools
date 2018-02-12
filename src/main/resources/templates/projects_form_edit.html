@@ -33,10 +33,12 @@
 											<h3 class="panel-title" th:text="${project.projectname}">Custom
 												Content Scroller</h3>
 											<ul class="panel-controls">
+												<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/rag/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a>
 												</li>
+												-->
 											</ul>
 										</div>
 										<div class="panel-body scroll" style="height: 150px;">
@@ -53,10 +55,11 @@
 											<h3 class="panel-title">RAG Indicators</h3>
 											<ul class="panel-controls">
 												<!-- 			                                        <li><button id="rag" name="rag" type="button" class="btn btn-success btn-rounded fa fa-wrench"></button></li>
- -->
+ -->											<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/rag/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
+													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
+												<li><a href="#" id="ragModal"><span class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
@@ -444,6 +447,7 @@
 		src="js/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>	
 	<script th:src="@{/js/project_actions.js}"></script>		
 	<!-- END PAGE PLUGINS -->
 

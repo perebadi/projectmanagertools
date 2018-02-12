@@ -229,6 +229,22 @@ public class ProjectController {
 		System.out.println(projectService.findProjectById(id).getProjectname());
 		System.out.println("id : "+id);
 		
+		FormRagModel formRagModel = new FormRagModel();
+		
+		formRagModel.setId(id);;
+		formRagModel.setProjectBenefitsRealisation(projectService.findProjectById(id).getProjectBenefitsRealisation().getId());
+		formRagModel.setProjectScope(projectService.findProjectById(id).getProjectScope().getId());
+		formRagModel.setProjectBusinessChange(projectService.findProjectById(id).getProjectBusinessChange().getId());
+		formRagModel.setProjectDeliveryConfidence(projectService.findProjectById(id).getProjectDeliveryConfidence().getId());
+		formRagModel.setProjectDependency(projectService.findProjectById(id).getProjectDependency().getId());
+		formRagModel.setProjectGovernance(projectService.findProjectById(id).getProjectGovernance().getId());
+		formRagModel.setProjectResourcing(projectService.findProjectById(id).getProjectResourcing().getId());
+		formRagModel.setProjectStatus(projectService.findProjectById(id).getProjectStatus().getId());
+		
+		mav.addObject("formRagModel",formRagModel);
+		mav.addObject("project",projectService.findProjectById(id));
+		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+		
 		mav.addObject("username", sessionuser);
 		return mav;
 	}
@@ -260,31 +276,7 @@ public class ProjectController {
 	}
 	
  
-	@PostMapping("/project/{id}/rag/save/")
-	public String saveRAG(@PathVariable int id,@ModelAttribute("formRagModel") FormRagModel formRagModel){
-		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
-		
-		Project  project = projectService.findProjectById(id);
-		
-		project.setProjectStatus(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus()));
-		project.setProjectDeliveryConfidence(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDeliveryConfidence()));
-		project.setProjectGovernance(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectGovernance()));
-		project.setProjectBusinessChange(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBusinessChange()));
-		project.setProjectBenefitsRealisation(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBenefitsRealisation()));
-		project.setProjectDependency(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDependency()));
-		project.setProjectResourcing(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectResourcing()));
-		project.setProjectScope(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectScope()));
-		
-		ProjectStatusLight projectStatusLight =projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus());
-
-		projectService.updateProject(project);
-		
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
-		mav.addObject("formRagModel", formRagModel);
-		
-		return "redirect:/projects/project/"+id+"/";
-	}
+	
 	
 	
 	//******************************************************************ACHIEVEMENTS
@@ -307,7 +299,6 @@ public class ProjectController {
 	}	
 	//******************************************************************END ACHIEVEMENTS
 
-	
 	//******************************************************************NEXT STEPS
 	
 	@GetMapping("/project/{id}/nextstep/")

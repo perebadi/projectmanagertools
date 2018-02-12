@@ -16,7 +16,7 @@
 						<h4 class="modal-title" id="titleModal"></h4>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal" id="modalProjectForm" >
+						<form class="form-horizontal" id="modalProjectForm">
 							<input class="hidden" name="id" id="id" />
 
 							<div class="row">
@@ -24,8 +24,7 @@
 									<div class="form-group">
 										<label class="col-md-2 control-label">Summary</label>
 										<div class="col-md-10">
-											<input id="summary"
-												type="text" class="form-control" />
+											<input id="summary" type="text" class="form-control" required="true" />
 										</div>
 									</div>
 								</div>
@@ -33,22 +32,18 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label">Date</label>
 										<div class="col-md-8">
-											<input id="date"
-												type="text" class="form-control datepicker" />
+											<input id="date" type="text" class="form-control datepicker" required="true" />
 										</div>
 									</div>
 								</div>
-								<br/>
-								<br/>
+								<br /> <br />
 							</div>
 							<div class="row">
 								<div class="col-md-7">
 									<div class="form-group">
 										<label class="col-md-2 control-label">Details</label>
 										<div class="col-md-10">
-											<textarea id="txt"
-												class="form-control" rows="5"
-												cols=""></textarea>
+											<textarea id="txt" class="form-control" rows="5" cols=""></textarea>
 										</div>
 									</div>
 								</div>
@@ -59,24 +54,165 @@
 											<input name="week" id="week" type="text" class="form-control" />
 										</div>
 									</div>
-								</div>			
-							</div>				
+								</div>
+							</div>
 							<!--  END ROW -->
 
 							<!--  END PANEL BODY -->
-							<br/>
-							<br/>
-							
+							<br /> <br />
+
 							<button class="btn btn-primary pull-right" id="addButton">Add</button>
-							
-							<br/>
-							<br/>
+
+							<br /> <br />
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="ragModel" role="dialog">
+			<div class="modal-dialog" style="width: 800px;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" id="titleRagModal"></h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" th:object="${formRagModel}" method="POST" id="modalProjectRagForm">
+							<input class="hidden" name="id" id="projectRagId" th:value="${project.id}" />
+							<div class="row">
+								<div class="col-md-12">
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="col-md-5 control-label">Project
+														Status</label>
+													<div class="col-md-5">
+														<select id="projectStatus" name="projectStatus"
+															th:field="${formRagModel.projectStatus}"
+															class="form-control select" data-live-search="true">
+															<option th:each="light : ${lights}"
+																th:value="${light.id}"
+																th:text="${light.statusdescription}"></option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-5 control-label">Delivery
+														Confidence</label>
+													<div class="col-md-5">
+														<select id="projectDeliveryConfidence"
+															name="projectDeliveryConfidence"
+															th:field="${formRagModel.projectDeliveryConfidence}"
+															class="form-control select" data-live-search="true">
+															<option th:each="light : ${lights}"
+																th:value="${light.id}"
+																th:text="${light.statusdescription}"></option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-5 control-label">Project
+														Governance</label>
+													<div class="col-md-5">
+														<select id="projectGovernance" name="projectGovernance"
+															th:field="${formRagModel.projectGovernance}"
+															class="form-control select" data-live-search="true">
+															<option th:each="light : ${lights}"
+																th:value="${light.id}"
+																th:text="${light.statusdescription}"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="col-md-5 control-label">Business
+														Change</label>
+													<div class="col-md-5">
+														<select id="projectBusinessChange"
+															name="projectBusinessChange"
+															th:field="${formRagModel.projectBusinessChange}"
+															class="form-control select" data-live-search="true">
+															<option th:each="light : ${lights}"
+																th:value="${light.id}"
+																th:text="${light.statusdescription}"></option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-5 control-label">Benefits
+														Realisation</label>
+													<div class="col-md-5">
+														<select id="projectBenefitsRealisation"
+															name="projectBenefitsRealisation"
+															th:field="${formRagModel.projectBenefitsRealisation}"
+															class="form-control select" data-live-search="true">
+															<option th:each="light : ${lights}"
+																th:value="${light.id}"
+																th:text="${light.statusdescription}"></option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-5 control-label">Project
+														Dependency</label>
+													<div class="col-md-5">
+														<select id="projectDependency" name="projectDependency"
+															th:field="${formRagModel.projectDependency}"
+															class="form-control select" data-live-search="true">
+															<option th:each="light : ${lights}"
+																th:value="${light.id}"
+																th:text="${light.statusdescription}"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="col-md-5 control-label">Project
+														Resourcing</label>
+													<div class="col-md-5">
+														<select id="projectResourcing" name="projectResourcing"
+															th:field="${formRagModel.projectResourcing}"
+															class="form-control select" data-live-search="true">
+															<option th:each="light : ${lights}"
+																th:value="${light.id}"
+																th:text="${light.statusdescription}"></option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-5 control-label">Scope</label>
+													<div class="col-md-5">
+														<select id="projectScope" name="projectScope"
+															th:field="${formRagModel.projectScope}"
+															class="form-control select" data-live-search="true">
+															<option th:each="light : ${lights}"
+																th:value="${light.id}"
+																th:text="${light.statusdescription}"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--  END ROW -->
+										<!--  END PANEL BODY -->
+										<br /> <br />
+										<button class="btn btn-primary pull-right" id="addRagButton">Add</button>
+										<br /> <br />
+									</div>
+								</div>
+							</div>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- END PROJECT MODALS -->
+
 	</div>
 </body>
 </html>

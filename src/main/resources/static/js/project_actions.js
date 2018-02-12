@@ -191,4 +191,57 @@ $(document).ready(function(){
 		$("#modalProject").modal('show');
 	});
 	
+	//Linkamos el botón RAG
+	$("#ragModal").click(function(){
+		$("#titleRagModal").html("RAG project");
+		
+		$("#addRagButton").click(function(){
+			//Prevent form submit
+			$("#modalProjectRagForm").submit(function(e){
+		        e.preventDefault();
+		    });
+			
+			//Obtenemos el token
+			var token = document.getElementsByName("_csrf")[0].value;			
+	
+			//Form data
+			var formData = {
+				projectStatus : $('#projectStatus').val(),
+				projectDeliveryConfidence : $('#projectDeliveryConfidence').val(),
+				projectGovernance : $('#projectGovernance').val(),
+				projectBusinessChange : $('#projectBusinessChange').val(),
+				projectBenefitsRealisation : $('#projectBenefitsRealisation').val(),
+				projectDependency : $('#projectDependency').val(),
+				projectResourcing : $('#projectResourcing').val(),
+				projectScope : $('#projectScope').val(),
+				id : $("#projectRagId").val()
+			}
+	        	
+			//AJAX Call
+			$.ajax({
+    			type : "POST",
+    			contentType : "application/json",
+    			url :"/api/project/" + $("#projectId").val() + "/rag/save/",
+    			data : JSON.stringify(formData),
+    			dataType : 'json',
+    			
+    			beforeSend: function(request) {
+    		        return request.setRequestHeader('X-CSRF-Token', token);
+    		    },
+    		    
+    			success : function(result) {
+    				if(result.status == "Done"){
+    					//Refresh
+    					window.location.reload();
+    				}
+    			},
+    			error : function(e) {
+    			}
+    		});
+		});
+		
+		//Show modal
+		$("#ragModel").modal('show');
+	});
+	
 });

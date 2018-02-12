@@ -19,18 +19,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectProblem;
+import com.pbc.pmtool.entity.ProjectStatusLight;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormAssignToProjectModel;
 import com.pbc.pmtool.model.FormEscalationModel;
 import com.pbc.pmtool.model.FormNextStepModel;
 import com.pbc.pmtool.model.FormProblemModel;
+import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.service.ProjectAchievementService;
@@ -38,6 +42,7 @@ import com.pbc.pmtool.service.ProjectEscalationService;
 import com.pbc.pmtool.service.ProjectNextStepService;
 import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
+import com.pbc.pmtool.service.ProjectStatusLightService;
 import com.pbc.pmtool.service.UserService;
 
 @RestController
@@ -64,6 +69,9 @@ public class PmToolRestController {
 	@Qualifier("projectServiceImpl")
 	private ProjectService projectService;
 	
+	@Autowired
+	@Qualifier("projectStatusLightServiceImpl")
+	private ProjectStatusLightService projectStatusLightService;
  
 	@Autowired
 	@Qualifier("userService")
@@ -103,6 +111,32 @@ public class PmToolRestController {
 		
 		Response res = new Response("Done", "Done");
 		return res;
+	}
+	
+	@PostMapping("/project/{id}/rag/save/")
+	public Response saveRAG(@PathVariable int id,@RequestBody FormRagModel formRagModel){
+		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
+		
+		Project  project = projectService.findProjectById(id);
+		
+		project.setProjectStatus(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus()));
+		project.setProjectDeliveryConfidence(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDeliveryConfidence()));
+		project.setProjectGovernance(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectGovernance()));
+		project.setProjectBusinessChange(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBusinessChange()));
+		project.setProjectBenefitsRealisation(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBenefitsRealisation()));
+		project.setProjectDependency(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDependency()));
+		project.setProjectResourcing(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectResourcing()));
+		project.setProjectScope(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectScope()));
+		
+		ProjectStatusLight projectStatusLight =projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus());
+
+		projectService.updateProject(project);
+		
+		mav.addObject("project",projectService.findProjectById(id));
+		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+		mav.addObject("formRagModel", formRagModel);
+		
+		return new Response("Done", "Done");
 	}
 	
 	@PostMapping("/project/{id}/escalation/save/")
