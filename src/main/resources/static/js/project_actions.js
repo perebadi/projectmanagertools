@@ -1,9 +1,13 @@
 $(document).ready(function(){
 	//Linkamos el onclick del botón logros
 	$("#achievementModal").click(function(){
+		document.getElementById('modalProjectForm').reset();
+		
 		$("#titleModal").html("Add achievement");
 		
 		$("#addButton").click(function(){
+			$("#addButton").prop("disabled",true);
+			
 			//Prevent form submit
 			$("#modalProjectForm").submit(function(e){
 		        e.preventDefault();
@@ -49,9 +53,13 @@ $(document).ready(function(){
 	
 	//Linkamos el botón futuras actividades
 	$("#nextStepModal").click(function(){
+		document.getElementById('modalProjectForm').reset();
+		
 		$("#titleModal").html("Add next step");
 		
 		$("#addButton").click(function(){
+			$("#addButton").prop("disabled",true);
+			
 			//Prevent form submit
 			$("#modalProjectForm").submit(function(e){
 		        e.preventDefault();
@@ -97,9 +105,13 @@ $(document).ready(function(){
 	
 	//Linkamos el botón problemas
 	$("#problemModal").click(function(){
+		document.getElementById('modalProjectForm').reset();
+		
 		$("#titleModal").html("Add problem");
 		
 		$("#addButton").click(function(){
+			$("#addButton").prop("disabled",true);
+			
 			//Prevent form submit
 			$("#modalProjectForm").submit(function(e){
 		        e.preventDefault();
@@ -145,9 +157,13 @@ $(document).ready(function(){
 	
 	//Linkamos el botón escalaciones
 	$("#escalationModal").click(function(){
+		document.getElementById('modalProjectForm').reset();
+		
 		$("#titleModal").html("Add escalation");
 		
 		$("#addButton").click(function(){
+			$("#addButton").prop("disabled",true);
+			
 			//Prevent form submit
 			$("#modalProjectForm").submit(function(e){
 		        e.preventDefault();
@@ -196,6 +212,8 @@ $(document).ready(function(){
 		$("#titleRagModal").html("RAG project");
 		
 		$("#addRagButton").click(function(){
+			$("#addRagButton").prop("disabled",true);
+			
 			//Prevent form submit
 			$("#modalProjectRagForm").submit(function(e){
 		        e.preventDefault();
