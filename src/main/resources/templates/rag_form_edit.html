@@ -36,7 +36,7 @@
                  <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
                 		<form class="form-horizontal" action="#" th:action="@{/projects/project/__${project.id}__/rag/save/}" th:object="${formRagModel}" method="POST">
-                    <input class="hidden" name="id" id="id"  th:value="${project.id}"/>
+                    <input class="hidden" name="id" th:value="${project.id}"/>
                     	
                     <div class="row">
                         <div class="col-md-12">

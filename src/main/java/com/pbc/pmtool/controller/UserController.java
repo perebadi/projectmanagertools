@@ -1,5 +1,8 @@
 package com.pbc.pmtool.controller;
 
+import java.util.HashMap;
+import java.util.logging.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,32 +55,11 @@ public class UserController {
 	private ProjectService projectService;
 	
 	/**
-	 * Actualiza la password de los usuarios
-	 * 
-	 * @param resetPassword
-	 * @param bindingResult
-	 * @return
-	 */
-	@PostMapping("/resetpassword")
-	public String resetPassword(@Valid @ModelAttribute("resetPassword") FormResetPasswordModel resetPassword, BindingResult bindingResult) {		
-		//Comprovamos que no hayan errores
-		if(!(bindingResult.hasErrors())) {
-			//Guardamos las credenciales nuevas
-			userService.resetPassword(resetPassword);
-			
-			//Redirigimos
-			return "redirect:/users/show?resetpasswordsuccess";
-		}else {
-			//Redirigimos
-			return "redirect:/users/show?resetpassworderror";
-		}
-	}
-	
-	/**
 	 * Muestra los usuarios
 	 * 
 	 * @return ModelAndView
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/show")
 	public ModelAndView showUsers(@RequestParam(name="savesuccess", required=false) String savesucces,
 			@RequestParam(name="saveerror", required=false) String saveerror, 
@@ -84,10 +67,14 @@ public class UserController {
 			@RequestParam(name="resetpassworderror", required=false) String resetpassworderror,
 			@RequestParam(name="removesuccess", required=false) String removesuccess,
 			@RequestParam(name="removeerror", required=false) String removeerror, 
-			@RequestParam(name="page", required=false, defaultValue="0") int page) {
+			@RequestParam(name="page", required=false, defaultValue="0") int page, 
+			@RequestParam(name="search", required=false, defaultValue="") String search) {
 		
 		//Creamos la vista
 		ModelAndView mav = new ModelAndView(ViewConstant.LIST_USERS);
+		
+		//Indica los usuarios que se muestran por página
+		int usersByPage = 3;
 		
 		//Pasamos los resultados de las acciones a la vista
 		mav.addObject("saveerror", saveerror);
@@ -97,10 +84,27 @@ public class UserController {
 		mav.addObject("removesuccess", removesuccess);
 		mav.addObject("removeerror", removeerror);
 		mav.addObject("page", page);
-		mav.addObject("projects", projectService.listProjects());
+		mav.addObject("lastSearch", search);
 		
-		//Obtenemos todos los usuarios
-		mav.addObject("users", userService.getAllUsers(new PageRequest(page, 10, Sort.Direction.ASC, "username")));
+		//Mapa de usuarios
+		HashMap<String, Object> usuarios = new HashMap<String, Object>();
+		
+		//Obtenemos los usuarios
+		if(search.equals("")) {
+			usuarios = userService.getAllUsers(new PageRequest(page, usersByPage, Sort.Direction.ASC, "name"));
+		}else {
+			usuarios = userService.getUsersByUsernameOrName(
+					new PageRequest(page, usersByPage, Sort.Direction.ASC, "name"), search);
+		}
+		
+		//Pasamos a la vista los usuarrios
+		mav.addObject("totalUsers", usuarios.get("totalUsers"));
+		mav.addObject("totalUsersPages", usuarios.get("totalUsersPages"));
+		mav.addObject("users", usuarios.get("users"));
+		
+		
+		mav.addObject("projects", projectService.listProjects());
+
 		
 		//Devolvemos la vista
 		return mav;
@@ -112,20 +116,23 @@ public class UserController {
 	 * @param formUserAdminModel
 	 * @return redirect
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/saveuser")
 	public String saveUser(@Valid @ModelAttribute(name="user") FormUserAdminModel formUserAdminModel, 
+			BindingResult bindingResult, 
 			@RequestParam("page") int page, 
-			BindingResult bindingResult) {
+			@RequestParam("search") String search) {
+		
 		//Validamos si el usuario es valido
-		if(!(bindingResult.hasErrors())) {			
+		if(!(bindingResult.hasErrors())) {	
 			//Guardamos el usuario
 			userService.saveUser(formUserAdminModel);
 			
 			//Redirigimos al listado de usuarios
-			return "redirect:/users/show?page=" + page + "&savesuccess";
+			return "redirect:/users/show?page=" + page + "&search=" + search + "&savesuccess";
 		}else {
 			//Redirigimos al listado de usuarios
-			return "redirect:/users/show?page=" + page + "&saveerror";
+			return "redirect:/users/show?page=" + page + "&search=" + search + "&saveerror";
 		}
 	}
 	
@@ -135,20 +142,22 @@ public class UserController {
 	 * 
 	 * @return redirect
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/removeuser")
-	public String removeUser(@Valid @ModelAttribute(name="user") FormUserAdminModel userDelete, 
+	public String removeUser(@RequestParam("username") String username,
 			@RequestParam("page") int page,
-			BindingResult bindingResult) {
+			@RequestParam("search") String search) {
+		
 		//Validamos que el usuario a eliminar sea correcto
-		if(!(bindingResult.hasErrors())) {
+		if(!(username.equals(""))) {
 			//Eliminamos el usuario
-			userService.removeUser(userDelete.getUsername());
+			userService.removeUser(username);
 			
 			//Redirigimos al listado de usuarios
-			return "redirect:/users/show?page=" + page + "&removesuccess";
+			return "redirect:/users/show?page=" + page + "&search=" + search + "&removesuccess";
 		}else {
 			//Redirigimos con error
-			return "redirect:/users/show?page=" + page + "&removeerror";
+			return "redirect:/users/show?page=" + page + "&search=" + search + "&removeerror";
 		}
 	}
 	

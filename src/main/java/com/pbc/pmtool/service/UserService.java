@@ -1,5 +1,6 @@
 package com.pbc.pmtool.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
+import com.pbc.pmtool.model.LoginResetPasswordModel;
 
 /**
  * Servicio de usuarios
@@ -20,12 +22,14 @@ import com.pbc.pmtool.model.FormUserAdminModel;
 
 public interface UserService extends UserDetailsService {
 
+	public HashMap<String, Object> getUsersByUsernameOrName(Pageable pageable, String username);
+	
 	/**
 	 * Obtiene todos los usuarios de la base de datos
 	 * 
 	 * @return List<User>
 	 */
-	public List<FormUserAdminModel> getAllUsers(Pageable pageable); 
+	public HashMap<String, Object> getAllUsers(Pageable pageable); 
 	
 	/**
 	 * Guarda un modelo de usuario en la base de datos
@@ -58,5 +62,10 @@ public interface UserService extends UserDetailsService {
 	
 	/** Save User*/
 	public abstract User addUser(User user);
+	
+	/**
+	 * Guarda la contraseña reiniciada
+	 */
+	public LoginResetPasswordModel saveNewPassword(LoginResetPasswordModel resetPasswordModel);
 
 }

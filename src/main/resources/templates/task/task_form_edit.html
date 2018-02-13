@@ -155,30 +155,22 @@
 			                                         
 			   </div>
                 <!-- END PAGE TITLE -->   
-                
-                
-                
-                
-                
-                
-                
-                              
-                
+                                
                 
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-						
-                   
-
                     <!-- START PORTLET -->
                     <div class="row scRow">
                         <div class="col-md-3 scCol droptarget" id="backlog" name="backlog" data-task_status="backlog">
                         		<h3>BackLog</h3>                        		
-						   <div class="panel panel-primary" draggable="true" th:value="${backlog.id}" th:name="${backlog.id}"   th:attr="data-id_task=${backlog.id}"   th:each="backlog : ${backlogs}">
+						   <div class="panel panel-danger" draggable="true" th:value="${backlog.id}" th:name="${backlog.id}"   th:attr="data-id_task=${backlog.id}"   th:each="backlog : ${backlogs}">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #1</h3>
                                 </div>
                                 <div class="panel-body" >
+                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
+                                </div>
+                                <div class="panel-footer" >
                                     Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
                                 </div>
                             </div>
@@ -187,7 +179,7 @@
                         <div class="col-md-3 scCol droptarget"  id="todo" name="todo"  data-task_status="todo">
                         <h3>To Do</h3>
 
-						   <div class="panel panel-primary" draggable="true" th:value="${todo.id}" th:name="${todo.id}"   th:attr="data-id_task=${todo.id}"   th:each="todo : ${todos}">
+						   <div class="panel panel-warning" draggable="true" th:value="${todo.id}" th:name="${todo.id}"   th:attr="data-id_task=${todo.id}"   th:each="todo : ${todos}">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #3</h3>
                                 </div>
@@ -200,7 +192,7 @@
                         <div class="col-md-3 scCol droptarget"  id="progress" name="progress"  data-task_status="progress">
                         <h3>In Progress</h3>
 
-						   <div class="panel panel-primary" draggable="true" th:value="${progress.id}" th:name="${progress.id}"   th:attr="data-id_task=${progress.id}"   th:each="progress : ${progresses}">
+						   <div class="panel panel-info" draggable="true" th:value="${progress.id}" th:name="${progress.id}"   th:attr="data-id_task=${progress.id}"   th:each="progress : ${progresses}">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #3</h3>
                                 </div>
@@ -213,7 +205,7 @@
                         <div class="col-md-3 scCol droptarget"  id="done" name="done"  data-task_status="done">
                         <h3>Done</h3>
 
-						   <div class="panel panel-primary" draggable="true" th:value="${done.id}" th:name="${done.id}"   th:attr="data-id_task=${done.id}"   th:each="done : ${dones}">
+						   <div class="panel panel-success" draggable="true" th:value="${done.id}" th:name="${done.id}"   th:attr="data-id_task=${done.id}"   th:each="done : ${dones}">
                                 <div class="panel-heading">                                        
                                     <h3 class="panel-title">Sample block #3</h3>
                                 </div>
@@ -245,62 +237,72 @@
                         <h4 class="modal-title" id="largeModalHead">Create Task</h4>
                     </div>
                     <div class="modal-body">
-                                <form class="form-horizontal" role="form">   
+                    			<form class="form-horizontal" role="form" id="createtaskForm" name="createtaskForm"  method="POST" action="#" th:action="@{/api/createtask/}" >
+ 
                                 		<input type="hidden" name="project"  />
-                                		<input type="hidden" name="username"  />                                 
+                                		<input type="hidden" name="username"  /> 
+                                		<input type="hidden" name="projectid" id="projectid"  th:value="${projectid}"/>
+                                		                                
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Summary</label>
                                         <div class="col-md-10">
-                                            <input class="form-control" value="Some text value..." type="text" />
+                                            <input class="form-control" id="summary" name="summary" value="Some text value..." type="text" />
                                         </div>
                                     </div>
                                     
                                    <div class="form-group">
                                         <label class="col-md-2 control-label">Task Details</label>
                                         <div class="col-md-10">
-                                            <textarea class="form-control" rows="5"></textarea>
+                                            <textarea class="form-control"  id="details" name="details"  rows="5"></textarea>
                                         </div>
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label">Estimated hours</label>
-                                        <div class="col-md-10">                                                                                
-                                            <select class="form-control select" data-live-search="true">
-                                                <option>1 hour</option>
-                                                <option>2 hours</option>
-                                                <option>3 hours</option>
-                                                <option>4 hours</option>
-                                                <option>5 hours</option>
-                                                <option>6 hours</option>
-                                                <option>7 hours</option>
-                                                <option>1 day</option>
-                                                <option>1 day and a half</option>
-                                                <option>2 day</option>
-                                                <option>2 day and a half</option>                                                <option>1 day</option>
-                                                <option>3 day</option>
-                                                <option>3 day and a half</option>  
-                                                <option>4 day</option>
-                                                <option>4 day and a half</option>  
-                                                <option>5 day</option>
-                                                <option>5 day and a half</option>  
-                                                <option>6 day</option>
-                                                <option>6 day and a half</option>                                                  
-                                                <option>7 day</option>
-                                                <option>7 day and a half</option>                                                  
-                                                <option>8 day</option>
-                                                <option>8 day and a half</option>                                                  
-                                                <option>9 day</option>
-                                                <option>9 day and a half</option>  
-                                                <option>10 day</option>
-                                                <option>10 day and a half</option>                                                  
-                                                
+                                        <label class="col-md-2 control-label">Estimated time</label>
+                                        <div class="col-md-4">                                                                                
+                                            <select class="form-control select"  id="time" name="time"  data-live-search="true">
+                                                <option value="1" >1</option>
+                                                <option value="2" >2</option>
+                                                <option value="3" >3</option>
+                                                <option value="4" >4</option>
+                                                <option value="5" >5</option>
+                                                <option value="6" >6</option>
+                                                <option value="7" >7</option>
+                                                <option value="8" >8</option>
+                                                <option value="9" >9</option>
+                                                <option value="10" >10</option>
+                                                <option value="11" >11</option>                                                <option>1 day</option>
+                                                <option value="12">12</option>
+                                                <option value="13" >13</option>  
+                                                <option value="14" >14</option>
+                                                <option value="15" >15</option>  
+                                                <option value="16" >16</option>
+                                                <option value="17" >17</option>  
+                                                <option value="18" >18</option>
+                                                <option value="19" >19</option>                                                  
+                                                <option value="20" >20</option>
+                                                <option value="21" >21</option>                                                  
+                                                <option value="22" >22</option>
+                                                <option value="23" >23</option>                                                  
+                                                <option value="24" >24</option>                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Unit</label>
+                                        <div class="col-md-4">                                                                                
+                                            <select class="form-control select"  id="unit" name="unit" data-live-search="true">
+                                                <option value="1" >hours</option>
+                                                <option value="8" >days</option>
+                                                <option value="40" >weeks</option>                                             
                                             </select>
                                         </div>
                                     </div>
                                     
                                     
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label">Estimated hours</label>
+                                        <label class="col-md-2 control-label">Assigned to</label>
                                         <div class="col-md-10">                                                                                
                                             <select  id="username" name="username"   class="form-control select" data-live-search="true">
 													<option th:each="assigned : ${assigneds}" 
@@ -317,19 +319,13 @@
                         
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                        
-                    </div>
+	                    <button type="submit" id="myFormSubmit" name="myFormSubmit" class="btn btn-primary"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Create Task</button>
+<!-- 	                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                        
+ -->	                    </div>
                 </div>
             </div>
         </div> 
         <!-- END CREATE TASK MODAL-->
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -395,7 +391,65 @@
     });
     </script>
     
-    
+     
+        <script type="text/javascript">
+	        $('#myFormSubmit').click(function(e){
+	            e.preventDefault();
+	            ajaxPost();
+	            $('#assign_project_modal').modal('hide');
+	           });
+	        
+	       	function ajaxPost(){
+	        	// PREPARE FORM DATA
+	        	var formData = {
+	        			projectid  : $("#projectid").val(),
+	        			username  : $("#username").val(),
+	        			summary : $("#summary").val(),
+	        			details : $("#details").val(),
+	        			time : $("#time").val(),
+	        			unit : $("#unit").val()	        			
+				}
+	        	
+	        	
+	        	var token = document.getElementsByName("_csrf")[0].value;
+	   		
+	   
+	        	
+	        	// DO POST
+	        	$.ajax({
+	    			type : "POST",
+	    			contentType : "application/json",
+	    			url : "/api/createtask/",
+	    			data : JSON.stringify(formData),
+	    			dataType : 'json',
+	    			beforeSend: function(request) {
+	    		        return request.setRequestHeader('X-CSRF-Token', token);
+	    		    },
+	    		    
+	    			success : function(result) {
+	    				if(result.status == "Done"){
+	    					alert("done");
+	    				}else{
+	    				}
+	    				console.log(result);
+	    			},
+	    			error : function(e) {
+	    				alert("Error!")
+	    				console.log("ERROR: ", e);
+	    			}
+	    		});        		
+	        	}
+        
+        
+        
+	        $(".dateChanger").click(function () {
+	            var d = $(this).attr("data-username");
+		        var re ='<input class="form-control" type="text" value="'+ d +'" name="username" id="username" th:object="${formAssignToProject}" />';
+		        
+		        jQuery('#divuser').html(re);
+	        });
+        
+        </script>
     
 
      

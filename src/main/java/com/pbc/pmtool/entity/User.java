@@ -26,7 +26,7 @@ public class User {
 	@Column(name = "rate", nullable = false)
 	private float rate;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval=true)
 	private Set<UserRole> userRole = new HashSet<UserRole>();
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
@@ -52,6 +52,47 @@ public class User {
 	
 	
 
+	/**
+	 * Devuelve si el usuario tiene asignado un rol
+	 * 
+	 * @param role
+	 * @return boolean
+	 */
+	public boolean hasRole(String role) {
+		//Recorremos todos los roles del usuario
+		for(UserRole userRoles : getUserRole()) {
+			//Comprovamos si el usuario tiene el rol
+			if(userRoles.getRole().equals(role)) {
+				//Tiene el rol
+				return true;
+			}
+		}
+		
+		//No tiene el rol
+		return false;
+	}
+	
+	/**
+	 * Devuelve el rol que tiene el usuario asignado
+	 * 
+	 * @param role
+	 * @return UserRole
+	 */
+	public UserRole getRole(String role) {
+		//Recorremos todos los roles del usuario
+		for(UserRole userRoles : getUserRole()) {
+			//Comprovamos si el usuario tiene el rol
+			if(userRoles.getRole().equals(role)) {
+				//Devolvemos el rol
+				return userRoles;
+			}
+		}
+		
+		//Devuelve nulo
+		return null;
+	}
+	
+	
 	public String getUsername() {
 		return username;
 	}
