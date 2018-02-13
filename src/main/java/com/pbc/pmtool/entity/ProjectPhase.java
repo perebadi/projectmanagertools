@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "projectphase")
-public class ProjectPhase {
+public class ProjectPhase implements Comparable<ProjectPhase> {
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
@@ -148,6 +148,21 @@ public class ProjectPhase {
 	
 	public ProjectPhase() {
 		
+	}
+
+	@Override
+	public int compareTo(ProjectPhase o) {
+		if(this.getStartdate().before(o.getStartdate())) {
+			return -1;
+		}else if(this.getStartdate().after(o.getStartdate())) {
+			return 1;
+		}else {
+			if(this.getId() < o.getId()) {
+				return -1;
+			}else {
+				return 1;
+			}
+		}
 	}
 	
 }

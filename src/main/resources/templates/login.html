@@ -61,6 +61,10 @@
 				username or password</div>
 			<div th:if="${logout !=null }" class="alert alert-info" role="alert">Logout
 				successfully</div>
+			<div th:if="${newaccountsuccess !=null }" class="alert alert-success" role="alert">
+				New account <span th:text="${newaccountsuccess}"></span> created
+			</div>	
+				
 		</div>
 
 	</div>

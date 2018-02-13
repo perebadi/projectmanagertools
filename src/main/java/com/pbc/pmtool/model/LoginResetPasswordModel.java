@@ -1,7 +1,5 @@
 package com.pbc.pmtool.model;
 
-import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.pbc.pmtool.validation.ExistUsernameConstraint;
@@ -10,7 +8,6 @@ public class LoginResetPasswordModel {
 
 	@ExistUsernameConstraint
 	@NotEmpty
-	@Size(min=1, max=45)
 	private String username;
 	private String password;
 	

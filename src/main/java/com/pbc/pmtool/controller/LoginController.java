@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.constant.ViewConstant;
-import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.LoginResetPasswordModel;
 import com.pbc.pmtool.service.UserService;
@@ -98,8 +97,8 @@ public class LoginController {
 		    try {
 		        message.setFrom(new InternetAddress("josep_hpe@outlook.com"));
 		        message.addRecipient(Message.RecipientType.TO, new InternetAddress(resetPassword.getUsername())); 
-		        message.setSubject("Se ha reiniciado la pwd de tu cuenta");
-		        message.setText("La nueva contraseña es: " + generatedString);
+		        message.setSubject("Your account password has been reset");
+		        message.setText("The new password for the " + resetPassword.getUsername() + " account is" + generatedString);
 		        
 		        Transport transport = session.getTransport("smtp");
 		        transport.connect("smtp.live.com", "josep_hpe@outlook.com", "Dxc20182018");
@@ -132,7 +131,7 @@ public class LoginController {
 			userService.addUser(newUser);
 			
 			//Redirigimos al form de login
-			return "redirect:/login";
+			return "redirect:/login?newaccountsuccess=" + newUser.getUsername();
 		}else {
 			//Añadimos a la vista el modelo de nuevo usuario
 			view.addAttribute("user", newUser);
@@ -161,12 +160,15 @@ public class LoginController {
 	
 	@GetMapping("/login")
 	public String showLoginForm(Model model, @RequestParam(name = "error", required = false) String error,
-			@RequestParam(name = "logout", required = false) String logout) {
+			@RequestParam(name = "logout", required = false) String logout,
+			@RequestParam(name = "newaccountsuccess", required = false) String newaccountsuccess) {
 		
 		System.out.println("*******************");
 
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
+		model.addAttribute("newaccountsuccess", newaccountsuccess);
+		
 		return ViewConstant.LOGIN;
 	}
 

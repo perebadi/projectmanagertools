@@ -1,6 +1,7 @@
 package com.pbc.pmtool.entity;
 
 
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -20,7 +21,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "projectachievement")
-public class ProjectAchievement {
+public class ProjectAchievement implements Comparable<ProjectAchievement> {
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
@@ -105,6 +107,21 @@ public class ProjectAchievement {
 	
 	public ProjectAchievement() {
 		
+	}
+
+	@Override
+	public int compareTo(ProjectAchievement o) {
+		if(this.getDateachievement().before(o.getDateachievement())) {
+			return -1;
+		}else if(this.getDateachievement().after(o.getDateachievement())) {
+			return 1;
+		}else {
+			if(this.getId() < o.getId()) {
+				return -1;
+			}else {
+				return 1;
+			}
+		}
 	}
 	
 	

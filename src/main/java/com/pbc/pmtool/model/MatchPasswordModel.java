@@ -1,12 +1,12 @@
 package com.pbc.pmtool.model;
 
-import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class MatchPasswordModel {
 	
-	@Size(min = 5, max = 60)
+	@NotEmpty
 	private String confirmPassword;
-	@Size(min = 5, max = 60)
+	@NotEmpty
 	private String password;
 
 	public MatchPasswordModel() {

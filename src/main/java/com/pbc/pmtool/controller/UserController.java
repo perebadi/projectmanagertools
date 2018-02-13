@@ -1,34 +1,27 @@
 package com.pbc.pmtool.controller;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.constant.ViewConstant;
-import com.pbc.pmtool.model.FormAssignToProjectModel;
-import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormUserAdminModel;
-import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.UserService;
 
@@ -101,6 +94,7 @@ public class UserController {
 		mav.addObject("totalUsers", usuarios.get("totalUsers"));
 		mav.addObject("totalUsersPages", usuarios.get("totalUsersPages"));
 		mav.addObject("users", usuarios.get("users"));
+		mav.addObject("username", ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		
 		
 		mav.addObject("projects", projectService.listProjects());
