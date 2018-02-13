@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -212,18 +214,33 @@ public class ProjectController {
 		mav.addObject("project",projectService.findProjectById(id));
 		
 		List<ProjectAchievement> achievements = new ArrayList<>(projectService.findProjectById(id).getAchievements());
+		
+		Collections.sort(achievements);
+		
 		mav.addObject("logros",achievements);
 		
 		List<ProjectNextStep> nextsteps = new ArrayList<>(projectService.findProjectById(id).getNextsteps());
+		
+		Collections.sort(nextsteps);
+		
 		mav.addObject("nextsteps",nextsteps);
 		
 		List<ProjectProblem> problems = new ArrayList<>(projectService.findProjectById(id).getProblems());
+		
+		Collections.sort(problems);
+		
 		mav.addObject("problems",problems);
 		
 		List<ProjectEscalation> escalations = new ArrayList<>(projectService.findProjectById(id).getEscalations());
+		
+		Collections.sort(escalations);
+		
 		mav.addObject("escalations",escalations);
 		
 		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
+		
+		Collections.sort(phases);
+		
 		mav.addObject("phases",phases);
 		
 		System.out.println(projectService.findProjectById(id).getProjectname());
