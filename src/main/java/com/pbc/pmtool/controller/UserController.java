@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,6 +94,7 @@ public class UserController {
 		mav.addObject("totalUsers", usuarios.get("totalUsers"));
 		mav.addObject("totalUsersPages", usuarios.get("totalUsersPages"));
 		mav.addObject("users", usuarios.get("users"));
+		mav.addObject("username", ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		
 		//Devolvemos la vista
 		return mav;
