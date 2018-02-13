@@ -294,9 +294,10 @@
 								<div class="panel-heading">
 									<h3 class="panel-title">Financials</h3>
 									<ul class="panel-controls">
+										<!-- 
 										<li><a href="#"
 											th:href="@{/projects/project/__${project.id}__/phase/}"
-											class="panel-fullscreen"><span class="fa fa-plus-square"></span></a></li>
+											class="panel-fullscreen"><span class="fa fa-plus-square"></span></a></li>-->
 									</ul>
 								</div>
 								<div class="panel-body">
@@ -347,12 +348,13 @@
 														</div>
 													</div>
 												</td>
-												<td align="center"><a href="#"
-													th:href="@{/projects/project/__${project.id}__/finance/edit/}">
+												<td align="center">
+													<a href="#" id="financialsModal" >
 														<button type="button" class="btn btn-primary">
 															<span class="fa fa-wrench" aria-hidden="true"></span>Editar
 														</button>
-												</a></td>
+													</a>
+												</td>
 
 											</tr>
 										</tbody>

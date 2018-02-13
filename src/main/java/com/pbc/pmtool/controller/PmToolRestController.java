@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
@@ -32,6 +33,7 @@ import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormAssignToProjectModel;
 import com.pbc.pmtool.model.FormEscalationModel;
+import com.pbc.pmtool.model.FormFinancialModel;
 import com.pbc.pmtool.model.FormNextStepModel;
 import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
@@ -111,6 +113,29 @@ public class PmToolRestController {
 		
 		Response res = new Response("Done", "Done");
 		return res;
+	}
+	
+	@PostMapping("/project/{id}/finance/save")
+	public Response SaveFinance(@PathVariable int id, @RequestBody FormFinancialModel formFinancialModel) {
+		
+		Logger.getGlobal().info("ID: " + id);
+		Logger.getGlobal().info("OP: " + formFinancialModel.getOP());
+		
+		Project project = projectService.findProjectById(id);
+		project.setBudgettodate(formFinancialModel.getBudgettodate());
+		project.setCertifiedprogress(formFinancialModel.getCertifiedprogress());
+		project.setCostestimated(formFinancialModel.getCostestimated());
+		project.setEACOP(formFinancialModel.getEACOP());
+		project.setInvoiced(formFinancialModel.getInvoiced());
+		project.setOP(formFinancialModel.getOP());
+		project.setTIC(formFinancialModel.getTIC());
+		project.setTVC(formFinancialModel.getTVC());
+		project.setVariance(formFinancialModel.getVariance());
+		
+		projectService.addProject(project);
+		
+		return new Response("Done", "Done");
+		
 	}
 	
 	@PostMapping("/project/{id}/rag/save/")

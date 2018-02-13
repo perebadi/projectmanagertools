@@ -25,11 +25,34 @@
 					
 					$("#week").val(date.getWeek());
 				});
+				
+				document.getElementsByName("TVC")[0].addEventListener('change', calc);
+		        document.getElementsByName("TIC")[0].addEventListener('change', calc);
+		        document.getElementsByName("costestimated")[0].addEventListener('change', calc);
+		        
+		        function calc(){
+		        	
+		        		var tcv = $('#TVC').val();
+		        		var tic = $('#TIC').val();
+		        		var costestimated = $('#costestimated').val();
+		        		
+		        		
+		        		var op = (1-tic/tcv)*100;
+		        		$('#OP').val(parseFloat(op).toFixed(2));
+		        		
+		        		var eacop =  (1-costestimated/tcv)*100;
+		        		$('#EACOP').val(parseFloat(eacop).toFixed(2));
+		        		
+		        		$('#variance').val(parseFloat(tcv-costestimated).toFixed(2));
+
+		        	
+		        }
 			}
 		</script>
 		<!-- SCRIPTS -->
-	
+
 		<!-- PROJECT MODALS -->
+		<!-- LOGROS, ACTIVIDADES, PROBLEMAS, ESCALACIONES MODAL -->
 		<div class="modal fade" id="modalProject" role="dialog">
 			<div class="modal-dialog" style="width: 800px;">
 				<!-- Modal content-->
@@ -68,7 +91,8 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<input name="week" id="week" type="text" class="form-control" readonly="true" />
+										<input name="week" id="week" type="text" class="form-control"
+											readonly="true" />
 									</div>
 								</div>
 
@@ -96,7 +120,9 @@
 				</div>
 			</div>
 		</div>
+		<!-- END LOGROS, ACTIVIDADES, PROBLEMAS, ESCALACIONES MODAL -->
 
+		<!-- RAG MODAL -->
 		<div class="modal fade" id="ragModel" role="dialog">
 			<div class="modal-dialog" style="width: 800px;">
 				<!-- Modal content-->
@@ -240,6 +266,127 @@
 				</div>
 			</div>
 		</div>
+		<!-- END RAG MODAL -->
+
+		<!-- FINANCIALS MODAL -->
+		<div class="modal fade" id="modalFinancialsProject" role="dialog">
+			<div class="modal-dialog" style="width: 800px;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" id="titleFinancialsModal">Project
+							financials</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" th:object="${formFinancialModel}" method="POST">
+							<input class="hidden" name="id" id="idFinancialsProject" th:value="${project.id}" />
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-md-5 control-label">Total
+															Contract Value (TCV) - Baseline</label>
+														<div class="col-md-5">
+															<input name="TVC" id="TVC"
+																th:field="${formFinancialModel.TVC}" type="text"
+																class="form-control" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-5 control-label">Total
+															Internal Cost (TIC) - Baseline</label>
+														<div class="col-md-5">
+															<input name="TIC" id="TIC"
+																th:field="${formFinancialModel.TIC}" type="text"
+																class="form-control" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-5 control-label">OP (P&amp;L)
+															- Baseline</label>
+														<div class="col-md-5">
+															<input name="OP" id="OP"
+																th:field="${formFinancialModel.OP}" type="text"
+																class="form-control" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-5 control-label">Budget
+															gastado hasta la fecha</label>
+														<div class="col-md-5">
+															<input name="budgettodate" id="budgettodate"
+																th:field="${formFinancialModel.budgettodate}"
+																type="text" class="form-control" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-5 control-label">Estimación
+															de coste al cierre</label>
+														<div class="col-md-5">
+															<input name="costestimated" id="costestimated"
+																th:field="${formFinancialModel.costestimated}"
+																type="text" class="form-control" />
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="col-md-5 control-label">EAC OP
+															(P&amp;L) %</label>
+														<div class="col-md-5">
+															<input name="EACOP" id="EACOP"
+																th:field="${formFinancialModel.EACOP}" type="text"
+																class="form-control" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-5 control-label">Variance
+															(TCV-EAC) </label>
+														<div class="col-md-5">
+															<input name="variance" id="variance"
+																th:field="${formFinancialModel.variance}" type="text"
+																class="form-control" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-5 control-label">Total Avance
+															Certificado %</label>
+														<div class="col-md-5">
+															<input name="certifiedprogress" id="certifiedprogress"
+																th:field="${formFinancialModel.certifiedprogress}"
+																type="text" class="form-control" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-md-5 control-label">Total
+															Facturado hasta la fecha</label>
+														<div class="col-md-5">
+															<input name="invoiced" id="invoiced"
+																th:field="${formFinancialModel.invoiced}" type="text"
+																class="form-control" />
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--  END ROW -->
+
+											<!--  END PANEL BODY -->
+											<button class="btn btn-primary pull-right" id="saveFinancialButton">Save</button>
+										</div>
+									</div>
+									<!--  END ROW -->
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END FINANCIALS MODAL -->
 		<!-- END PROJECT MODALS -->
 
 	</div>

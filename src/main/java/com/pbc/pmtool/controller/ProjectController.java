@@ -246,6 +246,7 @@ public class ProjectController {
 		System.out.println(projectService.findProjectById(id).getProjectname());
 		System.out.println("id : "+id);
 		
+		/*** RAG MODEL ***/
 		FormRagModel formRagModel = new FormRagModel();
 		
 		formRagModel.setId(id);;
@@ -259,8 +260,24 @@ public class ProjectController {
 		formRagModel.setProjectStatus(projectService.findProjectById(id).getProjectStatus().getId());
 		
 		mav.addObject("formRagModel",formRagModel);
-		mav.addObject("project",projectService.findProjectById(id));
 		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+		/*** END RAG MODEL***/
+		
+		/*** FINANCIAL MODEL***/
+		FormFinancialModel formFinancialModel = new FormFinancialModel();
+		
+		formFinancialModel.setBudgettodate(projectService.findProjectById(id).getBudgettodate());
+		formFinancialModel.setCertifiedprogress(projectService.findProjectById(id).getCertifiedprogress());
+		formFinancialModel.setCostestimated(projectService.findProjectById(id).getCostestimated());
+		formFinancialModel.setEACOP(projectService.findProjectById(id).getEACOP());
+		formFinancialModel.setInvoiced(projectService.findProjectById(id).getInvoiced());
+		formFinancialModel.setOP(projectService.findProjectById(id).getOP());
+		formFinancialModel.setTIC(projectService.findProjectById(id).getTIC());
+		formFinancialModel.setTVC(projectService.findProjectById(id).getTVC());
+		formFinancialModel.setVariance(projectService.findProjectById(id).getVariance());
+		
+		mav.addObject("formFinancialModel",formFinancialModel);
+		/*** END FINANCIAL MODEL***/
 		
 		mav.addObject("username", sessionuser);
 		return mav;
@@ -509,28 +526,6 @@ public class ProjectController {
 		mav.addObject("username", sessionuser);
 		
 		return mav;
-	}
-	
-	
-	@PostMapping("/project/{id}/finance/save")
-	public String SaveFinance(@PathVariable int id, @ModelAttribute("formFinancialModel") FormFinancialModel formFinancialModel) {
-		
-		Project project = projectService.findProjectById(id);
-		project.setBudgettodate(formFinancialModel.getBudgettodate());
-		project.setCertifiedprogress(formFinancialModel.getCertifiedprogress());
-		project.setCostestimated(formFinancialModel.getCostestimated());
-		project.setEACOP(formFinancialModel.getEACOP());
-		project.setInvoiced(formFinancialModel.getInvoiced());
-		project.setOP(formFinancialModel.getOP());
-		project.setTIC(formFinancialModel.getTIC());
-		project.setTVC(formFinancialModel.getTVC());
-		project.setVariance(formFinancialModel.getVariance());
-		
-		projectService.addProject(project);
-		
-		
-		return "redirect:/projects/project/"+id+"/";
-		
 	}
 	//******************************************************************END FINANCE
 

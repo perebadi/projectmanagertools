@@ -207,6 +207,60 @@ $(document).ready(function(){
 		$("#modalProject").modal('show');
 	});
 	
+	//Linkamos el botón financials
+	$("#financialsModal").click(function(){
+		
+		$("#saveFinancialButton").click(function(){
+			$("#saveFinancialButton").prop("disabled", true);
+			
+			//Prevent form submit
+			$("#financialsModal").submit(function(e){
+		        e.preventDefault();
+		    });
+			
+			//Obtenemos el token
+			var token = document.getElementsByName("_csrf")[0].value;			
+			
+			//Form data
+			var formData = {
+				tvc : $('#TVC').val(),
+				tic : $('#TIC').val(),
+				op : $('#OP').val(),
+				budgettodate : $('#budgettodate').val(),
+				costestimated : $('#costestimated').val(),
+				eacop : $('#EACOP').val(),
+				variance : $('#variance').val(),
+				certifiedprogress : $('#certifiedprogress').val(),
+				invoiced : $('#invoiced').val()
+			}
+			
+			//AJAX Call
+			$.ajax({
+    			type : "POST",
+    			contentType : "application/json",
+    			url :"/api/project/" + $("#idFinancialsProject").val() + "/finance/save/",
+    			data : JSON.stringify(formData),
+    			dataType : 'json',
+    			
+    			beforeSend: function(request) {
+    		        return request.setRequestHeader('X-CSRF-Token', token);
+    		    },
+    		    
+    			success : function(result) {
+    				if(result.status == "Done"){
+    					//Refresh
+    					window.location.reload();
+    				}
+    			},
+    			error : function(e) {
+    			}
+    		});
+		});
+		
+		//Show modal
+		$("#modalFinancialsProject").modal('show');
+	});
+	
 	//Linkamos el botón RAG
 	$("#ragModal").click(function(){
 		$("#titleRagModal").html("RAG project");
