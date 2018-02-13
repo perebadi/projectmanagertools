@@ -16,6 +16,11 @@
 			  	return Math.ceil((((this - jan4th) / 86400000) + jan4th.getDay()+1)/7);
 			}
 		
+			//Función que devuelve las semanas entre dos fechas
+			function weeksBetween(d1, d2) {
+			    return Math.round((d2 - d1) / (7 * 24 * 60 * 60 * 1000));
+			}
+			
 			window.onload = function(){
 				//Evento cambio fecha
 				$("#date").change(function(){
@@ -24,6 +29,19 @@
 					var date = new Date(let[0], (let[1] - 1), let[2]);
 					
 					$("#week").val(date.getWeek());
+				});
+				
+				//Evento nuevo end date
+				$("#newdate").change(function(){
+					var newEndDate = this.value.split('-');
+					var endDate = $("#enddate").val().split('-');
+					
+					$("#weekdelay").val(
+						weeksBetween(
+							new Date(endDate[0], (endDate[1] - 1), endDate[2]), 
+							new Date(newEndDate[0], (newEndDate[1] - 1), newEndDate[2])
+						)
+					);
 				});
 				
 				document.getElementsByName("TVC")[0].addEventListener('change', calc);
@@ -446,7 +464,7 @@
 							<div class="row margin-top-15">
 								<div class="form-group">
 									<label class="col-md-2 control-label">Phase Status</label>
-									<div class="col-md-9">
+									<div class="col-md-9 id_100">
 										<select id="rag" name="rag" class="form-control select"
 											data-live-search="true">
 											<option th:each="light : ${lights}" th:value="${light.id}"

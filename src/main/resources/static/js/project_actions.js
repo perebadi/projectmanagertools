@@ -356,61 +356,87 @@ $(document).ready(function(){
 		$("#modalFinancialsProject").modal('show');
 	});
 	
+	//AJAX formulario fases
+	$("#addPhaseButton").click(function(){
+		//Validamos el formulario
+		if($("#phaseModalForm").valid()){
+			$("#addPhaseButton").prop("disabled",true);
+			
+			//Prevent form submit
+			$("#modalPhaseProject").submit(function(e){
+		        e.preventDefault();
+		    });
+			
+			//Obtenemos el token
+			var token = document.getElementsByName("_csrf")[0].value;			
+	
+			//Form data
+			var formData = {
+				idphase : $('#idphase').val(),
+				summaryphase : $('#summaryphase').val(),
+				startdate : $('#startdate').val(),
+				enddate : $('#enddate').val(),
+				newdate : $('#newdate').val(),
+				weekdelay : $('#weekdelay').val(),
+				rag : $('#rag').val(),
+				progress : $('#progress').val(),
+			}
+	        	
+			//AJAX Call
+			$.ajax({
+    			type : "POST",
+    			contentType : "application/json",
+    			url :"/api/project/" + $("#idPhaseProject").val() + "/phase/save/",
+    			data : JSON.stringify(formData),
+    			dataType : 'json',
+    			
+    			beforeSend: function(request) {
+    		        return request.setRequestHeader('X-CSRF-Token', token);
+    		    },
+    		    
+    			success : function(result) {
+    				if(result.status == "Done"){
+    					//Refresh
+    					window.location.reload();
+    				}
+    			},
+    			error : function(e) {
+    			}
+    		});
+		}
+	});
+	
 	//Linkamos el botón fases del proyecto
 	$("#phaseModal").click(function(){
 		phaseFormValidator.resetForm();
 		
-		$("#addPhaseButton").click(function(){
-			//Validamos el formulario
-			if($("#phaseModalForm").valid()){
-				$("#addPhaseButton").prop("disabled",true);
-				
-				//Prevent form submit
-				$("#modalPhaseProject").submit(function(e){
-			        e.preventDefault();
-			    });
-				
-				//Obtenemos el token
-				var token = document.getElementsByName("_csrf")[0].value;			
-		
-				//Form data
-				var formData = {
-					idphase : $('#idphase').val(),
-					summaryphase : $('#summaryphase').val(),
-					startdate : $('#startdate').val(),
-					enddate : $('#enddate').val(),
-					newdate : $('#newdate').val(),
-					weekdelay : $('#weekdelay').val(),
-					rag : $('#rag').val(),
-					progress : $('#progress').val(),
-				}
-		        	
-				//AJAX Call
-				$.ajax({
-	    			type : "POST",
-	    			contentType : "application/json",
-	    			url :"/api/project/" + $("#idPhaseProject").val() + "/phase/save/",
-	    			data : JSON.stringify(formData),
-	    			dataType : 'json',
-	    			
-	    			beforeSend: function(request) {
-	    		        return request.setRequestHeader('X-CSRF-Token', token);
-	    		    },
-	    		    
-	    			success : function(result) {
-	    				if(result.status == "Done"){
-	    					//Refresh
-	    					window.location.reload();
-	    				}
-	    			},
-	    			error : function(e) {
-	    			}
-	    		});
-			}
-		});
-		
 		//Show modal
 		$("#modalPhaseProject").modal('show');
+	});
+	
+	//Linkamos los botónes editar fase
+	$("button[name='editPhaseButton']").each(function(){
+		$(this).click(function(){
+			phaseFormValidator.resetForm();
+			
+			var phase = $(this).attr("data-phase");
+			
+			//Copiamos los valores en el modal
+			$("#summaryphase").val($("#summaryphase_" + phase).val());
+			$("#startdate").val($("#startdatephase_" + phase).val());
+			$("#enddate").val($("#enddatephase_" + phase).val());
+			$("#newdate").val($("#newdatephase_" + phase).val());
+			$("#weekdelay").val($("#weekdelayphase_" + phase).val());
+			
+			$('select[name=rag]').val($("#ragphase_" + phase).val());
+			$("#rag").change();
+			
+			$("#progress").val($("#progressphase_" + phase).val());
+			$("#idphase").val(phase);
+			
+			//Show modal
+			$("#modalPhaseProject").modal('show');
+		});
 	});
 	
 	//Linkamos el botón RAG
