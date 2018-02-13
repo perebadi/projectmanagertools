@@ -124,6 +124,8 @@ $(document).ready(function(){
 	    			error : function(e) {
 	    			}
 	    		});
+			}else{
+				$(this).unbind( "click" );
 			}
 		});
 		
@@ -180,6 +182,8 @@ $(document).ready(function(){
 	    			error : function(e) {
 	    			}
 	    		});
+			}else{
+				$(this).unbind( "click" );
 			}
 		});
 		
@@ -236,6 +240,8 @@ $(document).ready(function(){
 	    			error : function(e) {
 	    			}
 	    		});
+			}else{
+				$(this).unbind( "click" );
 			}
 		});
 		
@@ -292,6 +298,8 @@ $(document).ready(function(){
 	    			error : function(e) {
 	    			}
 	    		});
+			}else{
+				$(this).unbind( "click" );
 			}
 		});
 		
