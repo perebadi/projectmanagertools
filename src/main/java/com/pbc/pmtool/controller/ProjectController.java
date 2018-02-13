@@ -454,49 +454,6 @@ public class ProjectController {
 		
 		return mav;
 	}
-	
-	
-	
-	@PostMapping("/project/{id}/phase/save/")
-	public String savePhase(@PathVariable int id,@ModelAttribute("formPhaseModel") FormPhaseModel formPhaseModel){
-		
-		Project  project = projectService.findProjectById(id);
-		ProjectPhase projectPhase  = new ProjectPhase();
-		
-		projectPhase.setProject(project);
-		projectPhase.setSummaryphase(formPhaseModel.getSummaryphase());
-		projectPhase.setWeekdelay(formPhaseModel.getWeekdelay());
-		projectPhase.setProgress(formPhaseModel.getProgress());
-		projectPhase.setRag(projectStatusLightService.findProjectStatusLightById(formPhaseModel.getRag()));
-		
-		
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString;
-        Date sdate ;
-        try {
-
-        	   dateInString=formPhaseModel.getStartdate();
-           sdate = formatter.parse(dateInString);
-        	   projectPhase.setStartdate(sdate);
-        	   
-        	   dateInString=formPhaseModel.getEnddate();
-           sdate = formatter.parse(dateInString);
-           projectPhase.setEnddate(sdate);
-           
-           dateInString=formPhaseModel.getNewdate();
-           sdate = formatter.parse(dateInString);
-           projectPhase.setNewdate(sdate);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        projectPhase.setId(formPhaseModel.getIdphase());
-      
-	    projectPhaseService.addProjectPhase(projectPhase);
-	 
-		return "redirect:/projects/project/"+id+"/phase/";
-	}	
 	//******************************************************************END PHASE
 	
 	

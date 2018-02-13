@@ -365,13 +365,15 @@
 								<div class="panel-heading">
 									<h3 class="panel-title">Project Plan</h3>
 									<ul class="panel-controls">
+										<!-- 
 										<li><a href="#"
 											th:href="@{/projects/project/__${project.id}__/phase/}"
-											class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
+											class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
+										<li><a href="#" id="phaseModal" ><span class="fa fa-wrench"></span></a></li>
 									</ul>
 								</div>
 								<div class="panel-body">
-									<table class="table datatable">
+									<table class="table datatable-simple" id="projectPlanTable">
 										<thead>
 											<tr>
 												<th style="text-align: center;">Phase</th>

@@ -27,6 +27,7 @@ import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
+import com.pbc.pmtool.entity.ProjectPhase;
 import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
 import com.pbc.pmtool.entity.User;
@@ -35,6 +36,7 @@ import com.pbc.pmtool.model.FormAssignToProjectModel;
 import com.pbc.pmtool.model.FormEscalationModel;
 import com.pbc.pmtool.model.FormFinancialModel;
 import com.pbc.pmtool.model.FormNextStepModel;
+import com.pbc.pmtool.model.FormPhaseModel;
 import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
@@ -42,6 +44,7 @@ import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.service.ProjectAchievementService;
 import com.pbc.pmtool.service.ProjectEscalationService;
 import com.pbc.pmtool.service.ProjectNextStepService;
+import com.pbc.pmtool.service.ProjectPhaseService;
 import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
@@ -66,6 +69,10 @@ public class PmToolRestController {
 	@Autowired
 	@Qualifier("projectEscalationServiceImpl")
 	private ProjectEscalationService projectEscalationService;
+	
+	@Autowired
+	@Qualifier("projectPhaseServiceImpl")
+	private ProjectPhaseService projectPhaseService;
 	
 	@Autowired
 	@Qualifier("projectServiceImpl")
@@ -114,6 +121,47 @@ public class PmToolRestController {
 		Response res = new Response("Done", "Done");
 		return res;
 	}
+	
+	@PostMapping("/project/{id}/phase/save/")
+	public Response savePhase(@PathVariable int id,@RequestBody FormPhaseModel formPhaseModel){
+		
+		Project  project = projectService.findProjectById(id);
+		ProjectPhase projectPhase  = new ProjectPhase();
+		
+		projectPhase.setProject(project);
+		projectPhase.setSummaryphase(formPhaseModel.getSummaryphase());
+		projectPhase.setWeekdelay(formPhaseModel.getWeekdelay());
+		projectPhase.setProgress(formPhaseModel.getProgress());
+		projectPhase.setRag(projectStatusLightService.findProjectStatusLightById(formPhaseModel.getRag()));
+		
+		
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateInString;
+        Date sdate ;
+        try {
+
+        	   dateInString=formPhaseModel.getStartdate();
+           sdate = formatter.parse(dateInString);
+        	   projectPhase.setStartdate(sdate);
+        	   
+        	   dateInString=formPhaseModel.getEnddate();
+           sdate = formatter.parse(dateInString);
+           projectPhase.setEnddate(sdate);
+           
+           dateInString=formPhaseModel.getNewdate();
+           sdate = formatter.parse(dateInString);
+           projectPhase.setNewdate(sdate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        projectPhase.setId(formPhaseModel.getIdphase());
+      
+	    projectPhaseService.addProjectPhase(projectPhase);
+	 
+		return new Response("Done", "Done");
+	}	
 	
 	@PostMapping("/project/{id}/finance/save")
 	public Response SaveFinance(@PathVariable int id, @RequestBody FormFinancialModel formFinancialModel) {

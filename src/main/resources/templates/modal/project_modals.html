@@ -71,8 +71,7 @@
 								</div>
 								<div class="col-md-9">
 									<div class="form-group">
-										<input id="summary" type="text" class="form-control"
-											required="true" />
+										<input id="summary" name="summary" type="text" class="form-control" />
 									</div>
 								</div>
 							</div>
@@ -83,7 +82,7 @@
 								</div>
 								<div class="col-md-5">
 									<div class="form-group">
-										<input id="date" type="text" class="form-control datepicker" />
+										<input id="date" name="date" type="text" class="form-control datepicker" />
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -91,8 +90,7 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<input name="week" id="week" type="text" class="form-control"
-											readonly="true" />
+										<input name="week" id="week" type="text" class="form-control" readonly="true" />
 									</div>
 								</div>
 
@@ -129,7 +127,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title" id="titleRagModal"></h4>
+						<h4 class="modal-title" id="titleRagModal">RAG project</h4>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" th:object="${formRagModel}"
@@ -279,8 +277,10 @@
 							financials</h4>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal" th:object="${formFinancialModel}" method="POST">
-							<input class="hidden" name="id" id="idFinancialsProject" th:value="${project.id}" />
+						<form class="form-horizontal" th:object="${formFinancialModel}"
+							method="POST" id="modalFinancialProjectForm">
+							<input class="hidden" name="id" id="idFinancialsProject"
+								th:value="${project.id}" />
 							<div class="row">
 								<div class="col-md-12">
 									<div class="row">
@@ -293,7 +293,7 @@
 														<div class="col-md-5">
 															<input name="TVC" id="TVC"
 																th:field="${formFinancialModel.TVC}" type="text"
-																class="form-control" />
+																class="form-control" required="true" />
 														</div>
 													</div>
 													<div class="form-group">
@@ -302,7 +302,7 @@
 														<div class="col-md-5">
 															<input name="TIC" id="TIC"
 																th:field="${formFinancialModel.TIC}" type="text"
-																class="form-control" />
+																class="form-control" required="true" />
 														</div>
 													</div>
 													<div class="form-group">
@@ -311,7 +311,7 @@
 														<div class="col-md-5">
 															<input name="OP" id="OP"
 																th:field="${formFinancialModel.OP}" type="text"
-																class="form-control" />
+																class="form-control" required="true" />
 														</div>
 													</div>
 													<div class="form-group">
@@ -320,7 +320,7 @@
 														<div class="col-md-5">
 															<input name="budgettodate" id="budgettodate"
 																th:field="${formFinancialModel.budgettodate}"
-																type="text" class="form-control" />
+																type="text" class="form-control" required="true" />
 														</div>
 													</div>
 													<div class="form-group">
@@ -329,7 +329,7 @@
 														<div class="col-md-5">
 															<input name="costestimated" id="costestimated"
 																th:field="${formFinancialModel.costestimated}"
-																type="text" class="form-control" />
+																type="text" class="form-control" required="true" />
 														</div>
 													</div>
 												</div>
@@ -340,7 +340,7 @@
 														<div class="col-md-5">
 															<input name="EACOP" id="EACOP"
 																th:field="${formFinancialModel.EACOP}" type="text"
-																class="form-control" />
+																class="form-control" required="true" />
 														</div>
 													</div>
 													<div class="form-group">
@@ -349,7 +349,7 @@
 														<div class="col-md-5">
 															<input name="variance" id="variance"
 																th:field="${formFinancialModel.variance}" type="text"
-																class="form-control" />
+																class="form-control" required="true" />
 														</div>
 													</div>
 													<div class="form-group">
@@ -358,7 +358,7 @@
 														<div class="col-md-5">
 															<input name="certifiedprogress" id="certifiedprogress"
 																th:field="${formFinancialModel.certifiedprogress}"
-																type="text" class="form-control" />
+																type="text" class="form-control" required="true" />
 														</div>
 													</div>
 													<div class="form-group">
@@ -367,7 +367,7 @@
 														<div class="col-md-5">
 															<input name="invoiced" id="invoiced"
 																th:field="${formFinancialModel.invoiced}" type="text"
-																class="form-control" />
+																class="form-control" required="true" />
 														</div>
 													</div>
 												</div>
@@ -375,7 +375,8 @@
 											<!--  END ROW -->
 
 											<!--  END PANEL BODY -->
-											<button class="btn btn-primary pull-right" id="saveFinancialButton">Save</button>
+											<button class="btn btn-primary pull-right"
+												id="saveFinancialButton">Save</button>
 										</div>
 									</div>
 									<!--  END ROW -->
@@ -387,6 +388,93 @@
 			</div>
 		</div>
 		<!-- END FINANCIALS MODAL -->
+
+		<!-- PHASE MODAL -->
+		<div class="modal fade" id="modalPhaseProject" role="dialog">
+			<div class="modal-dialog" style="width: 800px;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" id="titlePhaseModal">Project phase</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" action="#" method="POST" id="phaseModalForm" >
+							<input class="hidden" name="id" id="idPhaseProject" th:value="${project.id}" /> 
+							<input class="hidden" name="idphase" id="idphase" />
+							<div class="row">
+								<div class="form-group">
+									<label class="col-md-2 control-label">Phase Name</label>
+									<div class="col-md-9">
+										<input name="summaryphase" id="summaryphase" type="text"
+											class="form-control" />
+									</div>
+								</div>
+							</div>
+							<div class="row margin-top-15">
+								<div class="form-group">
+									<label class="col-md-2 control-label">Start Date</label>
+									<div class="col-md-9">
+										<input name="startdate" id="startdate" type="text"
+											class="form-control datepicker" />
+									</div>
+								</div>
+							</div>
+							<div class="row margin-top-15">
+								<div class="form-group">
+									<label class="col-md-2 control-label">End Date</label>
+									<div class="col-md-9">
+										<input name="enddate" id="enddate" type="text"
+											class="form-control datepicker" />
+									</div>
+								</div>
+							</div>
+							<div class="row margin-top-15">
+								<div class="form-group">
+									<label class="col-md-2 control-label">New End Date</label>
+									<div class="col-md-5">
+										<input name="newdate" id="newdate" type="text"
+											class="form-control datepicker" />
+									</div>
+									<label class="col-md-2 control-label">Week Delay</label>
+									<div class="col-md-2">
+										<input name="weekdelay" id="weekdelay" type="text"
+											class="form-control" />
+									</div>
+								</div>
+							</div>
+							<div class="row margin-top-15">
+								<div class="form-group">
+									<label class="col-md-2 control-label">Phase Status</label>
+									<div class="col-md-9">
+										<select id="rag" name="rag" class="form-control select"
+											data-live-search="true">
+											<option th:each="light : ${lights}" th:value="${light.id}"
+												th:text="${light.statusdescription}"></option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row margin-top-15">
+								<div class="form-group">
+									<label class="col-md-2 control-label">Progress</label>
+									<div class="col-md-9">
+										<input name="progress" id="progress" type="text"
+											class="form-control" />
+									</div>
+								</div>
+								<!--  END PANEL BODY -->
+								<br/>
+								<br/>
+								<button class="btn btn-primary pull-right" id="addPhaseButton">Save</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END PHASE MODAL -->
+
 		<!-- END PROJECT MODALS -->
 
 	</div>
