@@ -77,6 +77,8 @@ $(document).ready(function(){
 	//Función achievement addButton
 	function addAchievementButton(){
 		$("#addButton").click(function(){
+			$(this).unbind( "click" );
+			
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
 				//Disable add button
@@ -120,8 +122,6 @@ $(document).ready(function(){
 	    			error : function(e) {
 	    			}
 	    		});
-			}else{
-				$(this).unbind( "click" );
 			}
 		});
 	}
@@ -162,6 +162,8 @@ $(document).ready(function(){
 	//Función nextstep addButon
 	function addNextStepButton(){
 		$("#addButton").click(function(){
+			$(this).unbind( "click" );
+			
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
 				$("#addButton").prop("disabled",true);
@@ -204,8 +206,6 @@ $(document).ready(function(){
 	    			error : function(e) {
 	    			}
 	    		});
-			}else{
-				$(this).unbind( "click" );
 			}
 		});
 	}
@@ -248,6 +248,8 @@ $(document).ready(function(){
 	//Función addProblem button
 	function addProblemButton(){
 		$("#addButton").click(function(){
+			$(this).unbind( "click" );
+			
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
 				$("#addButton").prop("disabled",true);
@@ -290,8 +292,6 @@ $(document).ready(function(){
 	    			error : function(e) {
 	    			}
 	    		});
-			}else{
-				$(this).unbind( "click" );
 			}
 		});
 	}
@@ -334,6 +334,8 @@ $(document).ready(function(){
 	//Función addButton escalation
 	function addEscalationButton(){
 		$("#addButton").click(function(){
+			$(this).unbind( "click" );
+			
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
 				$("#addButton").prop("disabled",true);
@@ -376,8 +378,6 @@ $(document).ready(function(){
 	    			error : function(e) {
 	    			}
 	    		});
-			}else{
-				$(this).unbind( "click" );
 			}
 		});
 	}

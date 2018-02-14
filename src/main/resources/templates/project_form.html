@@ -71,7 +71,6 @@
 						<div class="block">
 							<h4>Wizard Alta Básica de Proyectot</h4>
 							<form
-								action="javascript:document.getElementById('formnewproject').submit();"
 								name="formnewproject" id="formnewproject" role="form"
 								class="form-horizontal" th:action="@{/projects/saveproject}"
 								th:object="${formNewProjectModel}" method="POST">
@@ -97,7 +96,7 @@
 												Proyecto</label>
 											<div class="col-md-10">
 												<input name="projectname" id="projectname" type="text"
-													class="form-control" placeholder="Your name" />
+													class="form-control" placeholder="Your name" required="true" />
 											</div>
 										</div>
 										<div class="form-group">
