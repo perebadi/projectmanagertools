@@ -110,7 +110,7 @@ public class LoginController {
 		    }
 			
 			//Atributos de la vista
-			mav.addObject("username", resetPassword.getUsername());
+			mav.addObject("resetusername", resetPassword.getUsername());
 			
 			//Creamos un nuevo modelo de reset de password
 			mav.addObject("resetPassword", new LoginResetPasswordModel());

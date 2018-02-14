@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
+import com.pbc.pmtool.entity.ProjectComment;
 import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
@@ -204,44 +205,61 @@ public class ProjectController {
 		return mav;
 	}
 	
+	
+	@GetMapping("/pmo/{username}/")
+	public ModelAndView showPmoProjects(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable String username){
+		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);
+		
+		mav.addObject("projects", projectService.listPageablePmoProjects(pageno,userRepository.findByUsername(username)));
+		mav.addObject("username", sessionuser);
+		return mav;
+	}
+	
+	
+	
+	
 	@GetMapping("/project/{id}/")
 	public ModelAndView editProject(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable int id){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
 		
-	
 		System.out.println("id : "+id);
-
-		mav.addObject("project",projectService.findProjectById(id));
+		Project project = projectService.findProjectById(id);
 		
-		List<ProjectAchievement> achievements = new ArrayList<>(projectService.findProjectById(id).getAchievements());
+		mav.addObject("project", project);
+		
+		List<ProjectAchievement> achievements = new ArrayList<>(project.getAchievements());
 		
 		Collections.sort(achievements);
 		
 		mav.addObject("logros",achievements);
 		
-		List<ProjectNextStep> nextsteps = new ArrayList<>(projectService.findProjectById(id).getNextsteps());
+		List<ProjectNextStep> nextsteps = new ArrayList<>(project.getNextsteps());
 		
 		Collections.sort(nextsteps);
 		
 		mav.addObject("nextsteps",nextsteps);
 		
-		List<ProjectProblem> problems = new ArrayList<>(projectService.findProjectById(id).getProblems());
+		List<ProjectProblem> problems = new ArrayList<>(project.getProblems());
 		
 		Collections.sort(problems);
 				
 		mav.addObject("problems",problems);
 		
-		List<ProjectEscalation> escalations = new ArrayList<>(projectService.findProjectById(id).getEscalations());
+		List<ProjectEscalation> escalations = new ArrayList<>(project.getEscalations());
 		
 		Collections.sort(escalations);
 		
 		mav.addObject("escalations",escalations);
 		
-		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
+		List<ProjectPhase> phases = new ArrayList<>(project.getPhases());
 		
 		Collections.sort(phases);
 		
 		mav.addObject("phases",phases);
+		
+		List<ProjectComment> comments = new ArrayList<>(project.getComments());
+		
+		mav.addObject("comments", comments);
 		
 		System.out.println(projectService.findProjectById(id).getProjectname());
 		System.out.println("id : "+id);

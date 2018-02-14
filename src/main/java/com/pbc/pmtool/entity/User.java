@@ -37,6 +37,7 @@ public class User {
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="user")
 	private Set<Project> projects = new HashSet<Project>();
 
+	
 
 	
 	@ManyToMany(fetch = FetchType.LAZY,

@@ -21,6 +21,9 @@ public class Project {
 
 	@Column(name = "projectactive")
 	private boolean projectactive = true;
+	
+	@Column(name = "WBS")
+	private String wbs;
 
 	@Column(name = "objectives", columnDefinition = "TEXT")
 	private String objectives;
@@ -77,6 +80,9 @@ public class Project {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	private User pmo;
 
 	@Column(name = "TVC")
 	private Double TVC;
@@ -108,7 +114,22 @@ public class Project {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<Task> tasks = new HashSet<Task>();
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="project")
+	private Set<ProjectComment> comments = new HashSet<ProjectComment>();
+
 	
+	
+	public Set<ProjectComment> getComments() {
+		return comments;
+	}
+
+
+
+	public void setComments(Set<ProjectComment> comments) {
+		this.comments = comments;
+	}
+
+
 
 	public int getId() {
 		return id;
@@ -470,19 +491,46 @@ public class Project {
 
 
 
-	public Project(int id, String projectname, boolean projectactive, String objectives,
+
+
+	public String getWbs() {
+		return wbs;
+	}
+
+
+
+	public void setWbs(String wbs) {
+		this.wbs = wbs;
+	}
+
+
+
+	public User getPmo() {
+		return pmo;
+	}
+
+
+
+	public void setPmo(User pmo) {
+		this.pmo = pmo;
+	}
+
+
+
+	public Project(int id, String projectname, boolean projectactive, String wbs, String objectives,
 			ProjectStatusLight projectStatus, ProjectStatusLight projectStatusConfidence,
 			ProjectStatusLight projectDeliveryConfidence, ProjectStatusLight projectGovernance,
 			ProjectStatusLight projectBusinessChange, ProjectStatusLight projectBenefitsRealisation,
 			ProjectStatusLight projectDependency, ProjectStatusLight projectResourcing, ProjectStatusLight projectScope,
 			Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps,
-			Set<ProjectProblem> problems, Set<ProjectPhase> phases, List<User> assigneds, User user, Double tVC,
-			Double tIC, Double oP, Double budgettodate, Double costestimated, Double eACOP, Double variance,
-			Double certifiedprogress, Double invoiced, Set<Task> tasks) {
+			Set<ProjectProblem> problems, Set<ProjectPhase> phases, List<User> assigneds, User user, User pmo,
+			Double tVC, Double tIC, Double oP, Double budgettodate, Double costestimated, Double eACOP, Double variance,
+			Double certifiedprogress, Double invoiced, Set<Task> tasks, Set<ProjectComment> comments) {
 		super();
 		this.id = id;
 		this.projectname = projectname;
 		this.projectactive = projectactive;
+		this.wbs = wbs;
 		this.objectives = objectives;
 		this.projectStatus = projectStatus;
 		this.projectStatusConfidence = projectStatusConfidence;
@@ -500,6 +548,7 @@ public class Project {
 		this.phases = phases;
 		this.assigneds = assigneds;
 		this.user = user;
+		this.pmo = pmo;
 		TVC = tVC;
 		TIC = tIC;
 		OP = oP;
@@ -510,6 +559,7 @@ public class Project {
 		this.certifiedprogress = certifiedprogress;
 		this.invoiced = invoiced;
 		this.tasks = tasks;
+		this.comments = comments;
 	}
 
 

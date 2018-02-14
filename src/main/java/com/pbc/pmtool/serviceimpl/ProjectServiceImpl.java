@@ -98,9 +98,7 @@ public class ProjectServiceImpl implements ProjectService {
 		SumValuesModel sumValuesModel = new   SumValuesModel();;
 				
 		List<Object[]> ops =projectRepository.getActiveSum(username);
-		
-		
-		
+
 		for (Object[] op : ops ){
 			sumValuesModel.setsTIC((double) op[1]);
 			sumValuesModel.setsTVC((double) op[0]);
@@ -111,12 +109,16 @@ public class ProjectServiceImpl implements ProjectService {
 			sumValuesModel.setEACOP((1-(double) op[2]/(double) op[0])*100);
 			sumValuesModel.setOP((1-(double) op[1]/(double) op[0])*100);
 			}
-		
-		
-		
 
 		
 		return sumValuesModel;
+	}
+
+	@Override
+	public List<Project> listPageablePmoProjects(int pageno, User user) {
+		Page<Project> pageprojects = projectRepository.findByPmo(user, new PageRequest(pageno, 20, Sort.Direction.DESC, "id"));
+		List<Project> projects = pageprojects.getContent();
+		return projects;
 	}
 
 }
