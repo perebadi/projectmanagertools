@@ -104,16 +104,21 @@ public class PmToolRestController {
 	@PostMapping(value = "/assign/")
 	public Response addToProject( @RequestBody FormAssignToProjectModel formAssignToProjectModel) {
 		
-		
+		Response res = null;
 		User  user = userService.getUser(formAssignToProjectModel.getUsername());
-		Project project = projectService.findProjectById(formAssignToProjectModel.getProjectid());
-
-		List<Project> projects = user.getAssigneds()	;
-		projects.add(project);
-		user.setAssigneds(projects);
-		userRepository.save(user);
 		
-		Response res = new Response("Done", "Done");
+		if(user.getAssignedsMap().get(formAssignToProjectModel.getProjectid()) == null) {
+			Project project = projectService.findProjectById(formAssignToProjectModel.getProjectid());
+			List<Project> projects = user.getAssigneds()	;		
+			projects.add(project);
+			user.setAssigneds(projects);
+			userRepository.save(user);
+			
+			res = new Response("Done", "Done");
+		}else {
+			res = new Response("AlreadyInProj", "AlreadyInProj");
+		}
+		
 		return res;
 	}
 	
