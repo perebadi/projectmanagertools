@@ -190,10 +190,20 @@
 
 										<div class="panel-body">
 											<ul class="list-group border-bottom">
-												<li class="list-group-item" th:each="logro : ${logros}"><span
-													th:text="${ logro.summaryachievement}"></span><span
-													class="badge badge-success"
-													th:text="${logro.dateachievement}"></span></li>
+												<li class="list-group-item" th:each="logro : ${logros}">
+													<input type="hidden" th:value="${logro.id}" th:id="'idachievement_' + ${logro.id}" />
+													<input type="hidden" th:value="${logro.dateachievement}" th:id="'dateachievement_' + ${logro.id}" />
+													<input type="hidden" th:value="${logro.summaryachievement}" th:id="'summaryachievement_' + ${logro.id}" />
+													<input type="hidden" th:value="${logro.txtachievement}" th:id="'txtachievement_' + ${logro.id}" />
+													<input type="hidden" th:value="${logro.week}" th:id="'weekachievement_' + ${logro.id}" />
+													<input type="hidden" th:value="${project.id}" th:id="'projectachievement_' + ${logro.id}" />
+												
+													<span th:text="${logro.summaryachievement}"></span>
+													<a href="#" class="pull-right">
+														<span class="badge badge-success" th:text="${logro.dateachievement}" 
+															name="viewDetailsAchievement" th:attr="data-achievement=${logro.id}" ></span>
+													</a>
+												</li>
 											</ul>
 										</div>
 									</div>
@@ -212,10 +222,20 @@
 										</div>
 										<div class="panel-body">
 											<ul class="list-group border-bottom">
-												<li class="list-group-item"
-													th:each="nextstep : ${nextsteps}"><span
-													th:text="${ nextstep.summarynextstep}"></span><span
-													class="badge badge-info" th:text="'KW'+${nextstep.week}"></span></li>
+												<li class="list-group-item" th:each="nextstep : ${nextsteps}">
+													<input type="hidden" th:value="${nextstep.id}" th:id="'idnextstep_' + ${nextstep.id}" />
+													<input type="hidden" th:value="${nextstep.datenextstep}" th:id="'datenextstep_' + ${nextstep.id}" />
+													<input type="hidden" th:value="${nextstep.summarynextstep}" th:id="'summarynextstep_' + ${nextstep.id}" />
+													<input type="hidden" th:value="${nextstep.txtnextstep}" th:id="'txtnextstep_' + ${nextstep.id}" />
+													<input type="hidden" th:value="${nextstep.week}" th:id="'weeknextstep_' + ${nextstep.id}" />
+													<input type="hidden" th:value="${project.id}" th:id="'projectnextstep_' + ${nextstep.id}" />
+												
+													<span th:text="${ nextstep.summarynextstep}"></span>
+													<a href="#" class="pull-right">
+														<span class="badge badge-info" th:text="'KW'+${nextstep.week}" 
+															name="viewDetailsNextStep" th:attr="data-nextstep=${nextstep.id}"></span>
+													</a>
+												</li>
 											</ul>
 										</div>
 									</div>
@@ -234,9 +254,20 @@
 										</div>
 										<div class="panel-body">
 											<ul class="list-group border-bottom">
-												<li class="list-group-item" th:each="problem : ${problems}"><span
-													th:text="${ problem.summaryproblem}"></span><span
-													class="badge badge-danger" th:text="'KW'+${problem.week}"></span></li>
+												<li class="list-group-item" th:each="problem : ${problems}">
+													<input type="hidden" th:value="${problem.id}" th:id="'idproblem_' + ${problem.id}" />
+													<input type="hidden" th:value="${problem.dateproblem}" th:id="'dateproblem_' + ${problem.id}" />
+													<input type="hidden" th:value="${problem.summaryproblem}" th:id="'summaryproblem_' + ${problem.id}" />
+													<input type="hidden" th:value="${problem.txtproblem}" th:id="'txtproblem_' + ${problem.id}" />
+													<input type="hidden" th:value="${problem.week}" th:id="'weekproblem_' + ${problem.id}" />
+													<input type="hidden" th:value="${project.id}" th:id="'projectproblem_' + ${problem.id}" />
+												
+													<span th:text="${ problem.summaryproblem}"></span>
+													<a href="#" class="pull-right">
+														<span class="badge badge-danger" th:text="'KW'+${problem.week}" 
+															name="viewDetailsProblem" th:attr="data-problem=${problem.id}"></span>
+													</a>
+												</li>
 											</ul>
 										</div>
 									</div>
@@ -254,8 +285,7 @@
 												<li><a href="#" id="escalationModal"><span class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
-										<div class="panel-body">
-
+										<div class="panel-body">											
 											<div class="panel-body panel-body-table">
 
 												<div class="table-responsive">
@@ -263,10 +293,21 @@
 
 														<tbody>
 															<tr th:each="escalation : ${escalations}">
-																<td width="80%"
-																	th:text="${ escalation.summaryescalation}"></td>
-																<td width="20%"><span class="badge badge-warning"
-																	th:text="${escalation.dateescalation}"></span></td>
+																<td width="80%" th:text="${ escalation.summaryescalation}">
+																</td>
+																<td width="20%">
+																	<input type="hidden" th:value="${escalation.id}" th:id="'idescalation_' + ${escalation.id}" />
+																	<input type="hidden" th:value="${escalation.dateescalation}" th:id="'dateescalation_' + ${escalation.id}" />
+																	<input type="hidden" th:value="${escalation.summaryescalation}" th:id="'summaryescalation_' + ${escalation.id}" />
+																	<input type="hidden" th:value="${escalation.txtescalation}" th:id="'txtescalation_' + ${escalation.id}" />
+																	<input type="hidden" th:value="${escalation.week}" th:id="'weekescalation_' + ${escalation.id}" />
+																	<input type="hidden" th:value="${project.id}" th:id="'projectescalation_' + ${escalation.id}" />
+													
+																	<a href="#">
+																		<span class="badge badge-warning" th:text="${escalation.dateescalation}" 
+																			name="viewDetailsEscalation" th:attr="data-escalation=${escalation.id}" />
+																	</a>
+																</td>
 
 															</tr>
 														</tbody>

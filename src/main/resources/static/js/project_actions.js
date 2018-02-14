@@ -74,13 +74,8 @@ $(document).ready(function(){
 		}
 	});
 	
-	//Linkamos el onclick del botón logros
-	$("#achievementModal").click(function(){
-		document.getElementById('modalProjectForm').reset();
-		projectFormValidator.resetForm();
-		
-		$("#titleModal").html("Add achievement");
-		
+	//Función achievement addButton
+	function addAchievementButton(){
 		$("#addButton").click(function(){
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
@@ -100,9 +95,10 @@ $(document).ready(function(){
 					summaryachievement : $('#summary').val(),
 					dateachievement : $('#date').val(),
 					txtachievement : $('#txt').val(),
-					week : $('#week').val()
+					week : $('#week').val(),
+					idachievement : $('#id').val()
 				}
-	        	
+				
 				//AJAX Call
 				$.ajax({
 	    			type : "POST",
@@ -128,18 +124,43 @@ $(document).ready(function(){
 				$(this).unbind( "click" );
 			}
 		});
+	}
+	
+	//Linkamos el onclick del botón logros
+	$("#achievementModal").click(function(){
+		document.getElementById('modalProjectForm').reset();
+		projectFormValidator.resetForm();
+		$("#titleModal").html("Add achievement");
 		
-		//Show modal
+		addAchievementButton();
+		
 		$("#modalProject").modal('show');
 	});
 	
-	//Linkamos el botón futuras actividades
-	$("#nextStepModal").click(function(){
-		document.getElementById('modalProjectForm').reset();
-		projectFormValidator.resetForm();
-		
-		$("#titleModal").html("Add next step");
-		
+	//Linkamos los botónes editar logro
+	$("span[name='viewDetailsAchievement']").each(function(){
+		$(this).click(function(){
+			projectFormValidator.resetForm();
+			
+			var achievement = $(this).attr("data-achievement");
+			
+			//Copiamos los valores en el modal
+			$("#summary").val($("#summaryachievement_" + achievement).val());
+			$("#date").val($("#dateachievement_" + achievement).val());
+			$("#week").val($("#weekachievement_" + achievement).val());
+			$("#txt").val($("#txtachievement_" + achievement).val());
+			$("#id").val($("#idachievement_" + achievement).val());
+			
+			addAchievementButton();
+			
+			$("#titleModal").html("Save achievement");
+			//Show modal
+			$("#modalProject").modal('show');
+		});
+	});
+	
+	//Función nextstep addButon
+	function addNextStepButton(){
 		$("#addButton").click(function(){
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
@@ -158,7 +179,8 @@ $(document).ready(function(){
 					summarynextstep : $('#summary').val(),
 					datenextstep : $('#date').val(),
 					txtnextstep : $('#txt').val(),
-					week : $('#week').val()
+					week : $('#week').val(),
+					idnextstep : $('#id').val()
 				}
 		        	
 				//AJAX Call
@@ -186,18 +208,45 @@ $(document).ready(function(){
 				$(this).unbind( "click" );
 			}
 		});
+	}
+	
+	//Linkamos el botón futuras actividades
+	$("#nextStepModal").click(function(){
+		document.getElementById('modalProjectForm').reset();
+		projectFormValidator.resetForm();
+		
+		$("#titleModal").html("Add next step");
+		
+		addNextStepButton();
 		
 		//Show modal
 		$("#modalProject").modal('show');
 	});
 	
-	//Linkamos el botón problemas
-	$("#problemModal").click(function(){
-		document.getElementById('modalProjectForm').reset();
-		projectFormValidator.resetForm();
-		
-		$("#titleModal").html("Add problem");
-		
+	//Linkamos los botónes editar nextstep
+	$("span[name='viewDetailsNextStep']").each(function(){
+		$(this).click(function(){
+			projectFormValidator.resetForm();
+			
+			var nextstep = $(this).attr("data-nextstep");
+			
+			//Copiamos los valores en el modal
+			$("#summary").val($("#summarynextstep_" + nextstep).val());
+			$("#date").val($("#datenextstep_" + nextstep).val());
+			$("#week").val($("#weeknextstep_" + nextstep).val());
+			$("#txt").val($("#txtnextstep_" + nextstep).val());
+			$("#id").val($("#idnextstep_" + nextstep).val());
+			
+			addNextStepButton();
+			
+			$("#titleModal").html("Save next step");
+			//Show modal
+			$("#modalProject").modal('show');
+		});
+	});
+	
+	//Función addProblem button
+	function addProblemButton(){
 		$("#addButton").click(function(){
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
@@ -216,7 +265,8 @@ $(document).ready(function(){
 					summaryproblem : $('#summary').val(),
 					dateproblem : $('#date').val(),
 					txtproblem : $('#txt').val(),
-					week : $('#week').val()
+					week : $('#week').val(),
+					idproblem : $('#id').val()
 				}
 		        	
 				//AJAX Call
@@ -244,18 +294,45 @@ $(document).ready(function(){
 				$(this).unbind( "click" );
 			}
 		});
+	}
+	
+	//Linkamos el botón problemas
+	$("#problemModal").click(function(){
+		document.getElementById('modalProjectForm').reset();
+		projectFormValidator.resetForm();
+		
+		$("#titleModal").html("Add problem");
+		
+		addProblemButton();
 		
 		//Show modal
 		$("#modalProject").modal('show');
 	});
 	
-	//Linkamos el botón escalaciones
-	$("#escalationModal").click(function(){
-		document.getElementById('modalProjectForm').reset();
-		projectFormValidator.resetForm();
-		
-		$("#titleModal").html("Add escalation");
-		
+	//Linkamos los botónes editar problem
+	$("span[name='viewDetailsProblem']").each(function(){
+		$(this).click(function(){
+			projectFormValidator.resetForm();
+			
+			var problem = $(this).attr("data-problem");
+			
+			//Copiamos los valores en el modal
+			$("#summary").val($("#summaryproblem_" + problem).val());
+			$("#date").val($("#dateproblem_" + problem).val());
+			$("#week").val($("#weekproblem_" + problem).val());
+			$("#txt").val($("#txtproblem_" + problem).val());
+			$("#id").val($("#idproblem_" + problem).val());
+			
+			addProblemButton();
+			
+			$("#titleModal").html("Save problem");
+			//Show modal
+			$("#modalProject").modal('show');
+		});
+	});
+	
+	//Función addButton escalation
+	function addEscalationButton(){
 		$("#addButton").click(function(){
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
@@ -274,7 +351,8 @@ $(document).ready(function(){
 					summaryescalation : $('#summary').val(),
 					dateescalation : $('#date').val(),
 					txtescalation : $('#txt').val(),
-					week : $('#week').val()
+					week : $('#week').val(),
+					idescalation : $('#id').val()
 				}
 		        	
 				//AJAX Call
@@ -302,9 +380,41 @@ $(document).ready(function(){
 				$(this).unbind( "click" );
 			}
 		});
+	}
+	
+	//Linkamos el botón escalaciones
+	$("#escalationModal").click(function(){
+		document.getElementById('modalProjectForm').reset();
+		projectFormValidator.resetForm();
+		
+		$("#titleModal").html("Add escalation");
+		
+		addEscalationButton();
 		
 		//Show modal
 		$("#modalProject").modal('show');
+	});
+	
+	//Linkamos los botónes editar escalation
+	$("span[name='viewDetailsEscalation']").each(function(){
+		$(this).click(function(){
+			projectFormValidator.resetForm();
+			
+			var escalation = $(this).attr("data-escalation");
+			
+			//Copiamos los valores en el modal
+			$("#summary").val($("#summaryescalation_" + escalation).val());
+			$("#date").val($("#dateescalation_" + escalation).val());
+			$("#week").val($("#weekescalation_" + escalation).val());
+			$("#txt").val($("#txtescalation_" + escalation).val());
+			$("#id").val($("#idescalation_" + escalation).val());
+			
+			addEscalationButton();
+			
+			$("#titleModal").html("Save escalation");
+			//Show modal
+			$("#modalProject").modal('show');
+		});
 	});
 	
 	//Linkamos el botón financials

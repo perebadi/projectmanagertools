@@ -233,6 +233,7 @@ public class PmToolRestController {
 		projectEscalation.setSummaryescalation(formEscalationModel.getSummaryescalation());
 		projectEscalation.setTxtescalation(formEscalationModel.getTxtescalation());
 		projectEscalation.setWeek(formEscalationModel.getWeek());
+		projectEscalation.setId(formEscalationModel.getIdescalation());
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString =formEscalationModel.getDateescalation();
@@ -263,6 +264,7 @@ public class PmToolRestController {
 		projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
 		projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
 		projectProblem.setWeek(formProblemModel.getWeek());
+		projectProblem.setId(formProblemModel.getIdproblem());
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString =formProblemModel.getDateproblem();
@@ -296,6 +298,7 @@ public class PmToolRestController {
 		projectNextStep.setSummarynextstep(formNextStepModel.getSummarynextstep());
 		projectNextStep.setTxtnextstep(formNextStepModel.getTxtnextstep());
 		projectNextStep.setWeek(formNextStepModel.getWeek());
+		projectNextStep.setId(formNextStepModel.getIdnextstep());
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString =formNextStepModel.getDatenextstep();
@@ -327,6 +330,7 @@ public class PmToolRestController {
 		projectAchievement.setSummaryachievement(formAchievementModel.getSummaryachievement());
 		projectAchievement.setTxtachievement(formAchievementModel.getTxtachievement());
 		projectAchievement.setWeek(formAchievementModel.getWeek());
+		projectAchievement.setId(formAchievementModel.getIdachievement());
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString =formAchievementModel.getDateachievement();
