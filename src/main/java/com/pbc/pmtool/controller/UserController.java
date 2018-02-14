@@ -94,9 +94,6 @@ public class UserController {
 		mav.addObject("totalUsers", usuarios.get("totalUsers"));
 		mav.addObject("totalUsersPages", usuarios.get("totalUsersPages"));
 		mav.addObject("users", usuarios.get("users"));
-		mav.addObject("username", ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-		
-		
 		mav.addObject("projects", projectService.listProjects());
 
 		
