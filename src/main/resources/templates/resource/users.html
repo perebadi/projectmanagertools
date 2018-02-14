@@ -205,7 +205,7 @@
                                         <label class="col-md-2 control-label">Project</label>
                                         <div class="col-md-10">  
                                         
-                                        		<select  id="projectid" name="projectid"   class="form-control select" data-live-search="true">
+                                        		<select  id="projectid" name="projectid"   class="form-control selectpicker" data-live-search="true">
 													<option th:each="project : ${projects}" 
 														th:value="${project.id}" th:text="${project.projectname}"></option>
 											</select>                                                                              
