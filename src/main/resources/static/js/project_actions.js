@@ -77,8 +77,6 @@ $(document).ready(function(){
 	//Función achievement addButton
 	function addAchievementButton(){
 		$("#addButton").click(function(){
-			$(this).unbind( "click" );
-			
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
 				//Disable add button
@@ -135,6 +133,11 @@ $(document).ready(function(){
 		addAchievementButton();
 		
 		$("#modalProject").modal('show');
+		
+		$("#modalProject").on("hidden.bs.modal", function () {
+		    $("#addButton").unbind( "click" );
+		});
+		
 	});
 	
 	//Linkamos los botónes editar logro
@@ -156,14 +159,16 @@ $(document).ready(function(){
 			$("#titleModal").html("Save achievement");
 			//Show modal
 			$("#modalProject").modal('show');
+			
+			$("#modalProject").on("hidden.bs.modal", function () {
+			    $("#addButton").unbind( "click" );
+			});
 		});
 	});
 	
 	//Función nextstep addButon
 	function addNextStepButton(){
 		$("#addButton").click(function(){
-			$(this).unbind( "click" );
-			
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
 				$("#addButton").prop("disabled",true);
@@ -221,6 +226,10 @@ $(document).ready(function(){
 		
 		//Show modal
 		$("#modalProject").modal('show');
+		
+		$("#modalProject").on("hidden.bs.modal", function () {
+		    $("#addButton").unbind( "click" );
+		});
 	});
 	
 	//Linkamos los botónes editar nextstep
@@ -248,8 +257,6 @@ $(document).ready(function(){
 	//Función addProblem button
 	function addProblemButton(){
 		$("#addButton").click(function(){
-			$(this).unbind( "click" );
-			
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
 				$("#addButton").prop("disabled",true);
@@ -307,6 +314,10 @@ $(document).ready(function(){
 		
 		//Show modal
 		$("#modalProject").modal('show');
+		
+		$("#modalProject").on("hidden.bs.modal", function () {
+		    $("#addButton").unbind( "click" );
+		});
 	});
 	
 	//Linkamos los botónes editar problem
@@ -328,14 +339,16 @@ $(document).ready(function(){
 			$("#titleModal").html("Save problem");
 			//Show modal
 			$("#modalProject").modal('show');
+			
+			$("#modalProject").on("hidden.bs.modal", function () {
+			    $("#addButton").unbind( "click" );
+			});
 		});
 	});
 	
 	//Función addButton escalation
 	function addEscalationButton(){
 		$("#addButton").click(function(){
-			$(this).unbind( "click" );
-			
 			//Validamos el formulario
 			if($("#modalProjectForm").valid()){
 				$("#addButton").prop("disabled",true);
@@ -393,6 +406,10 @@ $(document).ready(function(){
 		
 		//Show modal
 		$("#modalProject").modal('show');
+		
+		$("#modalProject").on("hidden.bs.modal", function () {
+		    $("#addButton").unbind( "click" );
+		});
 	});
 	
 	//Linkamos los botónes editar escalation
@@ -414,6 +431,10 @@ $(document).ready(function(){
 			$("#titleModal").html("Save escalation");
 			//Show modal
 			$("#modalProject").modal('show');
+			
+			$("#modalProject").on("hidden.bs.modal", function () {
+			    $("#addButton").unbind( "click" );
+			});
 		});
 	});
 	
