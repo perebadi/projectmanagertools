@@ -108,7 +108,22 @@ public class Project {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<Task> tasks = new HashSet<Task>();
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="project")
+	private Set<ProjectComment> comments = new HashSet<ProjectComment>();
+
 	
+	
+	public Set<ProjectComment> getComments() {
+		return comments;
+	}
+
+
+
+	public void setComments(Set<ProjectComment> comments) {
+		this.comments = comments;
+	}
+
+
 
 	public int getId() {
 		return id;
@@ -478,7 +493,7 @@ public class Project {
 			Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps,
 			Set<ProjectProblem> problems, Set<ProjectPhase> phases, List<User> assigneds, User user, Double tVC,
 			Double tIC, Double oP, Double budgettodate, Double costestimated, Double eACOP, Double variance,
-			Double certifiedprogress, Double invoiced, Set<Task> tasks) {
+			Double certifiedprogress, Double invoiced, Set<Task> tasks, Set<ProjectComment> comments) {
 		super();
 		this.id = id;
 		this.projectname = projectname;
@@ -510,6 +525,7 @@ public class Project {
 		this.certifiedprogress = certifiedprogress;
 		this.invoiced = invoiced;
 		this.tasks = tasks;
+		this.comments = comments;
 	}
 
 

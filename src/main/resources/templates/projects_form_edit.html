@@ -477,6 +477,43 @@
 									</table>
 								</div>
 							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Project comments</h3>
+									<ul class="panel-controls">
+										<li><a href="#" id="commentsModal" ><span class="fa fa-wrench"></span></a></li>
+									</ul>
+								</div>
+								<div class="panel-body">
+									<table class="table datatable-simple" id="projectCommentsTable">
+										<thead>
+											<tr>
+												<th style="text-align: center;">Comment</th>
+												<th style="text-align: center;">PM</th>
+												<th style="text-align: center;">Created on</th>
+												<th style="text-align: center;">Modified on</th>
+												<th style="text-align: center;">Modify</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="comment : ${comments}">
+												<input type="hidden" th:value="${comment.comment}" th:id="'commentcomment_' + ${comment.id}" />
+												<input type="hidden" th:value="${comment.id}" th:id="'idcomment_' + ${comment.id}" />
+											
+												<td th:text="${comment.comment}" align="center" ></td>
+												<td th:text="${comment.pm.username}" align="center" ></td>
+												<td th:text="${comment.createdOn}" align="center" ></td>
+												<td th:text="${comment.modifiedOn}" align="center" ></td>
+												<td align="center">
+													<button type="button" class="btn btn-primary" name="editCommentButton" th:attr="data-comment=${comment.id}">
+														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
 				</form>
