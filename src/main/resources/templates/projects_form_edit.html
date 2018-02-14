@@ -294,9 +294,10 @@
 								<div class="panel-heading">
 									<h3 class="panel-title">Financials</h3>
 									<ul class="panel-controls">
+										<!-- 
 										<li><a href="#"
 											th:href="@{/projects/project/__${project.id}__/phase/}"
-											class="panel-fullscreen"><span class="fa fa-plus-square"></span></a></li>
+											class="panel-fullscreen"><span class="fa fa-plus-square"></span></a></li>-->
 									</ul>
 								</div>
 								<div class="panel-body">
@@ -347,12 +348,13 @@
 														</div>
 													</div>
 												</td>
-												<td align="center"><a href="#"
-													th:href="@{/projects/project/__${project.id}__/finance/edit/}">
+												<td align="center">
+													<a href="#" id="financialsModal" >
 														<button type="button" class="btn btn-primary">
 															<span class="fa fa-wrench" aria-hidden="true"></span>Editar
 														</button>
-												</a></td>
+													</a>
+												</td>
 
 											</tr>
 										</tbody>
@@ -363,13 +365,15 @@
 								<div class="panel-heading">
 									<h3 class="panel-title">Project Plan</h3>
 									<ul class="panel-controls">
+										<!-- 
 										<li><a href="#"
 											th:href="@{/projects/project/__${project.id}__/phase/}"
-											class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>
+											class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
+										<li><a href="#" id="phaseModal" ><span class="fa fa-wrench"></span></a></li>
 									</ul>
 								</div>
 								<div class="panel-body">
-									<table class="table datatable">
+									<table class="table datatable-simple" id="projectPlanTable">
 										<thead>
 											<tr>
 												<th style="text-align: center;">Phase</th>
@@ -384,11 +388,20 @@
 										</thead>
 										<tbody>
 											<tr th:each="phase : ${phases}">
-												<td th:text="${phase.summaryphase}" align="center"></td>
-												<td th:text="${phase.startdate}" align="center"></td>
-												<td th:text="${phase.enddate}" align="center"></td>
-												<td th:text="${phase.weekdelay}" align="center"></td>
-												<td th:text="${phase.newdate}" align="center"></td>
+												<input type="hidden" th:value="${phase.summaryphase}" th:id="'summaryphase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.startdate}" th:id="'startdatephase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.enddate}" th:id="'enddatephase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.weekdelay}" th:id="'weekdelayphase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.newdate}" th:id="'newdatephase_' + ${phase.id}" />
+												<input type="hidden" th:value="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}" 
+													th:id="'progressphase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.rag.id}" th:id="'ragphase_' + ${phase.id}" />
+											
+												<td th:text="${phase.summaryphase}" align="center" ></td>
+												<td th:text="${phase.startdate}" align="center" ></td>
+												<td th:text="${phase.enddate}" align="center" ></td>
+												<td th:text="${phase.weekdelay}" align="center" ></td>
+												<td th:text="${phase.newdate}" align="center" ></td>
 												<!-- 												<td th:text="${phase.progress}" align="center"> -->
 												<td align="center">
 													<div class="progress">
@@ -397,7 +410,7 @@
 															aria-valuemax="100"
 															th:style="'width:'+${phase.progress}+'%;'">
 															<span class="num-count"
-																th:text="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}">20</span>%
+																th:text="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}"></span>%
 															Complete
 														</div>
 													</div>
@@ -413,12 +426,11 @@
 																class="btn btn-danger btn-rounded">Red</button></span>
 													</div>
 												</td>
-												<td align="center"><a href="#"
-													th:href="@{/projects/project/__${project.id}__/phase/__${phase.id}__/}">
-														<button type="button" class="btn btn-primary">
-															<span class="fa fa-wrench" aria-hidden="true"></span>Editar
-														</button>
-												</a></td>
+												<td align="center">
+													<button type="button" class="btn btn-primary" name="editPhaseButton" th:attr="data-phase=${phase.id}">
+														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+													</button>
+												</td>
 											</tr>
 										</tbody>
 									</table>

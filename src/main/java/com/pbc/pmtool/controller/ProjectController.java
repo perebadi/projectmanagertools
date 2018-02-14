@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -212,23 +214,39 @@ public class ProjectController {
 		mav.addObject("project",projectService.findProjectById(id));
 		
 		List<ProjectAchievement> achievements = new ArrayList<>(projectService.findProjectById(id).getAchievements());
+		
+		Collections.sort(achievements);
+		
 		mav.addObject("logros",achievements);
 		
 		List<ProjectNextStep> nextsteps = new ArrayList<>(projectService.findProjectById(id).getNextsteps());
+		
+		Collections.sort(nextsteps);
+		
 		mav.addObject("nextsteps",nextsteps);
 		
 		List<ProjectProblem> problems = new ArrayList<>(projectService.findProjectById(id).getProblems());
+		
+		Collections.sort(problems);
+		
 		mav.addObject("problems",problems);
 		
 		List<ProjectEscalation> escalations = new ArrayList<>(projectService.findProjectById(id).getEscalations());
+		
+		Collections.sort(escalations);
+		
 		mav.addObject("escalations",escalations);
 		
 		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
+		
+		Collections.sort(phases);
+		
 		mav.addObject("phases",phases);
 		
 		System.out.println(projectService.findProjectById(id).getProjectname());
 		System.out.println("id : "+id);
 		
+		/*** RAG MODEL ***/
 		FormRagModel formRagModel = new FormRagModel();
 		
 		formRagModel.setId(id);;
@@ -242,8 +260,24 @@ public class ProjectController {
 		formRagModel.setProjectStatus(projectService.findProjectById(id).getProjectStatus().getId());
 		
 		mav.addObject("formRagModel",formRagModel);
-		mav.addObject("project",projectService.findProjectById(id));
 		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+		/*** END RAG MODEL***/
+		
+		/*** FINANCIAL MODEL***/
+		FormFinancialModel formFinancialModel = new FormFinancialModel();
+		
+		formFinancialModel.setBudgettodate(projectService.findProjectById(id).getBudgettodate());
+		formFinancialModel.setCertifiedprogress(projectService.findProjectById(id).getCertifiedprogress());
+		formFinancialModel.setCostestimated(projectService.findProjectById(id).getCostestimated());
+		formFinancialModel.setEACOP(projectService.findProjectById(id).getEACOP());
+		formFinancialModel.setInvoiced(projectService.findProjectById(id).getInvoiced());
+		formFinancialModel.setOP(projectService.findProjectById(id).getOP());
+		formFinancialModel.setTIC(projectService.findProjectById(id).getTIC());
+		formFinancialModel.setTVC(projectService.findProjectById(id).getTVC());
+		formFinancialModel.setVariance(projectService.findProjectById(id).getVariance());
+		
+		mav.addObject("formFinancialModel",formFinancialModel);
+		/*** END FINANCIAL MODEL***/
 		
 		mav.addObject("username", sessionuser);
 		return mav;
@@ -420,49 +454,6 @@ public class ProjectController {
 		
 		return mav;
 	}
-	
-	
-	
-	@PostMapping("/project/{id}/phase/save/")
-	public String savePhase(@PathVariable int id,@ModelAttribute("formPhaseModel") FormPhaseModel formPhaseModel){
-		
-		Project  project = projectService.findProjectById(id);
-		ProjectPhase projectPhase  = new ProjectPhase();
-		
-		projectPhase.setProject(project);
-		projectPhase.setSummaryphase(formPhaseModel.getSummaryphase());
-		projectPhase.setWeekdelay(formPhaseModel.getWeekdelay());
-		projectPhase.setProgress(formPhaseModel.getProgress());
-		projectPhase.setRag(projectStatusLightService.findProjectStatusLightById(formPhaseModel.getRag()));
-		
-		
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString;
-        Date sdate ;
-        try {
-
-        	   dateInString=formPhaseModel.getStartdate();
-           sdate = formatter.parse(dateInString);
-        	   projectPhase.setStartdate(sdate);
-        	   
-        	   dateInString=formPhaseModel.getEnddate();
-           sdate = formatter.parse(dateInString);
-           projectPhase.setEnddate(sdate);
-           
-           dateInString=formPhaseModel.getNewdate();
-           sdate = formatter.parse(dateInString);
-           projectPhase.setNewdate(sdate);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        projectPhase.setId(formPhaseModel.getIdphase());
-      
-	    projectPhaseService.addProjectPhase(projectPhase);
-	 
-		return "redirect:/projects/project/"+id+"/phase/";
-	}	
 	//******************************************************************END PHASE
 	
 	
@@ -492,28 +483,6 @@ public class ProjectController {
 		mav.addObject("username", sessionuser);
 		
 		return mav;
-	}
-	
-	
-	@PostMapping("/project/{id}/finance/save")
-	public String SaveFinance(@PathVariable int id, @ModelAttribute("formFinancialModel") FormFinancialModel formFinancialModel) {
-		
-		Project project = projectService.findProjectById(id);
-		project.setBudgettodate(formFinancialModel.getBudgettodate());
-		project.setCertifiedprogress(formFinancialModel.getCertifiedprogress());
-		project.setCostestimated(formFinancialModel.getCostestimated());
-		project.setEACOP(formFinancialModel.getEACOP());
-		project.setInvoiced(formFinancialModel.getInvoiced());
-		project.setOP(formFinancialModel.getOP());
-		project.setTIC(formFinancialModel.getTIC());
-		project.setTVC(formFinancialModel.getTVC());
-		project.setVariance(formFinancialModel.getVariance());
-		
-		projectService.addProject(project);
-		
-		
-		return "redirect:/projects/project/"+id+"/";
-		
 	}
 	//******************************************************************END FINANCE
 

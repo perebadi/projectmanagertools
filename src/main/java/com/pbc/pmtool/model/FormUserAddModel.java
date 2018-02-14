@@ -1,6 +1,6 @@
 package com.pbc.pmtool.model;
 
-import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.pbc.pmtool.validation.MatchPasswordConstraint;
 import com.pbc.pmtool.validation.UniqueUsernameConstraint;
@@ -19,9 +19,9 @@ public class FormUserAddModel extends MatchPasswordModel {
 	 * Atributos
 	 */
 	@UniqueUsernameConstraint
-	@Size(min=1, max=45)
+	@NotEmpty
 	private String username;
-	@Size(min=1, max=50)
+	@NotEmpty
 	private String name;
 	
 	public FormUserAddModel() {

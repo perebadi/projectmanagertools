@@ -29,11 +29,19 @@
 		  <groupId>org.thymeleaf.extras</groupId>
 		  <artifactId>thymeleaf-extras-springsecurity4</artifactId>
 		</dependency>
+		
 		<dependency>
 		   <groupId>org.apache.commons</groupId>
 		   <artifactId>commons-lang3</artifactId>
 		   <version>3.3.2</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.5</version>
+		</dependency>
+
 		<dependency>
 		    <groupId>javax.mail</groupId>
 		    <artifactId>mail</artifactId>
@@ -67,10 +75,52 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-		</dependency> -->
+	<dependency>
+		  <groupId>fr.opensagres.xdocreport</groupId>
+		  <artifactId>fr.opensagres.xdocreport.template.freemarker</artifactId>
+		  <version>2.0.1</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>fr.opensagres.xdocreport</groupId>
+		  <artifactId>fr.opensagres.xdocreport.template.velocity</artifactId>
+		  <version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>oro</groupId>
+			<artifactId>oro</artifactId>
+			<version>2.0.8</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>fr.opensagres.xdocreport</groupId>
+		  <artifactId>fr.opensagres.xdocreport.document.odt</artifactId>
+		  <version>2.0.1</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>fr.opensagres.xdocreport</groupId>
+		  <artifactId>fr.opensagres.xdocreport.document.docx</artifactId>
+		  <version>2.0.1</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>fr.opensagres.xdocreport</groupId>
+		  <artifactId>fr.opensagres.xdocreport.converter.odt.odfdom</artifactId>
+		  <version>2.0.1</version>
+		</dependency>
+	
+	
+	
+	
+	
+	
+	
 	</dependencies>
 
 	<build>

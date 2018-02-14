@@ -23,12 +23,12 @@
 			<div class="login-logo"></div>
 			<div class="login-body">
 				<div class="login-title">
-					<strong>Bienvenido!</strong>, Crear una cuenta
+					<strong>Welcome!</strong>, Create an account
 				</div>
 
 				<form role="form" class="form-horizontal" action="#" th:action="@{/createuser}" method="POST" th:object="${user}">
 					<div class="form-group" >
-						<label class="col-md-3 control-label" style="color: #AAB2BD;">Nombre:</label>
+						<label class="col-md-3 control-label" style="color: #AAB2BD;">Name:</label>
 						<div class="col-md-9">
 							<input type="text" class="form-control" th:field="*{name}" th:value="${user.name}" />
 							<span class="help-block" th:errors="*{name}"></span>
@@ -49,7 +49,7 @@
 						</div>
 					</div>
 					<div class="form-group" >
-						<label class="col-md-3 control-label" style="color: #AAB2BD;">Confirmar:</label>
+						<label class="col-md-3 control-label" style="color: #AAB2BD;">Confirm password:</label>
 						<div class="col-md-9">
 							<input type="password" class="form-control" th:field="*{confirmPassword}" th:value="${confirmPassword}" />
 							<span class="help-block" th:errors="${user}"></span>
@@ -57,18 +57,10 @@
 					</div>
 					<br />
 					<div class="col-md-6">
-						<button class="btn btn-info btn-block" type="submit">Crear
-							cuenta</button>
+						<button class="btn btn-info btn-block" type="submit">Create account</button>
 					</div>
+					<a th:href="@{/login}" class="pull-right" style="color: white;">Back to login</a>
 				</form>
-			</div>
-
-			<div class="login-footer">
-				<div class="pull-left">&copy; 2014 AppName</div>
-				<div class="pull-right">
-					<a href="#">About</a> | <a href="#">Privacy</a> | <a href="#">Contact
-						Us</a>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -105,55 +97,9 @@
 
 	<!-- START TEMPLATE -->
 	<script type="text/javascript" src="js/settings.js"></script>
-
 	<script type="text/javascript" src="js/plugins.js"></script>
 	<script type="text/javascript" src="js/actions.js"></script>
 	<!-- END TEMPLATE -->
-
-	<script type="text/javascript">
-		var jvalidate = $("#jvalidate").validate({
-			ignore : [],
-			rules : {
-				login : {
-					required : true,
-					minlength : 2,
-					maxlength : 8
-				},
-				password : {
-					required : true,
-					minlength : 5,
-					maxlength : 10
-				},
-				're-password' : {
-					required : true,
-					minlength : 5,
-					maxlength : 10,
-					equalTo : "#password2"
-				},
-				age : {
-					required : true,
-					min : 18,
-					max : 100
-				},
-				email : {
-					required : true,
-					email : true
-				},
-				date : {
-					required : true,
-					date : true
-				},
-				credit : {
-					required : true,
-					creditcard : true
-				},
-				site : {
-					required : true,
-					url : true
-				}
-			}
-		});
-	</script>
 	<!-- END PAGE SCRIPTS -->
 </body>
 </html>

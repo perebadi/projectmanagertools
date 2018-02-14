@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Target( { ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MatchPasswordConstraint {
-	String message() default "Las contraseñas no coinciden";
+	String message() default "Passwords do not match";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

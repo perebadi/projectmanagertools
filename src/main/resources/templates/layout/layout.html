@@ -15,6 +15,15 @@
 	rel="stylesheet" />
 <link rel="stylesheet" href="/css/bootstrap/bootstrap-select.min.css" />
 <!-- EOF CSS INCLUDE -->
+
+<!-- CSS SECTION -->
+<style th:fragment="page-style">
+	.margin-top-15{
+		margin-top: 15px;
+	}
+</style>
+<!-- END CSS SECTION -->
+
 </head>
 <body>
 	<!-- START PAGE CONTAINER -->
@@ -115,7 +124,7 @@
 						<!-- BOTON PARA DESPLEGAR LAS OPCIONES DE MI CUENTA -->
 						<div class="panel-heading">
 							<h1 class="panel-title" style="font-size: 20px;">
-								<span class="fa fa-user"></span> <strong>Mi cuenta</strong>
+								<span class="fa fa-user"></span> <strong>My account</strong>
 							</h1>
 						</div>
 						<!-- END BOTON PARA DESPLEGAR LAS OPCIONES DE MI CUENTA -->
@@ -126,38 +135,46 @@
 							<!-- CAMBIAR PASSWORD -->
 							<a href="#" class="list-group-item">
 								<p>
-									<span style="color: #428bca;" id="resetPasswordText">
-										Cambiar contrase&ntilde;a </span>
+									<span style="color: #428bca;" id="resetPasswordText">Change Password </span>
 								</p> <!-- FORM PARA REINICIAR EL PASSWORD -->
 								<form id="resetPasswordForm" class="form-horizontal"
 									method="POST" th:action="@{/users/resetpassword}">
+									<div>
+										<br />
+	
+										<h2>Change Password</h2>
+										<p>
+											<large>New password</large>
+											<br /> <input type="password" name="password"
+												class="validate[required,minSize[5],maxSize[60]] form-control"
+												id="passwordText" />
+										</p>
+										<p>
+											<large>Confirm password</large>
+											<br /> <input type="password" name="confirmPassword"
+												class="validate[required,equals[password]] form-control"
+												id="confirmPasswordText" />
+										</p>
+	
+										<br />
+										<button type="button" class="btn btn-primary"
+											id="resetPasswordButton">Change Password</button>
+									</div>
 									<br />
-
-									<h2>Cambiar contrase&ntilde;a</h2>
-									<p>
-										<large>Nueva contrase&ntilde;a</large>
-										<br /> <input type="password" name="password"
-											class="validate[required,minSize[5],maxSize[60]] form-control"
-											id="passwordText" />
-									</p>
-									<p>
-										<large>Repetir contrase&ntilde;a</large>
-										<br /> <input type="password" name="confirmPassword"
-											class="validate[required,equals[password]] form-control"
-											id="confirmPasswordText" />
-									</p>
-
-									<br />
-									<button type="button" class="btn btn-primary"
-										id="resetPasswordButton">Cambiar contrase&ntilde;a</button>
-
-									<br /> <br />
+									
+									<div id="passwordUpdateSuccess">
+										<div class="alert alert-success" role="alert" >
+											Password updated correctly
+										</div>
+										<br /> <br />
+										<br />
+									</div>
 								</form> <!-- FORM PARA REINICIAR EL PASSWORD -->
 							</a>
 							<!-- END CAMBIAR PASSWORD -->
 							<a href="#" class="list-group-item">
 								<p>
-									<span style="color: #428bca;">Salir</span>
+									<span style="color: #428bca;">Logout</span>
 								</p>
 							</a>
 						</div>
@@ -271,14 +288,10 @@
 				ignore : [],
 				rules : {
 					password : {
-						required : true,
-						minlength : 5,
-						maxlength : 60
+						required : true
 					},
 					confirmPassword : {
 						required : true,
-						minlength : 5,
-						maxlength : 60,
 						equalTo : "#passwordText"
 					}
 				}
