@@ -99,8 +99,6 @@ public class ProjectServiceImpl implements ProjectService {
 				
 		List<Object[]> ops =projectRepository.getActiveSum(username);
 		
-		
-		/*
 		for (Object[] op : ops ){
 			sumValuesModel.setsTIC((double) op[1]);
 			sumValuesModel.setsTVC((double) op[0]);
@@ -111,10 +109,6 @@ public class ProjectServiceImpl implements ProjectService {
 			sumValuesModel.setEACOP((1-(double) op[2]/(double) op[0])*100);
 			sumValuesModel.setOP((1-(double) op[1]/(double) op[0])*100);
 			}
-		*/
-		
-		
-
 		
 		return sumValuesModel;
 	}
