@@ -27,7 +27,7 @@ public class UserRole {
 	@JoinColumn(name="username", nullable=false)
 	private User user;
 
-	@Column(name = "role", length=45, columnDefinition="VARCHAR(45) DEFAULT 'ROLE_SPECIALIST'")
+	@Column(name = "role", length=45, nullable=false, columnDefinition="VARCHAR(45) DEFAULT 'ROLE_SPECIALIST'")
 	private String role;
 	
 	public Integer getUserRoleId() {

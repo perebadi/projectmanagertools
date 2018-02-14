@@ -10,10 +10,30 @@ public class FormProblemModel {
 	private int week;
 	private String summaryproblem;
 	private String txtproblem;
+	private int idproblem;
 	
 	
 	
-	
+
+
+
+	public int getIdproblem() {
+		return idproblem;
+	}
+
+
+
+
+
+
+
+	public void setIdproblem(int idproblem) {
+		this.idproblem = idproblem;
+	}
+
+
+
+
 
 
 
@@ -97,12 +117,13 @@ public class FormProblemModel {
 
 
 
-	public FormProblemModel(String dateproblem, int week, String summaryproblem, String txtproblem) {
+	public FormProblemModel(String dateproblem, int week, String summaryproblem, String txtproblem, int idproblem) {
 		super();
 		this.dateproblem = dateproblem;
 		this.week = week;
 		this.summaryproblem = summaryproblem;
 		this.txtproblem = txtproblem;
+		this.idproblem = idproblem;
 	}
 
 

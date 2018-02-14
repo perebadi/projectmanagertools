@@ -1,7 +1,9 @@
 package com.pbc.pmtool.entity;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -242,7 +244,16 @@ public class User {
 	}
 
 
-
+	
+	public Map<Integer, Project> getAssignedsMap(){
+		Map<Integer, Project> projects = new HashMap<Integer, Project>();
+		
+		for(Project project : assigneds) {
+			projects.put(project.getId(), project);
+		}
+		
+		return projects;
+	}
 
 
 
