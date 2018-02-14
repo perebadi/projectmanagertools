@@ -43,7 +43,11 @@
 						<li><a href="" th:href="@{/projects/createproject}"><span
 								class="fa fa-image"></span> Create Project</a></li>
 						<li><a href="#" th:href="@{/projects/__${username}__/}"><span
-								class="fa fa-user"></span> Manage Projects</a></li>
+								class="fa fa-user"></span> Manage Your Projects</a></li>
+						
+						<li sec:authorize="hasAuthority('ROLE_PMO')"><a href="#" th:href="@{/projects/__${username}__/}"><span
+								class="fa fa-user"></span> Manage PMO Projects</a></li>
+						
 						<li class="xn-openable"><a href="#"><span
 								class="fa fa-clock-o"></span> Budget</a>
 							<ul>

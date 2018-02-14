@@ -228,7 +228,7 @@ public class ProjectController {
 		List<ProjectProblem> problems = new ArrayList<>(projectService.findProjectById(id).getProblems());
 		
 		Collections.sort(problems);
-		
+				
 		mav.addObject("problems",problems);
 		
 		List<ProjectEscalation> escalations = new ArrayList<>(projectService.findProjectById(id).getEscalations());
