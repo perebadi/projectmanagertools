@@ -165,10 +165,12 @@ public class PmToolRestController {
 			projectComment.setPm(userService.getUser(
 					SecurityContextHolder.getContext().getAuthentication().getName()));
 			projectComment.setCreatedOn(new Date());
+			projectComment.setTags(formCommentModel.getTags());
 		}else {
 			//Actualización del comentario
 			if(projectComment.getPm().getUsername().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 				projectComment.setComment(formCommentModel.getComment());
+				projectComment.setTags(formCommentModel.getTags());
 				projectComment.setModifiedOn(new Date());
 			}else {
 				return new Response("Error", "Error");

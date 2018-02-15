@@ -518,13 +518,14 @@ $(document).ready(function(){
 			
 			//Obtenemos el token
 			var token = document.getElementsByName("_csrf")[0].value;			
-	
+			
 			//Form data
 			var formData = {
 				idcomment : $('#commentid').val(),
-				comment : $('#commentcomment').val()
+				comment : $('#commentcomment').val(),
+				tags : $('#commenttags').tagsinput('items')	
 			}
-	        	
+			
 			//AJAX Call
 			$.ajax({
     			type : "POST",
@@ -567,6 +568,14 @@ $(document).ready(function(){
 			//Copiamos los valores en el modal
 			$("#commentcomment").val($("#commentcomment_" + comment).val());
 			$("#commentid").val($("#idcomment_" + comment).val());
+			
+			$("#commenttags").tagsinput('removeAll');
+			
+			var commenttags = JSON.parse($("#tagscomment_" + comment).val());
+			
+			for(var i = 0; i < commenttags.length; i++){
+				$("#commenttags").tagsinput('add', commenttags[i]);
+			}
 			
 			//Show modal
 			$("#modalComment").modal('show');

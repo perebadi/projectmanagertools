@@ -1,12 +1,17 @@
 package com.pbc.pmtool.entity;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -14,6 +19,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.google.gson.Gson;
 
 /**
  * Entidad comentarios en proyectos
@@ -50,9 +57,14 @@ public class ProjectComment implements Comparable<ProjectComment> {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date modifiedOn;
 
+	@ElementCollection
+	@CollectionTable(name="projectcommenttag", joinColumns= {@JoinColumn(name="id")})
+	@Column(name="tag")
+	private List<String> tags;
+	
 	public ProjectComment() {}
 	
-	public ProjectComment(int id, String comment, User pm, Project project, Date createdOn, Date modifiedOn) {
+	public ProjectComment(int id, String comment, User pm, Project project, Date createdOn, Date modifiedOn, List<String> tags) {
 		super();
 		this.id = id;
 		this.comment = comment;
@@ -60,6 +72,21 @@ public class ProjectComment implements Comparable<ProjectComment> {
 		this.project = project;
 		this.createdOn = createdOn;
 		this.modifiedOn = modifiedOn;
+		this.tags = tags;
+	}
+	
+	public String getTagsJSON() {
+		Gson gson = new Gson();
+		
+		return gson.toJson(getTags());
+	}
+	
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 
 	public int getId() {
