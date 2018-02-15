@@ -139,32 +139,36 @@ public class PmToolRestController {
 	
 	
 	@PostMapping(value = "/createtask/")
-	public Response createTask(@RequestBody FormCreateTaskModel formCreateTaskModel) {
-		Task newTask = new Task();
-		
-		newTask.setSummary(formCreateTaskModel.getSummary());
-		newTask.setDetails(formCreateTaskModel.getDetails());
-		newTask.setDatecreation(new Date());
-		newTask.setDatestatus(new Date());
-		newTask.setProject(projectService.findProjectById(formCreateTaskModel.getProjectid()));
-		
-		if(formCreateTaskModel.getUsername().equals("nobody")) {
-			newTask.setStatus(1);
+	public Response createTask(@Valid @RequestBody FormCreateTaskModel formCreateTaskModel, BindingResult bindingResult) {
+		if(!(bindingResult.hasErrors())) {
+			Task newTask = new Task();
+			
+			newTask.setSummary(formCreateTaskModel.getSummary());
+			newTask.setDetails(formCreateTaskModel.getDetails());
+			newTask.setDatecreation(new Date());
+			newTask.setDatestatus(new Date());
+			newTask.setProject(projectService.findProjectById(formCreateTaskModel.getProjectid()));
+			
+			if(formCreateTaskModel.getUsername().equals("nobody")) {
+				newTask.setStatus(1);
+			}else {
+				newTask.setUser(userService.getUser(formCreateTaskModel.getUsername()));
+				newTask.setStatus(2);
+			}
+			
+			newTask.setEstimatedunit(formCreateTaskModel.getUnit());
+			
+			newTask.setEstimatedtime(formCreateTaskModel.getTime());
+			
+			newTask.setEstimatedhours(formCreateTaskModel.getUnit() * formCreateTaskModel.getTime());
+			newTask.setHours(0);
+			
+			projectTaskServiceImpl.addProjectTask(newTask);
+			
+			return new Response("Done", "Done");
 		}else {
-			newTask.setUser(userService.getUser(formCreateTaskModel.getUsername()));
-			newTask.setStatus(2);
+			return new Response("Error", "Error");
 		}
-		
-		newTask.setEstimatedunit(formCreateTaskModel.getUnit());
-		
-		newTask.setEstimatedtime(formCreateTaskModel.getTime());
-		
-		newTask.setEstimatedhours(formCreateTaskModel.getUnit() * formCreateTaskModel.getTime());
-		newTask.setHours(0);
-		
-		projectTaskServiceImpl.addProjectTask(newTask);
-		
-		return new Response("Done", "Done");
 	}
 	
 	/**

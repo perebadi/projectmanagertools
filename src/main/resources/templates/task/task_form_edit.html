@@ -77,7 +77,8 @@
 							</a> <a href="#" class="list-group-item">
 								<div class="list-group-status status-away"></div> <img
 								src="assets/images/users/user3.jpg" class="pull-left"
-								alt="Nadia Ali" /> <span class="contacts-title">Nadia Ali</span>
+								alt="Nadia Ali" /> <span class="contacts-title">Nadia
+									Ali</span>
 								<p>Mauris vel eros ut nunc rhoncus cursus sed</p>
 							</a> <a href="#" class="list-group-item">
 								<div class="list-group-status status-offline"></div> <img
@@ -187,11 +188,27 @@
 							<div class="panel-body">
 								<span th:text="${backlog.details}"></span>
 							</div>
-							<!-- 
-                                <div class="panel-footer" >
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
-                                </div>
-                                -->
+							<div class="panel-footer">
+								<div class="panel-body panel-body-table">
+									<div class="table-responsive">
+										<div class="row">
+											<div class="progress-list">
+												<div class="pull-left">
+													<strong>Hours</strong>
+												</div>
+												<div class="pull-right">
+													<span th:text="${backlog.hours}"></span>/
+													<span th:text="${backlog.estimatedhours}"></span>
+												</div>
+												<div class="progress progress-small progress-striped active">
+													<div class="progress-bar progress-bar-primary"
+														role="progressbar" th:style="'width:'+${backlog.realvsestimated}+'%;'" ></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -209,6 +226,31 @@
 							</div>
 							<div class="panel-body">
 								<span th:text="${todo.details}"></span>
+							</div>
+							<div class="panel-footer">
+								<div class="panel-body panel-body-table">
+									<div class="table-responsive">
+										<div class="row">
+											<div class="progress-list">
+												<div class="pull-left">
+													<strong>Hours</strong>
+												</div>
+												<div class="pull-right">
+													<span th:text="${todo.hours}"></span>/
+													<span th:text="${todo.estimatedhours}"></span>
+												</div>
+												<div class="progress progress-small progress-striped active">
+													<div class="progress-bar progress-bar-primary"
+														role="progressbar" th:style="'width:'+${todo.realvsestimated}+'%;'" ></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pull-right">
+									<strong>Assigned to: &nbsp;</strong> <a><span
+										th:text="${todo.user.name}"></span></a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -229,6 +271,31 @@
 							<div class="panel-body">
 								<span th:text="${progress.details}"></span>
 							</div>
+							<div class="panel-footer">
+								<div class="panel-body panel-body-table">
+									<div class="table-responsive">
+										<div class="row">
+											<div class="progress-list">
+												<div class="pull-left">
+													<strong>Hours</strong>
+												</div>
+												<div class="pull-right">
+													<span th:text="${progress.hours}"></span>/
+													<span th:text="${progress.estimatedhours}"></span>
+												</div>
+												<div class="progress progress-small progress-striped active">
+													<div class="progress-bar progress-bar-primary"
+														role="progressbar" th:style="'width:'+${progress.realvsestimated}+'%;'" ></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pull-right">
+									<strong>Assigned to: &nbsp;</strong> <a><span
+										th:text="${progress.user.name}"></span></a>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -246,6 +313,31 @@
 							</div>
 							<div class="panel-body">
 								<span th:text="${done.details}"></span>
+							</div>
+							<div class="panel-footer">
+								<div class="panel-body panel-body-table">
+									<div class="table-responsive">
+										<div class="row">
+											<div class="progress-list">
+												<div class="pull-left">
+													<strong>Hours</strong>
+												</div>
+												<div class="pull-right">
+													<span th:text="${done.hours}"></span>/
+													<span th:text="${done.estimatedhours}"></span>
+												</div>
+												<div class="progress progress-small progress-striped active">
+													<div class="progress-bar progress-bar-primary"
+														role="progressbar" th:style="'width:'+${done.realvsestimated}+'%;'" ></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pull-right">
+									<strong>Assigned to: &nbsp;</strong> <a><span
+										th:text="${done.user.name}"></span></a>
+								</div>
 							</div>
 						</div>
 					</div>

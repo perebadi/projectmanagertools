@@ -147,13 +147,21 @@ public class TaskController {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.TASKFORMEDIT);
 		
-		mav.addObject("username", sessionuser);
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(sessionuser)));
 		mav.addObject("projects", projectService.listProjectByUser(userRepository.findByUsername(sessionuser)));
+		
+		/*
 		mav.addObject("backlogs", projectTaskService.listProjectTasks(projectService.findProjectById(idproject), 1));
 		mav.addObject("todos", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),2));
 		mav.addObject("progresses", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),3));
 		mav.addObject("dones", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),4));
+		*/
+		
+		mav.addObject("backlogs", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject), 1));
+		mav.addObject("todos", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),2));
+		mav.addObject("progresses", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),3));
+		mav.addObject("dones", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),4));
+		
 		mav.addObject("assigneds",projectService.findProjectById(idproject).getAssigneds());
 		mav.addObject("projectid", idproject);
 		
