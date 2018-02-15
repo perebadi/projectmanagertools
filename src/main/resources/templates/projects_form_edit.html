@@ -60,8 +60,8 @@
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/rag/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="ragModal"><span
-														class="fa fa-wrench"></span></a></li>
+												<li><a role="button" id="ragModal"><span
+														class="fa fa-wrench "></span></a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
@@ -186,7 +186,7 @@
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/achievement/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="achievementModal"><span
+												<li><a role="button" id="achievementModal"><span
 														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
@@ -206,7 +206,7 @@
 													th:id="'weekachievement_' + ${logro.id}" /> <input
 													type="hidden" th:value="${project.id}"
 													th:id="'projectachievement_' + ${logro.id}" /> <span
-													th:text="${logro.summaryachievement}"></span> <a href="#"
+													th:text="${logro.summaryachievement}"></span> <a role="button"
 													class="pull-right"> <span class="badge badge-success"
 														th:text="${logro.dateachievement}"
 														name="viewDetailsAchievement"
@@ -226,7 +226,7 @@
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/nextstep/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="nextStepModal"><span
+												<li><a role="button" id="nextStepModal"><span
 														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
@@ -246,7 +246,7 @@
 													th:id="'weeknextstep_' + ${nextstep.id}" /> <input
 													type="hidden" th:value="${project.id}"
 													th:id="'projectnextstep_' + ${nextstep.id}" /> <span
-													th:text="${ nextstep.summarynextstep}"></span> <a href="#"
+													th:text="${ nextstep.summarynextstep}"></span> <a role="button"
 													class="pull-right"> <span class="badge badge-info"
 														th:text="'KW'+${nextstep.week}" name="viewDetailsNextStep"
 														th:attr="data-nextstep=${nextstep.id}"></span>
@@ -264,7 +264,7 @@
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/problem/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="problemModal"><span
+												<li><a role="button" id="problemModal"><span
 														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
@@ -283,7 +283,7 @@
 													th:id="'weekproblem_' + ${problem.id}" /> <input
 													type="hidden" th:value="${project.id}"
 													th:id="'projectproblem_' + ${problem.id}" /> <span
-													th:text="${ problem.summaryproblem}"></span> <a href="#"
+													th:text="${ problem.summaryproblem}"></span> <a role="button"
 													class="pull-right"> <span class="badge badge-danger"
 														th:text="'KW'+${problem.week}" name="viewDetailsProblem"
 														th:attr="data-problem=${problem.id}"></span>
@@ -303,7 +303,7 @@
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/escalation/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="escalationModal"><span
+												<li><a role="button" id="escalationModal"><span
 														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
@@ -331,7 +331,7 @@
 																	th:id="'weekescalation_' + ${escalation.id}" /> <input
 																	type="hidden" th:value="${project.id}"
 																	th:id="'projectescalation_' + ${escalation.id}" /> <a
-																	href="#"> <span class="badge badge-warning"
+																	role="button"> <span class="badge badge-warning"
 																		th:text="${escalation.dateescalation}"
 																		name="viewDetailsEscalation"
 																		th:attr="data-escalation=${escalation.id}" />
@@ -417,7 +417,7 @@
 														</div>
 													</div>
 												</td>
-												<td align="center"><a href="#" id="financialsModal">
+												<td align="center"><a role="button" id="financialsModal">
 														<button type="button" class="btn btn-primary">
 															<span class="fa fa-wrench" aria-hidden="true"></span>Editar
 														</button>
@@ -436,7 +436,7 @@
 										<li><a href="#"
 											th:href="@{/projects/project/__${project.id}__/phase/}"
 											class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-										<li><a href="#" id="phaseModal"><span
+										<li><a role="button" id="phaseModal"><span
 												class="fa fa-wrench"></span></a></li>
 									</ul>
 								</div>
@@ -519,7 +519,7 @@
 										<div class="panel-heading">
 											<h3 class="panel-title">Project comments</h3>
 											<ul class="panel-controls">
-												<li><a href="#" id="commentsModal"><span
+												<li><a role="button" id="commentsModal"><span
 														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
@@ -555,32 +555,24 @@
 																<input
 																	type="hidden" th:value="${comment.id}"
 																	th:id="'idcomment_' + ${comment.id}" />
-																	
-															<ul class="panel-controls">
-																<li><a href="javascript: void();"
-																	name="editCommentButton"
-																	th:attr="data-comment=${comment.id}"> <span
-																		class="glyphicon glyphicon-pencil"></span>
-																</a></li>
-															</ul>
-															<span th:text="${comment.comment}"></span>
+																
+																<input type="hidden" th:value="${comment.getTagsJSON()}" th:id="'tagscomment_' + ${comment.id}" />
+																
+																<ul class="panel-controls" th:if="${username} == ${comment.pm.username}">
+																	<li><a href="javascript: void();"
+																		name="editCommentButton"
+																		th:attr="data-comment=${comment.id}"> <span
+																			class="glyphicon glyphicon-pencil"></span>
+																	</a></li>
+																</ul>
+																<span th:text="${comment.comment}"></span>
 															</p>
 
-															<strong>Tags: </strong>
-															<input type="text" data-role="tagsinput" />
-
-															<!-- 
 															<ul class="list-tags">
-																<li><a href="#"><span class="fa fa-tag"></span>
-																		tempor</a></li>
-																<li><a href="#"><span class="fa fa-tag"></span>
-																		eros</a></li>
-																<li><a href="#"><span class="fa fa-tag"></span>
-																		suspendisse</a></li>
-																<li><a href="#"><span class="fa fa-tag"></span>
-																		dolor</a></li>
+																<li th:each="tag : ${comment.tags}">
+																	<a><span class="fa fa-tag"></span> <span th:text="${tag}"></span></a>
+																</li>
 															</ul>
-															-->
 														</div>
 														<!-- 
 												<div class="timeline-body comments">
@@ -608,8 +600,6 @@
 													</div>
 												</div>
 												<!-- END TIMELINE ITEM -->
-
-
 											</div>
 											<!-- END TIMELINE -->
 										</div>
@@ -617,19 +607,6 @@
 								</div>
 							</div>
 							<!-- END ROW-->
-
-
-
-
-
-
-
-
-
-
-
-
-
 						</div>
 						<!-- END COL12 -->
 					</div>
@@ -655,12 +632,12 @@
 	<script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-tagsinput.min.js}"></script>
 	<script th:src="@{/js/project_actions.js}"></script>
 	<!-- END PAGE PLUGINS -->
 
 	<!-- START TEMPLATE -->
 	<script th:src="@{/js/settings.jss}"></script>
 	<!-- END TEMPLATE -->
-
 </body>
 </html>
