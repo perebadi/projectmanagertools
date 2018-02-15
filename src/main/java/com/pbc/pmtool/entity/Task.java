@@ -64,14 +64,8 @@ public class Task {
 	@Column(name = "estimatedtime")
 	private int estimatedtime;
 	
-	@Column(name = "time")
-	private int time;
-	
 	@Column(name = "estimatedunit")
 	private int estimatedunit;
-	
-	@Column(name = "unit")
-	private int unit;
 	
 	@Column(name = "status")
 	private int status;
@@ -84,28 +78,12 @@ public class Task {
 		this.estimatedtime = estimatedtime;
 	}
 
-	public int getTime() {
-		return time;
-	}
-
-	public void setTime(int time) {
-		this.time = time;
-	}
-
 	public int getEstimatedunit() {
 		return estimatedunit;
 	}
 
 	public void setEstimatedunit(int estimatedunit) {
 		this.estimatedunit = estimatedunit;
-	}
-
-	public int getUnit() {
-		return unit;
-	}
-
-	public void setUnit(int unit) {
-		this.unit = unit;
 	}
 
 	public int getId() {

@@ -1,12 +1,26 @@
 package com.pbc.pmtool.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.sun.istack.internal.NotNull;
+
 public class FormCreateTaskModel {
 
+	@NotNull
 	private int projectid;
+	
+	@NotEmpty
 	private String summary;
+	
+	@NotEmpty
 	private String details;
+	
+	@NotNull
 	private int time;
+	
+	@NotNull
 	private int unit;
+	
 	private String username;
 
 	

@@ -139,7 +139,7 @@ public class PmToolRestController {
 	
 	
 	@PostMapping(value = "/createtask/")
-	public Response createTask( @RequestBody FormCreateTaskModel formCreateTaskModel) {
+	public Response createTask(@RequestBody FormCreateTaskModel formCreateTaskModel) {
 		Task newTask = new Task();
 		
 		newTask.setSummary(formCreateTaskModel.getSummary());
@@ -156,13 +156,11 @@ public class PmToolRestController {
 		}
 		
 		newTask.setEstimatedunit(formCreateTaskModel.getUnit());
-		newTask.setUnit(formCreateTaskModel.getUnit());
 		
 		newTask.setEstimatedtime(formCreateTaskModel.getTime());
-		newTask.setTime(formCreateTaskModel.getTime());
 		
 		newTask.setEstimatedhours(formCreateTaskModel.getUnit() * formCreateTaskModel.getTime());
-		newTask.setHours(formCreateTaskModel.getUnit() * formCreateTaskModel.getTime());
+		newTask.setHours(0);
 		
 		projectTaskServiceImpl.addProjectTask(newTask);
 		
