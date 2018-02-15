@@ -1,14 +1,28 @@
 package com.pbc.pmtool.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class FormPhaseModel {
 
 	private int idphase;
+	
+	@NotEmpty
 	private String startdate;
+	
+	@NotEmpty
 	private String enddate;
+	
 	private String newdate;
+	
+	@NotEmpty
 	private String summaryphase;
+	
 	private int weekdelay;
+	
+	@NotEmpty
 	private int progress;
+	
+	@NotEmpty
 	private int rag;
 
 	public int getIdphase() {

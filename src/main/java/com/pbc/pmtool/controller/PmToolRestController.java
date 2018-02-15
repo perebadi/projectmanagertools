@@ -136,8 +136,13 @@ public class PmToolRestController {
 		return res;
 	}
 	
-	
-	
+	/**
+	 * Crea una tarea
+	 * 
+	 * @param formCreateTaskModel
+	 * @param bindingResult
+	 * @return Response
+	 */
 	@PostMapping(value = "/createtask/")
 	public Response createTask(@Valid @RequestBody FormCreateTaskModel formCreateTaskModel, BindingResult bindingResult) {
 		if(!(bindingResult.hasErrors())) {
@@ -179,254 +184,279 @@ public class PmToolRestController {
 	 * @return Response
 	 */
 	@PostMapping("/project/{id}/comment/save")
-	public Response saveComment(@PathVariable int id, @RequestBody FormCommentModel formCommentModel) {
-		ProjectComment projectComment = projectCommentServiceImpl.findCommentById(formCommentModel.getIdcomment());
-		
-		if(formCommentModel.getIdcomment() == 0) {
-			projectComment = new ProjectComment();
+	public Response saveComment(@PathVariable int id, @Valid @RequestBody FormCommentModel formCommentModel, BindingResult bindingResult) {
+		if(!(bindingResult.hasErrors())) {
+			ProjectComment projectComment = projectCommentServiceImpl.findCommentById(formCommentModel.getIdcomment());
 			
-			//Nuevo comentario
-			projectComment.setComment(formCommentModel.getComment());
-			projectComment.setProject(projectService.findProjectById(id));
-			projectComment.setPm(userService.getUser(
-					SecurityContextHolder.getContext().getAuthentication().getName()));
-			projectComment.setCreatedOn(new Date());
-			projectComment.setTags(formCommentModel.getTags());
-		}else {
-			//Actualización del comentario
-			if(projectComment.getPm().getUsername().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			if(formCommentModel.getIdcomment() == 0) {
+				projectComment = new ProjectComment();
+				
+				//Nuevo comentario
 				projectComment.setComment(formCommentModel.getComment());
+				projectComment.setProject(projectService.findProjectById(id));
+				projectComment.setPm(userService.getUser(
+						SecurityContextHolder.getContext().getAuthentication().getName()));
+				projectComment.setCreatedOn(new Date());
 				projectComment.setTags(formCommentModel.getTags());
-				projectComment.setModifiedOn(new Date());
 			}else {
-				return new Response("Error", "Error");
+				//Actualización del comentario
+				if(projectComment.getPm().getUsername().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+					projectComment.setComment(formCommentModel.getComment());
+					projectComment.setTags(formCommentModel.getTags());
+					projectComment.setModifiedOn(new Date());
+				}else {
+					return new Response("Error", "Error");
+				}
 			}
+			
+			projectCommentServiceImpl.addProjectComment(projectComment);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
 		}
-		
-		projectCommentServiceImpl.addProjectComment(projectComment);
-		
-		return new Response("Done", "Done");
 	}
 
 	@PostMapping("/project/{id}/phase/save/")
-	public Response savePhase(@PathVariable int id,@RequestBody FormPhaseModel formPhaseModel){
-		
-		Project  project = projectService.findProjectById(id);
-		ProjectPhase projectPhase  = new ProjectPhase();
-		
-		projectPhase.setProject(project);
-		projectPhase.setSummaryphase(formPhaseModel.getSummaryphase());
-		projectPhase.setWeekdelay(formPhaseModel.getWeekdelay());
-		projectPhase.setProgress(formPhaseModel.getProgress());
-		projectPhase.setRag(projectStatusLightService.findProjectStatusLightById(formPhaseModel.getRag()));
-		
-		
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString;
-        Date sdate ;
-        try {
-
-        	   dateInString=formPhaseModel.getStartdate();
-           sdate = formatter.parse(dateInString);
-        	   projectPhase.setStartdate(sdate);
-        	   
-        	   dateInString=formPhaseModel.getEnddate();
-           sdate = formatter.parse(dateInString);
-           projectPhase.setEnddate(sdate);
-           
-           dateInString=formPhaseModel.getNewdate();
-           sdate = formatter.parse(dateInString);
-           projectPhase.setNewdate(sdate);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        projectPhase.setId(formPhaseModel.getIdphase());
-      
-	    projectPhaseService.addProjectPhase(projectPhase);
-	 
-		return new Response("Done", "Done");
+	public Response savePhase(@PathVariable int id, @Valid @RequestBody FormPhaseModel formPhaseModel, BindingResult bindingResult){
+		if(!(bindingResult.hasErrors())) {
+			Project  project = projectService.findProjectById(id);
+			ProjectPhase projectPhase  = new ProjectPhase();
+			
+			projectPhase.setProject(project);
+			projectPhase.setSummaryphase(formPhaseModel.getSummaryphase());
+			projectPhase.setWeekdelay(formPhaseModel.getWeekdelay());
+			projectPhase.setProgress(formPhaseModel.getProgress());
+			projectPhase.setRag(projectStatusLightService.findProjectStatusLightById(formPhaseModel.getRag()));
+			
+			
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        String dateInString;
+	        Date sdate ;
+	        try {
+	
+	        	   dateInString=formPhaseModel.getStartdate();
+	           sdate = formatter.parse(dateInString);
+	        	   projectPhase.setStartdate(sdate);
+	        	   
+	        	   dateInString=formPhaseModel.getEnddate();
+	           sdate = formatter.parse(dateInString);
+	           projectPhase.setEnddate(sdate);
+	           
+	           dateInString=formPhaseModel.getNewdate();
+	           sdate = formatter.parse(dateInString);
+	           projectPhase.setNewdate(sdate);
+	
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+	        projectPhase.setId(formPhaseModel.getIdphase());
+	      
+		    projectPhaseService.addProjectPhase(projectPhase);
+		 
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}	
 	
 	@PostMapping("/project/{id}/finance/save")
-	public Response SaveFinance(@PathVariable int id, @RequestBody FormFinancialModel formFinancialModel) {
-		
-		Logger.getGlobal().info("ID: " + id);
-		Logger.getGlobal().info("OP: " + formFinancialModel.getOP());
-		
-		Project project = projectService.findProjectById(id);
-		project.setBudgettodate(formFinancialModel.getBudgettodate());
-		project.setCertifiedprogress(formFinancialModel.getCertifiedprogress());
-		project.setCostestimated(formFinancialModel.getCostestimated());
-		project.setEACOP(formFinancialModel.getEACOP());
-		project.setInvoiced(formFinancialModel.getInvoiced());
-		project.setOP(formFinancialModel.getOP());
-		project.setTIC(formFinancialModel.getTIC());
-		project.setTVC(formFinancialModel.getTVC());
-		project.setVariance(formFinancialModel.getVariance());
-		
-		projectService.addProject(project);
-		
-		return new Response("Done", "Done");
-		
+	public Response SaveFinance(@PathVariable int id, @Valid @RequestBody FormFinancialModel formFinancialModel, BindingResult bindingResult) {
+		if(!(bindingResult.hasErrors())) {
+			Logger.getGlobal().info("ID: " + id);
+			Logger.getGlobal().info("OP: " + formFinancialModel.getOP());
+			
+			Project project = projectService.findProjectById(id);
+			project.setBudgettodate(formFinancialModel.getBudgettodate());
+			project.setCertifiedprogress(formFinancialModel.getCertifiedprogress());
+			project.setCostestimated(formFinancialModel.getCostestimated());
+			project.setEACOP(formFinancialModel.getEACOP());
+			project.setInvoiced(formFinancialModel.getInvoiced());
+			project.setOP(formFinancialModel.getOP());
+			project.setTIC(formFinancialModel.getTIC());
+			project.setTVC(formFinancialModel.getTVC());
+			project.setVariance(formFinancialModel.getVariance());
+			
+			projectService.addProject(project);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}
 	
 	@PostMapping("/project/{id}/rag/save/")
-	public Response saveRAG(@PathVariable int id,@RequestBody FormRagModel formRagModel){
-		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
-		
-		Project  project = projectService.findProjectById(id);
-		
-		project.setProjectStatus(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus()));
-		project.setProjectDeliveryConfidence(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDeliveryConfidence()));
-		project.setProjectGovernance(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectGovernance()));
-		project.setProjectBusinessChange(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBusinessChange()));
-		project.setProjectBenefitsRealisation(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBenefitsRealisation()));
-		project.setProjectDependency(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDependency()));
-		project.setProjectResourcing(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectResourcing()));
-		project.setProjectScope(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectScope()));
-		
-		ProjectStatusLight projectStatusLight =projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus());
-
-		projectService.updateProject(project);
-		
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
-		mav.addObject("formRagModel", formRagModel);
-		
-		return new Response("Done", "Done");
+	public Response saveRAG(@PathVariable int id, @Valid @RequestBody FormRagModel formRagModel, BindingResult bindingResult){
+		if(!(bindingResult.hasErrors())) {
+			ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
+			
+			Project  project = projectService.findProjectById(id);
+			
+			project.setProjectStatus(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus()));
+			project.setProjectDeliveryConfidence(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDeliveryConfidence()));
+			project.setProjectGovernance(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectGovernance()));
+			project.setProjectBusinessChange(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBusinessChange()));
+			project.setProjectBenefitsRealisation(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBenefitsRealisation()));
+			project.setProjectDependency(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDependency()));
+			project.setProjectResourcing(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectResourcing()));
+			project.setProjectScope(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectScope()));
+			
+			ProjectStatusLight projectStatusLight =projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus());
+	
+			projectService.updateProject(project);
+			
+			mav.addObject("project",projectService.findProjectById(id));
+			mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
+			mav.addObject("formRagModel", formRagModel);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}
 	
 	@PostMapping("/project/{id}/escalation/save/")
-	public Response saveScalation(@PathVariable int id,@RequestBody FormEscalationModel formEscalationModel){
-		
-		Project  project = projectService.findProjectById(id);
-		ProjectEscalation projectEscalation  = new ProjectEscalation();
-		
-		projectEscalation.setProject(project);
-		projectEscalation.setSummaryescalation(formEscalationModel.getSummaryescalation());
-		projectEscalation.setTxtescalation(formEscalationModel.getTxtescalation());
-		projectEscalation.setWeek(formEscalationModel.getWeek());
-		projectEscalation.setId(formEscalationModel.getIdescalation());
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formEscalationModel.getDateescalation();
-        try {
-
-            Date date = formatter.parse(dateInString);
-            projectEscalation.setDateescalation(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        
-      
-        projectEscalationService.addProjectEscalation(projectEscalation);
-		
-		return new Response("Done", "Done");
+	public Response saveScalation(@PathVariable int id, @Valid @RequestBody FormEscalationModel formEscalationModel, BindingResult bindingResult){
+		if(!(bindingResult.hasErrors())) {
+			Project  project = projectService.findProjectById(id);
+			ProjectEscalation projectEscalation  = new ProjectEscalation();
+			
+			projectEscalation.setProject(project);
+			projectEscalation.setSummaryescalation(formEscalationModel.getSummaryescalation());
+			projectEscalation.setTxtescalation(formEscalationModel.getTxtescalation());
+			projectEscalation.setWeek(formEscalationModel.getWeek());
+			projectEscalation.setId(formEscalationModel.getIdescalation());
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        String dateInString =formEscalationModel.getDateescalation();
+	        try {
+	
+	            Date date = formatter.parse(dateInString);
+	            projectEscalation.setDateescalation(date);
+	
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+	        
+	      
+	        projectEscalationService.addProjectEscalation(projectEscalation);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}	
 	
 	@PostMapping("/project/{id}/problem/save/")
-	public Response saveNextSteps(@PathVariable int id,@RequestBody FormProblemModel formProblemModel){
+	public Response saveNextSteps(@PathVariable int id, @Valid @RequestBody FormProblemModel formProblemModel, BindingResult bindingResult){
+		if(!(bindingResult.hasErrors())) {
+			Project  project = projectService.findProjectById(id);
+			
+			ProjectProblem projectProblem  = new ProjectProblem();
 		
-		Project  project = projectService.findProjectById(id);
-		
-		ProjectProblem projectProblem  = new ProjectProblem();
+			
+			projectProblem.setProject(project);
+			projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
+			projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
+			projectProblem.setWeek(formProblemModel.getWeek());
+			projectProblem.setId(formProblemModel.getIdproblem());
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        String dateInString =formProblemModel.getDateproblem();
 	
-		
-		projectProblem.setProject(project);
-		projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
-		projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
-		projectProblem.setWeek(formProblemModel.getWeek());
-		projectProblem.setId(formProblemModel.getIdproblem());
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formProblemModel.getDateproblem();
-
-        try {
-
-            Date date = formatter.parse(dateInString);
-            projectProblem.setDateproblem(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-		
-        
-        System.out.println(projectProblem.getSummaryproblem());
-      
-        projectProblemService.addProjectProblem(projectProblem);
-		
-		return new Response("Done", "Done");
+	        try {
+	
+	            Date date = formatter.parse(dateInString);
+	            projectProblem.setDateproblem(date);
+	
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+			
+	        
+	        System.out.println(projectProblem.getSummaryproblem());
+	      
+	        projectProblemService.addProjectProblem(projectProblem);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}	
 	
 	@PostMapping("/project/{id}/nextstep/save/")
-	public Response saveNextSteps(@PathVariable int id,@RequestBody FormNextStepModel formNextStepModel){
+	public Response saveNextSteps(@PathVariable int id, @Valid @RequestBody FormNextStepModel formNextStepModel, BindingResult bindingResult){
+		if(!(bindingResult.hasErrors())) {
+			Project  project = projectService.findProjectById(id);
+			
+			ProjectNextStep projectNextStep  = new ProjectNextStep();
 		
-		Project  project = projectService.findProjectById(id);
-		
-		ProjectNextStep projectNextStep  = new ProjectNextStep();
+			
+			projectNextStep.setProject(project);
+			projectNextStep.setSummarynextstep(formNextStepModel.getSummarynextstep());
+			projectNextStep.setTxtnextstep(formNextStepModel.getTxtnextstep());
+			projectNextStep.setWeek(formNextStepModel.getWeek());
+			projectNextStep.setId(formNextStepModel.getIdnextstep());
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        String dateInString =formNextStepModel.getDatenextstep();
 	
-		
-		projectNextStep.setProject(project);
-		projectNextStep.setSummarynextstep(formNextStepModel.getSummarynextstep());
-		projectNextStep.setTxtnextstep(formNextStepModel.getTxtnextstep());
-		projectNextStep.setWeek(formNextStepModel.getWeek());
-		projectNextStep.setId(formNextStepModel.getIdnextstep());
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formNextStepModel.getDatenextstep();
-
-        try {
-
-            Date date = formatter.parse(dateInString);
-            projectNextStep.setDatenextstep(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-		
-      
-        projectNextStepService.addProjectNextStep(projectNextStep);
-		
-		return new Response("Done", "Done");
+	        try {
+	
+	            Date date = formatter.parse(dateInString);
+	            projectNextStep.setDatenextstep(date);
+	
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+			
+	      
+	        projectNextStepService.addProjectNextStep(projectNextStep);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}	
 	
 	@PostMapping("/project/{id}/achievement/save/")
-	public Response saveAchievement(@PathVariable int id,@RequestBody FormAchievementModel formAchievementModel){
+	public Response saveAchievement(@PathVariable int id, @Valid @RequestBody FormAchievementModel formAchievementModel, BindingResult bindingResult){
+		if(!(bindingResult.hasErrors())) {
+			Project  project = projectService.findProjectById(id);
+			
+			ProjectAchievement projectAchievement  = new ProjectAchievement();
 		
-		Project  project = projectService.findProjectById(id);
-		
-		ProjectAchievement projectAchievement  = new ProjectAchievement();
+			
+			projectAchievement.setProject(project);
+			projectAchievement.setSummaryachievement(formAchievementModel.getSummaryachievement());
+			projectAchievement.setTxtachievement(formAchievementModel.getTxtachievement());
+			projectAchievement.setWeek(formAchievementModel.getWeek());
+			projectAchievement.setId(formAchievementModel.getIdachievement());
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        String dateInString =formAchievementModel.getDateachievement();
 	
-		
-		projectAchievement.setProject(project);
-		projectAchievement.setSummaryachievement(formAchievementModel.getSummaryachievement());
-		projectAchievement.setTxtachievement(formAchievementModel.getTxtachievement());
-		projectAchievement.setWeek(formAchievementModel.getWeek());
-		projectAchievement.setId(formAchievementModel.getIdachievement());
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString =formAchievementModel.getDateachievement();
-
-        try {
-
-            Date date = formatter.parse(dateInString);
-            projectAchievement.setDateachievement(date);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-		
-        System.out.println("Project     :" + project.getProjectname());
-        System.out.println("Achievement :" + projectAchievement.getSummaryachievement());
-        
-        projectAchievementService.addProjectAchievement(projectAchievement);
-		
-
-		
-		return new Response("Done", "Done");
+	        try {
+	
+	            Date date = formatter.parse(dateInString);
+	            projectAchievement.setDateachievement(date);
+	
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+			
+	        System.out.println("Project     :" + project.getProjectname());
+	        System.out.println("Achievement :" + projectAchievement.getSummaryachievement());
+	        
+	        projectAchievementService.addProjectAchievement(projectAchievement);
+			
+	
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}
 	
 	@PostMapping("/resetpassword")
