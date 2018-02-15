@@ -30,6 +30,7 @@ import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
 import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
+import com.pbc.pmtool.entity.Task;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormAssignToProjectModel;
@@ -54,6 +55,7 @@ import com.pbc.pmtool.service.ProjectPhaseService;
 import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
+import com.pbc.pmtool.service.ProjectTaskService;
 import com.pbc.pmtool.service.UserService;
 
 @RestController
@@ -104,6 +106,10 @@ public class PmToolRestController {
 	@Qualifier("projectCommentServiceImpl")
 	private ProjectCommentService projectCommentServiceImpl;
 	
+	@Autowired
+	@Qualifier("projectTaskServiceImpl")
+	private ProjectTaskService projectTaskServiceImpl;
+	
 	@GetMapping(value = "/projects/all")
 	public List<Project> getProject(){
 			return projectService.listProjects();
@@ -134,15 +140,33 @@ public class PmToolRestController {
 	
 	@PostMapping(value = "/createtask/")
 	public Response createTask( @RequestBody FormCreateTaskModel formCreateTaskModel) {
+		Task newTask = new Task();
 		
+		newTask.setSummary(formCreateTaskModel.getSummary());
+		newTask.setDetails(formCreateTaskModel.getDetails());
+		newTask.setDatecreation(new Date());
+		newTask.setDatestatus(new Date());
+		newTask.setProject(projectService.findProjectById(formCreateTaskModel.getProjectid()));
 		
-		User  user = userService.getUser(formCreateTaskModel.getUsername());
-		Project project = projectService.findProjectById(formCreateTaskModel.getProjectid());
-
-	
+		if(formCreateTaskModel.getUsername().equals("nobody")) {
+			newTask.setStatus(1);
+		}else {
+			newTask.setUser(userService.getUser(formCreateTaskModel.getUsername()));
+			newTask.setStatus(2);
+		}
 		
-		Response res = new Response("Done", "Done");
-		return res;
+		newTask.setEstimatedunit(formCreateTaskModel.getUnit());
+		newTask.setUnit(formCreateTaskModel.getUnit());
+		
+		newTask.setEstimatedtime(formCreateTaskModel.getTime());
+		newTask.setTime(formCreateTaskModel.getTime());
+		
+		newTask.setEstimatedhours(formCreateTaskModel.getUnit() * formCreateTaskModel.getTime());
+		newTask.setHours(formCreateTaskModel.getUnit() * formCreateTaskModel.getTime());
+		
+		projectTaskServiceImpl.addProjectTask(newTask);
+		
+		return new Response("Done", "Done");
 	}
 	
 	/**

@@ -165,14 +165,16 @@
                         		<h3>BackLog</h3>                        		
 						   <div class="panel panel-danger" draggable="true" th:value="${backlog.id}" th:name="${backlog.id}"   th:attr="data-id_task=${backlog.id}"   th:each="backlog : ${backlogs}">
                                 <div class="panel-heading">                                        
-                                    <h3 class="panel-title">Sample block #1</h3>
+                                    <h3 class="panel-title"><span th:text="${backlog.summary}"></span></h3>
                                 </div>
                                 <div class="panel-body" >
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
+                                    <span th:text="${backlog.details}"></span>
                                 </div>
+                                <!-- 
                                 <div class="panel-footer" >
                                     Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
                                 </div>
+                                -->
                             </div>
                         </div>
                         
@@ -181,10 +183,10 @@
 
 						   <div class="panel panel-warning" draggable="true" th:value="${todo.id}" th:name="${todo.id}"   th:attr="data-id_task=${todo.id}"   th:each="todo : ${todos}">
                                 <div class="panel-heading">                                        
-                                    <h3 class="panel-title">Sample block #3</h3>
+                                    <h3 class="panel-title"><span th:text="${todo.summary}"></span></h3>
                                 </div>
                                 <div class="panel-body">
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
+                                    <span th:text="${todo.details}"></span>
                                 </div>
                             </div>
                         </div>
@@ -194,10 +196,10 @@
 
 						   <div class="panel panel-info" draggable="true" th:value="${progress.id}" th:name="${progress.id}"   th:attr="data-id_task=${progress.id}"   th:each="progress : ${progresses}">
                                 <div class="panel-heading">                                        
-                                    <h3 class="panel-title">Sample block #3</h3>
+                                    <h3 class="panel-title"><span th:text="${progress.summary}"></span></h3>
                                 </div>
                                 <div class="panel-body">
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
+                                    <span th:text="${progress.details}"></span>
                                 </div>
                             </div>
                         </div>
@@ -207,10 +209,10 @@
 
 						   <div class="panel panel-success" draggable="true" th:value="${done.id}" th:name="${done.id}"   th:attr="data-id_task=${done.id}"   th:each="done : ${dones}">
                                 <div class="panel-heading">                                        
-                                    <h3 class="panel-title">Sample block #3</h3>
+                                    <h3 class="panel-title"><span th:text="${done.summary}"></span></h3>
                                 </div>
                                 <div class="panel-body">
-                                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia
+                                    <span th:text="${done.details}"></span>
                                 </div>
                             </div>
                         </div>
@@ -238,9 +240,6 @@
                     </div>
                     <div class="modal-body">
                     			<form class="form-horizontal" role="form" id="createtaskForm" name="createtaskForm"  method="POST" action="#" th:action="@{/api/createtask/}" >
- 
-                                		<input type="hidden" name="project"  />
-                                		<input type="hidden" name="username"  /> 
                                 		<input type="hidden" name="projectid" id="projectid"  th:value="${projectid}"/>
                                 		                                
                                     <div class="form-group">
@@ -305,6 +304,7 @@
                                         <label class="col-md-2 control-label">Assigned to</label>
                                         <div class="col-md-10">                                                                                
                                             <select  id="username" name="username"   class="form-control select" data-live-search="true">
+													<option value="nobody">Nobody</option>
 													<option th:each="assigned : ${assigneds}" 
 														th:value="${assigned.username}" th:text="${assigned.name}"></option>
 											</select> 
@@ -337,7 +337,7 @@
 		
         <script type="text/javascript">
 	        function updateTaskStatus(taskId, status){
-			   window.location.assign('/tasks/'+'move/'+taskId+'/'+status+'/');
+			   window.location.assign('/tasks/project/'+ $("#projectid").val() +'/'+'move/'+taskId+'/'+status+'/');
 			}
 	        
 	      
@@ -387,6 +387,7 @@
     $('.selectpicker').select(function (e) {
         alert(e.target.value);
 		   window.location.assign('/tasks/'+'project/'+e.target.value+'/');
+		  
 
     });
     </script>
@@ -403,11 +404,11 @@
 	        	// PREPARE FORM DATA
 	        	var formData = {
 	        			projectid  : $("#projectid").val(),
-	        			username  : $("#username").val(),
 	        			summary : $("#summary").val(),
 	        			details : $("#details").val(),
 	        			time : $("#time").val(),
-	        			unit : $("#unit").val()	        			
+	        			unit : $("#unit").val()	,
+	        			username : $("#username").val()
 				}
 	        	
 	        	
@@ -428,14 +429,12 @@
 	    		    
 	    			success : function(result) {
 	    				if(result.status == "Done"){
-	    					alert("done");
+	    					window.location.reload();
 	    				}else{
 	    				}
-	    				console.log(result);
 	    			},
 	    			error : function(e) {
-	    				alert("Error!")
-	    				console.log("ERROR: ", e);
+	    				
 	    			}
 	    		});        		
 	        	}

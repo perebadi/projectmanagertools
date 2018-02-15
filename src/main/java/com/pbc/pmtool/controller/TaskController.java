@@ -88,8 +88,8 @@ public class TaskController {
 		return mav;
 	}
 	
-	@GetMapping("/move/{idtask}/{status}/")
-	public String Movetask(@PathVariable int idtask, @PathVariable String status) {
+	@GetMapping("/project/{idproject}/move/{idtask}/{status}/")
+	public String Movetask(@PathVariable int idproject,@PathVariable int idtask, @PathVariable String status) {
 		
 		
 		Task task = projectTaskService.findProjectTaskById(idtask);
@@ -117,12 +117,13 @@ public class TaskController {
 		
 		projectTaskService.addProjectTask(task);
 
+		System.out.println("id project : " + idproject);
 		System.out.println("id tarea : " + idtask);
 		System.out.println("id status: " + status);
 		
 		System.out.println("result  task id: " + task.getId() + "status : " + task.getStatus());
 		
-		return "redirect:/tasks/";
+		return "redirect:/tasks/project/"+idproject+"/";
 	
 	}
 	
