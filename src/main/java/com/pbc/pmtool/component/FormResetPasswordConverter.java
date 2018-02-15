@@ -18,61 +18,31 @@ public class FormResetPasswordConverter {
 	private UserRepository userRepository;
 	
 	public User LoginResetPasswordModel2User(LoginResetPasswordModel resetPasswordModel) {
-		// Creamos la entidad
-		User userEntity = new User();
+		// Obtenemos la entidad actual en la base de datos
+		User userBBDD = userRepository.findByUsername(resetPasswordModel.getUsername());
 
 		// Creamos el password encoder
 		BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 
 		// Asignamos los atributos a la entidad
-		userEntity.setUsername(resetPasswordModel.getUsername());
-		userEntity.setPassword(pe.encode(resetPasswordModel.getPassword()));
-
-		// Obtenemos la entidad actual en la base de datos
-		User userBBDD = userRepository.findByUsername(resetPasswordModel.getUsername());
-
-		// Si existe en la base de datos
-		if (userBBDD != null) {
-			// Establecemos en la entidad los atributos que no hay en el modelo
-			userEntity.setEnabled(userBBDD.isEnabled());
-			userEntity.setName(userBBDD.getName());
-			userEntity.setProjects(userBBDD.getProjects());
-			userEntity.setTasks(userBBDD.getTasks());
-			userEntity.setUserRole(userBBDD.getUserRole());
-			userEntity.setRate(userBBDD.getRate());
-		}
+		userBBDD.setPassword(pe.encode(resetPasswordModel.getPassword()));
 
 		// Devolvemos la entidad
-		return userEntity;
+		return userBBDD;
 	}
 
 	public User FormResetPasswordModel2User(FormResetPasswordModel userResetModel) {
-		// Creamos la entidad
-		User userEntity = new User();
+		// Obtenemos la entidad actual en la base de datos
+		User userBBDD = userRepository.findByUsername(userResetModel.getUsername());
 
 		// Creamos el password encoder
 		BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 
 		// Establecemos los atributos de la entidad existentes en el modelo
-		userEntity.setUsername(userResetModel.getUsername());
-		userEntity.setPassword(pe.encode(userResetModel.getPassword()));
-
-		// Obtenemos la entidad actual en la base de datos
-		User userBBDD = userRepository.findByUsername(userResetModel.getUsername());
-
-		// Si existe en la base de datos
-		if (userBBDD != null) {
-			// Establecemos en la entidad los atributos que no hay en el modelo
-			userEntity.setEnabled(userBBDD.isEnabled());
-			userEntity.setName(userBBDD.getName());
-			userEntity.setProjects(userBBDD.getProjects());
-			userEntity.setTasks(userBBDD.getTasks());
-			userEntity.setUserRole(userBBDD.getUserRole());
-			userEntity.setRate(userBBDD.getRate());
-		}
+		userBBDD.setPassword(pe.encode(userResetModel.getPassword()));
 
 		// Devolvemos la entidad
-		return userEntity;
+		return userBBDD;
 	}
 
 	public LoginResetPasswordModel User2LoginResetPasswordModel(User userEntity) {

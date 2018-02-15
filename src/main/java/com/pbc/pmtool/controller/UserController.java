@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +31,7 @@ import com.pbc.pmtool.service.UserService;
  */
 
 @Controller
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @RequestMapping("/users")
 public class UserController {
 
@@ -52,7 +51,6 @@ public class UserController {
 	 * 
 	 * @return ModelAndView
 	 */
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/show")
 	public ModelAndView showUsers(@RequestParam(name="savesuccess", required=false) String savesucces,
 			@RequestParam(name="saveerror", required=false) String saveerror, 
@@ -107,7 +105,6 @@ public class UserController {
 	 * @param formUserAdminModel
 	 * @return redirect
 	 */
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/saveuser")
 	public String saveUser(@Valid @ModelAttribute(name="user") FormUserAdminModel formUserAdminModel, 
 			BindingResult bindingResult, 
@@ -127,13 +124,11 @@ public class UserController {
 		}
 	}
 	
-	
 	/**
 	 * Elimina un usuario
 	 * 
 	 * @return redirect
 	 */
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/removeuser")
 	public String removeUser(@RequestParam("username") String username,
 			@RequestParam("page") int page,
@@ -151,9 +146,5 @@ public class UserController {
 			return "redirect:/users/show?page=" + page + "&search=" + search + "&removeerror";
 		}
 	}
-	
-	
-	
-	
 	
 }
