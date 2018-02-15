@@ -259,6 +259,8 @@ public class ProjectController {
 		
 		List<ProjectComment> comments = new ArrayList<>(project.getComments());
 		
+		Collections.sort(comments);
+		
 		mav.addObject("comments", comments);
 		
 		System.out.println(projectService.findProjectById(id).getProjectname());

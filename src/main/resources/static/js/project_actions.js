@@ -74,6 +74,16 @@ $(document).ready(function(){
 		}
 	});
 	
+	//Validación comment modal form
+	var commentFormValidator = $("#commentProjectForm").validate({
+		ignore : [],
+		rules : {
+			commentcomment : {
+				required : true
+			}
+		}
+	});
+	
 	//Función achievement addButton
 	function addAchievementButton(){
 		$("#addButton").click(function(){
@@ -493,6 +503,74 @@ $(document).ready(function(){
 		
 		//Show modal
 		$("#modalFinancialsProject").modal('show');
+	});
+	
+	//AJAX formulario comentarios
+	$("#addCommentButton").click(function(){
+		//Validamos el formulario
+		if($("#commentProjectForm").valid()){
+			$("#addCommentButton").prop("disabled",true);
+			
+			//Prevent form submit
+			$("#commentProjectForm").submit(function(e){
+		        e.preventDefault();
+		    });
+			
+			//Obtenemos el token
+			var token = document.getElementsByName("_csrf")[0].value;			
+	
+			//Form data
+			var formData = {
+				idcomment : $('#commentid').val(),
+				comment : $('#commentcomment').val()
+			}
+	        	
+			//AJAX Call
+			$.ajax({
+    			type : "POST",
+    			contentType : "application/json",
+    			url :"/api/project/" + $("#idCommentProject").val() + "/comment/save/",
+    			data : JSON.stringify(formData),
+    			dataType : 'json',
+    			
+    			beforeSend: function(request) {
+    		        return request.setRequestHeader('X-CSRF-Token', token);
+    		    },
+    		    
+    			success : function(result) {
+    				if(result.status == "Done"){
+    					//Refresh
+    					window.location.reload();
+    				}
+    			},
+    			error : function(e) {
+    			}
+    		});
+		}
+	});
+	
+	//Linkamos el botón para añadir comentarios del proyecto
+	$("#commentsModal").click(function(){
+		commentFormValidator.resetForm();
+		
+		//Show modal
+		$("#modalComment").modal('show');
+	});
+	
+	//Linkamos los botónes editar comentario
+	$("a[name='editCommentButton']").each(function(){
+		$(this).click(function(){
+			commentFormValidator.resetForm();
+			
+			var comment = $(this).attr("data-comment");
+			
+			//Copiamos los valores en el modal
+			$("#commentcomment").val($("#commentcomment_" + comment).val());
+			$("#commentid").val($("#idcomment_" + comment).val());
+			
+			//Show modal
+			$("#modalComment").modal('show');
+		});
 	});
 	
 	//AJAX formulario fases

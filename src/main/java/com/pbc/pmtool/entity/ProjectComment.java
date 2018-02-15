@@ -24,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "projectcomment")
-public class ProjectComment {
+public class ProjectComment implements Comparable<ProjectComment> {
 
 	@Id
 	@GeneratedValue
@@ -108,6 +108,21 @@ public class ProjectComment {
 
 	public void setModifiedOn(Date modifiedOn) {
 		this.modifiedOn = modifiedOn;
+	}
+
+	@Override
+	public int compareTo(ProjectComment o) {
+		if(this.getCreatedOn().before(o.getCreatedOn())) {
+			return 1;
+		}else if(this.getCreatedOn().after(o.getCreatedOn())) {
+			return -1;
+		}else {
+			if(this.getId() < o.getId()) {
+				return 1;
+			}else {
+				return -1;
+			}
+		}
 	}
 
 }

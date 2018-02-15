@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
+import com.pbc.pmtool.entity.ProjectComment;
 import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
@@ -32,6 +33,7 @@ import com.pbc.pmtool.entity.ProjectStatusLight;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormAssignToProjectModel;
+import com.pbc.pmtool.model.FormCommentModel;
 import com.pbc.pmtool.model.FormCreateTaskModel;
 import com.pbc.pmtool.model.FormEscalationModel;
 import com.pbc.pmtool.model.FormFinancialModel;
@@ -41,9 +43,11 @@ import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.Response;
+import com.pbc.pmtool.repository.ProjectCommentRepository;
 import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.ProjectAchievementService;
+import com.pbc.pmtool.service.ProjectCommentService;
 import com.pbc.pmtool.service.ProjectEscalationService;
 import com.pbc.pmtool.service.ProjectNextStepService;
 import com.pbc.pmtool.service.ProjectPhaseService;
@@ -96,6 +100,10 @@ public class PmToolRestController {
 	@Qualifier("projectRepository")
 	private ProjectRepository projectRepository;
 	
+	@Autowired
+	@Qualifier("projectCommentServiceImpl")
+	private ProjectCommentService projectCommentServiceImpl;
+	
 	@GetMapping(value = "/projects/all")
 	public List<Project> getProject(){
 			return projectService.listProjects();
@@ -137,6 +145,40 @@ public class PmToolRestController {
 		return res;
 	}
 	
+	/**
+	 * Guarda un comentario sobre un proyecto
+	 * 
+	 * @param id
+	 * @param formCommentModel
+	 * @return Response
+	 */
+	@PostMapping("/project/{id}/comment/save")
+	public Response saveComment(@PathVariable int id, @RequestBody FormCommentModel formCommentModel) {
+		ProjectComment projectComment = projectCommentServiceImpl.findCommentById(formCommentModel.getIdcomment());
+		
+		if(formCommentModel.getIdcomment() == 0) {
+			projectComment = new ProjectComment();
+			
+			//Nuevo comentario
+			projectComment.setComment(formCommentModel.getComment());
+			projectComment.setProject(projectService.findProjectById(id));
+			projectComment.setPm(userService.getUser(
+					SecurityContextHolder.getContext().getAuthentication().getName()));
+			projectComment.setCreatedOn(new Date());
+		}else {
+			//Actualización del comentario
+			if(projectComment.getPm().getUsername().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+				projectComment.setComment(formCommentModel.getComment());
+				projectComment.setModifiedOn(new Date());
+			}else {
+				return new Response("Error", "Error");
+			}
+		}
+		
+		projectCommentServiceImpl.addProjectComment(projectComment);
+		
+		return new Response("Done", "Done");
+	}
 
 	@PostMapping("/project/{id}/phase/save/")
 	public Response savePhase(@PathVariable int id,@RequestBody FormPhaseModel formPhaseModel){
