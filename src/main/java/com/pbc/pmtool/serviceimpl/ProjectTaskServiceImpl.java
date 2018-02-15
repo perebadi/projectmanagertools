@@ -121,8 +121,13 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 	@Override
 	public List<FormShowTaskModel> listProjectTasksShow(Project project, int status) {
 		List<Task> tasks = projectTaskRepository.findByProjectAndStatus(project, status);
+		List<FormShowTaskModel> showTaskModel = new ArrayList<FormShowTaskModel>();
 		
-		return formTaskShowConverter.tasks2FormTaskShow(tasks);
+		for(Task task : tasks) {
+			showTaskModel.add(formTaskShowConverter.task2FormTaskShow(task));
+		}
+		
+		return showTaskModel;
 	}
 
 }
