@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.pbc.pmtool.entity.User;
 
@@ -21,10 +22,12 @@ public class DefaultViewAttributeInterceptor extends HandlerInterceptorAdapter {
 		// TODO Auto-generated method stub
 		super.postHandle(request, response, handler, modelAndView);		
 		
-		if(request.getMethod().equals("GET")) {
-			try {
-				modelAndView.addObject("username", SecurityContextHolder.getContext().getAuthentication().getName());
-			}catch(Exception e){
+		if(!(modelAndView.getView() instanceof RedirectView || modelAndView.getViewName().startsWith("redirect:"))) {
+			if(request.getMethod().equals("GET")) {
+				try {
+					modelAndView.addObject("username", SecurityContextHolder.getContext().getAuthentication().getName());
+				}catch(Exception e){
+				}
 			}
 		}
 	}
