@@ -3,7 +3,7 @@ package com.pbc.pmtool.model;
 import javax.validation.constraints.NotNull;
 
 public class FormRagModel {
-	
+	@NotNull
 	private int id;
 	
 	@NotNull

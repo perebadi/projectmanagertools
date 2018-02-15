@@ -1,5 +1,7 @@
 package com.pbc.pmtool.model;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class FormPhaseModel {
@@ -19,10 +21,10 @@ public class FormPhaseModel {
 	
 	private int weekdelay;
 	
-	@NotEmpty
+	@NotNull
 	private int progress;
 	
-	@NotEmpty
+	@NotNull
 	private int rag;
 
 	public int getIdphase() {
