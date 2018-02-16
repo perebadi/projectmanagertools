@@ -45,6 +45,7 @@ import com.pbc.pmtool.model.FormPhaseModel;
 import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
+import com.pbc.pmtool.model.FormSaveBacklogModel;
 import com.pbc.pmtool.model.FormSaveTaskModel;
 import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.repository.ProjectCommentRepository;
@@ -139,27 +140,59 @@ public class PmToolRestController {
 		return res;
 	}
 	
+	@PostMapping(value = "/savebacklog/")
+	public Response saveBacklog(@Valid @RequestBody FormSaveBacklogModel formSaveBacklogModel, BindingResult bindingResult) {
+		if(!(bindingResult.hasErrors())) {
+			Task task = projectTaskServiceImpl.findProjectTaskById(formSaveBacklogModel.getTaskId());
+			
+			if(!(formSaveBacklogModel.getComment().equals(""))) {
+				Comment comment = new Comment();
+				
+				comment.setDatecomment(new Date());
+				comment.setDetail(formSaveBacklogModel.getComment());
+				comment.setTask(task);
+				
+				task.getComments().add(comment);			
+			}
+			
+			if(!(formSaveBacklogModel.getUsername().equals("nobody"))) {
+				task.setUser(userService.getUser(formSaveBacklogModel.getUsername()));
+				
+				task.setStatus(2);
+			}
+			
+			projectTaskServiceImpl.addProjectTask(task);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
+	}
+	
+	/**
+	 * Guarda los cambios en una tarea 
+	 * 
+	 * @param formSaveTaskModel
+	 * @param bindingResult
+	 * @return Response
+	 */
 	@PostMapping(value = "/savetask/")
 	public Response saveTask(@Valid @RequestBody FormSaveTaskModel formSaveTaskModel, BindingResult bindingResult) {
 		if(!(bindingResult.hasErrors())){
 			Task task = projectTaskServiceImpl.findProjectTaskById(formSaveTaskModel.getTaskId());
 			
-			task.setHours(task.getHours() + (formSaveTaskModel.getTime() * formSaveTaskModel.getUnit()));
+			if(formSaveTaskModel.getTime() > 0) {
+				task.setHours(task.getHours() + (formSaveTaskModel.getTime() * formSaveTaskModel.getUnit()));
+			}
 			
-			if(formSaveTaskModel.getComment() != null) {
-				Logger.getGlobal().info("Add comment");
-				
+			if(!(formSaveTaskModel.getComment().equals(""))) {
 				Comment comment = new Comment();
 				
 				comment.setDatecomment(new Date());
 				comment.setDetail(formSaveTaskModel.getComment());
 				comment.setTask(task);
 				
-				task.getComments().add(comment);
-				
-				for(Comment com : task.getComments()) {
-					Logger.getGlobal().info(com.getDetail());
-				}
+				task.getComments().add(comment);			
 			}
 			
 			projectTaskServiceImpl.addProjectTask(task);

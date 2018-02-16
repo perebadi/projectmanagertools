@@ -1,5 +1,9 @@
 package com.pbc.pmtool.model;
 
+import java.util.Collections;
+import java.util.List;
+
+import com.google.gson.Gson;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.User;
 
@@ -13,6 +17,8 @@ public class FormShowTaskModel {
 	private float realvsestimated;
 	private int estimatedhours;
 	private int hours;
+	private List<CommentModel> comments;
+	private int status;
 
 	public FormShowTaskModel() {
 	}
@@ -28,6 +34,33 @@ public class FormShowTaskModel {
 		this.realvsestimated = realvsestimated;
 		this.estimatedhours = estimatedhours;
 		this.hours = hours;
+	}
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public List<CommentModel> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentModel> comments) {
+		this.comments = comments;
+	}
+
+	
+	public String getCommentsJSON() {
+		Gson gson = new Gson();
+		
+		List<CommentModel> comments = getComments();
+		
+		Collections.sort(comments);
+		
+		return gson.toJson(comments);
 	}
 
 	public int getId() {

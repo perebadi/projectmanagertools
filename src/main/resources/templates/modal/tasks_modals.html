@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1" />
+<title>Insert title here</title>
+
+<style th:replace="layout/layout :: page-style"></style>
+</head>
+<body>
+	<div th:fragment="tasks_modals">
+
+		<!-- EDIT BACKLOG TASK MODAL -->
+		<div class="modal" id="edit_backlogtask_modal" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="largeModalHead">Edit Task</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<form class="form-horizontal" role="form" id="editbacklogtaskForm"
+								name="editbacklogtaskForm" method="POST">
+								<input type="hidden" id="editBacklogTaskTaskId" />
+								
+								<div class="form-group">
+									<div class="col-md-12">
+										<textarea class="form-control" id="editBacklogTaskComment" rows="5" placeholder="Write a comment..." ></textarea>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="row">
+							<br />
+							<h3 class="panel-title">
+								Assign to:
+							</h3>
+							<br />
+							<div class="col-md-12">
+								<select th:id="editBacklogTaskUser"
+									class="form-control select" data-live-search="true">
+									<option value="nobody">Nobody</option>
+									<option th:each="assigned : ${assigneds}"
+										th:value="${assigned.username}" th:text="${assigned.name}"></option>
+								</select>
+							</div>
+							<br />
+						</div>
+						<div class="row">
+							<br />
+							<h3 class="panel-title">
+								<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Comments
+							</h3>
+							<br />
+							<div class="messages messages-img" id="taskBacklogComments"></div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary submitAJAXModal">
+							<span class="glyphicon glyphicon-save" aria-hidden="true"></span>Edit Task
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END EDIT BACKLOG TASK MODAL -->
+
+		<!-- EDIT TODO TASK MODAL -->
+		<div class="modal" id="edit_task_modal" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="largeModalHead">Edit Task</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<form class="form-horizontal" role="form" id="edittaskForm"
+								name="edittaskForm" method="POST">
+								<input type="hidden" id="editTaskTaskId" />
+								<div class="form-group">
+									<div class="col-md-12">
+										<textarea class="form-control" id="editTaskComment" rows="5" placeholder="Write a comment..." ></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-6">
+										<div class="row">
+											<div class="pull-left">
+												<strong>Hours</strong>&nbsp;&nbsp; <span id="currentHours"></span>/
+												<span id="estimatedHours"></span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="progress progress-small progress-striped active">
+												<div class="progress-bar progress-bar-primary"
+													role="progressbar" id="progressBar"></div>
+											</div>
+										</div>
+									</div>
+									<label class="col-md-1 control-label">Time</label>
+									<div class="col-md-2">
+										<select class="form-control select" id="editTaskTime"
+											name="time" data-live-search="true">
+											<option value="0">0</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
+											<option value="8">8</option>
+											<option value="9">9</option>
+											<option value="10">10</option>
+											<option value="11">11</option>
+											<option value="12">12</option>
+											<option value="13">13</option>
+											<option value="14">14</option>
+											<option value="15">15</option>
+											<option value="16">16</option>
+											<option value="17">17</option>
+											<option value="18">18</option>
+											<option value="19">19</option>
+											<option value="20">20</option>
+											<option value="21">21</option>
+											<option value="22">22</option>
+											<option value="23">23</option>
+											<option value="24">24</option>
+										</select>
+									</div>
+
+									<label class="col-md-1 control-label">Unit</label>
+									<div class="col-md-2">
+										<select class="form-control select" id="editTaskUnit"
+											name="unit" data-live-search="true">
+											<option value="1">hours</option>
+											<option value="8">days</option>
+											<option value="40">weeks</option>
+										</select>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="row">
+							<br />
+							<h3 class="panel-title">
+								<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Comments
+							</h3>
+							<br />
+							<div class="messages messages-img" id="taskComments"></div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary submitAJAXModal">
+							<span class="glyphicon glyphicon-save" aria-hidden="true"></span>Edit
+							Task
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END EDIT TODO TASK MODAL -->
+
+	</div>
+</body>
+</html>
