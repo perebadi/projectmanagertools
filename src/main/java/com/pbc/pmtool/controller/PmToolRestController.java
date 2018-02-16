@@ -140,6 +140,13 @@ public class PmToolRestController {
 		return res;
 	}
 	
+	/**
+	 * Guarda una tarea en backlog
+	 * 
+	 * @param formSaveBacklogModel
+	 * @param bindingResult
+	 * @return Response
+	 */
 	@PostMapping(value = "/savebacklog/")
 	public Response saveBacklog(@Valid @RequestBody FormSaveBacklogModel formSaveBacklogModel, BindingResult bindingResult) {
 		if(!(bindingResult.hasErrors())) {
@@ -221,12 +228,11 @@ public class PmToolRestController {
 			newTask.setDatestatus(new Date());
 			newTask.setProject(projectService.findProjectById(formCreateTaskModel.getProjectid()));
 			
-			if(formCreateTaskModel.getUsername().equals("nobody")) {
-				newTask.setStatus(1);
-			}else {
+			if(!(formCreateTaskModel.getUsername().equals("nobody"))) {
 				newTask.setUser(userService.getUser(formCreateTaskModel.getUsername()));
-				newTask.setStatus(2);
 			}
+			
+			newTask.setStatus(1);
 			
 			newTask.setEstimatedunit(formCreateTaskModel.getUnit());
 			
