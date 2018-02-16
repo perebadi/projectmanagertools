@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.jdbc.log.Log;
 import com.pbc.pmtool.constant.ViewConstant;
+import com.pbc.pmtool.entity.Comment;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.ProjectComment;
@@ -142,9 +144,23 @@ public class PmToolRestController {
 		if(!(bindingResult.hasErrors())){
 			Task task = projectTaskServiceImpl.findProjectTaskById(formSaveTaskModel.getTaskId());
 			
-			Logger.getGlobal().info("Task id: " + formSaveTaskModel.getTaskId());
-			
 			task.setHours(task.getHours() + (formSaveTaskModel.getTime() * formSaveTaskModel.getUnit()));
+			
+			if(formSaveTaskModel.getComment() != null) {
+				Logger.getGlobal().info("Add comment");
+				
+				Comment comment = new Comment();
+				
+				comment.setDatecomment(new Date());
+				comment.setDetail(formSaveTaskModel.getComment());
+				comment.setTask(task);
+				
+				task.getComments().add(comment);
+				
+				for(Comment com : task.getComments()) {
+					Logger.getGlobal().info(com.getDetail());
+				}
+			}
 			
 			projectTaskServiceImpl.addProjectTask(task);
 			
