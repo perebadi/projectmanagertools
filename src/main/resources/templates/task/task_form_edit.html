@@ -194,7 +194,7 @@
 							</div>
 							<div class="panel-body">
 								<input type="hidden" th:value="${backlog.getCommentsJSON()}" th:id="'comments_' + ${backlog.id}" />	
-								<input type="hidden" th:if="${backlog.user}" th:value="${backlog.user.name}" th:id="'userassigned_' + ${backlog.id}" />
+								<input type="hidden" th:if="${backlog.user}" th:value="${backlog.user.username}" th:id="'userassigned_' + ${backlog.id}" />
 								
 								<span th:text="${backlog.details}"></span>
 							</div>
@@ -348,8 +348,22 @@
 								<h3 class="panel-title">
 									<span th:text="${done.summary}"></span>
 								</h3>
+								
+								<ul class="panel-controls">
+									<li><a href="javascript: void();" class="showAJAXmodal"
+										th:attr="data-idTask=${done.id}"> <span
+											class="glyphicon glyphicon-pencil"></span>
+									</a></li>
+								</ul>
 							</div>
 							<div class="panel-body">
+								<input type="hidden" th:value="${done.estimatedhours}"
+									th:id="estimatedhours_ + ${done.id}" /> 
+								<input type="hidden"
+									th:value="${done.hours}" th:id="hours_ + ${done.id}" /> 
+								<input
+									type="hidden" th:value="${done.realvsestimated}"
+									th:id="realvsestimated_ + ${done.id}" /> 
 								<input type="hidden" th:value="${done.getCommentsJSON()}" th:id="'comments_' + ${done.id}" />	
 							
 								<span th:text="${done.details}"></span>

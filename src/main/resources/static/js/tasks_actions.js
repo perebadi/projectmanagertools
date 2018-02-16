@@ -24,6 +24,11 @@ $(document).ready(function(){
 										"</li>");
 								}
 								
+								if($("#userassigned_" + idTask).val() != undefined){
+									//$('select[name=editBacklogTagUser]').val($("#userassigned_" + idTask).val());
+									$("#editBacklogTaskUser").change();
+								}
+								
 							},
 							url : "/api/savebacklog/",
 							formData : function() {
