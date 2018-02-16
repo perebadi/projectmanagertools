@@ -43,6 +43,7 @@ import com.pbc.pmtool.model.FormPhaseModel;
 import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
+import com.pbc.pmtool.model.FormSaveTaskModel;
 import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.repository.ProjectCommentRepository;
 import com.pbc.pmtool.repository.ProjectRepository;
@@ -134,6 +135,23 @@ public class PmToolRestController {
 		}
 		
 		return res;
+	}
+	
+	@PostMapping(value = "/savetask/")
+	public Response saveTask(@Valid @RequestBody FormSaveTaskModel formSaveTaskModel, BindingResult bindingResult) {
+		if(!(bindingResult.hasErrors())){
+			Task task = projectTaskServiceImpl.findProjectTaskById(formSaveTaskModel.getTaskId());
+			
+			Logger.getGlobal().info("Task id: " + formSaveTaskModel.getTaskId());
+			
+			task.setHours(task.getHours() + (formSaveTaskModel.getTime() * formSaveTaskModel.getUnit()));
+			
+			projectTaskServiceImpl.addProjectTask(task);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}
 	
 	/**

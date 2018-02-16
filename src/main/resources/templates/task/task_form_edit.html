@@ -184,6 +184,13 @@
 								<h3 class="panel-title">
 									<span th:text="${backlog.summary}"></span>
 								</h3>
+
+								<ul class="panel-controls">
+									<li><a href="javascript: void();" class="showAJAXmodal"
+										th:attr="data-idTask=${backlog.id}"> <span
+											class="glyphicon glyphicon-pencil"></span>
+									</a></li>
+								</ul>
 							</div>
 							<div class="panel-body">
 								<span th:text="${backlog.details}"></span>
@@ -197,12 +204,13 @@
 													<strong>Hours</strong>
 												</div>
 												<div class="pull-right">
-													<span th:text="${backlog.hours}"></span>/
-													<span th:text="${backlog.estimatedhours}"></span>
+													<span th:text="${backlog.hours}"></span>/ <span
+														th:text="${backlog.estimatedhours}"></span>
 												</div>
 												<div class="progress progress-small progress-striped active">
 													<div class="progress-bar progress-bar-primary"
-														role="progressbar" th:style="'width:'+${backlog.realvsestimated}+'%;'" ></div>
+														role="progressbar"
+														th:style="'width:'+${backlog.realvsestimated}+'%;'"></div>
 												</div>
 											</div>
 										</div>
@@ -223,8 +231,19 @@
 								<h3 class="panel-title">
 									<span th:text="${todo.summary}"></span>
 								</h3>
+
+								<ul class="panel-controls">
+									<li><a href="javascript: void();" class="showAJAXmodal"
+										th:attr="data-idTask=${todo.id}"> <span
+											class="glyphicon glyphicon-pencil"></span>
+									</a></li>
+								</ul>
 							</div>
 							<div class="panel-body">
+								<input type="hidden" th:value="${todo.estimatedhours}" th:id="estimatedhours_ + ${todo.id}" />
+								<input type="hidden" th:value="${todo.hours}" th:id="hours_ + ${todo.id}" />
+								<input type="hidden" th:value="${todo.realvsestimated}" th:id="realvsestimated_ + ${todo.id}" />
+							
 								<span th:text="${todo.details}"></span>
 							</div>
 							<div class="panel-footer">
@@ -236,12 +255,13 @@
 													<strong>Hours</strong>
 												</div>
 												<div class="pull-right">
-													<span th:text="${todo.hours}"></span>/
-													<span th:text="${todo.estimatedhours}"></span>
+													<span th:text="${todo.hours}"></span>/ <span
+														th:text="${todo.estimatedhours}"></span>
 												</div>
 												<div class="progress progress-small progress-striped active">
 													<div class="progress-bar progress-bar-primary"
-														role="progressbar" th:style="'width:'+${todo.realvsestimated}+'%;'" ></div>
+														role="progressbar"
+														th:style="'width:'+${todo.realvsestimated}+'%;'"></div>
 												</div>
 											</div>
 										</div>
@@ -267,6 +287,13 @@
 								<h3 class="panel-title">
 									<span th:text="${progress.summary}"></span>
 								</h3>
+
+								<ul class="panel-controls">
+									<li><a href="javascript: void();" class="showAJAXmodal"
+										th:attr="data-idTask=${progress.id}"> <span
+											class="glyphicon glyphicon-pencil"></span>
+									</a></li>
+								</ul>
 							</div>
 							<div class="panel-body">
 								<span th:text="${progress.details}"></span>
@@ -280,12 +307,13 @@
 													<strong>Hours</strong>
 												</div>
 												<div class="pull-right">
-													<span th:text="${progress.hours}"></span>/
-													<span th:text="${progress.estimatedhours}"></span>
+													<span th:text="${progress.hours}"></span>/ <span
+														th:text="${progress.estimatedhours}"></span>
 												</div>
 												<div class="progress progress-small progress-striped active">
 													<div class="progress-bar progress-bar-primary"
-														role="progressbar" th:style="'width:'+${progress.realvsestimated}+'%;'" ></div>
+														role="progressbar"
+														th:style="'width:'+${progress.realvsestimated}+'%;'"></div>
 												</div>
 											</div>
 										</div>
@@ -323,12 +351,13 @@
 													<strong>Hours</strong>
 												</div>
 												<div class="pull-right">
-													<span th:text="${done.hours}"></span>/
-													<span th:text="${done.estimatedhours}"></span>
+													<span th:text="${done.hours}"></span>/ <span
+														th:text="${done.estimatedhours}"></span>
 												</div>
 												<div class="progress progress-small progress-striped active">
 													<div class="progress-bar progress-bar-primary"
-														role="progressbar" th:style="'width:'+${done.realvsestimated}+'%;'" ></div>
+														role="progressbar"
+														th:style="'width:'+${done.realvsestimated}+'%;'"></div>
 												</div>
 											</div>
 										</div>
@@ -355,7 +384,6 @@
 	<!-- END PAGE CONTAINER -->
 
 	<!-- CREATE TASK MODAL -->
-
 	<div class="modal" id="create_task_modal" tabindex="-1" role="dialog"
 		aria-labelledby="#create_task_modal" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
@@ -447,13 +475,7 @@
 								</select>
 							</div>
 						</div>
-
-
 					</form>
-
-
-
-
 				</div>
 				<div class="modal-footer">
 					<button type="submit" id="myFormSubmit" name="myFormSubmit"
@@ -469,13 +491,95 @@
 	</div>
 	<!-- END CREATE TASK MODAL-->
 
+	<!-- EDIT TASK MODAL -->
+	<div class="modal" id="edit_task_modal" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="largeModalHead">Edit Task</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="edittaskForm"
+						name="edittaskForm" method="POST">
+						<input type="hidden" id="editTaskTaskId" />
+						<div class="form-group">
+							<label class="col-md-2 control-label">Task comment</label>
+							<div class="col-md-10">
+								<textarea class="form-control" id="details" name="details"
+									rows="5"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-6">
+								<div class="row">
+									<div class="pull-left">
+										<strong>Hours</strong>&nbsp;&nbsp;
+										<span id="currentHours"></span>/ <span id="estimatedHours"></span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="progress progress-small progress-striped active">
+										<div class="progress-bar progress-bar-primary"
+											role="progressbar" id="progressBar"></div>
+									</div>
+								</div>
+							</div>
+							<label class="col-md-1 control-label">Time</label>
+							<div class="col-md-2">
+								<select class="form-control select" id="editTaskTime" name="time"
+									data-live-search="true">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+									<option value="21">21</option>
+									<option value="22">22</option>
+									<option value="23">23</option>
+									<option value="24">24</option>
+								</select>
+							</div>
 
-
-
-
-
-
-
+							<label class="col-md-1 control-label">Unit</label>
+							<div class="col-md-2">
+								<select class="form-control select" id="editTaskUnit" name="unit"
+									data-live-search="true">
+									<option value="1">hours</option>
+									<option value="8">days</option>
+									<option value="40">weeks</option>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary submitAJAXModal">
+						<span class="glyphicon glyphicon-save" aria-hidden="true"></span>Edit
+						Task
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END EDIT TASK MODAL -->
 
 	<script type="text/javascript">
 		function updateTaskStatus(taskId, status) {
@@ -501,6 +605,7 @@
 
 	<!--  -->
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
+	<script th:src="@{/js/plugins/modal/modal-AJAX.js}"></script>
 
 	<!-- START TEMPLATE -->
 	<script th:src="@{/js/settings.js}"></script>
@@ -591,6 +696,31 @@
 				}
 			});
 		}
+
+		$(".showAJAXmodal").each(function() {
+			var button = $(this);
+			var idTask = button.attr("data-idTask");
+
+			$(this).AJAXmodal({
+				idModal : "edit_task_modal",
+				copyData : function() {
+					$("#currentHours").text($("#hours_" + idTask).val());
+					$("#estimatedHours").text($("#estimatedhours_" + idTask).val());
+					$("#progressBar").css('width', $("#realvsestimated_" + idTask).val() + '%');
+					$("#editTaskTaskId").val(idTask);
+				},
+				url : "/api/savetask/",
+				formData : function(){
+					var data = {
+						time : $('#editTaskTime').val(),
+						unit : $('#editTaskUnit').val(),
+						taskId : 8
+					}
+					
+					return data;
+				}
+			});
+		});
 
 		/*
 		$(".dateChanger").click(function () {
