@@ -61,10 +61,30 @@ public class Task {
 	@Column(name = "hours")
 	private int hours;
 	
+	@Column(name = "estimatedtime")
+	private int estimatedtime;
+	
+	@Column(name = "estimatedunit")
+	private int estimatedunit;
+	
 	@Column(name = "status")
 	private int status;
-	
-	
+
+	public int getEstimatedtime() {
+		return estimatedtime;
+	}
+
+	public void setEstimatedtime(int estimatedtime) {
+		this.estimatedtime = estimatedtime;
+	}
+
+	public int getEstimatedunit() {
+		return estimatedunit;
+	}
+
+	public void setEstimatedunit(int estimatedunit) {
+		this.estimatedunit = estimatedunit;
+	}
 
 	public int getId() {
 		return id;

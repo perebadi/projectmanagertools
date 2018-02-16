@@ -1,25 +1,29 @@
 package com.pbc.pmtool.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.sun.istack.internal.NotNull;
+
 public class FormCreateTaskModel {
 
+	@NotNull
 	private int projectid;
-	private String username;
+	
+	@NotEmpty
 	private String summary;
+	
+	@NotEmpty
 	private String details;
+	
+	@NotNull
 	private int time;
+	
+	@NotNull
 	private int unit;
+	
+	private String username;
 
 	
-	public int getProjectid() {
-		return projectid;
-	}
-
-
-	public void setProjectid(int projectid) {
-		this.projectid = projectid;
-	}
-
-
 	public String getUsername() {
 		return username;
 	}
@@ -27,6 +31,16 @@ public class FormCreateTaskModel {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+
+	public int getProjectid() {
+		return projectid;
+	}
+
+
+	public void setProjectid(int projectid) {
+		this.projectid = projectid;
 	}
 
 
@@ -70,16 +84,14 @@ public class FormCreateTaskModel {
 	}
 
 	
-	
-
-	public FormCreateTaskModel(int projectid, String username, String summary, String details, int time, int unit) {
+	public FormCreateTaskModel(int projectid, String summary, String details, int time, int unit, String username) {
 		super();
 		this.projectid = projectid;
-		this.username = username;
 		this.summary = summary;
 		this.details = details;
 		this.time = time;
 		this.unit = unit;
+		this.username = username;
 	}
 
 

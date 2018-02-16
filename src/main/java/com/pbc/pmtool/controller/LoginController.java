@@ -98,7 +98,7 @@ public class LoginController {
 		        message.setFrom(new InternetAddress("josep_hpe@outlook.com"));
 		        message.addRecipient(Message.RecipientType.TO, new InternetAddress(resetPassword.getUsername())); 
 		        message.setSubject("Your account password has been reset");
-		        message.setText("The new password for the " + resetPassword.getUsername() + " account is" + generatedString);
+		        message.setText("The new password for the " + resetPassword.getUsername() + " account is " + generatedString);
 		        
 		        Transport transport = session.getTransport("smtp");
 		        transport.connect("smtp.live.com", "josep_hpe@outlook.com", "Dxc20182018");

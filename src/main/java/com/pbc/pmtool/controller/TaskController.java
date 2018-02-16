@@ -88,8 +88,8 @@ public class TaskController {
 		return mav;
 	}
 	
-	@GetMapping("/move/{idtask}/{status}/")
-	public String Movetask(@PathVariable int idtask, @PathVariable String status) {
+	@GetMapping("/project/{idproject}/move/{idtask}/{status}/")
+	public String Movetask(@PathVariable int idproject,@PathVariable int idtask, @PathVariable String status) {
 		
 		
 		Task task = projectTaskService.findProjectTaskById(idtask);
@@ -117,12 +117,13 @@ public class TaskController {
 		
 		projectTaskService.addProjectTask(task);
 
+		System.out.println("id project : " + idproject);
 		System.out.println("id tarea : " + idtask);
 		System.out.println("id status: " + status);
 		
 		System.out.println("result  task id: " + task.getId() + "status : " + task.getStatus());
 		
-		return "redirect:/tasks/";
+		return "redirect:/tasks/project/"+idproject+"/";
 	
 	}
 	
@@ -146,13 +147,21 @@ public class TaskController {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.TASKFORMEDIT);
 		
-		mav.addObject("username", sessionuser);
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(sessionuser)));
 		mav.addObject("projects", projectService.listProjectByUser(userRepository.findByUsername(sessionuser)));
+		
+		/*
 		mav.addObject("backlogs", projectTaskService.listProjectTasks(projectService.findProjectById(idproject), 1));
 		mav.addObject("todos", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),2));
 		mav.addObject("progresses", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),3));
 		mav.addObject("dones", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),4));
+		*/
+		
+		mav.addObject("backlogs", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject), 1));
+		mav.addObject("todos", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),2));
+		mav.addObject("progresses", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),3));
+		mav.addObject("dones", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),4));
+		
 		mav.addObject("assigneds",projectService.findProjectById(idproject).getAssigneds());
 		mav.addObject("projectid", idproject);
 		

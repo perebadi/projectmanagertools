@@ -55,11 +55,13 @@
 											<h3 class="panel-title">RAG Indicators</h3>
 											<ul class="panel-controls">
 												<!-- 			                                        <li><button id="rag" name="rag" type="button" class="btn btn-success btn-rounded fa fa-wrench"></button></li>
- -->											<!-- 
+ -->
+												<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/rag/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="ragModal"><span class="fa fa-wrench"></span></a></li>
+												<li><a role="button" id="ragModal"><span
+														class="fa fa-wrench "></span></a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
@@ -184,25 +186,32 @@
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/achievement/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="achievementModal"><span class="fa fa-wrench"></span></a></li>
+												<li><a role="button" id="achievementModal"><span
+														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
 
 										<div class="panel-body">
 											<ul class="list-group border-bottom">
 												<li class="list-group-item" th:each="logro : ${logros}">
-													<input type="hidden" th:value="${logro.id}" th:id="'idachievement_' + ${logro.id}" />
-													<input type="hidden" th:value="${logro.dateachievement}" th:id="'dateachievement_' + ${logro.id}" />
-													<input type="hidden" th:value="${logro.summaryachievement}" th:id="'summaryachievement_' + ${logro.id}" />
-													<input type="hidden" th:value="${logro.txtachievement}" th:id="'txtachievement_' + ${logro.id}" />
-													<input type="hidden" th:value="${logro.week}" th:id="'weekachievement_' + ${logro.id}" />
-													<input type="hidden" th:value="${project.id}" th:id="'projectachievement_' + ${logro.id}" />
-												
-													<span th:text="${logro.summaryachievement}"></span>
-													<a href="#" class="pull-right">
-														<span class="badge badge-success" th:text="${logro.dateachievement}" 
-															name="viewDetailsAchievement" th:attr="data-achievement=${logro.id}" ></span>
-													</a>
+													<input type="hidden" th:value="${logro.id}"
+													th:id="'idachievement_' + ${logro.id}" /> <input
+													type="hidden" th:value="${logro.dateachievement}"
+													th:id="'dateachievement_' + ${logro.id}" /> <input
+													type="hidden" th:value="${logro.summaryachievement}"
+													th:id="'summaryachievement_' + ${logro.id}" /> <input
+													type="hidden" th:value="${logro.txtachievement}"
+													th:id="'txtachievement_' + ${logro.id}" /> <input
+													type="hidden" th:value="${logro.week}"
+													th:id="'weekachievement_' + ${logro.id}" /> <input
+													type="hidden" th:value="${project.id}"
+													th:id="'projectachievement_' + ${logro.id}" /> <span
+													th:text="${logro.summaryachievement}"></span> <a role="button"
+													class="pull-right"> <span class="badge badge-success"
+														th:text="${logro.dateachievement}"
+														name="viewDetailsAchievement"
+														th:attr="data-achievement=${logro.id}"></span>
+												</a>
 												</li>
 											</ul>
 										</div>
@@ -213,29 +222,35 @@
 										<div class="panel-heading">
 											<h3 class="panel-title">Futuras actividades</h3>
 											<ul class="panel-controls">
-											<!-- 
+												<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/nextstep/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-											<li><a href="#" id="nextStepModal"><span class="fa fa-wrench"></span></a></li>
+												<li><a role="button" id="nextStepModal"><span
+														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
 											<ul class="list-group border-bottom">
-												<li class="list-group-item" th:each="nextstep : ${nextsteps}">
-													<input type="hidden" th:value="${nextstep.id}" th:id="'idnextstep_' + ${nextstep.id}" />
-													<input type="hidden" th:value="${nextstep.datenextstep}" th:id="'datenextstep_' + ${nextstep.id}" />
-													<input type="hidden" th:value="${nextstep.summarynextstep}" th:id="'summarynextstep_' + ${nextstep.id}" />
-													<input type="hidden" th:value="${nextstep.txtnextstep}" th:id="'txtnextstep_' + ${nextstep.id}" />
-													<input type="hidden" th:value="${nextstep.week}" th:id="'weeknextstep_' + ${nextstep.id}" />
-													<input type="hidden" th:value="${project.id}" th:id="'projectnextstep_' + ${nextstep.id}" />
-												
-													<span th:text="${ nextstep.summarynextstep}"></span>
-													<a href="#" class="pull-right">
-														<span class="badge badge-info" th:text="'KW'+${nextstep.week}" 
-															name="viewDetailsNextStep" th:attr="data-nextstep=${nextstep.id}"></span>
-													</a>
-												</li>
+												<li class="list-group-item"
+													th:each="nextstep : ${nextsteps}"><input type="hidden"
+													th:value="${nextstep.id}"
+													th:id="'idnextstep_' + ${nextstep.id}" /> <input
+													type="hidden" th:value="${nextstep.datenextstep}"
+													th:id="'datenextstep_' + ${nextstep.id}" /> <input
+													type="hidden" th:value="${nextstep.summarynextstep}"
+													th:id="'summarynextstep_' + ${nextstep.id}" /> <input
+													type="hidden" th:value="${nextstep.txtnextstep}"
+													th:id="'txtnextstep_' + ${nextstep.id}" /> <input
+													type="hidden" th:value="${nextstep.week}"
+													th:id="'weeknextstep_' + ${nextstep.id}" /> <input
+													type="hidden" th:value="${project.id}"
+													th:id="'projectnextstep_' + ${nextstep.id}" /> <span
+													th:text="${ nextstep.summarynextstep}"></span> <a role="button"
+													class="pull-right"> <span class="badge badge-info"
+														th:text="'KW'+${nextstep.week}" name="viewDetailsNextStep"
+														th:attr="data-nextstep=${nextstep.id}"></span>
+												</a></li>
 											</ul>
 										</div>
 									</div>
@@ -249,24 +264,30 @@
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/problem/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="problemModal"><span class="fa fa-wrench"></span></a></li>
+												<li><a role="button" id="problemModal"><span
+														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
 											<ul class="list-group border-bottom">
 												<li class="list-group-item" th:each="problem : ${problems}">
-													<input type="hidden" th:value="${problem.id}" th:id="'idproblem_' + ${problem.id}" />
-													<input type="hidden" th:value="${problem.dateproblem}" th:id="'dateproblem_' + ${problem.id}" />
-													<input type="hidden" th:value="${problem.summaryproblem}" th:id="'summaryproblem_' + ${problem.id}" />
-													<input type="hidden" th:value="${problem.txtproblem}" th:id="'txtproblem_' + ${problem.id}" />
-													<input type="hidden" th:value="${problem.week}" th:id="'weekproblem_' + ${problem.id}" />
-													<input type="hidden" th:value="${project.id}" th:id="'projectproblem_' + ${problem.id}" />
-												
-													<span th:text="${ problem.summaryproblem}"></span>
-													<a href="#" class="pull-right">
-														<span class="badge badge-danger" th:text="'KW'+${problem.week}" 
-															name="viewDetailsProblem" th:attr="data-problem=${problem.id}"></span>
-													</a>
+													<input type="hidden" th:value="${problem.id}"
+													th:id="'idproblem_' + ${problem.id}" /> <input
+													type="hidden" th:value="${problem.dateproblem}"
+													th:id="'dateproblem_' + ${problem.id}" /> <input
+													type="hidden" th:value="${problem.summaryproblem}"
+													th:id="'summaryproblem_' + ${problem.id}" /> <input
+													type="hidden" th:value="${problem.txtproblem}"
+													th:id="'txtproblem_' + ${problem.id}" /> <input
+													type="hidden" th:value="${problem.week}"
+													th:id="'weekproblem_' + ${problem.id}" /> <input
+													type="hidden" th:value="${project.id}"
+													th:id="'projectproblem_' + ${problem.id}" /> <span
+													th:text="${ problem.summaryproblem}"></span> <a role="button"
+													class="pull-right"> <span class="badge badge-danger"
+														th:text="'KW'+${problem.week}" name="viewDetailsProblem"
+														th:attr="data-problem=${problem.id}"></span>
+												</a>
 												</li>
 											</ul>
 										</div>
@@ -282,10 +303,11 @@
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/escalation/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a href="#" id="escalationModal"><span class="fa fa-wrench"></span></a></li>
+												<li><a role="button" id="escalationModal"><span
+														class="fa fa-wrench"></span></a></li>
 											</ul>
 										</div>
-										<div class="panel-body">											
+										<div class="panel-body">
 											<div class="panel-body panel-body-table">
 
 												<div class="table-responsive">
@@ -293,21 +315,27 @@
 
 														<tbody>
 															<tr th:each="escalation : ${escalations}">
-																<td width="80%" th:text="${ escalation.summaryescalation}">
-																</td>
-																<td width="20%">
-																	<input type="hidden" th:value="${escalation.id}" th:id="'idescalation_' + ${escalation.id}" />
-																	<input type="hidden" th:value="${escalation.dateescalation}" th:id="'dateescalation_' + ${escalation.id}" />
-																	<input type="hidden" th:value="${escalation.summaryescalation}" th:id="'summaryescalation_' + ${escalation.id}" />
-																	<input type="hidden" th:value="${escalation.txtescalation}" th:id="'txtescalation_' + ${escalation.id}" />
-																	<input type="hidden" th:value="${escalation.week}" th:id="'weekescalation_' + ${escalation.id}" />
-																	<input type="hidden" th:value="${project.id}" th:id="'projectescalation_' + ${escalation.id}" />
-													
-																	<a href="#">
-																		<span class="badge badge-warning" th:text="${escalation.dateescalation}" 
-																			name="viewDetailsEscalation" th:attr="data-escalation=${escalation.id}" />
-																	</a>
-																</td>
+																<td width="80%"
+																	th:text="${ escalation.summaryescalation}"></td>
+																<td width="20%"><input type="hidden"
+																	th:value="${escalation.id}"
+																	th:id="'idescalation_' + ${escalation.id}" /> <input
+																	type="hidden" th:value="${escalation.dateescalation}"
+																	th:id="'dateescalation_' + ${escalation.id}" /> <input
+																	type="hidden"
+																	th:value="${escalation.summaryescalation}"
+																	th:id="'summaryescalation_' + ${escalation.id}" /> <input
+																	type="hidden" th:value="${escalation.txtescalation}"
+																	th:id="'txtescalation_' + ${escalation.id}" /> <input
+																	type="hidden" th:value="${escalation.week}"
+																	th:id="'weekescalation_' + ${escalation.id}" /> <input
+																	type="hidden" th:value="${project.id}"
+																	th:id="'projectescalation_' + ${escalation.id}" /> <a
+																	role="button"> <span class="badge badge-warning"
+																		th:text="${escalation.dateescalation}"
+																		name="viewDetailsEscalation"
+																		th:attr="data-escalation=${escalation.id}" />
+																</a></td>
 
 															</tr>
 														</tbody>
@@ -389,13 +417,11 @@
 														</div>
 													</div>
 												</td>
-												<td align="center">
-													<a href="#" id="financialsModal" >
+												<td align="center"><a role="button" id="financialsModal">
 														<button type="button" class="btn btn-primary">
 															<span class="fa fa-wrench" aria-hidden="true"></span>Editar
 														</button>
-													</a>
-												</td>
+												</a></td>
 
 											</tr>
 										</tbody>
@@ -410,7 +436,8 @@
 										<li><a href="#"
 											th:href="@{/projects/project/__${project.id}__/phase/}"
 											class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-										<li><a href="#" id="phaseModal" ><span class="fa fa-wrench"></span></a></li>
+										<li><a role="button" id="phaseModal"><span
+												class="fa fa-wrench"></span></a></li>
 									</ul>
 								</div>
 								<div class="panel-body">
@@ -429,20 +456,27 @@
 										</thead>
 										<tbody>
 											<tr th:each="phase : ${phases}">
-												<input type="hidden" th:value="${phase.summaryphase}" th:id="'summaryphase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.startdate}" th:id="'startdatephase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.enddate}" th:id="'enddatephase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.weekdelay}" th:id="'weekdelayphase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.newdate}" th:id="'newdatephase_' + ${phase.id}" />
-												<input type="hidden" th:value="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}" 
+												<input type="hidden" th:value="${phase.summaryphase}"
+													th:id="'summaryphase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.startdate}"
+													th:id="'startdatephase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.enddate}"
+													th:id="'enddatephase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.weekdelay}"
+													th:id="'weekdelayphase_' + ${phase.id}" />
+												<input type="hidden" th:value="${phase.newdate}"
+													th:id="'newdatephase_' + ${phase.id}" />
+												<input type="hidden"
+													th:value="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}"
 													th:id="'progressphase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.rag.id}" th:id="'ragphase_' + ${phase.id}" />
-											
-												<td th:text="${phase.summaryphase}" align="center" ></td>
-												<td th:text="${phase.startdate}" align="center" ></td>
-												<td th:text="${phase.enddate}" align="center" ></td>
-												<td th:text="${phase.weekdelay}" align="center" ></td>
-												<td th:text="${phase.newdate}" align="center" ></td>
+												<input type="hidden" th:value="${phase.rag.id}"
+													th:id="'ragphase_' + ${phase.id}" />
+
+												<td th:text="${phase.summaryphase}" align="center"></td>
+												<td th:text="${phase.startdate}" align="center"></td>
+												<td th:text="${phase.enddate}" align="center"></td>
+												<td th:text="${phase.weekdelay}" align="center"></td>
+												<td th:text="${phase.newdate}" align="center"></td>
 												<!-- 												<td th:text="${phase.progress}" align="center"> -->
 												<td align="center">
 													<div class="progress">
@@ -468,7 +502,8 @@
 													</div>
 												</td>
 												<td align="center">
-													<button type="button" class="btn btn-primary" name="editPhaseButton" th:attr="data-phase=${phase.id}">
+													<button type="button" class="btn btn-primary"
+														name="editPhaseButton" th:attr="data-phase=${phase.id}">
 														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
 													</button>
 												</td>
@@ -477,124 +512,101 @@
 									</table>
 								</div>
 							</div>
-							
-							
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Project comments</h3>
-									<ul class="panel-controls">
-										<li><a href="#" id="commentsModal" ><span class="fa fa-wrench"></span></a></li>
-									</ul>
-								</div>
-								<div class="panel-body">
-									<table class="table datatable-simple" id="projectCommentsTable">
-										<thead>
-											<tr>
-												<th style="text-align: center;">Comment</th>
-												<th style="text-align: center;">PM</th>
-												<th style="text-align: center;">Created on</th>
-												<th style="text-align: center;">Modified on</th>
-												<th style="text-align: center;">Modify</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="comment : ${comments}">
-												<input type="hidden" th:value="${comment.comment}" th:id="'commentcomment_' + ${comment.id}" />
-												<input type="hidden" th:value="${comment.id}" th:id="'idcomment_' + ${comment.id}" />
-											
-												<td th:text="${comment.comment}" align="center" ></td>
-												<td th:text="${comment.pm.username}" align="center" ></td>
-												<td th:text="${comment.createdOn}" align="center" ></td>
-												<td th:text="${comment.modifiedOn}" align="center" ></td>
-												<td align="center">
-													<button type="button" class="btn btn-primary" name="editCommentButton" th:attr="data-comment=${comment.id}">
-														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
-													</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h3 class="panel-title">Project comments</h3>
+											<ul class="panel-controls">
+												<li><a role="button" id="commentsModal"><span
+														class="fa fa-wrench"></span></a></li>
+											</ul>
+										</div>
+										<div class="panel-body">
+											<!-- START TIMELINE -->
+											<div class="timeline timeline-right"  th:if="${comments.size()} != 0">
+
+												<!-- START TIMELINE ITEM -->
+												<div class="timeline-item timeline-main">
+													<div class="timeline-date"><span th:text="${comments[0].createdOn.Year} + 1900" ></span></div>
+												</div>
+												<!-- END TIMELINE ITEM -->
+
+												<!-- START TIMELINE ITEM -->
+												<div class="timeline-item timeline-item-right"
+													th:each="comment : ${comments}">
+													<div class="timeline-item-info">
+														<span th:text="${comment.createdOn}"></span>
+													</div>
+													<div class="timeline-item-icon">
+														<span class="fa fa-globe"></span>
+													</div>
+													<div class="timeline-item-content">
+														<div class="timeline-heading">
+															<a><span th:text="${comment.pm.username}"></span> </a>
+																<span th:if="${comment.modifiedOn}"> modified on <span th:text="${comment.modifiedOn}"></span></span>
+														</div>
+														<div class="timeline-body">
+
+															<p>
+																<input type="hidden" th:value="${comment.comment}"
+																	th:id="'commentcomment_' + ${comment.id}" /> 
+																<input
+																	type="hidden" th:value="${comment.id}"
+																	th:id="'idcomment_' + ${comment.id}" />
+																
+																<input type="hidden" th:value="${comment.getTagsJSON()}" th:id="'tagscomment_' + ${comment.id}" />
+																
+																<ul class="panel-controls" th:if="${username} == ${comment.pm.username}">
+																	<li><a href="javascript: void();"
+																		name="editCommentButton"
+																		th:attr="data-comment=${comment.id}"> <span
+																			class="glyphicon glyphicon-pencil"></span>
+																	</a></li>
+																</ul>
+																<span th:text="${comment.comment}"></span>
+															</p>
+
+															<ul class="list-tags">
+																<li th:each="tag : ${comment.tags}">
+																	<a><span class="fa fa-tag"></span> <span th:text="${tag}"></span></a>
+																</li>
+															</ul>
+														</div>
+														<!-- 
+												<div class="timeline-body comments">
+													<div class="comment-item">
+														<img src="assets/images/users/user4.jpg" />
+														<p class="comment-head">
+															<a href="#">Brad Pitt</a> <span class="text-muted">@bradpitt</span>
+														</p>
+														<p>Awesome, man, that is awesome...</p>
+														<small class="text-muted">10h ago</small>
+													</div>
+													<div class="comment-write">
+														<textarea class="form-control"
+															placeholder="Write a comment" rows="1"></textarea>
+													</div>
+												</div>
+												<div class="timeline-footer">
+													<a href="#">Read more</a>
+													<div class="pull-right">
+														<a href="#"><span class="fa fa-comment"></span> 35</a> <a
+															href="#"><span class="fa fa-share"></span></a>
+													</div>
+												</div>
+												-->
+													</div>
+												</div>
+												<!-- END TIMELINE ITEM -->
+											</div>
+											<!-- END TIMELINE -->
+										</div>
+									</div>
 								</div>
 							</div>
-							<!-- END COMMENTS -->
-							
-		                    <div class="row">
-                        <div class="col-md-12">
-                            
-                            <!-- START TIMELINE -->
-                            <div class="timeline timeline-right">
-                                
-                                <!-- START TIMELINE ITEM -->
-                                <div class="timeline-item timeline-main">
-                                    <div class="timeline-date">2014</div>
-                                </div>
-                                <!-- END TIMELINE ITEM -->
-                                
-                                <!-- START TIMELINE ITEM -->
-                                <div class="timeline-item timeline-item-right">
-                                    <div class="timeline-item-info">Yesterday</div>
-                                    <div class="timeline-item-icon"><span class="fa fa-globe"></span></div>
-                                    <div class="timeline-item-content">
-                                        <div class="timeline-heading">
-                                            <img src="assets/images/users/user2.jpg"/> <a href="#">John Doe</a> added article <a href="#">Lorem ipsum dolor sit amet</a>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <img src="assets/images/gallery/nature-4.jpg" class="img-text" width="150" align="left"/>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tempus dolor id orci lacinia, eget aliquam velit consequat.</p>
-                                            <p>Vivamus at tincidunt lectus, faucibus condimentum quam. Duis facilisis sem sed eros malesuada, vel dignissim diam ornare. Etiam rhoncus, nibh non auctor mattis, ligula diam mattis dolor, non tincidunt lectus velit nec metus. 
-                                               Phasellus dictum justo vitae ornare lobortis. Integer ut lectus vel mauris tempor ultricies eget vitae turpis. Sed eleifend odio quis rutrum volutpat.</p>
-                                            <ul class="list-tags">                                            
-                                                <li><a href="#"><span class="fa fa-tag"></span> tempor</a></li>
-                                                <li><a href="#"><span class="fa fa-tag"></span> eros</a></li>
-                                                <li><a href="#"><span class="fa fa-tag"></span> suspendisse</a></li>
-                                                <li><a href="#"><span class="fa fa-tag"></span> dolor</a></li>
-                                            </ul>                                            
-                                        </div>
-                                        <div class="timeline-body comments">
-                                            <div class="comment-item">
-                                                <img src="assets/images/users/user4.jpg"/>
-                                                <p class="comment-head">
-                                                    <a href="#">Brad Pitt</a> <span class="text-muted">@bradpitt</span>
-                                                </p>
-                                                <p>Awesome, man, that is awesome...</p>
-                                                <small class="text-muted">10h ago</small>
-                                            </div>                                            
-                                            <div class="comment-write">                                                
-                                                <textarea class="form-control" placeholder="Write a comment" rows="1"></textarea>                                                
-                                            </div>
-                                        </div>                                        
-                                        <div class="timeline-footer">
-                                            <a href="#">Read more</a>
-                                            <div class="pull-right">
-                                                <a href="#"><span class="fa fa-comment"></span> 35</a> 
-                                                <a href="#"><span class="fa fa-share"></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>       
-                                <!-- END TIMELINE ITEM -->
-                                
-                               
-                            </div>
-                            <!-- END TIMELINE -->
-                            
-                        </div>
-                    </div>
-                    <!-- END ROW-->    					
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
+							<!-- END ROW-->
 						</div>
 						<!-- END COL12 -->
 					</div>
@@ -619,13 +631,13 @@
 		src="js/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
-	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>	
-	<script th:src="@{/js/project_actions.js}"></script>		
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-tagsinput.min.js}"></script>
+	<script th:src="@{/js/project_actions.js}"></script>
 	<!-- END PAGE PLUGINS -->
 
 	<!-- START TEMPLATE -->
 	<script th:src="@{/js/settings.jss}"></script>
 	<!-- END TEMPLATE -->
-
 </body>
 </html>

@@ -2,10 +2,12 @@ package com.pbc.pmtool.service;
 
 import java.util.List;
 
+import com.pbc.pmtool.component.FormTaskShowConverter;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.Task;
 import com.pbc.pmtool.entity.User;
+import com.pbc.pmtool.model.FormShowTaskModel;
 import com.pbc.pmtool.model.ProjectTaskModel;
 
 
@@ -21,6 +23,7 @@ public interface ProjectTaskService {
 	public abstract List<Task> listProjectTasks();
 	
 	public abstract List<Task> listProjectTasks(int status);
+	public abstract List<FormShowTaskModel> listProjectTasksShow(Project project, int status);
 	public abstract List<Task> listProjectTasks(Project project, int status);
 
 	public abstract List<ProjectTaskModel> countRecordsByProject(String username);

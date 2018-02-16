@@ -8,14 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.pbc.pmtool.component.FormTaskShowConverter;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.Task;
+import com.pbc.pmtool.model.FormShowTaskModel;
 import com.pbc.pmtool.model.ProjectTaskModel;
 import com.pbc.pmtool.repository.ProjectTaskRepository;
 import com.pbc.pmtool.service.ProjectTaskService;
 
 @Service("projectTaskServiceImpl")
 public class ProjectTaskServiceImpl implements ProjectTaskService {
+	
+	@Autowired
+	@Qualifier("formTaskShowConverter")
+	private FormTaskShowConverter formTaskShowConverter;
 	
 	@Autowired
 	@Qualifier("projectTaskRepository")
@@ -110,6 +116,13 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 	public List<Task> listProjectTasks(Project project, int status) {
 		// TODO Auto-generated method stub
 		return projectTaskRepository.findByProjectAndStatus(project,status);
+	}
+
+	@Override
+	public List<FormShowTaskModel> listProjectTasksShow(Project project, int status) {
+		List<Task> tasks = projectTaskRepository.findByProjectAndStatus(project, status);
+		
+		return formTaskShowConverter.tasks2FormTaskShow(tasks);
 	}
 
 }

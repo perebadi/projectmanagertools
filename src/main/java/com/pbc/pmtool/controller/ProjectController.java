@@ -4,10 +4,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -258,6 +261,8 @@ public class ProjectController {
 		mav.addObject("phases",phases);
 		
 		List<ProjectComment> comments = new ArrayList<>(project.getComments());
+		
+		Collections.sort(comments);
 		
 		mav.addObject("comments", comments);
 		

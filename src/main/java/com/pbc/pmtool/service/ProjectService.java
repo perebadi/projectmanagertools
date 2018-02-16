@@ -20,6 +20,9 @@ public interface ProjectService {
 	public abstract int countRecords(User user);
 	public abstract void removeSource(int id);
 	
+	public abstract List<Project> listPageablePmoProjects(int pageno, User user);
+
+	
 	public abstract Project updateProject(Project project);
 	
 	public abstract SumValuesModel getActiveSum(String username);

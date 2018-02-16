@@ -65,6 +65,15 @@
 
 		        	
 		        }
+		        
+		        //Prevenim enter form submit
+		        $('#commentProjectForm').on('keyup keypress', function(e) {
+		        	  var keyCode = e.keyCode || e.which;
+		        	  if (keyCode === 13) { 
+		        	    e.preventDefault();
+		        	    return false;
+		        	  }
+		        });
 			}
 		</script>
 		<!-- SCRIPTS -->
@@ -77,22 +86,30 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title" id="titleModal">Comment</h4>
+						<h4 class="modal-title">Comment</h4>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="commentProjectForm">
 							<input class="hidden" id="commentid" />
+							<input class="hidden" id="idCommentProject"	th:value="${project.id}" />
 
 							<div class="row">
 								<div class="col-md-12">
-									<textarea id="comment" class="form-control" rows="5" cols=""></textarea>
+									<textarea id="commentcomment" name="commentcomment" class="form-control" rows="5" cols=""></textarea>
+								</div>
+							</div>
+							<br />
+							<div class="row">
+								<div class="col-md-12">
+									<p><strong>Tags: </strong></p>
+									<input type="text" class="form-control" data-role="tagsinput" name="commenttags" id="commenttags" placeholder="Tags..." />
 								</div>
 							</div>
 							
 							<!--  END PANEL BODY -->
 							<br /> <br />
 
-							<button class="btn btn-primary pull-right" id="addButton">Save</button>
+							<button class="btn btn-primary pull-right" id="addCommentButton">Save</button>
 
 							<br /> <br />
 						</form>
