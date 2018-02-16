@@ -202,21 +202,14 @@
 									<div class="table-responsive">
 										<div class="row">
 											<div class="progress-list">
-												<div class="pull-left">
-													<strong>Hours</strong>
-												</div>
-												<div class="pull-right">
-													<span th:text="${backlog.hours}"></span>/ <span
-														th:text="${backlog.estimatedhours}"></span>
-												</div>
-												<div class="progress progress-small progress-striped active">
-													<div class="progress-bar progress-bar-primary"
-														role="progressbar"
-														th:style="'width:'+${backlog.realvsestimated}+'%;'"></div>
-												</div>
+												
 											</div>
 										</div>
 									</div>
+								</div>
+								<div class="pull-right" th:if="${backlog.user}">
+									<strong>Assigned to: &nbsp;</strong> <a><span
+										th:text="${backlog.user.name}"></span></a>
 								</div>
 							</div>
 						</div>
@@ -263,8 +256,8 @@
 													<strong>Hours</strong>
 												</div>
 												<div class="pull-right">
-													<span th:text="${todo.hours}"></span>/ <span
-														th:text="${todo.estimatedhours}"></span>
+													<span th:text="${todo.estimatedhours}"></span>/
+													<span th:text="${todo.hours}"></span>
 												</div>
 												<div class="progress progress-small progress-striped active">
 													<div class="progress-bar progress-bar-primary"
@@ -324,8 +317,7 @@
 													<strong>Hours</strong>
 												</div>
 												<div class="pull-right">
-													<span th:text="${progress.hours}"></span>/ <span
-														th:text="${progress.estimatedhours}"></span>
+													<span th:text="${progress.estimatedhours}"></span>/<span th:text="${progress.hours}"></span>
 												</div>
 												<div class="progress progress-small progress-striped active">
 													<div class="progress-bar progress-bar-primary"
@@ -370,8 +362,7 @@
 													<strong>Hours</strong>
 												</div>
 												<div class="pull-right">
-													<span th:text="${done.hours}"></span>/ <span
-														th:text="${done.estimatedhours}"></span>
+													<span th:text="${done.estimatedhours}"></span>/<span th:text="${done.hours}"></span>
 												</div>
 												<div class="progress progress-small progress-striped active">
 													<div class="progress-bar progress-bar-primary"
