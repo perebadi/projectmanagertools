@@ -18,12 +18,10 @@ $(document).ready(function(){
 								
 								for(var i = 0; i < comments.length; i++){
 									$( "#taskBacklogComments" ).append("" +
-										"<div class='item in item-visible'>" +
-											"<div class='text'>" +
-												"<div class='heading'><strong>" + comments[i].datecomment + "</strong></div>" +
-												"<p>" + comments[i].detail + "</p>"+ 
-											"</div>" +
-										"</div>");
+										"<li class='list-group-item' >" +											
+											"<div class='heading'><strong>" + comments[i].datecomment + "</strong></div><br/>" +
+											"<p>" + comments[i].detail + "</p>"+ 
+										"</li>");
 								}
 								
 							},
@@ -67,12 +65,10 @@ $(document).ready(function(){
 								
 								for(var i = 0; i < comments.length; i++){
 									$( "#taskComments" ).append("" +
-										"<div class='item in item-visible'>" +
-											"<div class='text'>" +
-												"<div class='heading'><strong>" + comments[i].datecomment + "</strong></div>" +
+											"<li class='list-group-item' >" +		
+												"<div class='heading'><strong>" + comments[i].datecomment + "</strong></div><br/>" +
 												"<p>" + comments[i].detail + "</p>"+ 
-											"</div>" +
-										"</div>");
+											"</li>");
 								}
 								
 							},

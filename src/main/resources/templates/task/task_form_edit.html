@@ -194,6 +194,7 @@
 							</div>
 							<div class="panel-body">
 								<input type="hidden" th:value="${backlog.getCommentsJSON()}" th:id="'comments_' + ${backlog.id}" />	
+								<input type="hidden" th:if="${backlog.user}" th:value="${backlog.user.name}" th:id="'userassigned_' + ${backlog.id}" />
 								
 								<span th:text="${backlog.details}"></span>
 							</div>
@@ -510,8 +511,13 @@
 				window.location.assign('/tasks/project/' + $("#projectid").val()
 						+ '/' + 'move/' + taskId + '/' + status + '/');
 			}else{
-				$("#showBacklogModal_" + taskId).trigger( "click" );
-				return false;
+				if($("#userassigned_" + taskId).val() == undefined){
+					$("#showBacklogModal_" + taskId).trigger( "click" );
+					return false;
+				}else{
+					window.location.assign('/tasks/project/' + $("#projectid").val()
+							+ '/' + 'move/' + taskId + '/' + status + '/');
+				}
 			}
 		}
 	</script>
