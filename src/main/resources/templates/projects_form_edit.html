@@ -477,7 +477,126 @@
 									</table>
 								</div>
 							</div>
+							
+							
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Project comments</h3>
+									<ul class="panel-controls">
+										<li><a href="#" id="commentsModal" ><span class="fa fa-wrench"></span></a></li>
+									</ul>
+								</div>
+								<div class="panel-body">
+									<table class="table datatable-simple" id="projectCommentsTable">
+										<thead>
+											<tr>
+												<th style="text-align: center;">Comment</th>
+												<th style="text-align: center;">PM</th>
+												<th style="text-align: center;">Created on</th>
+												<th style="text-align: center;">Modified on</th>
+												<th style="text-align: center;">Modify</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="comment : ${comments}">
+												<input type="hidden" th:value="${comment.comment}" th:id="'commentcomment_' + ${comment.id}" />
+												<input type="hidden" th:value="${comment.id}" th:id="'idcomment_' + ${comment.id}" />
+											
+												<td th:text="${comment.comment}" align="center" ></td>
+												<td th:text="${comment.pm.username}" align="center" ></td>
+												<td th:text="${comment.createdOn}" align="center" ></td>
+												<td th:text="${comment.modifiedOn}" align="center" ></td>
+												<td align="center">
+													<button type="button" class="btn btn-primary" name="editCommentButton" th:attr="data-comment=${comment.id}">
+														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- END COMMENTS -->
+							
+		                    <div class="row">
+                        <div class="col-md-12">
+                            
+                            <!-- START TIMELINE -->
+                            <div class="timeline timeline-right">
+                                
+                                <!-- START TIMELINE ITEM -->
+                                <div class="timeline-item timeline-main">
+                                    <div class="timeline-date">2014</div>
+                                </div>
+                                <!-- END TIMELINE ITEM -->
+                                
+                                <!-- START TIMELINE ITEM -->
+                                <div class="timeline-item timeline-item-right">
+                                    <div class="timeline-item-info">Yesterday</div>
+                                    <div class="timeline-item-icon"><span class="fa fa-globe"></span></div>
+                                    <div class="timeline-item-content">
+                                        <div class="timeline-heading">
+                                            <img src="assets/images/users/user2.jpg"/> <a href="#">John Doe</a> added article <a href="#">Lorem ipsum dolor sit amet</a>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <img src="assets/images/gallery/nature-4.jpg" class="img-text" width="150" align="left"/>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tempus dolor id orci lacinia, eget aliquam velit consequat.</p>
+                                            <p>Vivamus at tincidunt lectus, faucibus condimentum quam. Duis facilisis sem sed eros malesuada, vel dignissim diam ornare. Etiam rhoncus, nibh non auctor mattis, ligula diam mattis dolor, non tincidunt lectus velit nec metus. 
+                                               Phasellus dictum justo vitae ornare lobortis. Integer ut lectus vel mauris tempor ultricies eget vitae turpis. Sed eleifend odio quis rutrum volutpat.</p>
+                                            <ul class="list-tags">                                            
+                                                <li><a href="#"><span class="fa fa-tag"></span> tempor</a></li>
+                                                <li><a href="#"><span class="fa fa-tag"></span> eros</a></li>
+                                                <li><a href="#"><span class="fa fa-tag"></span> suspendisse</a></li>
+                                                <li><a href="#"><span class="fa fa-tag"></span> dolor</a></li>
+                                            </ul>                                            
+                                        </div>
+                                        <div class="timeline-body comments">
+                                            <div class="comment-item">
+                                                <img src="assets/images/users/user4.jpg"/>
+                                                <p class="comment-head">
+                                                    <a href="#">Brad Pitt</a> <span class="text-muted">@bradpitt</span>
+                                                </p>
+                                                <p>Awesome, man, that is awesome...</p>
+                                                <small class="text-muted">10h ago</small>
+                                            </div>                                            
+                                            <div class="comment-write">                                                
+                                                <textarea class="form-control" placeholder="Write a comment" rows="1"></textarea>                                                
+                                            </div>
+                                        </div>                                        
+                                        <div class="timeline-footer">
+                                            <a href="#">Read more</a>
+                                            <div class="pull-right">
+                                                <a href="#"><span class="fa fa-comment"></span> 35</a> 
+                                                <a href="#"><span class="fa fa-share"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>       
+                                <!-- END TIMELINE ITEM -->
+                                
+                               
+                            </div>
+                            <!-- END TIMELINE -->
+                            
+                        </div>
+                    </div>
+                    <!-- END ROW-->    					
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
 						</div>
+						<!-- END COL12 -->
 					</div>
 				</form>
 			</div>
