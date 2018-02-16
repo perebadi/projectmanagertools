@@ -2,8 +2,11 @@ package com.pbc.pmtool.model;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class FormCommentModel {
 	private int idcomment;
+	@NotEmpty
 	private String comment;
 	private List<String> tags;
 

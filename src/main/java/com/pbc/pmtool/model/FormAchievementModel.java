@@ -1,14 +1,20 @@
 package com.pbc.pmtool.model;
 
+import javax.validation.constraints.NotNull;
 
-
-
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class FormAchievementModel {
 	
 	private int idachievement;
+	
+	@NotEmpty
 	private String dateachievement;
+	
+	@NotNull
 	private int week;
+	
+	@NotEmpty
 	private String summaryachievement;
 	private String txtachievement;
 	

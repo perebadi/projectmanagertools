@@ -1,18 +1,36 @@
 package com.pbc.pmtool.model;
 
-
+import javax.validation.constraints.NotNull;
 
 public class FormRagModel {
-	
+	@NotNull
 	private int id;
+	
+	@NotNull
 	private int projectStatus;
+	
+	@NotNull
 	private int projectStatusConfidence;
+	
+	@NotNull
 	private int projectDeliveryConfidence;
+	
+	@NotNull
 	private int projectGovernance;
+	
+	@NotNull
 	private int projectBusinessChange;
+	
+	@NotNull
 	private int projectBenefitsRealisation;
+	
+	@NotNull
 	private int projectDependency;
+	
+	@NotNull
 	private int projectResourcing;
+	
+	@NotNull
 	private int projectScope;
 	
 	

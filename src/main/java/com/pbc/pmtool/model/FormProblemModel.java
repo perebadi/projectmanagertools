@@ -1,14 +1,20 @@
 package com.pbc.pmtool.model;
 
+import javax.validation.constraints.NotNull;
 
-
-
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class FormProblemModel {
 	
+	@NotEmpty
 	private String dateproblem;
+	
+	@NotNull
 	private int week;
+	
+	@NotEmpty
 	private String summaryproblem;
+	
 	private String txtproblem;
 	private int idproblem;
 	

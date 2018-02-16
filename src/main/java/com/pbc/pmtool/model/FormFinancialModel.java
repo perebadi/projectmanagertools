@@ -1,19 +1,34 @@
 package com.pbc.pmtool.model;
 
-
-
-
+import javax.validation.constraints.NotNull;
 
 public class FormFinancialModel {
 	
+	@NotNull
 	private Double TVC;
+	
+	@NotNull
 	private Double TIC;
+	
+	@NotNull
 	private Double OP;
+	
+	@NotNull
 	private Double budgettodate;
+	
+	@NotNull
 	private Double costestimated;
+	
+	@NotNull
 	private Double EACOP;
+	
+	@NotNull
 	private Double variance;
+	
+	@NotNull
 	private Double certifiedprogress;
+	
+	@NotNull
 	private Double invoiced;
 	
 	

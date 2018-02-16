@@ -1,11 +1,21 @@
 package com.pbc.pmtool.model;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class FormEscalationModel {
 
 	
 	private int idescalation;
+	
+	@NotEmpty
 	private String dateescalation;
+	
+	@NotNull
 	private int week;
+	
+	@NotEmpty
 	private String summaryescalation;
 	private String txtescalation;
 	
