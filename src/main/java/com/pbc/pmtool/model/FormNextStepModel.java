@@ -1,14 +1,20 @@
 package com.pbc.pmtool.model;
 
+import javax.validation.constraints.NotNull;
 
-
-
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class FormNextStepModel {
 	
 	private int idnextstep;
+	
+	@NotEmpty
 	private String datenextstep;
+	
+	@NotNull
 	private int week;
+	
+	@NotEmpty
 	private String summarynextstep;
 	private String txtnextstep;
 	

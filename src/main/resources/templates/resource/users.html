@@ -194,7 +194,7 @@
 														</p>
 														<select class="selectpicker" multiple="true"
 															name="userRoles" required="true">
-															<option th:each="role : ${user.userRoles}"
+															<option th:each="role : ${user.getAllUserRoles()}"
 																th:selected="${user.hasRole(role)}"><span
 																	th:text="${role}"></span>
 															</option>
