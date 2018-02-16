@@ -221,8 +221,10 @@ public class ProjectController {
 	
 	
 	
-	@GetMapping("/project/{id}/")
+	@GetMapping({"/project/{id}/","/project/{id}"})
 	public ModelAndView editProject(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable int id){
+		
+		System.out.println("id : "+id);
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
 		
 		System.out.println("id : "+id);
@@ -269,7 +271,7 @@ public class ProjectController {
 		System.out.println(projectService.findProjectById(id).getProjectname());
 		System.out.println("id : "+id);
 		
-		/*** RAG MODEL ***/
+		//*** RAG MODEL ***//
 		FormRagModel formRagModel = new FormRagModel();
 		
 		formRagModel.setId(id);;
@@ -284,9 +286,9 @@ public class ProjectController {
 		
 		mav.addObject("formRagModel",formRagModel);
 		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
-		/*** END RAG MODEL***/
+		//*** END RAG MODEL***//
 		
-		/*** FINANCIAL MODEL***/
+		//*** FINANCIAL MODEL***//
 		FormFinancialModel formFinancialModel = new FormFinancialModel();
 		
 		formFinancialModel.setBudgettodate(projectService.findProjectById(id).getBudgettodate());
@@ -300,7 +302,7 @@ public class ProjectController {
 		formFinancialModel.setVariance(projectService.findProjectById(id).getVariance());
 		
 		mav.addObject("formFinancialModel",formFinancialModel);
-		/*** END FINANCIAL MODEL***/
+		//*** END FINANCIAL MODEL***//
 		
 		mav.addObject("username", sessionuser);
 		return mav;
