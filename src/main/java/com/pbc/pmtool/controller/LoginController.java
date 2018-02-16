@@ -163,7 +163,7 @@ public class LoginController {
 			@RequestParam(name = "logout", required = false) String logout,
 			@RequestParam(name = "newaccountsuccess", required = false) String newaccountsuccess) {
 		
-		System.out.println("*******************");
+		System.out.println("*********E**********");
 
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
@@ -175,7 +175,7 @@ public class LoginController {
 
 	@GetMapping({"/loginsuccess","/","/logincheck"})
 	public String loginCheck() {
-		System.out.println("*******************");
+		System.out.println("*********AQUI**********");
 		return "redirect:/projects/";
 		
 	}
