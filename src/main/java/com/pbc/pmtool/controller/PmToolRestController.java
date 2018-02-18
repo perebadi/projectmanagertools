@@ -166,6 +166,8 @@ public class PmToolRestController {
 				task.setUser(userService.getUser(formSaveBacklogModel.getUsername()));
 				
 				task.setStatus(2);
+			}else if(formSaveBacklogModel.getUsername().equals("nobody")){
+				task.setUser(null);
 			}
 			
 			projectTaskServiceImpl.addProjectTask(task);
