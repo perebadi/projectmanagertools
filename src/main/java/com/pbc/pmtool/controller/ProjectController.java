@@ -1,5 +1,6 @@
 package com.pbc.pmtool.controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pbc.pmtool.additional.Report;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
@@ -42,6 +44,7 @@ import com.pbc.pmtool.model.FormNextStepModel;
 import com.pbc.pmtool.model.FormPhaseModel;
 import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
+import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.ProjectAchievementService;
 import com.pbc.pmtool.service.ProjectEscalationService;
@@ -206,6 +209,21 @@ public class ProjectController {
 		mav.addObject("projects", projectService.listPageableProjects(pageno,userRepository.findByUsername(username)));
 		mav.addObject("username", sessionuser);
 		return mav;
+	}
+	
+	@GetMapping("/{username}/report")
+	public String reportProjects( @PathVariable String username) throws IOException{
+		Report report = new Report();
+		report.createTemplate(projectService.findProjectById(9));
+		
+		String current = new java.io.File( "." ).getCanonicalPath();
+        System.out.println("Current dir:"+current);
+        String currentDir = System.getProperty("user.dir");
+        System.out.println("Current dir using System:" +currentDir);
+        
+		return "redirect:/projects/"+username+"/";
+
+
 	}
 	
 	
