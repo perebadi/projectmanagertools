@@ -18,6 +18,7 @@ public interface ProjectAchievementRepository  extends JpaRepository<ProjectAchi
 	public abstract List<ProjectAchievement> findAll();
 	public Page<ProjectAchievement> findAllByOrderByIdDesc( Pageable pageable);
 	public abstract List<ProjectAchievement> findByProject(Project project);
+	public abstract Page<ProjectAchievement> findByProject(Project project, Pageable pageable);
 
 
 	//@Query(value = "SELECT sum(base) as sbase, tipoirpf,sum(irpf) as sirpf, tipoiva,sum(iva) as siva,sum(total) as stotal FROM factura_cliente WHERE fechafactura >= ?1 and fechafactura < ?2 GROUP BY tipoirpf,tipoiva", nativeQuery = true)	

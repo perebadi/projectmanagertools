@@ -213,6 +213,8 @@ public class ProjectController {
 	
 	@GetMapping("/{username}/report")
 	public String reportProjects( @PathVariable String username) throws IOException{
+		
+		
 		Report report = new Report();
 		report.createTemplate(projectService.findProjectById(9));
 		

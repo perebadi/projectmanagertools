@@ -18,4 +18,7 @@ public interface ProjectAchievementService {
 	public abstract List<ProjectAchievement> listProjectAchievements();
 	public abstract int countRecords();
 	public abstract void removeSource(int id);
+	
+	public abstract List<ProjectAchievement> listTop5ProjectAchievements(Project project);
+
 }
