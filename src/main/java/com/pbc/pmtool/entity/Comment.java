@@ -1,5 +1,6 @@
 package com.pbc.pmtool.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment implements Serializable {
 	
 	@Id
 	@GeneratedValue

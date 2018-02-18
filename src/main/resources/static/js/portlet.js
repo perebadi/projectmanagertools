@@ -29,8 +29,9 @@
                 var row = 0;
                 
                 //Call task status AJAX method update 
-                updateTaskStatus(ui.item.data("id_task"), ui.item.parent().data("task_status"));
+                return updateTaskStatus(ui.item.data("id_task"), ui.item.parent().data("task_status"), ui.item.attr("data-task_currentStatus"));
                 
+                /*
                 $(".sortableContent .scRow").each(function(){                    
                     sorted[row] = {};
                     $(this).find(".scCol").each(function(){
@@ -46,6 +47,7 @@
                 //portlet_save_data(scid,JSON.stringify(sorted)); 
                 
                 onload();
+                */
             }
         }).disableSelection();
         

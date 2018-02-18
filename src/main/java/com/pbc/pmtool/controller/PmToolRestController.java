@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.jdbc.log.Log;
 import com.pbc.pmtool.constant.ViewConstant;
+import com.pbc.pmtool.entity.Comment;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.ProjectComment;
@@ -43,6 +45,7 @@ import com.pbc.pmtool.model.FormPhaseModel;
 import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
+import com.pbc.pmtool.model.FormSaveBacklogModel;
 import com.pbc.pmtool.model.FormSaveTaskModel;
 import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.repository.ProjectCommentRepository;
@@ -137,14 +140,67 @@ public class PmToolRestController {
 		return res;
 	}
 	
+	/**
+	 * Guarda una tarea en backlog
+	 * 
+	 * @param formSaveBacklogModel
+	 * @param bindingResult
+	 * @return Response
+	 */
+	@PostMapping(value = "/savebacklog/")
+	public Response saveBacklog(@Valid @RequestBody FormSaveBacklogModel formSaveBacklogModel, BindingResult bindingResult) {
+		if(!(bindingResult.hasErrors())) {
+			Task task = projectTaskServiceImpl.findProjectTaskById(formSaveBacklogModel.getTaskId());
+			
+			if(!(formSaveBacklogModel.getComment().equals(""))) {
+				Comment comment = new Comment();
+				
+				comment.setDatecomment(new Date());
+				comment.setDetail(formSaveBacklogModel.getComment());
+				comment.setTask(task);
+				
+				task.getComments().add(comment);			
+			}
+			
+			if(!(formSaveBacklogModel.getUsername().equals("nobody"))) {
+				task.setUser(userService.getUser(formSaveBacklogModel.getUsername()));
+				
+				task.setStatus(2);
+			}
+			
+			projectTaskServiceImpl.addProjectTask(task);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
+	}
+	
+	/**
+	 * Guarda los cambios en una tarea 
+	 * 
+	 * @param formSaveTaskModel
+	 * @param bindingResult
+	 * @return Response
+	 */
 	@PostMapping(value = "/savetask/")
 	public Response saveTask(@Valid @RequestBody FormSaveTaskModel formSaveTaskModel, BindingResult bindingResult) {
 		if(!(bindingResult.hasErrors())){
 			Task task = projectTaskServiceImpl.findProjectTaskById(formSaveTaskModel.getTaskId());
 			
-			Logger.getGlobal().info("Task id: " + formSaveTaskModel.getTaskId());
+			if(formSaveTaskModel.getTime() > 0) {
+				task.setHours(task.getHours() + (formSaveTaskModel.getTime() * formSaveTaskModel.getUnit()));
+			}
 			
-			task.setHours(task.getHours() + (formSaveTaskModel.getTime() * formSaveTaskModel.getUnit()));
+			if(!(formSaveTaskModel.getComment().equals(""))) {
+				Comment comment = new Comment();
+				
+				comment.setDatecomment(new Date());
+				comment.setDetail(formSaveTaskModel.getComment());
+				comment.setTask(task);
+				
+				task.getComments().add(comment);			
+			}
 			
 			projectTaskServiceImpl.addProjectTask(task);
 			
@@ -172,12 +228,11 @@ public class PmToolRestController {
 			newTask.setDatestatus(new Date());
 			newTask.setProject(projectService.findProjectById(formCreateTaskModel.getProjectid()));
 			
-			if(formCreateTaskModel.getUsername().equals("nobody")) {
-				newTask.setStatus(1);
-			}else {
+			if(!(formCreateTaskModel.getUsername().equals("nobody"))) {
 				newTask.setUser(userService.getUser(formCreateTaskModel.getUsername()));
-				newTask.setStatus(2);
 			}
+			
+			newTask.setStatus(1);
 			
 			newTask.setEstimatedunit(formCreateTaskModel.getUnit());
 			

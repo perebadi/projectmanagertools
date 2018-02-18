@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,7 +50,7 @@ public class Task {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval=true)
 	private Set<Comment> comments = new HashSet<Comment>();
 	
 	@ManyToOne(fetch=FetchType.EAGER)

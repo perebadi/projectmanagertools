@@ -2,6 +2,8 @@ package com.pbc.pmtool.model;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class FormSaveTaskModel {
 
 	@NotNull
@@ -10,14 +12,24 @@ public class FormSaveTaskModel {
 	private int time;
 	@NotNull
 	private int unit;
+	private String comment;
 
 	public FormSaveTaskModel() {}
 	
-	public FormSaveTaskModel(int taskId, int time, int unit) {
+	public FormSaveTaskModel(int taskId, int time, int unit, String comment) {
 		super();
 		this.taskId = taskId;
 		this.time = time;
 		this.unit = unit;
+		this.comment = comment;
+	}
+	
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public int getTaskId() {
