@@ -52,7 +52,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="col-md-3 scCol droptarget" id="backlog" name="backlog" data-task_status="backlog" style="vertical-align: top;">
+								<td class="col-md-3 scCol droptarget tdTasks" id="backlog" name="backlog" data-task_status="backlog" style="vertical-align: top;">
 									<div class="panel panel-danger" draggable="true"
 										th:value="${backlog.id}" th:name="${backlog.id}"
 										th:attr="data-id_task=${backlog.id}, data-task_currentStatus=${backlog.status}"
@@ -84,7 +84,7 @@
 									</div>
 								</td>
 			
-								<td class="col-md-3 scCol droptarget" id="todo" name="todo"
+								<td class="col-md-3 scCol droptarget tdTasks" id="todo" name="todo"
 									data-task_status="todo" style="vertical-align: top;" >
 			
 									<div class="panel panel-warning" draggable="true"
@@ -145,7 +145,7 @@
 									</div>
 								</td>
 			
-								<td class="col-md-3 scCol droptarget" id="progress"
+								<td class="col-md-3 scCol droptarget tdTasks" id="progress"
 									name="progress" data-task_status="progress" style="vertical-align: top;" >
 			
 									<div class="panel panel-info" draggable="true"
@@ -205,7 +205,7 @@
 									</div>
 								</td>
 			
-								<td class="col-md-3 scCol droptarget" id="done" name="done"
+								<td class="col-md-3 scCol droptarget tdTasks" id="done" name="done"
 									data-task_status="done" style="vertical-align: top;" >
 			
 									<div class="panel panel-success" draggable="true"
