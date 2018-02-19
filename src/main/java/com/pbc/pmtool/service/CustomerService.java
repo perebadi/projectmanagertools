@@ -10,4 +10,6 @@ public interface CustomerService {
 	
 	public CustomerModel getById(int id);
 	
+	public CustomerModel save(CustomerModel customer);
+	
 }

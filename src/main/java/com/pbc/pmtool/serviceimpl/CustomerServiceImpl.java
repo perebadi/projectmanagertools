@@ -47,5 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
 		return null;
 	}
 
+	@Override
+	public CustomerModel save(CustomerModel customer) {
+		Customer customerEntity = customerConverter.CustomerModel2Customer(customer);
+		
+		return customerConverter.Customer2CustomerModel(customerRepository.save(customerEntity));
+	}
+
 	
 }

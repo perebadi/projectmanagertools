@@ -2,19 +2,10 @@ package com.pbc.pmtool.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class CustomerModel {
+public class FormCustomerAddModel {
 
-	private int id;
 	@NotEmpty
 	private String customer;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getCustomer() {
 		return customer;
@@ -24,4 +15,11 @@ public class CustomerModel {
 		this.customer = customer;
 	}
 
+	public FormCustomerAddModel(String customer) {
+		super();
+		this.customer = customer;
+	}
+	
+	public FormCustomerAddModel() {}
+	
 }
