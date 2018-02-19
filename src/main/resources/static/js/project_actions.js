@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	//Establecemos el orden por defecto de la tabla projectPlanTable
 	$("#projectPlanTable").DataTable({
-		"order": [[ 2, "asc" ]]
+		"order": [[ 1, "asc" ], [2, "asc"]]
 	});
 	
 	//Validación project modal form
