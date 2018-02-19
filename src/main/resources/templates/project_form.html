@@ -127,7 +127,8 @@
 											</div>
 											<div class="col-md-1">
 												<ul class="panel-controls">
-													<li><a><span class="glyphicon glyphicon-plus" id="addCustomerModalButton" ></span></a></li>
+													<li><a><span class="glyphicon glyphicon-plus"
+															id="addCustomerModalButton"></span></a></li>
 												</ul>
 											</div>
 										</div>
@@ -274,40 +275,81 @@
 						<h4 class="modal-title">Add customer</h4>
 					</div>
 					<div class="modal-body">
-						<div class="row">
-							<div class="col-md-3">
-								<label>Customer name: </label>
+						<form id="addCustomerForm">
+							<div class="row">
+								<div class="col-md-3">
+									<label>Customer name: </label>
+								</div>
+
+								<div class="col-md-9">
+									<input type="text" class="form-control" id="customerNameInput"
+										name="customerNameInput" />
+								</div>
 							</div>
-							
-							<div class="col-md-9">
-								<input type="text" class="form-control" id="customerNameInput" />
+						</form>
+						<div class="row">
+							<div id="clientAddSuccesAlert">
+								<br /> <br />
+								<div class="alert alert-success" role="alert">
+									<strong>Success!</strong> Customer added correctly.
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default submitAJAXModal" id="addCustomerButton" >Save</button>
+						<button type="button" class="btn btn-default submitAJAXModal"
+							id="addCustomerButton">Save</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<script>
-			window.onload = function(){
-				$("#addCustomerModalButton").AJAXmodal({
-					idModal : "addCustomer",
-					copyData : function() {},
-					url : "/api/createcustomer/",
-					formData : function() {
-						var data = {
-							customer : $('#customerNameInput').val()
-						}
 
-						return data;
-					}
-				});
+		<script>
+			window.onload = function() {
+				$("#addCustomerModalButton").AJAXmodal(
+						{
+							idModal : "addCustomer",
+							copyData : function() {
+								$("#clientAddSuccesAlert").hide();
+							},
+							url : "/api/createcustomer/",
+							formData : function() {
+								var data = {
+									customer : $('#customerNameInput').val()
+								}
+
+								return data;
+							},
+							ajaxSucces : function(response) {
+								$("#customer_id").append(
+										"<option value=" + response.data + ">"
+												+ $("#customerNameInput").val()
+												+ "</option>");
+								$("#customer_id").selectpicker("refresh");
+
+								$("#customerNameInput").val('');
+
+								$("#clientAddSuccesAlert").show(100);
+
+							},
+							disableButton : false,
+							FormValid : function() {
+								var customerFormValidator = $("#addCustomerForm")
+										.validate({
+											ignore : [],
+											rules : {
+												customerNameInput : {
+													required : true
+												}
+											}
+										});
+
+								return $("#addCustomerForm").valid();
+							}
+						});
 			}
 		</script>
-		
+
 		<!-- END ADD CUSTOMER MODAL -->
 
 		<footer th:replace="layout/layout :: footer"></footer>

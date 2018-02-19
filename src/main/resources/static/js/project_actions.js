@@ -464,7 +464,7 @@ $(document).ready(function(){
 			
 				//Obtenemos el token
 				var token = document.getElementsByName("_csrf")[0].value;			
-			
+				
 				//Form data
 				var formData = {
 					tvc : $('#TVC').val(),
@@ -485,14 +485,12 @@ $(document).ready(function(){
 	    			url :"/api/project/" + $("#idFinancialsProject").val() + "/finance/save/",
 	    			data : JSON.stringify(formData),
 	    			dataType : 'json',
-	    			
 	    			beforeSend: function(request) {
 	    		        return request.setRequestHeader('X-CSRF-Token', token);
 	    		    },
 	    		    
 	    			success : function(result) {
 	    				if(result.status == "Done"){
-	    					//Refresh
 	    					window.location.reload();
 	    				}
 	    			},

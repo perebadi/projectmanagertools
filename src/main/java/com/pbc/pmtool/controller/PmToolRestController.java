@@ -158,7 +158,7 @@ public class PmToolRestController {
 			CustomerModel newCustomer = customerServiceImpl.save(
 					formCustomerAddConverter.FormCustomerAdd2CustomerModel(customerAddModel));
 			
-			return new Response("Done", "Done");
+			return new Response("Done", newCustomer.getId());
 		}else {
 			return new Response("Error", "Error");
 		}
