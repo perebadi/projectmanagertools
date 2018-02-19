@@ -113,6 +113,14 @@
 												<input type="text" name="wbs" id="wbs" class="form-control" />
 											</div>
 										</div>
+										<div class="form-group">
+											<label class="col-md-2 control-label">Customer</label>
+											<div class="col-md-10">
+												<select name="customer_id" id="customer_id" class="form-control select" data-live-search="true" >
+													<option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.customer}"></option>
+												</select>
+											</div>
+										</div>
 									</div>
 									<div id="step-6">
 

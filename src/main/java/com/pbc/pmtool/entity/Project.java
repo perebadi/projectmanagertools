@@ -117,8 +117,21 @@ public class Project {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="project")
 	private Set<ProjectComment> comments = new HashSet<ProjectComment>();
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Customer customer;
 	
-	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+
+
 	public Set<ProjectComment> getComments() {
 		return comments;
 	}

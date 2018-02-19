@@ -16,6 +16,15 @@ public class FormNewProjectModel {
 	private String start;
 	private String end;
 	private String wbs;
+	private int customer_id;
+	
+	public int getCustomer_id() {
+		return customer_id;
+	}
+
+	public void setCustomer_id(int customer_id) {
+		this.customer_id = customer_id;
+	}
 
 	public String getProjectname() {
 		return projectname;
