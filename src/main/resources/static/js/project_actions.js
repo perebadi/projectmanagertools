@@ -124,7 +124,7 @@ $(document).ready(function(){
 	    			success : function(result) {
 	    				if(result.status == "Done"){
 	    					//Refresh
-	    					window.location.reload();
+	    					//window.location.reload();
 	    				}
 	    			},
 	    			error : function(e) {
@@ -491,7 +491,7 @@ $(document).ready(function(){
 	    		    
 	    			success : function(result) {
 	    				if(result.status == "Done"){
-	    					window.location.reload();
+	    					//window.location.reload();
 	    				}
 	    			},
 	    			error : function(e) {

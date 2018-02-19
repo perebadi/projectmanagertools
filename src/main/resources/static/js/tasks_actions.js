@@ -25,8 +25,8 @@ $(document).ready(function(){
 								}
 								
 								if($("#userassigned_" + idTask).val() != undefined){
-									//$('select[name=editBacklogTagUser]').val($("#userassigned_" + idTask).val());
-									$("#editBacklogTaskUser").change();
+                                    $('#editBacklogTaskUser').val($("#userassigned_" + idTask).val());
+                                    $('#editBacklogTaskUser').selectpicker('refresh');
 								}
 								
 							},
