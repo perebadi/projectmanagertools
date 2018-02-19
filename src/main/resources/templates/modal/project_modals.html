@@ -13,12 +13,24 @@
 			//Función que devuelve la semana de una fecha
 			Date.prototype.getWeek = function() {
 				var jan4th = new Date(this.getFullYear(),0,4);
-			  	return Math.ceil((((this - jan4th) / 86400000) + jan4th.getDay()+1)/7);
+				var week = Math.ceil((((this - jan4th) / 86400000) + jan4th.getDay()+1)/7);
+				
+				if(isNaN(week)){
+					return 0;
+				}else{
+			  		return week;
+				}
 			}
 		
 			//Función que devuelve las semanas entre dos fechas
 			function weeksBetween(d1, d2) {
-			    return Math.round((d2 - d1) / (7 * 24 * 60 * 60 * 1000));
+				var weeks = Math.round((d2 - d1) / (7 * 24 * 60 * 60 * 1000));
+				
+				if(isNaN(weeks)){
+					return 0;
+				}else{
+			    	return weeks;
+				}
 			}
 			
 			window.onload = function(){

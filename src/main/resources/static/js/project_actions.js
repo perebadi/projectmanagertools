@@ -124,7 +124,7 @@ $(document).ready(function(){
 	    			success : function(result) {
 	    				if(result.status == "Done"){
 	    					//Refresh
-	    					//window.location.reload();
+	    					window.location.reload();
 	    				}
 	    			},
 	    			error : function(e) {
