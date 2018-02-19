@@ -87,7 +87,7 @@
 				<li class="xn-openable"><a href="#"><span
 						class="fa fa-files-o"></span> <span class="xn-text">Resources</span></a>
 					<ul>
-						<li><a href="" th:href="@{/users/show/}"><span
+						<li sec:authorize="hasAuthority('ROLE_ADMIN')"><a href="" th:href="@{/users/show/}"><span
 								class="fa fa-image"></span> Manage users/resources</a></li>
 
 						<li><a href="" th:href="@{/projects/createproject}"><span
@@ -103,17 +103,6 @@
 										class="fa fa-align-justify"></span> Full Width</a></li>
 							</ul></li>
 					</ul></li>
-
-				<!-- ADMIN LATERAL TAB -->
-				<li class="xn-openable"
-					sec:authorize="hasAuthority('ROLE_ADMIN')"><a href="#"><span
-						class="fa fa-files-o"></span> <span class="xn-text">Admin</span></a>
-					<ul>
-						<li><a href="" th:href="@{/users/show}"><span
-								class="fa fa-user"></span> Admin users</a></li>
-					</ul></li>
-				<!-- END ADMIN LATERAL TAB -->
-
 			</ul>
 			<!-- END X-NAVIGATION -->
 		</div>

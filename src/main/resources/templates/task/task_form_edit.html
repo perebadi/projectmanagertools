@@ -6,9 +6,7 @@
 	<div class="page-container">
 
 		<!-- START PAGE SIDEBAR -->
-		<!-- START PAGE SIDEBAR -->
 		<div th:replace="layout/layout :: page-sidebar"></div>
-		<!-- END PAGE SIDEBAR -->
 		<!-- END PAGE SIDEBAR -->
 
 		<!-- PAGE CONTENT -->
@@ -18,16 +16,10 @@
 			<ul th:replace="layout/layout :: page-topbar"></ul>
 			<!-- END X-NAVIGATION VERTICAL -->
 
-			<!-- START BREADCRUMB -->
-			<ul class="breadcrumb">
-				<li><a href="#">pmtool</a></li>
-				<li class="active">kanban</li>
-			</ul>
-			<!-- END BREADCRUMB -->
-
 			<!-- PAGE TITLE -->
 			<div class="page-title">
 				<h2>
+					<br/>
 					<span class="fa fa-arrow-circle-o-left"></span> Kanban Tasks
 				</h2>
 			</div>
@@ -41,7 +33,7 @@
 			<div class="page-content-wrap">
 				<!-- START PORTLET -->
 				<div class="row scRow col-md-12">
-					<table id="tableTasks">
+					<table id="tableTasks" style="width: 100%;">
 						<thead >
 							<tr class="theadTasks">
 								<th><h3>BackLog</h3></th>
