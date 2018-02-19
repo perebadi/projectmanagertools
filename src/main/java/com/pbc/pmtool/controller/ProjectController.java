@@ -128,6 +128,7 @@ public class ProjectController {
 		
 		project.setProjectname(formNewProjectModel.getProjectname());
 		project.setObjectives(formNewProjectModel.getObjectives());
+		project.setWbs(formNewProjectModel.getWbs());
 		project.setEACOP(formNewProjectModel.getEACOP());
 		project.setInvoiced(formNewProjectModel.getInvoiced());
 		project.setTIC(formNewProjectModel.getTIC());
