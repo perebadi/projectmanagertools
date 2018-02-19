@@ -211,22 +211,7 @@ public class ProjectController {
 		return mav;
 	}
 	
-	@GetMapping("/{username}/report")
-	public String reportProjects( @PathVariable String username) throws IOException{
-		
-		
-		Report report = new Report();
-		report.createTemplate(projectService.findProjectById(9));
-		
-		String current = new java.io.File( "." ).getCanonicalPath();
-        System.out.println("Current dir:"+current);
-        String currentDir = System.getProperty("user.dir");
-        System.out.println("Current dir using System:" +currentDir);
-        
-		return "redirect:/projects/"+username+"/";
-
-
-	}
+	
 	
 	
 	@GetMapping("/pmo/{username}/")
@@ -239,6 +224,19 @@ public class ProjectController {
 	}
 	
 	
+	@GetMapping({"/project/{id}/print/","/project/{id}/print"})
+	public String reportProjects( @PathVariable int id) throws IOException{
+		
+		
+		Report report = new Report();
+		report.createTemplate(projectService.findProjectById(id));
+		
+	
+        
+		return "redirect:/project/"+id+"/";
+
+
+	}
 	
 	
 	@GetMapping({"/project/{id}/","/project/{id}"})

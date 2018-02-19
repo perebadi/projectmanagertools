@@ -65,6 +65,21 @@ public class Report {
 	@Qualifier("projectEscalationServiceImpl")
 	private ProjectEscalationService projectEscalationService;
 	
+	private  void parseOdtToPdf(String file, String namefile) {
+		Options options = Options.getFrom(DocumentKind.ODT).to(ConverterTypeTo.PDF);
+		IConverter converter = ConverterRegistry.getRegistry().getConverter(options);
+		try {
+			InputStream in = new FileInputStream(new File(file));
+			OutputStream out = new FileOutputStream(new File(namefile));
+			converter.convert(in, out, options);
+			System.out.println("FIN DE LA CREACIÃ“N DEL PDF");
+			in.close();
+			out.close();
+		} catch (Exception e) {
+			System.out.println("Error parse to PDF" + e);
+		}
+	}
+	
 	public void createTemplate(Project project) {
 		try {
 			// Freemarker : Hello ${name} !
@@ -91,6 +106,17 @@ public class Report {
 			metadata.addFieldAsList("nextsteps.week");
 			metadata.addFieldAsList("nextsteps.txtnextstep");
 			
+			metadata.addFieldAsList("problems.summaryproblem");
+			metadata.addFieldAsList("problems.dateproblem");
+			metadata.addFieldAsList("problems.txtproblem");
+			
+			metadata.addFieldAsList("escalations.summaryescalation");
+			metadata.addFieldAsList("escalations.dateescalation");
+			metadata.addFieldAsList("escalations.txtescalation");
+			
+			metadata.addFieldAsList("comments.createdOn");
+			metadata.addFieldAsList("comments.modifiedOn");
+			metadata.addFieldAsList("comments.comment");
 			report.setFieldsMetadata(metadata);
 			
 
@@ -100,35 +126,38 @@ public class Report {
 			List<ProjectPhase> phases = new ArrayList<ProjectPhase>(project.getPhases());
 			List<ProjectAchievement> achievements = new ArrayList<ProjectAchievement>(project.getAchievements());
 			List<ProjectNextStep> nextsteps = new ArrayList<ProjectNextStep>(project.getNextsteps());
+			List<ProjectProblem> problems = new ArrayList<ProjectProblem>(project.getProblems());
+			List<ProjectEscalation> escalations = new ArrayList<ProjectEscalation>(project.getEscalations());
+			List<ProjectComment> comments =  new ArrayList<ProjectComment>(project.getComments());
 
 			Collections.sort(phases);
 			
 			context.put("project", project);
+			
 			context.put("phases", phases);
-			
-			//System.out.println("SIZE IN : "+ projectAchievementService.listTop5ProjectAchievements(project).size());
-			//List<ProjectAchievement> achievements = projectAchievementService.listTop5ProjectAchievements(project);
-			
-			
 			context.put("achievements", achievements);
 			context.put("nextsteps", nextsteps);
-
+			context.put("escalations", escalations);
+			context.put("problems", problems);
+			context.put("comments", comments);
 
 			for (ProjectComment projectComment : list) {
 				System.out.println(projectComment.getId());
 				System.out.println(projectComment.getComment());
 			}
-				
-			
-			
+							
 			System.out.println("Antes FileOut");
-
 			// 4) Generamos el odt
 			OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+ViewConstant.OUT));
-			
 			System.out.println("Antes report");
-
+			
 			report.process(context, out);
+			
+			out.close();
+			in.close();
+			
+			System.out.println("parse");
+			parseOdtToPdf(System.getProperty("user.dir")+ViewConstant.OUT, System.getProperty("user.dir")+"/"+project.getProjectname()+".pdf");
 
 			System.out.println("FIN DE LA CREACIÓN DEL ODT");
 		} catch (IOException e) {

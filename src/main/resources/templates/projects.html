@@ -111,10 +111,31 @@
 													  <span th:case="R"><button type="button" class="btn btn-danger btn-rounded">Red</button></span> 
 													</div>
 												</td>
-												<td align="center">
+												<!-- <td align="center">
 													<a href="#" th:href="@{/projects/project/__${project.id}__/}" >
 														<button  type="button" class="btn btn-primary"><span class="fa fa-wrench" aria-hidden="true"></span>Manage</button>
 													</a>
+												</td> -->
+												<td style="text-align: center;">
+													<div class="btn-group">
+														<div class="btn-group" align="center">
+															<a href="#" data-toggle="dropdown"
+																class="btn btn-primary dropdown-toggle">Actions <span
+																class="caret"></span></a>
+															<ul class="dropdown-menu" role="menu">
+																<li><a href="#" th:href="@{/projects/project/__${project.id}__/}" >
+																		Manage Project
+																	</a>
+																</li>
+																<li>
+																	<a href="#" th:href="@{/projects/project/__${project.id}__/print/}" >
+																		Create Report
+																	</a>
+																</li>
+															</ul>
+														</div>
+														<!-- END ACTION BUTTONS -->
+													</div>
 												</td>
 											</tr>
                                             

@@ -574,7 +574,6 @@
 		    alert(e.target.value);
 			   window.location.assign('/tasks/'+'project/'+e.target.value+'/');
 			  
-
 		});
 		 */
 	</script>
@@ -582,7 +581,6 @@
 
 	<script type="text/javascript">
 		window.onload = function() {
-
 			//Validación formulario add task
 			var addTaskFormValidator = $("#createtaskForm").validate({
 				ignore : [],
@@ -601,18 +599,14 @@
 					}
 				}
 			});
-
 		}
-
 		$('#myFormSubmit').click(function(e) {
 			e.preventDefault();
-
 			if ($("#createtaskForm").valid()) {
 				ajaxPost();
 				$('#assign_project_modal').modal('hide');
 			}
 		});
-
 		function ajaxPost() {
 			// PREPARE FORM DATA
 			var formData = {
@@ -623,9 +617,7 @@
 				unit : $("#unit").val(),
 				username : $("#username").val()
 			}
-
 			var token = document.getElementsByName("_csrf")[0].value;
-
 			// DO POST
 			$.ajax({
 				type : "POST",
@@ -636,7 +628,6 @@
 				beforeSend : function(request) {
 					return request.setRequestHeader('X-CSRF-Token', token);
 				},
-
 				success : function(result) {
 					if (result.status == "Done") {
 						window.location.reload();
@@ -644,11 +635,9 @@
 					}
 				},
 				error : function(e) {
-
 				}
 			});
 		}
-
 		/*
 		$(".dateChanger").click(function () {
 		    var d = $(this).attr("data-username");

@@ -67,6 +67,7 @@ body {
   min-height: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  vertical-align: top;
 }
 .row.stacked [class^='col-xs-'],
 .row.stacked [class^='col-sm-'],
@@ -2525,6 +2526,7 @@ label.valid {
 /* PORTLET */
 .scCol {
   min-height: 30px;
+  height: auto;
 }
 .scPlaceholder {
   background: #fcfbf4;
@@ -2534,7 +2536,7 @@ label.valid {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   float: left;
-  width: 100%;
+  width: 100%;  
 }
 /* EOF PORTLET */
 /* TYPOGRAPHY */
