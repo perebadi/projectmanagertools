@@ -458,7 +458,7 @@ $(document).ready(function(){
 				$("#saveFinancialButton").prop("disabled", true);
 			
 				//Prevent form submit
-				$("#financialsModal").submit(function(e){
+				$("#modalFinancialProjectForm").submit(function(e){
 			        e.preventDefault();
 			    });
 			
@@ -491,7 +491,7 @@ $(document).ready(function(){
 	    		    
 	    			success : function(result) {
 	    				if(result.status == "Done"){
-	    					//window.location.reload();
+	    					window.location.reload();
 	    				}
 	    			},
 	    			error : function(e) {
