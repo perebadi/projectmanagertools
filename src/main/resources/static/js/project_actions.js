@@ -318,8 +318,8 @@ $(document).ready(function(){
 					actions : $('#actionsProblem').val(),
 					dateclose : $('#dateCloseProblem').val(),
 					responsable : $('#responsableProblem').val(),
-					probability : $('#probabilityProblem').val(),
-					strategy : $('#strategyProblem').val()
+					probability : $('#probabilityRisk').val(),
+					strategy : $('#strategyRisk').val()
 				}
 				
 				urlPOST = "/api/project/" + $("#projectId").val() + "/risk/save/";
