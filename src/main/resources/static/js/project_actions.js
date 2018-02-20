@@ -372,15 +372,57 @@ $(document).ready(function(){
 			//projectFormValidator.resetForm();
 			
 			var problem = $(this).attr("data-problem");
+			var token = document.getElementsByName("_csrf")[0].value;	
 			
-			/*
-			//Copiamos los valores en el modal
-			$("#summary").val($("#summaryproblem_" + problem).val());
-			$("#date").val($("#dateproblem_" + problem).val());
-			$("#week").val($("#weekproblem_" + problem).val());
-			$("#txt").val($("#txtproblem_" + problem).val());
-			$("#id").val($("#idproblem_" + problem).val());
-			*/
+			if($("#problemrisk_" + problem).val() == "Problem"){
+				//Obtenemos el problema
+				
+				$.ajax({
+		    		type : "GET",
+		    		contentType : "application/json",
+		    		url : "/api/project/" + $("#projectId").val() + "/problem/" + problem + "/",
+		    		dataType : 'json',
+		    		async : false,
+		    		beforeSend: function(request) {
+		    	        return request.setRequestHeader('X-CSRF-Token', token);
+		    	    },
+		    		    
+		    		success : function(result) {
+		    			if(result.status == "Done"){
+		    				var problem = JSON.parse(result.data);
+		    				
+		    				$("#summaryProblem").val(problem.summaryproblem);
+		    				$("#dateProblem").val(problem.dateproblemstr);
+		    				$("#dateCloseProblem").val(problem.dateclosestr);
+		    				$("#weekProblem").val(problem.week);
+		    				$("#txtProblem").val(problem.txtproblem);
+		    				$("#idProblem").val(problem.idproblem);
+		    				
+		    				$("#statusProblem").val(problem.status);
+		    				$('#statusProblem').selectpicker('refresh');
+		    				
+		    				$("#responsableProblem").val(problem.responsable);
+		    				$('#responsableProblem').selectpicker('refresh');
+		    				
+		    				$("#typeProblem").val(problem.type);
+		    				$('#typeProblem').selectpicker('refresh');
+		    				
+		    				$("#impactProblem").val(problem.impact);
+		    				$('#impactProblem').selectpicker('refresh');
+		    				
+		    				$("#actionsProblem").val(problem.actions);
+		    				
+		    				$("#estimatedDateCloseProblem").val(problem.estimatedclosingdatestr);
+		    			}
+		    		},
+		    		
+		    		error : function(e) {
+		    		}
+		    	});
+				
+			}else{
+				//Obtenemos el riesgo
+			}			
 			
 			addProblemButton();
 			

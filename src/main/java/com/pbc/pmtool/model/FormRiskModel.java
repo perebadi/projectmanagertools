@@ -35,16 +35,16 @@ public class FormRiskModel extends FormProblemRiskModel {
 		this.strategy = strategy;
 	}
 
-	public FormRiskModel(String dateproblem, int week, String summaryproblem, String txtproblem,
+	public FormRiskModel(Date dateproblem, String dateproblemstr, int week, String summaryproblem, String txtproblem,
 			ProblemStatusEnum status, ProblemResponsableEnum responsable, ProblemImpactEnum impact,
-			ProblemTypeEnum type, String actions, Date dateclose, int idproblem, RiskProbabilityEnum probability,
-			RiskStrategyEnum strategy) {
-		super(dateproblem, week, summaryproblem, txtproblem, status, responsable, impact, type, actions, dateclose,
-				idproblem);
+			ProblemTypeEnum type, String actions, Date dateclose, String dateclosestr, int idproblem,
+			RiskProbabilityEnum probability, RiskStrategyEnum strategy) {
+		super(dateproblem, dateproblemstr, week, summaryproblem, txtproblem, status, responsable, impact, type, actions,
+				dateclose, dateclosestr, idproblem);
 		this.probability = probability;
 		this.strategy = strategy;
 	}
-	
+
 	public FormRiskModel() {
 		super();
 	}

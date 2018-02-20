@@ -486,19 +486,7 @@ public class PmToolRestController {
 		projectRisk.setTxtproblem(formRiskModel.getTxtproblem());
 		projectRisk.setWeek(formRiskModel.getWeek());
 		projectRisk.setId(formRiskModel.getIdproblem());
-
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String dateInString = formRiskModel.getDateproblem();
-
-		try {
-
-			Date date = formatter.parse(dateInString);
-			projectRisk.setDateproblem(date);
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
+		projectRisk.setDateproblem(formRiskModel.getDateproblem());
 		projectRisk.setStatus(formRiskModel.getStatus());
 		projectRisk.setResponsable(formRiskModel.getResponsable());
 		projectRisk.setType(formRiskModel.getType());
@@ -514,7 +502,7 @@ public class PmToolRestController {
 	}
 	
 	@GetMapping("/project/{id}/risk/{risk}/")
-	public ResponseEntity<String> getRisk(@PathVariable int id, @PathVariable int risk){
+	public Response getRisk(@PathVariable int id, @PathVariable int risk){
 		FormRiskModel riskModel = riskServiceImpl.getRisk(risk, id);
 		
 		if(riskModel == null) {
@@ -523,11 +511,11 @@ public class PmToolRestController {
 		
 		Gson json = new Gson();
 		
-		return new ResponseEntity<String>(json.toJson(riskModel), HttpStatus.OK);
+		return new Response("Done", json.toJson(riskModel));
 	}
 	
 	@GetMapping("/project/{id}/problem/{problem}/")
-	public ResponseEntity<String> getProblem(@PathVariable int id, @PathVariable int problem) {
+	public Response getProblem(@PathVariable int id, @PathVariable int problem) {
 		FormProblemModel problemModel = problemServiceImpl.getProblem(problem, id);
 		
 		if(problemModel == null) {
@@ -536,7 +524,7 @@ public class PmToolRestController {
 		
 		Gson json = new Gson();
 		
-		return new ResponseEntity<String>(json.toJson(problemModel), HttpStatus.OK);
+		return new Response("Done", json.toJson(problemModel));
 	}
 	
 	@PostMapping("/project/{id}/problem/save/")
@@ -551,19 +539,7 @@ public class PmToolRestController {
 		projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
 		projectProblem.setWeek(formProblemModel.getWeek());
 		projectProblem.setId(formProblemModel.getIdproblem());
-
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String dateInString = formProblemModel.getDateproblem();
-
-		try {
-
-			Date date = formatter.parse(dateInString);
-			projectProblem.setDateproblem(date);
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
+		projectProblem.setDateproblem(formProblemModel.getDateproblem());
 		projectProblem.setStatus(formProblemModel.getStatus());
 		projectProblem.setResponsable(formProblemModel.getResponsable());
 		projectProblem.setType(formProblemModel.getType());

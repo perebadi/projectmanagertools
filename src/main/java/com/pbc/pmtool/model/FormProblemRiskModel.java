@@ -14,7 +14,9 @@ import com.pbc.pmtool.enums.ProblemTypeEnum;
 public class FormProblemRiskModel {
 
 	@NotEmpty
-	private String dateproblem;
+	private Date dateproblem;
+	
+	private String dateproblemstr;
 	
 	@NotNull
 	private int week;
@@ -42,13 +44,31 @@ public class FormProblemRiskModel {
 	
 	private Date dateclose;
 	
+	private String dateclosestr;
+	
 	private int idproblem;
+	
+	public String getDateclosestr() {
+		return dateclosestr;
+	}
 
-	public String getDateproblem() {
+	public void setDateclosestr(String dateclosestr) {
+		this.dateclosestr = dateclosestr;
+	}
+
+	public String getDateproblemstr() {
+		return dateproblemstr;
+	}
+
+	public void setDateproblemstr(String dateproblemstr) {
+		this.dateproblemstr = dateproblemstr;
+	}
+
+	public Date getDateproblem() {
 		return dateproblem;
 	}
 
-	public void setDateproblem(String dateproblem) {
+	public void setDateproblem(Date dateproblem) {
 		this.dateproblem = dateproblem;
 	}
 
@@ -132,10 +152,12 @@ public class FormProblemRiskModel {
 		this.idproblem = idproblem;
 	}
 
-	public FormProblemRiskModel(String dateproblem, int week, String summaryproblem, String txtproblem,
-			ProblemStatusEnum status, ProblemResponsableEnum responsable, ProblemImpactEnum impact,
-			ProblemTypeEnum type, String actions, Date dateclose, int idproblem) {
+	public FormProblemRiskModel(Date dateproblem, String dateproblemstr, int week, String summaryproblem,
+			String txtproblem, ProblemStatusEnum status, ProblemResponsableEnum responsable, ProblemImpactEnum impact,
+			ProblemTypeEnum type, String actions, Date dateclose, String dateclosestr, int idproblem) {
+		super();
 		this.dateproblem = dateproblem;
+		this.dateproblemstr = dateproblemstr;
 		this.week = week;
 		this.summaryproblem = summaryproblem;
 		this.txtproblem = txtproblem;
@@ -145,9 +167,10 @@ public class FormProblemRiskModel {
 		this.type = type;
 		this.actions = actions;
 		this.dateclose = dateclose;
+		this.dateclosestr = dateclosestr;
 		this.idproblem = idproblem;
 	}
-	
+
 	public FormProblemRiskModel() {}
 	
 }

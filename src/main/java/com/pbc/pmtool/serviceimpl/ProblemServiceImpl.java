@@ -1,5 +1,7 @@
 package com.pbc.pmtool.serviceimpl;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,30 @@ public class ProblemServiceImpl implements ProblemService {
 	
 	@Override
 	public FormProblemModel getProblem(int id, int project) {
-		return problemMapper.toModel(problemRepository.findByIdAndProject_id(id, project));
+		FormProblemModel problemModel = problemMapper.toModel(problemRepository.findByIdAndProject_id(id, project));
+		
+		if(problemModel != null) {
+			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	        String date = DATE_FORMAT.format(problemModel.getEstimatedclosingdate());
+			
+			problemModel.setEstimatedclosingdatestr(date);
+			
+			date = DATE_FORMAT.format(problemModel.getDateproblem());
+			
+			problemModel.setDateproblemstr(date);
+			
+			try {
+				date = DATE_FORMAT.format(problemModel.getDateclose());
+			
+				problemModel.setDateclosestr(date);
+			}catch (NullPointerException e) {
+				problemModel.setDateclosestr("");
+			}
+			
+			return problemModel;
+		}else {
+			return null;
+		}
 	}
 
 }

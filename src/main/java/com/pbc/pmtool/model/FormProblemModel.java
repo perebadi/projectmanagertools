@@ -14,6 +14,16 @@ public class FormProblemModel extends FormProblemRiskModel{
 	@NotNull
 	private Date estimatedclosingdate;
 
+	private String estimatedclosingdatestr;
+	
+	public String getEstimatedclosingdatestr() {
+		return estimatedclosingdatestr;
+	}
+
+	public void setEstimatedclosingdatestr(String estimatedclosingdatestr) {
+		this.estimatedclosingdatestr = estimatedclosingdatestr;
+	}
+
 	public Date getEstimatedclosingdate() {
 		return estimatedclosingdate;
 	}
@@ -21,13 +31,15 @@ public class FormProblemModel extends FormProblemRiskModel{
 	public void setEstimatedclosingdate(Date estimatedclosingdate) {
 		this.estimatedclosingdate = estimatedclosingdate;
 	}
-	
-	public FormProblemModel(String dateproblem, int week, String summaryproblem, String txtproblem,
+
+	public FormProblemModel(Date dateproblem, String dateproblemstr, int week, String summaryproblem, String txtproblem,
 			ProblemStatusEnum status, ProblemResponsableEnum responsable, ProblemImpactEnum impact,
-			ProblemTypeEnum type, String actions, Date dateclose, int idproblem, Date estimatedclosingdate) {
-		super(dateproblem, week, summaryproblem, txtproblem, status, responsable, impact, type, actions, dateclose,
-				idproblem);
+			ProblemTypeEnum type, String actions, Date dateclose, String dateclosestr, int idproblem,
+			Date estimatedclosingdate, String estimatedclosingdatestr) {
+		super(dateproblem, dateproblemstr, week, summaryproblem, txtproblem, status, responsable, impact, type, actions,
+				dateclose, dateclosestr, idproblem);
 		this.estimatedclosingdate = estimatedclosingdate;
+		this.estimatedclosingdatestr = estimatedclosingdatestr;
 	}
 
 	public FormProblemModel() {
