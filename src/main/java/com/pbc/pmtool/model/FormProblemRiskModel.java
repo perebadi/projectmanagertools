@@ -13,7 +13,7 @@ import com.pbc.pmtool.enums.ProblemTypeEnum;
 
 public class FormProblemRiskModel {
 
-	@NotEmpty
+	@NotNull
 	private Date dateproblem;
 	
 	private String dateproblemstr;
@@ -27,16 +27,16 @@ public class FormProblemRiskModel {
 	@NotEmpty
 	private String txtproblem;
 	
-	@NotEmpty
+	@NotNull
 	private ProblemStatusEnum status;
 	
-	@NotEmpty
+	@NotNull
 	private ProblemResponsableEnum responsable;
 	
-	@NotEmpty
+	@NotNull
 	private ProblemImpactEnum impact;
 	
-	@NotEmpty
+	@NotNull
 	private ProblemTypeEnum type;
 	
 	@NotEmpty

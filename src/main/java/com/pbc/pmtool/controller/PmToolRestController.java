@@ -476,29 +476,35 @@ public class PmToolRestController {
 	}
 
 	@PostMapping("/project/{id}/risk/save/")
-	public Response saveRisk(@PathVariable int id, @RequestBody FormRiskModel formRiskModel) {
-		Project project = projectService.findProjectById(id);
-
-		Risk projectRisk = new Risk();
+	public Response saveRisk(@PathVariable int id, @Valid @RequestBody FormRiskModel formRiskModel, 
+			BindingResult bindingResult) {
 		
-		projectRisk.setProject(project);
-		projectRisk.setSummaryproblem(formRiskModel.getSummaryproblem());
-		projectRisk.setTxtproblem(formRiskModel.getTxtproblem());
-		projectRisk.setWeek(formRiskModel.getWeek());
-		projectRisk.setId(formRiskModel.getIdproblem());
-		projectRisk.setDateproblem(formRiskModel.getDateproblem());
-		projectRisk.setStatus(formRiskModel.getStatus());
-		projectRisk.setResponsable(formRiskModel.getResponsable());
-		projectRisk.setType(formRiskModel.getType());
-		projectRisk.setImpact(formRiskModel.getImpact());
-		projectRisk.setProbability(formRiskModel.getProbability());
-		projectRisk.setStrategy(formRiskModel.getStrategy());
-		projectRisk.setDateclose(formRiskModel.getDateclose());
-		projectRisk.setActions(formRiskModel.getActions());
-		
-		projectProblemService.addProjectProblem(projectRisk);
-		
-		return new Response("Done", "Done");
+		if(!(bindingResult.hasErrors())) {
+			Project project = projectService.findProjectById(id);
+	
+			Risk projectRisk = new Risk();
+			
+			projectRisk.setProject(project);
+			projectRisk.setSummaryproblem(formRiskModel.getSummaryproblem());
+			projectRisk.setTxtproblem(formRiskModel.getTxtproblem());
+			projectRisk.setWeek(formRiskModel.getWeek());
+			projectRisk.setId(formRiskModel.getIdproblem());
+			projectRisk.setDateproblem(formRiskModel.getDateproblem());
+			projectRisk.setStatus(formRiskModel.getStatus());
+			projectRisk.setResponsable(formRiskModel.getResponsable());
+			projectRisk.setType(formRiskModel.getType());
+			projectRisk.setImpact(formRiskModel.getImpact());
+			projectRisk.setProbability(formRiskModel.getProbability());
+			projectRisk.setStrategy(formRiskModel.getStrategy());
+			projectRisk.setDateclose(formRiskModel.getDateclose());
+			projectRisk.setActions(formRiskModel.getActions());
+			
+			projectProblemService.addProjectProblem(projectRisk);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 	}
 	
 	@GetMapping("/project/{id}/risk/{risk}/")
@@ -528,31 +534,36 @@ public class PmToolRestController {
 	}
 	
 	@PostMapping("/project/{id}/problem/save/")
-	public Response saveProblem(@PathVariable int id, @RequestBody FormProblemModel formProblemModel) {
+	public Response saveProblem(@PathVariable int id, @Valid @RequestBody FormProblemModel formProblemModel, 
+			BindingResult bindingResult) {
 
-		Project project = projectService.findProjectById(id);
-
-		Problem projectProblem = new Problem();
-
-		projectProblem.setProject(project);
-		projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
-		projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
-		projectProblem.setWeek(formProblemModel.getWeek());
-		projectProblem.setId(formProblemModel.getIdproblem());
-		projectProblem.setDateproblem(formProblemModel.getDateproblem());
-		projectProblem.setStatus(formProblemModel.getStatus());
-		projectProblem.setResponsable(formProblemModel.getResponsable());
-		projectProblem.setType(formProblemModel.getType());
-		projectProblem.setImpact(formProblemModel.getImpact());
-		projectProblem.setEstimatedclosingdate(formProblemModel.getEstimatedclosingdate());
-		projectProblem.setDateclose(formProblemModel.getDateclose());
-		projectProblem.setActions(formProblemModel.getActions());
-		
-		System.out.println(projectProblem.getSummaryproblem());
-
-		projectProblemService.addProjectProblem(projectProblem);
-
-		return new Response("Done", "Done");
+		if(!(bindingResult.hasErrors())) {
+			Project project = projectService.findProjectById(id);
+	
+			Problem projectProblem = new Problem();
+	
+			projectProblem.setProject(project);
+			projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
+			projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
+			projectProblem.setWeek(formProblemModel.getWeek());
+			projectProblem.setId(formProblemModel.getIdproblem());
+			projectProblem.setDateproblem(formProblemModel.getDateproblem());
+			projectProblem.setStatus(formProblemModel.getStatus());
+			projectProblem.setResponsable(formProblemModel.getResponsable());
+			projectProblem.setType(formProblemModel.getType());
+			projectProblem.setImpact(formProblemModel.getImpact());
+			projectProblem.setEstimatedclosingdate(formProblemModel.getEstimatedclosingdate());
+			projectProblem.setDateclose(formProblemModel.getDateclose());
+			projectProblem.setActions(formProblemModel.getActions());
+			
+			System.out.println(projectProblem.getSummaryproblem());
+	
+			projectProblemService.addProjectProblem(projectProblem);
+	
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
 
 	}
 

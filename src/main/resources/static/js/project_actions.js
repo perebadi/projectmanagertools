@@ -83,6 +83,7 @@ $(document).ready(function(){
 			}
 		}
 	});
+
 	
 	//Función achievement addButton
 	function addAchievementButton(){
@@ -268,8 +269,6 @@ $(document).ready(function(){
 	//Función addProblem button
 	function addProblemButton(){
 		$("#addProblemButton").click(function(){
-			$("#addProblemButton").prop("disabled",true);
-				
 			//Prevent form submit
 			$("#modalProblemForm").submit(function(e){
 				e.preventDefault();
@@ -303,6 +302,43 @@ $(document).ready(function(){
 				}
 				
 				urlPOST = "/api/project/" + $("#projectId").val() + "/problem/save/";
+				
+				//Validación add problem modal form
+				var problemFormValidator = $("#modalProblemForm").validate({
+					ignore : [],
+					rules : {
+						summaryProblem : {
+							required : true
+						},
+						dateProblem : {
+							required : true
+						}, 
+						weekProblem : {
+							required : true
+						},
+						txtProblem : {
+							required : true
+						},
+						statusProblem : {
+							required : true
+						},
+						responsableProblem : {
+							required : true
+						},
+						typeProblem : {
+							required : true
+						},
+						impactProblem : {
+							required : true
+						},
+						actionsProblem : {
+							required : true
+						},
+						estimatedDateCloseProblem : {
+							required : true
+						}
+					}
+				});
 			}else{
 				//Form data
 				formData = {
@@ -323,36 +359,79 @@ $(document).ready(function(){
 				}
 				
 				urlPOST = "/api/project/" + $("#projectId").val() + "/risk/save/";
+				
+				//Validación add risk modal form
+				var riskFormValidator = $("#modalProblemForm").validate({
+					ignore : [],
+					rules : {
+						summaryProblem : {
+							required : true
+						},
+						dateProblem : {
+							required : true
+						}, 
+						weekProblem : {
+							required : true
+						},
+						txtProblem : {
+							required : true
+						},
+						statusProblem : {
+							required : true
+						},
+						responsableProblem : {
+							required : true
+						},
+						typeProblem : {
+							required : true
+						},
+						impactProblem : {
+							required : true
+						},
+						actionsProblem : {
+							required : true
+						},
+						probabilityRisk : {
+							required : true
+						},
+						strategyRisk : {
+							required : true
+						}
+					}
+				});
 			}
-		        	
-			//AJAX Call
-			$.ajax({
-	    		type : "POST",
-	    		contentType : "application/json",
-	    		url : urlPOST,
-	    		data : JSON.stringify(formData),
-	    		dataType : 'json',
-	    		
-	    		beforeSend: function(request) {
-	    	        return request.setRequestHeader('X-CSRF-Token', token);
-	    	    },
-	    		    
-	    		success : function(result) {
-	    			if(result.status == "Done"){
-	    				//Refresh
-	    				window.location.reload();
-	    			}
-	    		},
-	    		error : function(e) {
-	    		}
-	    	});
+			
+			if($("#modalProblemForm").valid()){
+				$("#addProblemButton").prop("disabled",true);
+			
+				//AJAX Call
+				$.ajax({
+		    		type : "POST",
+		    		contentType : "application/json",
+		    		url : urlPOST,
+		    		data : JSON.stringify(formData),
+		    		dataType : 'json',
+		    		
+		    		beforeSend: function(request) {
+		    	        return request.setRequestHeader('X-CSRF-Token', token);
+		    	    },
+		    		    
+		    		success : function(result) {
+		    			if(result.status == "Done"){
+		    				//Refresh
+		    				window.location.reload();
+		    			}
+		    		},
+		    		error : function(e) {
+		    		}
+		    	});
+			}
 		});
 	}
 	
 	//Linkamos el botón problemas
 	$("#problemModal").click(function(){
 		document.getElementById('modalProblemForm').reset();
-		//projectFormValidator.resetForm();
 		
 		$("#titleProblemModal").html("Add problem");
 		
@@ -373,9 +452,7 @@ $(document).ready(function(){
 	
 	//Linkamos los botónes editar problem
 	$("span[name='viewDetailsProblem']").each(function(){
-		$(this).click(function(){
-			//projectFormValidator.resetForm();
-			
+		$(this).click(function(){			
 			var problem = $(this).attr("data-problem");
 			var token = document.getElementsByName("_csrf")[0].value;	
 			
