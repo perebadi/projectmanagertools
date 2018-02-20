@@ -267,13 +267,13 @@ $(document).ready(function(){
 	
 	//Función addProblem button
 	function addProblemButton(){
-		$("#addButton").click(function(){
+		$("#addProblemButton").click(function(){
 			//Validamos el formulario
-			if($("#modalProjectForm").valid()){
-				$("#addButton").prop("disabled",true);
+			if($("#modalProblemForm").valid()){
+				$("#addProblemButton").prop("disabled",true);
 				
 				//Prevent form submit
-				$("#modalProjectForm").submit(function(e){
+				$("#modalProblemForm").submit(function(e){
 			        e.preventDefault();
 			    });
 				
@@ -316,18 +316,18 @@ $(document).ready(function(){
 	
 	//Linkamos el botón problemas
 	$("#problemModal").click(function(){
-		document.getElementById('modalProjectForm').reset();
-		projectFormValidator.resetForm();
+		document.getElementById('modalProblemForm').reset();
+		//projectFormValidator.resetForm();
 		
-		$("#titleModal").html("Add problem");
+		$("#titleProblemModal").html("Add problem");
 		
 		addProblemButton();
 		
 		//Show modal
-		$("#modalProject").modal('show');
+		$("#modalProblem").modal('show');
 		
-		$("#modalProject").on("hidden.bs.modal", function () {
-		    $("#addButton").unbind( "click" );
+		$("#modalProblem").on("hidden.bs.modal", function () {
+		    $("#addProblemButton").unbind( "click" );
 		});
 	});
 	
@@ -356,6 +356,21 @@ $(document).ready(function(){
 			});
 		});
 	});
+	
+	$('input[name=problemriskopt]').change(function(){
+		var value = $( 'input[name=problemriskopt]:checked' ).val();
+		
+		if(value == "problem"){
+			$("#riskFields").hide();
+			$("#problemFields").show(100);
+		}else{
+			$("#problemFields").hide();
+			$("#riskFields").show(100);
+		}
+	});
+	
+	//Ocultamos los fields de risk
+	$("#riskFields").hide();
 	
 	//Función addButton escalation
 	function addEscalationButton(){
