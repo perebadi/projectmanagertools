@@ -6,9 +6,12 @@
 	<!-- SCRIPT PAGE -->
 	<script>
 		window.onload = function() {
-			document.getElementsByName("TVC")[0].addEventListener('change', calc);
-			document.getElementsByName("TIC")[0].addEventListener('change', calc);
-			document.getElementsByName("costestimated")[0].addEventListener('change', calc);
+			document.getElementsByName("TVC")[0].addEventListener('change',
+					calc);
+			document.getElementsByName("TIC")[0].addEventListener('change',
+					calc);
+			document.getElementsByName("costestimated")[0].addEventListener(
+					'change', calc);
 
 			function calc() {
 				var tcv = $('#TVC').val();
@@ -38,13 +41,7 @@
 		<div class="page-content">
 
 			<!-- START X-NAVIGATION VERTICAL -->
-			<ul class="x-navigation x-navigation-horizontal x-navigation-panel">
-				<!-- TOGGLE NAVIGATION -->
-				<li class="xn-icon-button"><a href="#"
-					class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
-				</li>
-				<!-- END TOGGLE NAVIGATION -->
-			</ul>
+			<ul th:replace="layout/layout :: page-topbar"></ul>
 			<!-- END X-NAVIGATION VERTICAL -->
 
 			<!-- START BREADCRUMB -->
@@ -70,24 +67,23 @@
 						<!-- START WIZARD WITH SUBMIT BUTTON -->
 						<div class="block">
 							<h4>Wizard Alta Básica de Proyectot</h4>
-							<form
-								name="formnewproject" id="formnewproject" role="form"
+							<form name="formnewproject" id="formnewproject" role="form"
 								class="form-horizontal" th:action="@{/projects/saveproject}"
 								th:object="${formNewProjectModel}" method="POST">
 
 								<div class="wizard show-submit">
 									<ul>
 										<li><a href="#step-5"> <span class="stepNumber">1</span>
-												<span class="stepDesc">Proyecto<br />
-												<small>Descripción del proyecto</small></span>
+												<span class="stepDesc">Proyecto<br /> <small>Descripción
+														del proyecto</small></span>
 										</a></li>
 										<li><a href="#step-6"> <span class="stepNumber">2</span>
-												<span class="stepDesc">Finanzas<br />
-												<small>Datos Financieros</small></span>
+												<span class="stepDesc">Finanzas<br /> <small>Datos
+														Financieros</small></span>
 										</a></li>
 										<li><a href="#step-7"> <span class="stepNumber">3</span>
-												<span class="stepDesc">Plan<br />
-												<small>Plan Básico de proyecto</small></span>
+												<span class="stepDesc">Plan<br /> <small>Plan
+														Básico de proyecto</small></span>
 										</a></li>
 									</ul>
 									<div id="step-5">
@@ -96,7 +92,8 @@
 												Proyecto</label>
 											<div class="col-md-10">
 												<input name="projectname" id="projectname" type="text"
-													class="form-control" placeholder="Your name" required="true" />
+													class="form-control" placeholder="Your name"
+													required="true" />
 											</div>
 										</div>
 										<div class="form-group">
@@ -107,6 +104,28 @@
 													placeholder="Something about you"></textarea>
 											</div>
 										</div>
+										<div class="form-group">
+											<label class="col-md-2 control-label">Wbs</label>
+											<div class="col-md-10">
+												<input type="text" name="wbs" id="wbs" class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-2 control-label">Customer</label>
+											<div class="col-md-9">
+												<select name="customer_id" id="customer_id"
+													class="form-control select" data-live-search="true">
+													<option th:each="customer : ${customers}"
+														th:value="${customer.id}" th:text="${customer.customer}"></option>
+												</select>
+											</div>
+											<div class="col-md-1">
+												<ul class="panel-controls">
+													<li><a role="button"><span class="glyphicon glyphicon-plus"
+															id="addCustomerModalButton"></span></a></li>
+												</ul>
+											</div>
+										</div>
 									</div>
 									<div id="step-6">
 
@@ -115,7 +134,7 @@
 												<label class="col-md-5 control-label">Total Contract
 													Value (TCV) - Baseline</label>
 												<div class="col-md-5">
-													<input name="TVC" id="TVC" type="text" class="form-control"
+													<input name="TVC" id="TVC" type="number" class="form-control"
 														value="0" />
 												</div>
 											</div>
@@ -123,7 +142,7 @@
 												<label class="col-md-5 control-label">Total Internal
 													Cost (TIC) - Baseline</label>
 												<div class="col-md-5">
-													<input name="TIC" id="TIC" type="text" class="form-control"
+													<input name="TIC" id="TIC" type="number" class="form-control"
 														value="0" />
 												</div>
 											</div>
@@ -131,7 +150,7 @@
 												<label class="col-md-5 control-label">OP (P&amp;L) -
 													Baseline</label>
 												<div class="col-md-5">
-													<input name="OP" id="OP" type="text" class="form-control"
+													<input name="OP" id="OP" type="number" class="form-control"
 														value="0" />
 												</div>
 											</div>
@@ -139,7 +158,7 @@
 												<label class="col-md-5 control-label">Budget gastado
 													hasta la fecha</label>
 												<div class="col-md-5">
-													<input name="budgettodate" id="budgettodate" type="text"
+													<input name="budgettodate" id="budgettodate" type="number"
 														class="form-control" value="0" />
 												</div>
 											</div>
@@ -147,7 +166,7 @@
 												<label class="col-md-5 control-label">Estimación de
 													coste al cierre</label>
 												<div class="col-md-5">
-													<input name="costestimated" id="costestimated" type="text"
+													<input name="costestimated" id="costestimated" type="number"
 														class="form-control" value="0" />
 												</div>
 											</div>
@@ -158,7 +177,7 @@
 												<label class="col-md-5 control-label">EAC OP
 													(P&amp;L) %</label>
 												<div class="col-md-5">
-													<input name="EACOP" id="EACOP" type="text"
+													<input name="EACOP" id="EACOP" type="number"
 														class="form-control" value="0" />
 												</div>
 											</div>
@@ -166,7 +185,7 @@
 												<label class="col-md-5 control-label">Variance
 													(TCV-EAC) </label>
 												<div class="col-md-5">
-													<input name="variance" id="variance" type="text"
+													<input name="variance" id="variance" type="number"
 														class="form-control" value="0" />
 												</div>
 											</div>
@@ -175,14 +194,14 @@
 													Certificado %</label>
 												<div class="col-md-5">
 													<input name="certifiedprogress" id="certifiedprogress"
-														type="text" class="form-control" value="0" />
+														type="number" class="form-control" value="0" />
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-5 control-label">Total
 													Facturado hasta la fecha</label>
 												<div class="col-md-5">
-													<input name="invoiced" id="invoiced" type="text"
+													<input name="invoiced" id="invoiced" type="number"
 														class="form-control" value="0" />
 												</div>
 											</div>
@@ -241,6 +260,92 @@
 		</div>
 		<!-- END MESSAGE BOX-->
 
+		<!-- ADD CUSTOMER MODAL -->
+		<div id="addCustomer" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Add customer</h4>
+					</div>
+					<div class="modal-body">
+						<form id="addCustomerForm">
+							<div class="row">
+								<div class="col-md-3">
+									<label>Customer name: </label>
+								</div>
+
+								<div class="col-md-9">
+									<input type="text" class="form-control" id="customerNameInput"
+										name="customerNameInput" />
+								</div>
+							</div>
+						</form>
+						<div class="row">
+							<div id="clientAddSuccesAlert">
+								<br /> <br />
+								<div class="alert alert-success" role="alert">
+									<strong>Success!</strong> Customer added correctly.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default submitAJAXModal"
+							id="addCustomerButton">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			window.onload = function() {
+				$("#addCustomerModalButton").AJAXmodal(
+						{
+							idModal : "addCustomer",
+							copyData : function() {
+								$("#clientAddSuccesAlert").hide();
+							},
+							url : "/api/createcustomer/",
+							formData : function() {
+								var data = {
+									customer : $('#customerNameInput').val()
+								}
+
+								return data;
+							},
+							ajaxSucces : function(response) {
+								$("#customer_id").append(
+										"<option value=" + response.data + ">"
+												+ $("#customerNameInput").val()
+												+ "</option>");
+								$("#customer_id").selectpicker("refresh");
+
+								$("#customerNameInput").val('');
+
+								$("#clientAddSuccesAlert").show(100);
+
+							},
+							disableButton : false,
+							FormValid : function() {
+								var customerFormValidator = $("#addCustomerForm")
+										.validate({
+											ignore : [],
+											rules : {
+												customerNameInput : {
+													required : true
+												}
+											}
+										});
+
+								return $("#addCustomerForm").valid();
+							}
+						});
+			}
+		</script>
+
+		<!-- END ADD CUSTOMER MODAL -->
+
 		<footer th:replace="layout/layout :: footer"></footer>
 
 		<!-- THIS PAGE PLUGINS -->
@@ -254,7 +359,7 @@
 		<script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>
 		<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
 		<script th:src="@{/js/plugins/tagsinput/jquery.tagsinput.min.js}"></script>
-
+		<script th:src="@{/js/plugins/modal/modal-AJAX.js}"></script>
 
 		<!-- END THIS PAGE PLUGINS -->
 

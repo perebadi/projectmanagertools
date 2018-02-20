@@ -47,6 +47,17 @@
 											</p>
 										</div>
 									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h3 class="panel-title">WBS</h3>
+											<ul class="panel-controls"></ul>
+										</div>
+										<div class="panel-body scroll">
+											<p>
+												<span th:text="${project.wbs}">f</span>
+											</p>
+										</div>
+									</div>
 								</div>
 
 								<div class="col-md-6">
@@ -627,8 +638,6 @@
 	<!-- END FOOTER -->
 
 	<!-- THIS PAGE PLUGINS -->
-	<script type="text/javascript"
-		src="js/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
@@ -637,7 +646,7 @@
 	<!-- END PAGE PLUGINS -->
 
 	<!-- START TEMPLATE -->
-	<script th:src="@{/js/settings.jss}"></script>
+	<script th:src="@{/js/settings.js}"></script>
 	<!-- END TEMPLATE -->
 </body>
 </html>

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.additional.Report;
+import com.pbc.pmtool.component.CustomerConverter;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
@@ -46,6 +47,7 @@ import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.repository.UserRepository;
+import com.pbc.pmtool.service.CustomerService;
 import com.pbc.pmtool.service.ProjectAchievementService;
 import com.pbc.pmtool.service.ProjectEscalationService;
 import com.pbc.pmtool.service.ProjectNextStepService;
@@ -93,6 +95,13 @@ public class ProjectController {
 	@Qualifier("projectPhaseServiceImpl")
 	private ProjectPhaseService projectPhaseService;
 		
+	@Autowired
+	@Qualifier("customerServiceImpl")
+	private CustomerService customerServiceImpl;
+	
+	@Autowired
+	@Qualifier("customerConverter")
+	private CustomerConverter customerConverter;
 	
 	@GetMapping("/")
 	public ModelAndView Welcome() throws IllegalArgumentException, IllegalAccessException{
@@ -116,7 +125,9 @@ public class ProjectController {
 	@GetMapping("/createproject")
 	public ModelAndView CreateProject(){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORM);
-		mav.addObject("username", sessionuser);
+		
+		mav.addObject("customers", customerServiceImpl.getAll());
+		
 		return mav;		
 	}
 	
@@ -128,6 +139,7 @@ public class ProjectController {
 		
 		project.setProjectname(formNewProjectModel.getProjectname());
 		project.setObjectives(formNewProjectModel.getObjectives());
+		project.setWbs(formNewProjectModel.getWbs());
 		project.setEACOP(formNewProjectModel.getEACOP());
 		project.setInvoiced(formNewProjectModel.getInvoiced());
 		project.setTIC(formNewProjectModel.getTIC());
@@ -137,6 +149,8 @@ public class ProjectController {
 		project.setBudgettodate(formNewProjectModel.getBudgettodate());
 		project.setCertifiedprogress(formNewProjectModel.getCertifiedprogress());
 		project.setCostestimated(formNewProjectModel.getCostestimated());
+		project.setCustomer(customerConverter.CustomerModel2Customer(
+				customerServiceImpl.getById(formNewProjectModel.getCustomer_id())));
 		
 		ProjectPhase projectPhaseKickOff = new ProjectPhase();
 		ProjectPhase projectPhaseGoLive = new ProjectPhase();

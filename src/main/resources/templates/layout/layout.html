@@ -6,7 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <!-- END META SECTION -->
 
@@ -24,6 +23,13 @@
 	}
 	
 	[role=button]{cursor:pointer}
+	
+	.theadTasks{
+		border-color: #ddd;
+	    background-color: #f5f5f5;
+	    height: 50px;
+	    vertical-align: inherit;
+	}
 </style>
 <!-- END CSS SECTION -->
 
@@ -81,7 +87,7 @@
 				<li class="xn-openable"><a href="#"><span
 						class="fa fa-files-o"></span> <span class="xn-text">Resources</span></a>
 					<ul>
-						<li><a href="" th:href="@{/users/show/}"><span
+						<li sec:authorize="hasAuthority('ROLE_ADMIN')"><a href="" th:href="@{/users/show/}"><span
 								class="fa fa-image"></span> Manage users/resources</a></li>
 
 						<li><a href="" th:href="@{/projects/createproject}"><span
@@ -97,17 +103,6 @@
 										class="fa fa-align-justify"></span> Full Width</a></li>
 							</ul></li>
 					</ul></li>
-
-				<!-- ADMIN LATERAL TAB -->
-				<li class="xn-openable"
-					sec:authorize="hasAuthority('ROLE_ADMIN')"><a href="#"><span
-						class="fa fa-files-o"></span> <span class="xn-text">Admin</span></a>
-					<ul>
-						<li><a href="" th:href="@{/users/show}"><span
-								class="fa fa-user"></span> Admin users</a></li>
-					</ul></li>
-				<!-- END ADMIN LATERAL TAB -->
-
 			</ul>
 			<!-- END X-NAVIGATION -->
 		</div>

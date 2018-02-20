@@ -15,12 +15,19 @@
             }
             onload();
         }  */                 
-       
+        
         $(".sortableContent .scCol").sortable({
             connectWith: ".sortableContent .scCol",
             items: "> .panel",
             handle: ".panel-heading",
             placeholder: "scPlaceholder",
+            over: function(event,ui){
+                //will add class .hover to list
+                $('.scPlaceholder').parents('.scCol').addClass('taskTdHover');
+            },
+            out: function(event,ui){
+                $('.scPlaceholder').parents('.scCol').removeClass('taskTdHover');
+            },
             start: function(event,ui){
                 $(".scPlaceholder").height(ui.item.height()+1);
             },

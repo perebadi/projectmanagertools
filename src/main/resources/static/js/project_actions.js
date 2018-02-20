@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	//Establecemos el orden por defecto de la tabla projectPlanTable
 	$("#projectPlanTable").DataTable({
-		"order": [[ 2, "asc" ]]
+		"order": [[ 1, "asc" ], [2, "asc"]]
 	});
 	
 	//Validación project modal form
@@ -458,13 +458,13 @@ $(document).ready(function(){
 				$("#saveFinancialButton").prop("disabled", true);
 			
 				//Prevent form submit
-				$("#financialsModal").submit(function(e){
+				$("#modalFinancialProjectForm").submit(function(e){
 			        e.preventDefault();
 			    });
 			
 				//Obtenemos el token
 				var token = document.getElementsByName("_csrf")[0].value;			
-			
+				
 				//Form data
 				var formData = {
 					tvc : $('#TVC').val(),
@@ -485,14 +485,12 @@ $(document).ready(function(){
 	    			url :"/api/project/" + $("#idFinancialsProject").val() + "/finance/save/",
 	    			data : JSON.stringify(formData),
 	    			dataType : 'json',
-	    			
 	    			beforeSend: function(request) {
 	    		        return request.setRequestHeader('X-CSRF-Token', token);
 	    		    },
 	    		    
 	    			success : function(result) {
 	    				if(result.status == "Done"){
-	    					//Refresh
 	    					window.location.reload();
 	    				}
 	    			},
