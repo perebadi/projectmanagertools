@@ -82,6 +82,54 @@ public class ProjectProblem implements Comparable<ProjectProblem> {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
+	
+	public ProblemStatusEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(ProblemStatusEnum status) {
+		this.status = status;
+	}
+
+	public ProblemResponsableEnum getResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(ProblemResponsableEnum responsable) {
+		this.responsable = responsable;
+	}
+
+	public ProblemImpactEnum getImpact() {
+		return impact;
+	}
+
+	public void setImpact(ProblemImpactEnum impact) {
+		this.impact = impact;
+	}
+
+	public ProblemTypeEnum getType() {
+		return type;
+	}
+
+	public void setType(ProblemTypeEnum type) {
+		this.type = type;
+	}
+
+	public String getActions() {
+		return actions;
+	}
+
+	public void setActions(String actions) {
+		this.actions = actions;
+	}
+
+	public Date getDateclose() {
+		return dateclose;
+	}
+
+	public void setDateclose(Date dateclose) {
+		this.dateclose = dateclose;
+	}
 
 	public int getId() {
 		return id;
@@ -130,18 +178,25 @@ public class ProjectProblem implements Comparable<ProjectProblem> {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-
+	
 	public ProjectProblem(int id, Date dateproblem, int week, String summaryproblem, String txtproblem,
-			Project project) {
+			ProblemStatusEnum status, ProblemResponsableEnum responsable, ProblemImpactEnum impact,
+			ProblemTypeEnum type, String actions, Date dateclose, Project project) {
 		super();
 		this.id = id;
 		this.dateproblem = dateproblem;
 		this.week = week;
 		this.summaryproblem = summaryproblem;
 		this.txtproblem = txtproblem;
+		this.status = status;
+		this.responsable = responsable;
+		this.impact = impact;
+		this.type = type;
+		this.actions = actions;
+		this.dateclose = dateclose;
 		this.project = project;
 	}
-	
+
 	public ProjectProblem() {
 		
 	}
