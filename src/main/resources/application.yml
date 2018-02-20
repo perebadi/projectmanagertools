@@ -10,7 +10,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/projectmanagertools?useSSL=false
     username: root
-    password: badalona1972 
+    password: Dxc2018 
   jpa:
     generate-ddl: true
     hibernate:
