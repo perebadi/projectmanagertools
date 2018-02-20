@@ -25,13 +25,8 @@ $(document).ready(function(){
 								}
 								
 								if($("#userassigned_" + idTask).val() != undefined){
-<<<<<<< HEAD
-									$('#editBacklogTaskUser').val($("#userassigned_" + idTask).val());
-									$('#editBacklogTaskUser').selectpicker('refresh');
-=======
                                     $('#editBacklogTaskUser').val($("#userassigned_" + idTask).val());
                                     $('#editBacklogTaskUser').selectpicker('refresh');
->>>>>>> josep5
 								}
 								
 							},

@@ -39,24 +39,15 @@
 							</h3>
 							<br />
 							<div class="col-md-10">
-<<<<<<< HEAD
-								<select id="editBacklogTaskUser" name="editBacklogTagUser"
-									class="form-control select selectpicker" data-live-search="true">
-=======
 								<select th:id="editBacklogTaskUser" name="editBacklogTagUser"
 									class="form-control select" data-live-search="true">
->>>>>>> josep5
 									<option value="nobody">Nobody</option>
 									<option th:each="assigned : ${assigneds}"
-										th:value="${assigned.username}" th:text="${assigned.username}"></option>
+										th:value="${assigned.username}" th:text="${assigned.name}"></option>
 								</select>
 							</div>
 							<div class="col-md-2">
-<<<<<<< HEAD
-								<button type="button" class="btn btn-primary submitAJAXModal pull-right">
-=======
 								<button type="button" class="btn btn-primary submitAJAXModal">
->>>>>>> josep5
 									<span class="glyphicon glyphicon-save" aria-hidden="true"></span>Edit Task
 								</button>
 							</div>
