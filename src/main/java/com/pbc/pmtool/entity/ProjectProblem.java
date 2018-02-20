@@ -34,45 +34,37 @@ public class ProjectProblem implements Comparable<ProjectProblem> {
 	@Column(name = "id", nullable=false)
 	private int id;
 	
-	@NotNull
 	@Column(name = "dateproblem", nullable=false)
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date dateproblem;
 	
-	@NotNull
 	@Column(name="week", nullable=false)
 	private int week;
 	
-	@NotNull
 	@Column(name="summaryproblem", nullable=false)
 	private String summaryproblem;
 	
-	@Column(name="txtproblem")
+	@Column(name="txtproblem", nullable=false)
 	private String txtproblem;
 	
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="status", length=6, nullable=false)
 	private ProblemStatusEnum status;
 	
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="responsable", length=15, nullable=false)
 	private ProblemResponsableEnum responsable;
 	
-	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(name="impact")
+	@Column(name="impact", length=6, nullable=false)
 	private ProblemImpactEnum impact;
 	
-	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(name="type")
+	@Column(name="type", length=14, nullable=false)
 	private ProblemTypeEnum type;
 	
-	@NotNull
-	@Column(name="actions")
+	@Column(name="actions", nullable=false)
 	private String actions;
 	
 	@Column(name = "dateclose")
