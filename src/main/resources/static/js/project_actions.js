@@ -268,49 +268,64 @@ $(document).ready(function(){
 	//Función addProblem button
 	function addProblemButton(){
 		$("#addProblemButton").click(function(){
-			//Validamos el formulario
-			if($("#modalProblemForm").valid()){
-				$("#addProblemButton").prop("disabled",true);
+			$("#addProblemButton").prop("disabled",true);
 				
-				//Prevent form submit
-				$("#modalProblemForm").submit(function(e){
-			        e.preventDefault();
-			    });
+			//Prevent form submit
+			$("#modalProblemForm").submit(function(e){
+				e.preventDefault();
+			});
 				
-				//Obtenemos el token
-				var token = document.getElementsByName("_csrf")[0].value;			
+			//Obtenemos el token
+			var token = document.getElementsByName("_csrf")[0].value;			
 		
+			var formData;
+			var urlPOST;
+			
+			//Obtenemos si es un problema o un riesgo
+			var value = $( 'input[name=problemriskopt]:checked' ).val();
+			
+			if(value == "problem"){
 				//Form data
-				var formData = {
-					summaryproblem : $('#summary').val(),
-					dateproblem : $('#date').val(),
-					txtproblem : $('#txt').val(),
-					week : $('#week').val(),
-					idproblem : $('#id').val()
+				formData = {
+					summaryproblem : $('#summaryProblem').val(),
+					dateproblem : $('#dateProblem').val(),
+					txtproblem : $('#txtProblem').val(),
+					week : $('#weekProblem').val(),
+					idproblem : $('#idProblem').val(),
+					status : $('#statusProblem').val(),
+					responsable : $('#responsableProblem').val(),
+					impact : $('#impactProblem').val(),
+					type : $('#typeProblem').val(),
+					actions : $('#actionsProblem').val(),
+					dateclose : $('#dateCloseProblem').val(),
+					responsable : $('#responsableProblem').val(),
+					estimatedclosingdate : $('#estimatedDateCloseProblem').val()					
 				}
-		        	
-				//AJAX Call
-				$.ajax({
-	    			type : "POST",
-	    			contentType : "application/json",
-	    			url :"/api/project/" + $("#projectId").val() + "/problem/save/",
-	    			data : JSON.stringify(formData),
-	    			dataType : 'json',
-	    			
-	    			beforeSend: function(request) {
-	    		        return request.setRequestHeader('X-CSRF-Token', token);
-	    		    },
-	    		    
-	    			success : function(result) {
-	    				if(result.status == "Done"){
-	    					//Refresh
-	    					window.location.reload();
-	    				}
-	    			},
-	    			error : function(e) {
-	    			}
-	    		});
+				
+				urlPOST = "/api/project/" + $("#projectId").val() + "/problem/save/";
 			}
+		        	
+			//AJAX Call
+			$.ajax({
+	    		type : "POST",
+	    		contentType : "application/json",
+	    		url : urlPOST,
+	    		data : JSON.stringify(formData),
+	    		dataType : 'json',
+	    		
+	    		beforeSend: function(request) {
+	    	        return request.setRequestHeader('X-CSRF-Token', token);
+	    	    },
+	    		    
+	    		success : function(result) {
+	    			if(result.status == "Done"){
+	    				//Refresh
+	    				window.location.reload();
+	    			}
+	    		},
+	    		error : function(e) {
+	    		}
+	    	});
 		});
 	}
 	
@@ -334,29 +349,33 @@ $(document).ready(function(){
 	//Linkamos los botónes editar problem
 	$("span[name='viewDetailsProblem']").each(function(){
 		$(this).click(function(){
-			projectFormValidator.resetForm();
+			//projectFormValidator.resetForm();
 			
 			var problem = $(this).attr("data-problem");
 			
+			/*
 			//Copiamos los valores en el modal
 			$("#summary").val($("#summaryproblem_" + problem).val());
 			$("#date").val($("#dateproblem_" + problem).val());
 			$("#week").val($("#weekproblem_" + problem).val());
 			$("#txt").val($("#txtproblem_" + problem).val());
 			$("#id").val($("#idproblem_" + problem).val());
+			*/
 			
 			addProblemButton();
 			
-			$("#titleModal").html("Save problem");
-			//Show modal
-			$("#modalProject").modal('show');
+			$("#titleProblemModal").html("Save problem");
 			
-			$("#modalProject").on("hidden.bs.modal", function () {
-			    $("#addButton").unbind( "click" );
+			//Show modal
+			$("#modalProblem").modal('show');
+			
+			$("#modalProblem").on("hidden.bs.modal", function () {
+			    $("#addProblemButton").unbind( "click" );
 			});
 		});
 	});
 	
+	//Al cambiar la opcion de tipo de problema mostramos los campos pertinentes
 	$('input[name=problemriskopt]').change(function(){
 		var value = $( 'input[name=problemriskopt]:checked' ).val();
 		
