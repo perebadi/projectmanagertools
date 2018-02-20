@@ -12,7 +12,10 @@ jQuery.fn.AJAXmodal = function(opciones) {
 		disableButton: true,
 		FormValid: function(){
 			return true;
-		}
+		},
+		preventForm: false,
+		formId: ""
+		
 	}
 	
 	//Combinamos con las configuraciones recibidas por parametro
@@ -24,9 +27,17 @@ jQuery.fn.AJAXmodal = function(opciones) {
 			//Copiamos los datos que se quieren editar
 			configuracion.copyData();
 			
+			//Prevent form submit
+			if(configuracion.preventForm){
+				$("#" + configuracion.formId).submit(function(e){
+					e.preventDefault();
+				});
+			}
+			
 			//Evento click en el submit del modal
 			$(".submitAJAXModal").click(function(){
 				if(configuracion.FormValid()){
+					
 					//Obtenemos los datos POST
 					var datosPost = configuracion.formData();
 					
