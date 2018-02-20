@@ -358,6 +358,11 @@ $(document).ready(function(){
 		
 		addProblemButton();
 		
+		$("#problemRiskRadio").show();
+		$("#problemOption").prop("checked", true);
+		$("#problemFields").show();
+		$("#riskFields").hide();
+		
 		//Show modal
 		$("#modalProblem").modal('show');
 		
@@ -391,6 +396,11 @@ $(document).ready(function(){
 		    			if(result.status == "Done"){
 		    				var problem = JSON.parse(result.data);
 		    				
+		    				$("#problemRiskRadio").hide();
+		    				$("#problemOption").prop("checked", true);
+		    				$("#problemFields").show();
+		    				$("#riskFields").hide();
+		    				
 		    				$("#summaryProblem").val(problem.summaryproblem);
 		    				$("#dateProblem").val(problem.dateproblemstr);
 		    				$("#dateCloseProblem").val(problem.dateclosestr);
@@ -422,6 +432,58 @@ $(document).ready(function(){
 				
 			}else{
 				//Obtenemos el riesgo
+				$.ajax({
+		    		type : "GET",
+		    		contentType : "application/json",
+		    		url : "/api/project/" + $("#projectId").val() + "/risk/" + problem + "/",
+		    		dataType : 'json',
+		    		async : false,
+		    		beforeSend: function(request) {
+		    	        return request.setRequestHeader('X-CSRF-Token', token);
+		    	    },
+		    		    
+		    		success : function(result) {
+		    			if(result.status == "Done"){
+		    				var risk = JSON.parse(result.data);
+		    				
+		    				$("#problemRiskRadio").hide();
+		    				$("#riskOption").prop("checked", true);
+		    				$("#problemFields").hide();
+		    				$("#riskFields").show();
+		    				
+		    				$("#summaryProblem").val(risk.summaryproblem);
+		    				$("#dateProblem").val(risk.dateproblemstr);
+		    				$("#dateCloseProblem").val(risk.dateclosestr);
+		    				$("#weekProblem").val(risk.week);
+		    				$("#txtProblem").val(risk.txtproblem);
+		    				$("#idProblem").val(risk.idproblem);
+		    				
+		    				$("#statusProblem").val(risk.status);
+		    				$('#statusProblem').selectpicker('refresh');
+		    				
+		    				$("#responsableProblem").val(risk.responsable);
+		    				$('#responsableProblem').selectpicker('refresh');
+		    				
+		    				$("#typeProblem").val(risk.type);
+		    				$('#typeProblem').selectpicker('refresh');
+		    				
+		    				$("#impactProblem").val(risk.impact);
+		    				$('#impactProblem').selectpicker('refresh');
+		    				
+		    				$("#actionsProblem").val(risk.actions);
+		    				
+		    				$("#probabilityRisk").val(risk.probability);
+		    				$('#probabilityRisk').selectpicker('refresh');
+		    				
+		    				$("#strategyRisk").val(risk.strategy);
+		    				$('#strategyRisk').selectpicker('refresh');
+		    				
+		    			}
+		    		},
+		    		
+		    		error : function(e) {
+		    		}
+		    	});
 			}			
 			
 			addProblemButton();
