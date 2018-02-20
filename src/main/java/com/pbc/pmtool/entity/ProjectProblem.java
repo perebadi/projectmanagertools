@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,30 +18,67 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.pbc.pmtool.enums.ProblemImpactEnum;
+import com.pbc.pmtool.enums.ProblemResponsableEnum;
+import com.pbc.pmtool.enums.ProblemStatusEnum;
+import com.pbc.pmtool.enums.ProblemTypeEnum;
+
 
 
 @Entity
 @Table(name = "projectproblem")
 public class ProjectProblem implements Comparable<ProjectProblem> {
+	
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name = "id", nullable=false)
 	private int id;
 	
 	@NotNull
-	@Column(name = "dateproblem")
+	@Column(name = "dateproblem", nullable=false)
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date dateproblem;
 	
-	@Column(name="week")
+	@NotNull
+	@Column(name="week", nullable=false)
 	private int week;
 	
-	@Column(name="summaryproblem")
+	@NotNull
+	@Column(name="summaryproblem", nullable=false)
 	private String summaryproblem;
 	
 	@Column(name="txtproblem")
 	private String txtproblem;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name="status", length=6, nullable=false)
+	private ProblemStatusEnum status;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name="responsable", length=15, nullable=false)
+	private ProblemResponsableEnum responsable;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name="impact")
+	private ProblemImpactEnum impact;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name="type")
+	private ProblemTypeEnum type;
+	
+	@NotNull
+	@Column(name="actions")
+	private String actions;
+	
+	@Column(name = "dateclose")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date dateclose;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
