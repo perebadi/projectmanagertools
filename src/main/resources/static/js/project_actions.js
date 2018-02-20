@@ -303,6 +303,26 @@ $(document).ready(function(){
 				}
 				
 				urlPOST = "/api/project/" + $("#projectId").val() + "/problem/save/";
+			}else{
+				//Form data
+				formData = {
+					summaryproblem : $('#summaryProblem').val(),
+					dateproblem : $('#dateProblem').val(),
+					txtproblem : $('#txtProblem').val(),
+					week : $('#weekProblem').val(),
+					idproblem : $('#idProblem').val(),
+					status : $('#statusProblem').val(),
+					responsable : $('#responsableProblem').val(),
+					impact : $('#impactProblem').val(),
+					type : $('#typeProblem').val(),
+					actions : $('#actionsProblem').val(),
+					dateclose : $('#dateCloseProblem').val(),
+					responsable : $('#responsableProblem').val(),
+					probability : $('#probabilityProblem').val(),
+					strategy : $('#strategyProblem').val()
+				}
+				
+				urlPOST = "/api/project/" + $("#projectId").val() + "/risk/save/";
 			}
 		        	
 			//AJAX Call

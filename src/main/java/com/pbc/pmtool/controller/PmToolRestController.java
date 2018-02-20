@@ -34,6 +34,7 @@ import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
 import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
+import com.pbc.pmtool.entity.Risk;
 import com.pbc.pmtool.entity.Task;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.CustomerModel;
@@ -49,6 +50,7 @@ import com.pbc.pmtool.model.FormPhaseModel;
 import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
+import com.pbc.pmtool.model.FormRiskModel;
 import com.pbc.pmtool.model.FormSaveBacklogModel;
 import com.pbc.pmtool.model.FormSaveTaskModel;
 import com.pbc.pmtool.model.Response;
@@ -463,8 +465,46 @@ public class PmToolRestController {
 		}
 	}
 
+	@PostMapping("/project/{id}/risk/save/")
+	public Response saveRisk(@PathVariable int id, @RequestBody FormRiskModel formRiskModel) {
+		Project project = projectService.findProjectById(id);
+
+		Risk projectRisk = new Risk();
+		
+		projectRisk.setProject(project);
+		projectRisk.setSummaryproblem(formRiskModel.getSummaryproblem());
+		projectRisk.setTxtproblem(formRiskModel.getTxtproblem());
+		projectRisk.setWeek(formRiskModel.getWeek());
+		projectRisk.setId(formRiskModel.getIdproblem());
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String dateInString = formRiskModel.getDateproblem();
+
+		try {
+
+			Date date = formatter.parse(dateInString);
+			projectRisk.setDateproblem(date);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		projectRisk.setStatus(formRiskModel.getStatus());
+		projectRisk.setResponsable(formRiskModel.getResponsable());
+		projectRisk.setType(formRiskModel.getType());
+		projectRisk.setImpact(formRiskModel.getImpact());
+		projectRisk.setProbability(formRiskModel.getProbability());
+		projectRisk.setStrategy(formRiskModel.getStrategy());
+		projectRisk.setDateclose(formRiskModel.getDateclose());
+		projectRisk.setActions(formRiskModel.getActions());
+		
+		projectProblemService.addProjectProblem(projectRisk);
+		
+		return new Response("Done", "Done");
+	}
+	
 	@PostMapping("/project/{id}/problem/save/")
-	public Response saveNextSteps(@PathVariable int id, @RequestBody FormProblemModel formProblemModel) {
+	public Response saveProblem(@PathVariable int id, @RequestBody FormProblemModel formProblemModel) {
 
 		Project project = projectService.findProjectById(id);
 
