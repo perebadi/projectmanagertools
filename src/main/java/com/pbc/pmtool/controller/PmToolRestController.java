@@ -10,6 +10,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.jdbc.log.Log;
+import com.google.gson.Gson;
 import com.pbc.pmtool.component.FormCustomerAddConverter;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Comment;
@@ -32,7 +34,6 @@ import com.pbc.pmtool.entity.ProjectComment;
 import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
-import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
 import com.pbc.pmtool.entity.Risk;
 import com.pbc.pmtool.entity.Task;
@@ -54,10 +55,10 @@ import com.pbc.pmtool.model.FormRiskModel;
 import com.pbc.pmtool.model.FormSaveBacklogModel;
 import com.pbc.pmtool.model.FormSaveTaskModel;
 import com.pbc.pmtool.model.Response;
-import com.pbc.pmtool.repository.ProjectCommentRepository;
 import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.CustomerService;
+import com.pbc.pmtool.service.ProblemService;
 import com.pbc.pmtool.service.ProjectAchievementService;
 import com.pbc.pmtool.service.ProjectCommentService;
 import com.pbc.pmtool.service.ProjectEscalationService;
@@ -67,6 +68,7 @@ import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
 import com.pbc.pmtool.service.ProjectTaskService;
+import com.pbc.pmtool.service.RiskService;
 import com.pbc.pmtool.service.UserService;
 
 @RestController
@@ -129,6 +131,14 @@ public class PmToolRestController {
 	@Qualifier("customerServiceImpl")
 	private CustomerService customerServiceImpl;
 
+	@Autowired
+	@Qualifier("problemServiceImpl")
+	private ProblemService problemServiceImpl;
+	
+	@Autowired
+	@Qualifier("riskServiceImpl")
+	private RiskService riskServiceImpl;
+	
 	@GetMapping(value = "/projects/all")
 	public List<Project> getProject() {
 		return projectService.listProjects();
@@ -501,6 +511,32 @@ public class PmToolRestController {
 		projectProblemService.addProjectProblem(projectRisk);
 		
 		return new Response("Done", "Done");
+	}
+	
+	@GetMapping("/project/{id}/risk/{risk}/")
+	public ResponseEntity<String> getRisk(@PathVariable int id, @PathVariable int risk){
+		FormRiskModel riskModel = riskServiceImpl.getRisk(risk, id);
+		
+		if(riskModel == null) {
+			riskModel = new FormRiskModel();
+		}
+		
+		Gson json = new Gson();
+		
+		return new ResponseEntity<String>(json.toJson(riskModel), HttpStatus.OK);
+	}
+	
+	@GetMapping("/project/{id}/problem/{problem}/")
+	public ResponseEntity<String> getProblem(@PathVariable int id, @PathVariable int problem) {
+		FormProblemModel problemModel = problemServiceImpl.getProblem(problem, id);
+		
+		if(problemModel == null) {
+			problemModel = new FormProblemModel();
+		}
+		
+		Gson json = new Gson();
+		
+		return new ResponseEntity<String>(json.toJson(problemModel), HttpStatus.OK);
 	}
 	
 	@PostMapping("/project/{id}/problem/save/")
