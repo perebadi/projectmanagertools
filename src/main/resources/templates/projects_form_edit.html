@@ -23,268 +23,265 @@
 
 			<!-- PAGE CONTENT WRAPPER -->
 			<div class="page-content-wrap">
-				<form class="form-horizontal">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title" th:text="${project.projectname}"></h3>
-											<h3 class="panel-title pull-right" th:text="${project.customer.customer}"></h3>
-										</div>
-										<div class="panel-body scroll" style="height: 150px;">
-											<p>
-												<span th:text="${project.objectives}"></span>
-											</p>
-										</div>
-										<div class="panel-footer">
-											<strong>WBS: </strong><span th:text="${project.wbs}"></span>
-										</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title" th:text="${project.projectname}"></h3>
+										<h3 class="panel-title pull-right"
+											th:text="${project.customer.customer}"></h3>
+									</div>
+									<div class="panel-body scroll" style="height: 150px;">
+										<p>
+											<span th:text="${project.objectives}"></span>
+										</p>
+									</div>
+									<div class="panel-footer">
+										<strong>WBS: </strong><span th:text="${project.wbs}"></span>
 									</div>
 								</div>
+							</div>
 
-								<div class="col-md-6">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">RAG Indicators</h3>
-											<ul class="panel-controls">
-												<!-- 			                                        <li><button id="rag" name="rag" type="button" class="btn btn-success btn-rounded fa fa-wrench"></button></li>
+							<div class="col-md-6">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title">RAG Indicators</h3>
+										<ul class="panel-controls">
+											<!-- 			                                        <li><button id="rag" name="rag" type="button" class="btn btn-success btn-rounded fa fa-wrench"></button></li>
  -->
-												<!-- 
+											<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/rag/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a role="button" id="ragModal"><span
-														class="fa fa-wrench "></span></a></li>
-											</ul>
-										</div>
-										<div class="panel-body">
-											<div class="col-md-6">
+											<li><a role="button" id="ragModal"><span
+													class="fa fa-wrench "></span></a></li>
+										</ul>
+									</div>
+									<div class="panel-body">
+										<div class="col-md-6">
 
-												<div class="form-group">
-													<label class="col-md-9 control-label">Project
-														Status</label>
-													<div th:switch="${project.projectStatus.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">G</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Y</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">R</button></span>
-													</div>
+											<div class="form-group">
+												<label class="col-md-9 control-label">Project Status</label>
+												<div th:switch="${project.projectStatus.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">G</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Y</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">R</button></span>
+												</div>
 
-
-												</div>
-												<div class="form-group">
-													<label class="col-md-9 control-label">Delivery
-														Confidence</label>
-													<div
-														th:switch="${project.projectDeliveryConfidence.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">G</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Y</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">R</button></span>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-md-9 control-label">Project
-														Governance</label>
-													<div th:switch="${project.projectGovernance.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">G</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Y</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">R</button></span>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-md-9 control-label">Business
-														Change</label>
-													<div
-														th:switch="${project.projectBusinessChange.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">G</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Y</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">R</button></span>
-													</div>
-												</div>
 
 											</div>
+											<div class="form-group">
+												<label class="col-md-9 control-label">Delivery
+													Confidence</label>
+												<div
+													th:switch="${project.projectDeliveryConfidence.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">G</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Y</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">R</button></span>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-9 control-label">Project
+													Governance</label>
+												<div th:switch="${project.projectGovernance.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">G</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Y</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">R</button></span>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-9 control-label">Business
+													Change</label>
+												<div th:switch="${project.projectBusinessChange.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">G</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Y</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">R</button></span>
+												</div>
+											</div>
 
-											<div class="col-md-6">
-												<div class="form-group">
-													<label class="col-md-9 control-label">Benefits
-														Realisation</label>
-													<div
-														th:switch="${project.projectBenefitsRealisation.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">G</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Y</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">R</button></span>
-													</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="col-md-9 control-label">Benefits
+													Realisation</label>
+												<div
+													th:switch="${project.projectBenefitsRealisation.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">G</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Y</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">R</button></span>
 												</div>
-												<div class="form-group">
-													<label class="col-md-9 control-label">Project
-														Dependency</label>
-													<div th:switch="${project.projectDependency.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">G</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Y</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">R</button></span>
-													</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-9 control-label">Project
+													Dependency</label>
+												<div th:switch="${project.projectDependency.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">G</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Y</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">R</button></span>
 												</div>
-												<div class="form-group">
-													<label class="col-md-9 control-label">Project
-														Resourcing</label>
-													<div th:switch="${project.projectResourcing.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">G</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Y</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">R</button></span>
-													</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-9 control-label">Project
+													Resourcing</label>
+												<div th:switch="${project.projectResourcing.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">G</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Y</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">R</button></span>
 												</div>
-												<div class="form-group">
-													<label class="col-md-9 control-label">Scope</label>
-													<div th:switch="${project.projectScope.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">G</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Y</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">R</button></span>
-													</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-9 control-label">Scope</label>
+												<div th:switch="${project.projectScope.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">G</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Y</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">R</button></span>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Logros alcanzados</h3>
-											<ul class="panel-controls">
-												<!--  
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title">Logros alcanzados</h3>
+										<ul class="panel-controls">
+											<!--  
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/achievement/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a role="button" id="achievementModal"><span
-														class="fa fa-wrench"></span></a></li>
-											</ul>
-										</div>
+											<li><a role="button" id="achievementModal"><span
+													class="fa fa-wrench"></span></a></li>
+										</ul>
+									</div>
 
-										<div class="panel-body">
-											<ul class="list-group border-bottom">
-												<li class="list-group-item" th:each="logro : ${logros}">
-													<div class="row">
-														<div class="col-md-10">
-															<input type="hidden" th:value="${logro.id}"
-																th:id="'idachievement_' + ${logro.id}" /> <input
-																type="hidden" th:value="${logro.dateachievement}"
-																th:id="'dateachievement_' + ${logro.id}" /> <input
-																type="hidden" th:value="${logro.summaryachievement}"
-																th:id="'summaryachievement_' + ${logro.id}" /> <input
-																type="hidden" th:value="${logro.txtachievement}"
-																th:id="'txtachievement_' + ${logro.id}" /> <input
-																type="hidden" th:value="${logro.week}"
-																th:id="'weekachievement_' + ${logro.id}" /> <input
-																type="hidden" th:value="${project.id}"
-																th:id="'projectachievement_' + ${logro.id}" /> <span
-																th:text="${logro.summaryachievement}"></span>
-														</div>
-														<div class="margin-top-15">
-															<a role="button" class="pull-right"> <span
-																class="badge badge-success" th:text="'KW'+${logro.week}"
-																name="viewDetailsAchievement"
-																th:attr="data-achievement=${logro.id}"></span>
-															</a>
-														</div>
+									<div class="panel-body">
+										<ul class="list-group border-bottom">
+											<li class="list-group-item" th:each="logro : ${logros}">
+												<div class="row">
+													<div class="col-md-10">
+														<input type="hidden" th:value="${logro.id}"
+															th:id="'idachievement_' + ${logro.id}" /> <input
+															type="hidden" th:value="${logro.dateachievement}"
+															th:id="'dateachievement_' + ${logro.id}" /> <input
+															type="hidden" th:value="${logro.summaryachievement}"
+															th:id="'summaryachievement_' + ${logro.id}" /> <input
+															type="hidden" th:value="${logro.txtachievement}"
+															th:id="'txtachievement_' + ${logro.id}" /> <input
+															type="hidden" th:value="${logro.week}"
+															th:id="'weekachievement_' + ${logro.id}" /> <input
+															type="hidden" th:value="${project.id}"
+															th:id="'projectachievement_' + ${logro.id}" /> <span
+															th:text="${logro.summaryachievement}"></span>
 													</div>
-												</li>
-											</ul>
-										</div>
+													<div class="margin-top-15">
+														<a role="button" class="pull-right"> <span
+															class="badge badge-success" th:text="'KW'+${logro.week}"
+															name="viewDetailsAchievement"
+															th:attr="data-achievement=${logro.id}"></span>
+														</a>
+													</div>
+												</div>
+											</li>
+										</ul>
 									</div>
 								</div>
-								<div class="col-md-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Futuras actividades</h3>
-											<ul class="panel-controls">
-												<!-- 
+							</div>
+							<div class="col-md-4">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title">Futuras actividades</h3>
+										<ul class="panel-controls">
+											<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/nextstep/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a role="button" id="nextStepModal"><span
-														class="fa fa-wrench"></span></a></li>
-											</ul>
-										</div>
-										<div class="panel-body">
-											<ul class="list-group border-bottom">
-												<li class="list-group-item"
-													th:each="nextstep : ${nextsteps}">
-													<div class="row">
-														<div>
-															<input type="hidden" th:value="${nextstep.id}"
-																th:id="'idnextstep_' + ${nextstep.id}" /> <input
-																type="hidden" th:value="${nextstep.datenextstep}"
-																th:id="'datenextstep_' + ${nextstep.id}" /> <input
-																type="hidden" th:value="${nextstep.summarynextstep}"
-																th:id="'summarynextstep_' + ${nextstep.id}" /> <input
-																type="hidden" th:value="${nextstep.txtnextstep}"
-																th:id="'txtnextstep_' + ${nextstep.id}" /> <input
-																type="hidden" th:value="${nextstep.week}"
-																th:id="'weeknextstep_' + ${nextstep.id}" /> <input
-																type="hidden" th:value="${project.id}"
-																th:id="'projectnextstep_' + ${nextstep.id}" /> <span
-																th:text="${ nextstep.summarynextstep}"></span>
-														</div>
-														<div class="margin-top-15">
-															<a role="button" class="pull-right"> <span
-																class="badge badge-info" th:text="'KW'+${nextstep.week}"
-																name="viewDetailsNextStep"
-																th:attr="data-nextstep=${nextstep.id}"></span>
-															</a>
-														</div>
+											<li><a role="button" id="nextStepModal"><span
+													class="fa fa-wrench"></span></a></li>
+										</ul>
+									</div>
+									<div class="panel-body">
+										<ul class="list-group border-bottom">
+											<li class="list-group-item" th:each="nextstep : ${nextsteps}">
+												<div class="row">
+													<div>
+														<input type="hidden" th:value="${nextstep.id}"
+															th:id="'idnextstep_' + ${nextstep.id}" /> <input
+															type="hidden" th:value="${nextstep.datenextstep}"
+															th:id="'datenextstep_' + ${nextstep.id}" /> <input
+															type="hidden" th:value="${nextstep.summarynextstep}"
+															th:id="'summarynextstep_' + ${nextstep.id}" /> <input
+															type="hidden" th:value="${nextstep.txtnextstep}"
+															th:id="'txtnextstep_' + ${nextstep.id}" /> <input
+															type="hidden" th:value="${nextstep.week}"
+															th:id="'weeknextstep_' + ${nextstep.id}" /> <input
+															type="hidden" th:value="${project.id}"
+															th:id="'projectnextstep_' + ${nextstep.id}" /> <span
+															th:text="${ nextstep.summarynextstep}"></span>
 													</div>
-												</li>
-											</ul>
-										</div>
+													<div class="margin-top-15">
+														<a role="button" class="pull-right"> <span
+															class="badge badge-info" th:text="'KW'+${nextstep.week}"
+															name="viewDetailsNextStep"
+															th:attr="data-nextstep=${nextstep.id}"></span>
+														</a>
+													</div>
+												</div>
+											</li>
+										</ul>
 									</div>
 								</div>
-								<div class="col-md-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Escalaciones</h3>
-											<ul class="panel-controls">
-												<!-- 
+							</div>
+							<div class="col-md-4">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title">Escalaciones</h3>
+										<ul class="panel-controls">
+											<!-- 
 												<li><a href="#"
 													th:href="@{/projects/project/__${project.id}__/escalation/}"
 													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a role="button" id="escalationModal"><span
-														class="fa fa-wrench"></span></a></li>
-											</ul>
-										</div>
-										<div class="panel-body">
-											<ul class="list-group border-bottom">
-												<li class="list-group-item"
-													th:each="escalation : ${escalations}">
-													<div class="row">
-														
-														<div>
-															<input type="hidden" th:value="${escalation.id}"
+											<li><a role="button" id="escalationModal"><span
+													class="fa fa-wrench"></span></a></li>
+										</ul>
+									</div>
+									<div class="panel-body">
+										<ul class="list-group border-bottom">
+											<li class="list-group-item"
+												th:each="escalation : ${escalations}">
+												<div class="row">
+
+													<div>
+														<input type="hidden" th:value="${escalation.id}"
 															th:id="'idescalation_' + ${escalation.id}" /> <input
 															type="hidden" th:value="${escalation.dateescalation}"
 															th:id="'dateescalation_' + ${escalation.id}" /> <input
@@ -297,20 +294,20 @@
 															type="hidden" th:value="${project.id}"
 															th:id="'projectescalation_' + ${escalation.id}" /> <span
 															th:text="${ escalation.summaryescalation}"></span>
-														</div>
-														<div class="margin-top-15">
-															<a role="button" class="pull-right">
-															<span class="badge badge-warning"
-																th:text="KW + ${escalation.week}"
-																name="viewDetailsEscalation"
-																th:attr="data-escalation=${escalation.id}" /></a>
-														</div>
 													</div>
-												</li>
-											</ul>
-										</div>
+													<div class="margin-top-15">
+														<a role="button" class="pull-right"> <span
+															class="badge badge-warning"
+															th:text="KW + ${escalation.week}"
+															name="viewDetailsEscalation"
+															th:attr="data-escalation=${escalation.id}" /></a>
+													</div>
+												</div>
+											</li>
+										</ul>
 									</div>
-									<!-- <div class="panel panel-default">
+								</div>
+								<!-- <div class="panel panel-default">
 			                                <div class="panel-heading">
 			                                    <h3 class="panel-title">Escalaciones</h3>
 			                                    <ul class="panel-controls">
@@ -323,370 +320,379 @@
 			                                    </ul>                                 
 			                                </div>
 			                            </div> -->
-								</div>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Project Risks</h3>
-									<ul class="panel-controls">
-										<li>
-											<a role="button" id="problemRiskModal" >
-												<span class="fa fa-wrench"></span>
-											</a>
-										</li>
-									</ul>
-								</div>
-								<div class="panel-body">
-									<table class="table datatable-simple" id="projectRisksTable">
-										<thead>
-											<tr>
-												<th style="text-align: center;">Summary</th>
-												<th style="text-align: center;">Details</th>
-												<th style="text-align: center;">Date</th>
-												<th style="text-align: center;">Week</th>
-												<th style="text-align: center;">Date close</th>
-												<th style="text-align: center;">Status</th>
-												<th style="text-align: center;">Responsable</th>
-												<th style="text-align: center;">Type</th>
-												<th style="text-align: center;">Probability</th>
-												<th style="text-align: center;">Impact</th>
-												<th style="text-align: center;">Strategy</th>
-												<th style="text-align: center;">Actions</th>
-												<th style="text-align: center;">Actions</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="risk : ${risks}">
-												<td th:text="${risk.summaryproblem}" align="center"></td>
-												<td th:text="${risk.txtproblem}" align="center"></td>
-												<td th:text="${risk.dateproblem}" align="center"></td>
-												<td align="center">
-													<span class="badge badge-default" th:text="'KW'+${risk.week}" />
-												</td>
-												<td align="center">
-													<span class="badge badge-success" th:text="${risk.dateclose}" />
-												</td>
-												<td align="center">
-													<span class="badge badge-warning" th:if="${risk.status.getStatus() == 'Open'}" th:text="${risk.status.getStatus()}" />
-													<span class="badge badge-success" th:if="${risk.status.getStatus() == 'Closed'}" th:text="${risk.status.getStatus()}" />
-												</td>
-												<td align="center">
-													<span th:if="${risk.responsable.getResponsable() == 'DxC'}" th:text="${risk.responsable.getResponsable()}" />
-													<span th:if="${risk.responsable.getResponsable() == 'Customer'}" th:text="${project.customer.customer}" />
-													<span th:if="${risk.responsable.getResponsable() == 'DxC and customer'}" th:text="'DxC and ' + ${project.customer.customer}" />
-												</td>
-												<td align="center">
-													<span class="badge badge-info" th:text="${risk.type.getType()}" ></span>
-												</td>
-												<td th:text="${risk.probability.getProbability()}" align="center"></td>
-												<td align="center">
-													<span class="badge badge-success" th:if="${risk.impact.getImpact() == 'Low'}" th:text="${risk.impact.getImpact()}" />
-													<span class="badge badge-warning" th:if="${risk.impact.getImpact() == 'Medium'}" th:text="${risk.impact.getImpact()}" />
-													<span class="badge badge-danger" th:if="${risk.impact.getImpact() == 'High'}" th:text="${risk.impact.getImpact()}" />
-												</td>
-												<td th:text="${risk.strategy.getStrategy()}" align="center"></td>
-												<td th:text="${risk.actions}" align="center"></td>
-												<td align="center">
-													<input type="hidden" th:value="${risk.class.getSimpleName()}" th:id="'problemrisk_' + ${risk.id}" />
-													<button type="button" class="btn btn-primary" name="viewDetailsProblem" th:attr="data-problem=${risk.id}" >
-														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
-													</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Project Risks</h3>
+								<ul class="panel-controls">
+									<li><a role="button" id="problemRiskModal"> <span
+											class="fa fa-wrench"></span>
+									</a></li>
+								</ul>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Project Problems</h3>
-									<ul class="panel-controls">
-										<li>
-											<a role="button" id="problemModal" >
-												<span class="fa fa-wrench"></span>
-											</a>
-										</li>
-									</ul>
-								</div>
-								<div class="panel-body">
-									<table class="table datatable-simple" id="projectProblemTable">
-										<thead>
-											<tr>
-												<th style="text-align: center;">Summary</th>
-												<th style="text-align: center;">Details</th>
-												<th style="text-align: center;">Date</th>
-												<th style="text-align: center;">Week</th>
-												<th style="text-align: center;">Estimated date close</th>
-												<th style="text-align: center;">Date close</th>
-												<th style="text-align: center;">Status</th>
-												<th style="text-align: center;">Responsable</th>
-												<th style="text-align: center;">Type</th>
-												<th style="text-align: center;">Impact</th>
-												<th style="text-align: center;">Actions</th>
-												<th style="text-align: center;">Actions</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="problem : ${problems}">
-												<td th:text="${problem.summaryproblem}" align="center"></td>
-												<td th:text="${problem.txtproblem}" align="center"></td>
-												<td th:text="${problem.dateproblem}" align="center"></td>
-												<td align="center">
-													<span class="badge badge-default" th:text="'KW'+${problem.week}" />
-												</td>
-												<td th:text="${problem.estimatedclosingdate}" align="center"></td>
-												<td align="center">
-													<span class="badge badge-success" th:text="${problem.dateclose}" />
-												</td>
-												<td align="center">
-													<span class="badge badge-warning" th:if="${problem.status.getStatus() == 'Open'}" th:text="${problem.status.getStatus()}" />
-													<span class="badge badge-success" th:if="${problem.status.getStatus() == 'Closed'}" th:text="${problem.status.getStatus()}" />
-												</td>
-												<td align="center">
-													<span th:if="${problem.responsable.getResponsable() == 'DxC'}" th:text="${problem.responsable.getResponsable()}" />
-													<span th:if="${problem.responsable.getResponsable() == 'Customer'}" th:text="${project.customer.customer}" />
-													<span th:if="${problem.responsable.getResponsable() == 'DxC and customer'}" th:text="'DxC and ' + ${project.customer.customer}" />
-												</td>
-												<td align="center">
-													<span class="badge badge-info" th:text="${problem.type.getType()}" />
-												</td>
-												<td align="center">
-													<span class="badge badge-success" th:if="${problem.impact.getImpact() == 'Low'}" th:text="${problem.impact.getImpact()}" />
-													<span class="badge badge-warning" th:if="${problem.impact.getImpact() == 'Medium'}" th:text="${problem.impact.getImpact()}" />
-													<span class="badge badge-danger" th:if="${problem.impact.getImpact() == 'High'}" th:text="${problem.impact.getImpact()}" />
-												</td>
-												<td th:text="${problem.actions}" align="center"></td>
-												<td align="center">
-													<input type="hidden" th:value="${problem.class.getSimpleName()}" th:id="'problemrisk_' + ${problem.id}" />
-													<button type="button" class="btn btn-primary" name="viewDetailsProblem" th:attr="data-problem=${problem.id}" >
-														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
-													</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+							<div class="panel-body">
+								<table class="table datatable-simple" id="projectRisksTable">
+									<thead>
+										<tr>
+											<th style="text-align: center;">Summary</th>
+											<th style="text-align: center;">Details</th>
+											<th style="text-align: center;">Date</th>
+											<th style="text-align: center;">Week</th>
+											<th style="text-align: center;">Date close</th>
+											<th style="text-align: center;">Status</th>
+											<th style="text-align: center;">Responsable</th>
+											<th style="text-align: center;">Type</th>
+											<th style="text-align: center;">Probability</th>
+											<th style="text-align: center;">Impact</th>
+											<th style="text-align: center;">Strategy</th>
+											<th style="text-align: center;">Actions</th>
+											<th style="text-align: center;">Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="risk : ${risks}">
+											<td th:text="${risk.summaryproblem}" align="center"></td>
+											<td th:text="${risk.txtproblem}" align="center"></td>
+											<td th:text="${risk.dateproblem}" align="center"></td>
+											<td align="center"><span class="badge badge-default"
+												th:text="'KW'+${risk.week}" /></td>
+											<td align="center"><span class="badge badge-success"
+												th:text="${risk.dateclose}" /></td>
+											<td align="center"><span class="badge badge-warning"
+												th:if="${risk.status.getStatus() == 'Open'}"
+												th:text="${risk.status.getStatus()}" /> <span
+												class="badge badge-success"
+												th:if="${risk.status.getStatus() == 'Closed'}"
+												th:text="${risk.status.getStatus()}" /></td>
+											<td align="center"><span
+												th:if="${risk.responsable.getResponsable() == 'DxC'}"
+												th:text="${risk.responsable.getResponsable()}" /> <span
+												th:if="${risk.responsable.getResponsable() == 'Customer'}"
+												th:text="${project.customer.customer}" /> <span
+												th:if="${risk.responsable.getResponsable() == 'DxC and customer'}"
+												th:text="'DxC and ' + ${project.customer.customer}" /></td>
+											<td align="center"><span class="badge badge-info"
+												th:text="${risk.type.getType()}"></span></td>
+											<td th:text="${risk.probability.getProbability()}"
+												align="center"></td>
+											<td align="center"><span class="badge badge-success"
+												th:if="${risk.impact.getImpact() == 'Low'}"
+												th:text="${risk.impact.getImpact()}" /> <span
+												class="badge badge-warning"
+												th:if="${risk.impact.getImpact() == 'Medium'}"
+												th:text="${risk.impact.getImpact()}" /> <span
+												class="badge badge-danger"
+												th:if="${risk.impact.getImpact() == 'High'}"
+												th:text="${risk.impact.getImpact()}" /></td>
+											<td th:text="${risk.strategy.getStrategy()}" align="center"></td>
+											<td th:text="${risk.actions}" align="center"></td>
+											<td align="center"><input type="hidden"
+												th:value="${risk.class.getSimpleName()}"
+												th:id="'problemrisk_' + ${risk.id}" />
+												<button type="button" class="btn btn-primary"
+													name="viewDetailsProblem" th:attr="data-problem=${risk.id}">
+													<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+												</button></td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Financials</h3>
-									<ul class="panel-controls">
-										<!-- 
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Project Problems</h3>
+								<ul class="panel-controls">
+									<li><a role="button" id="problemModal"> <span
+											class="fa fa-wrench"></span>
+									</a></li>
+								</ul>
+							</div>
+							<div class="panel-body">
+								<table class="table datatable-simple" id="projectProblemTable">
+									<thead>
+										<tr>
+											<th style="text-align: center;">Summary</th>
+											<th style="text-align: center;">Details</th>
+											<th style="text-align: center;">Date</th>
+											<th style="text-align: center;">Week</th>
+											<th style="text-align: center;">Estimated date close</th>
+											<th style="text-align: center;">Date close</th>
+											<th style="text-align: center;">Status</th>
+											<th style="text-align: center;">Responsable</th>
+											<th style="text-align: center;">Type</th>
+											<th style="text-align: center;">Impact</th>
+											<th style="text-align: center;">Actions</th>
+											<th style="text-align: center;">Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="problem : ${problems}">
+											<td th:text="${problem.summaryproblem}" align="center"></td>
+											<td th:text="${problem.txtproblem}" align="center"></td>
+											<td th:text="${problem.dateproblem}" align="center"></td>
+											<td align="center"><span class="badge badge-default"
+												th:text="'KW'+${problem.week}" /></td>
+											<td th:text="${problem.estimatedclosingdate}" align="center"></td>
+											<td align="center"><span class="badge badge-success"
+												th:text="${problem.dateclose}" /></td>
+											<td align="center"><span class="badge badge-warning"
+												th:if="${problem.status.getStatus() == 'Open'}"
+												th:text="${problem.status.getStatus()}" /> <span
+												class="badge badge-success"
+												th:if="${problem.status.getStatus() == 'Closed'}"
+												th:text="${problem.status.getStatus()}" /></td>
+											<td align="center"><span
+												th:if="${problem.responsable.getResponsable() == 'DxC'}"
+												th:text="${problem.responsable.getResponsable()}" /> <span
+												th:if="${problem.responsable.getResponsable() == 'Customer'}"
+												th:text="${project.customer.customer}" /> <span
+												th:if="${problem.responsable.getResponsable() == 'DxC and customer'}"
+												th:text="'DxC and ' + ${project.customer.customer}" /></td>
+											<td align="center"><span class="badge badge-info"
+												th:text="${problem.type.getType()}" /></td>
+											<td align="center"><span class="badge badge-success"
+												th:if="${problem.impact.getImpact() == 'Low'}"
+												th:text="${problem.impact.getImpact()}" /> <span
+												class="badge badge-warning"
+												th:if="${problem.impact.getImpact() == 'Medium'}"
+												th:text="${problem.impact.getImpact()}" /> <span
+												class="badge badge-danger"
+												th:if="${problem.impact.getImpact() == 'High'}"
+												th:text="${problem.impact.getImpact()}" /></td>
+											<td th:text="${problem.actions}" align="center"></td>
+											<td align="center"><input type="hidden"
+												th:value="${problem.class.getSimpleName()}"
+												th:id="'problemrisk_' + ${problem.id}" />
+												<button type="button" class="btn btn-primary"
+													name="viewDetailsProblem"
+													th:attr="data-problem=${problem.id}">
+													<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+												</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Financials</h3>
+								<ul class="panel-controls">
+									<!-- 
 										<li><a href="#"
 											th:href="@{/projects/project/__${project.id}__/phase/}"
 											class="panel-fullscreen"><span class="fa fa-plus-square"></span></a></li>-->
-									</ul>
-								</div>
-								<div class="panel-body">
-									<!--                                     <p>Add class <code>.table-hover</code> to table to highlight row on hover.</p>
- -->
-									<table class="table table-hover">
-										<thead>
-											<tr>
-												<th style="text-align: center;">TCV</th>
-												<th style="text-align: center;">TIC</th>
-												<th style="text-align: center;">OP(P&amp;L)</th>
-												<th style="text-align: center;">Estimated Cost</th>
-												<th style="text-align: center;">EAC OP (P&amp;L)</th>
-												<th style="text-align: center;">Variance (TCV-EAC)</th>
-												<th style="text-align: center;">Certified Progress</th>
-												<th style="text-align: center;">Modify</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td
-													th:text="${#numbers.formatDecimal(project.TVC, 0, 'POINT', 2, 'COMMA')}+' €'"
-													align="center"></td>
-												<td
-													th:text="${#numbers.formatDecimal(project.TIC, 0, 'POINT', 2, 'COMMA')}+' €'"
-													align="center"></td>
-												<td align="center"><span class="badge badge-info"
-													th:text="${#numbers.formatDecimal(project.OP, 0, 'POINT', 2, 'COMMA')}+' %'">2018-01-30</span></td>
-												<td
-													th:text="${#numbers.formatDecimal(project.costestimated, 0, 'POINT', 2, 'COMMA')}+' €'"
-													align="center"></td>
-
-												<td align="center"><span class="badge badge-info"
-													th:text="${#numbers.formatDecimal(project.EACOP, 0, 'POINT', 2, 'COMMA')}+' %'">2018-01-30</span></td>
-
-												<td
-													th:text="${#numbers.formatDecimal(project.variance, 0, 'POINT', 2, 'COMMA')}+' €'"
-													align="center"></td>
-												<td align="center">
-													<div class="progress">
-														<div class="progress-bar progress-bar-success"
-															role="progressbar" aria-valuenow="45" aria-valuemin="0"
-															aria-valuemax="100"
-															th:style="'width:'+${project.certifiedprogress}+'%;'">
-															<span class="num-count"
-																th:text="${#numbers.formatDecimal(project.certifiedprogress, 0, 'POINT', 0, 'COMMA')}">20</span>%
-															Complete
-														</div>
-													</div>
-												</td>
-												<td align="center"><a role="button"
-													id="financialsModal">
-														<button type="button" class="btn btn-primary">
-															<span class="fa fa-wrench" aria-hidden="true"></span>Editar
-														</button>
-												</a></td>
-
-											</tr>
-										</tbody>
-									</table>
-								</div>
+								</ul>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Project Plan</h3>
-									<ul class="panel-controls">
-										<!-- 
+							<div class="panel-body">
+								<!--                                     <p>Add class <code>.table-hover</code> to table to highlight row on hover.</p>
+ -->
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th style="text-align: center;">TCV</th>
+											<th style="text-align: center;">TIC</th>
+											<th style="text-align: center;">OP(P&amp;L)</th>
+											<th style="text-align: center;">Estimated Cost</th>
+											<th style="text-align: center;">EAC OP (P&amp;L)</th>
+											<th style="text-align: center;">Variance (TCV-EAC)</th>
+											<th style="text-align: center;">Certified Progress</th>
+											<th style="text-align: center;">Modify</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td
+												th:text="${#numbers.formatDecimal(project.TVC, 0, 'POINT', 2, 'COMMA')}+' €'"
+												align="center"></td>
+											<td
+												th:text="${#numbers.formatDecimal(project.TIC, 0, 'POINT', 2, 'COMMA')}+' €'"
+												align="center"></td>
+											<td align="center"><span class="badge badge-info"
+												th:text="${#numbers.formatDecimal(project.OP, 0, 'POINT', 2, 'COMMA')}+' %'">2018-01-30</span></td>
+											<td
+												th:text="${#numbers.formatDecimal(project.costestimated, 0, 'POINT', 2, 'COMMA')}+' €'"
+												align="center"></td>
+
+											<td align="center"><span class="badge badge-info"
+												th:text="${#numbers.formatDecimal(project.EACOP, 0, 'POINT', 2, 'COMMA')}+' %'">2018-01-30</span></td>
+
+											<td
+												th:text="${#numbers.formatDecimal(project.variance, 0, 'POINT', 2, 'COMMA')}+' €'"
+												align="center"></td>
+											<td align="center">
+												<div class="progress">
+													<div class="progress-bar progress-bar-success"
+														role="progressbar" aria-valuenow="45" aria-valuemin="0"
+														aria-valuemax="100"
+														th:style="'width:'+${project.certifiedprogress}+'%;'">
+														<span class="num-count"
+															th:text="${#numbers.formatDecimal(project.certifiedprogress, 0, 'POINT', 0, 'COMMA')}">20</span>%
+														Complete
+													</div>
+												</div>
+											</td>
+											<td align="center"><a role="button" id="financialsModal">
+													<button type="button" class="btn btn-primary">
+														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+													</button>
+											</a></td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Project Plan</h3>
+								<ul class="panel-controls">
+									<!-- 
 										<li><a href="#"
 											th:href="@{/projects/project/__${project.id}__/phase/}"
 											class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-										<li><a role="button" id="phaseModal"><span
-												class="fa fa-wrench"></span></a></li>
-									</ul>
-								</div>
-								<div class="panel-body">
-									<table class="table datatable-simple" id="projectPlanTable">
-										<thead>
-											<tr>
-												<th style="text-align: center;">Phase</th>
-												<th style="text-align: center;">Start Date</th>
-												<th style="text-align: center;">End Date</th>
-												<th style="text-align: center;">Delay(Weeks)</th>
-												<th style="text-align: center;">New End Dates</th>
-												<th style="text-align: center;">Progress</th>
-												<th style="text-align: center;">Status</th>
-												<th style="text-align: center;">Modify</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="phase : ${phases}">
-												<input type="hidden" th:value="${phase.summaryphase}"
-													th:id="'summaryphase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.startdate}"
-													th:id="'startdatephase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.enddate}"
-													th:id="'enddatephase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.weekdelay}"
-													th:id="'weekdelayphase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.newdate}"
-													th:id="'newdatephase_' + ${phase.id}" />
-												<input type="hidden"
-													th:value="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}"
-													th:id="'progressphase_' + ${phase.id}" />
-												<input type="hidden" th:value="${phase.rag.id}"
-													th:id="'ragphase_' + ${phase.id}" />
-
-												<td th:text="${phase.summaryphase}" align="center"></td>
-												<td th:text="${phase.startdate}" align="center"></td>
-												<td th:text="${phase.enddate}" align="center"></td>
-												<td th:text="${phase.weekdelay}" align="center"></td>
-												<td th:text="${phase.newdate}" align="center"></td>
-												<!-- 												<td th:text="${phase.progress}" align="center"> -->
-												<td align="center">
-													<div class="progress">
-														<div class="progress-bar progress-bar-striped active"
-															role="progressbar" aria-valuenow="45" aria-valuemin="0"
-															aria-valuemax="100"
-															th:style="'width:'+${phase.progress}+'%;'">
-															<span class="num-count"
-																th:text="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}"></span>%
-															Complete
-														</div>
-													</div>
-
-												</td>
-												<td align="center">
-													<div th:switch="${phase.rag.statusname}">
-														<span th:case="G"><button type="button"
-																class="btn btn-success btn-rounded">Green</button></span> <span
-															th:case="Y"><button type="button"
-																class="btn btn-warning btn-rounded">Yellow</button></span> <span
-															th:case="R"><button type="button"
-																class="btn btn-danger btn-rounded">Red</button></span>
-													</div>
-												</td>
-												<td align="center">
-													<button type="button" class="btn btn-primary"
-														name="editPhaseButton" th:attr="data-phase=${phase.id}">
-														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
-													</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+									<li><a role="button" id="phaseModal"><span
+											class="fa fa-wrench"></span></a></li>
+								</ul>
 							</div>
+							<div class="panel-body">
+								<table class="table datatable-simple" id="projectPlanTable">
+									<thead>
+										<tr>
+											<th style="text-align: center;">Phase</th>
+											<th style="text-align: center;">Start Date</th>
+											<th style="text-align: center;">End Date</th>
+											<th style="text-align: center;">Delay(Weeks)</th>
+											<th style="text-align: center;">New End Dates</th>
+											<th style="text-align: center;">Progress</th>
+											<th style="text-align: center;">Status</th>
+											<th style="text-align: center;">Modify</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="phase : ${phases}">
+											<input type="hidden" th:value="${phase.summaryphase}"
+												th:id="'summaryphase_' + ${phase.id}" />
+											<input type="hidden" th:value="${phase.startdate}"
+												th:id="'startdatephase_' + ${phase.id}" />
+											<input type="hidden" th:value="${phase.enddate}"
+												th:id="'enddatephase_' + ${phase.id}" />
+											<input type="hidden" th:value="${phase.weekdelay}"
+												th:id="'weekdelayphase_' + ${phase.id}" />
+											<input type="hidden" th:value="${phase.newdate}"
+												th:id="'newdatephase_' + ${phase.id}" />
+											<input type="hidden"
+												th:value="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}"
+												th:id="'progressphase_' + ${phase.id}" />
+											<input type="hidden" th:value="${phase.rag.id}"
+												th:id="'ragphase_' + ${phase.id}" />
 
-							<div class="row">
-								<div class="col-md-12">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Project comments</h3>
-											<ul class="panel-controls">
-												<li><a role="button" id="commentsModal"><span
-														class="fa fa-wrench"></span></a></li>
-											</ul>
-										</div>
-										<div class="panel-body">
-											<!-- START TIMELINE -->
-											<div class="timeline timeline-right"
-												th:if="${comments.size()} != 0">
-
-												<!-- START TIMELINE ITEM -->
-												<div class="timeline-item timeline-main">
-													<div class="timeline-date">
-														<span th:text="${comments[0].createdOn.Year} + 1900"></span>
+											<td th:text="${phase.summaryphase}" align="center"></td>
+											<td th:text="${phase.startdate}" align="center"></td>
+											<td th:text="${phase.enddate}" align="center"></td>
+											<td th:text="${phase.weekdelay}" align="center"></td>
+											<td th:text="${phase.newdate}" align="center"></td>
+											<!-- 												<td th:text="${phase.progress}" align="center"> -->
+											<td align="center">
+												<div class="progress">
+													<div class="progress-bar progress-bar-striped active"
+														role="progressbar" aria-valuenow="45" aria-valuemin="0"
+														aria-valuemax="100"
+														th:style="'width:'+${phase.progress}+'%;'">
+														<span class="num-count"
+															th:text="${#numbers.formatDecimal(phase.progress, 0, 'POINT', 0, 'COMMA')}"></span>%
+														Complete
 													</div>
 												</div>
-												<!-- END TIMELINE ITEM -->
 
-												<!-- START TIMELINE ITEM -->
-												<div class="timeline-item timeline-item-right"
-													th:each="comment : ${comments}">
-													<div class="timeline-item-info">
-														<span th:text="${comment.createdOn}"></span>
+											</td>
+											<td align="center">
+												<div th:switch="${phase.rag.statusname}">
+													<span th:case="G"><button type="button"
+															class="btn btn-success btn-rounded">Green</button></span> <span
+														th:case="Y"><button type="button"
+															class="btn btn-warning btn-rounded">Yellow</button></span> <span
+														th:case="R"><button type="button"
+															class="btn btn-danger btn-rounded">Red</button></span>
+												</div>
+											</td>
+											<td align="center">
+												<button type="button" class="btn btn-primary"
+													name="editPhaseButton" th:attr="data-phase=${phase.id}">
+													<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title">Project comments</h3>
+										<ul class="panel-controls">
+											<li><a role="button" id="commentsModal"><span
+													class="fa fa-wrench"></span></a></li>
+										</ul>
+									</div>
+									<div class="panel-body">
+										<!-- START TIMELINE -->
+										<div class="timeline timeline-right"
+											th:if="${comments.size()} != 0">
+
+											<!-- START TIMELINE ITEM -->
+											<div class="timeline-item timeline-main">
+												<div class="timeline-date">
+													<span th:text="${comments[0].createdOn.Year} + 1900"></span>
+												</div>
+											</div>
+											<!-- END TIMELINE ITEM -->
+
+											<!-- START TIMELINE ITEM -->
+											<div class="timeline-item timeline-item-right"
+												th:each="comment : ${comments}">
+												<div class="timeline-item-info">
+													<span th:text="${comment.createdOn}"></span>
+												</div>
+												<div class="timeline-item-icon">
+													<span class="fa fa-globe"></span>
+												</div>
+												<div class="timeline-item-content">
+													<div class="timeline-heading">
+														<a><span th:text="${comment.pm.username}"></span> </a> <span
+															th:if="${comment.modifiedOn}"> modified on <span
+															th:text="${comment.modifiedOn}"></span></span>
 													</div>
-													<div class="timeline-item-icon">
-														<span class="fa fa-globe"></span>
+													<div class="timeline-body">
+
+														<p>
+															<input type="hidden" th:value="${comment.comment}"
+																th:id="'commentcomment_' + ${comment.id}" /> <input
+																type="hidden" th:value="${comment.id}"
+																th:id="'idcomment_' + ${comment.id}" /> <input
+																type="hidden" th:value="${comment.getTagsJSON()}"
+																th:id="'tagscomment_' + ${comment.id}" />
+														<ul class="panel-controls"
+															th:if="${username} == ${comment.pm.username}">
+															<li><a href="javascript: void();"
+																name="editCommentButton"
+																th:attr="data-comment=${comment.id}"> <span
+																	class="glyphicon glyphicon-pencil"></span>
+															</a></li>
+														</ul>
+														<span th:text="${comment.comment}"></span>
+														</p>
+
+														<ul class="list-tags">
+															<li th:each="tag : ${comment.tags}"><a><span
+																	class="fa fa-tag"></span> <span th:text="${tag}"></span></a>
+															</li>
+														</ul>
 													</div>
-													<div class="timeline-item-content">
-														<div class="timeline-heading">
-															<a><span th:text="${comment.pm.username}"></span> </a> <span
-																th:if="${comment.modifiedOn}"> modified on <span
-																th:text="${comment.modifiedOn}"></span></span>
-														</div>
-														<div class="timeline-body">
-
-															<p>
-																<input type="hidden" th:value="${comment.comment}"
-																	th:id="'commentcomment_' + ${comment.id}" /> <input
-																	type="hidden" th:value="${comment.id}"
-																	th:id="'idcomment_' + ${comment.id}" /> <input
-																	type="hidden" th:value="${comment.getTagsJSON()}"
-																	th:id="'tagscomment_' + ${comment.id}" />
-															<ul class="panel-controls"
-																th:if="${username} == ${comment.pm.username}">
-																<li><a href="javascript: void();"
-																	name="editCommentButton"
-																	th:attr="data-comment=${comment.id}"> <span
-																		class="glyphicon glyphicon-pencil"></span>
-																</a></li>
-															</ul>
-															<span th:text="${comment.comment}"></span>
-															</p>
-
-															<ul class="list-tags">
-																<li th:each="tag : ${comment.tags}"><a><span
-																		class="fa fa-tag"></span> <span th:text="${tag}"></span></a>
-																</li>
-															</ul>
-														</div>
-														<!-- 
+													<!-- 
 												<div class="timeline-body comments">
 													<div class="comment-item">
 														<img src="assets/images/users/user4.jpg" />
@@ -709,35 +715,34 @@
 													</div>
 												</div>
 												-->
-													</div>
 												</div>
-												<!-- END TIMELINE ITEM -->
 											</div>
-											<!-- END TIMELINE -->
+											<!-- END TIMELINE ITEM -->
 										</div>
+										<!-- END TIMELINE -->
 									</div>
 								</div>
 							</div>
-							<!-- END ROW-->
 						</div>
-						<!-- END COL12 -->
+						<!-- END ROW-->
 					</div>
-				</form>
+					<!-- END COL12 -->
+				</div>
 			</div>
 			<!-- END PAGE CONTENT WRAPPER -->
+			
+			<!-- FOOTER -->
+			<footer th:replace="layout/layout :: footer"></footer>
+			<!-- END FOOTER -->
+			
 		</div>
 		<!-- END PAGE CONTENT -->
 
-	<!-- PROJECT MODALS -->
-	<div th:replace="modal/project_modals :: project_modals"></div>
-	<!-- END PROJECT MODALS -->
-
+		<!-- PROJECT MODALS -->
+		<div th:replace="modal/project_modals :: project_modals"></div>
+		<!-- END PROJECT MODALS -->
 	</div>
 	<!-- END START PAGE CONTAINER -->
-
-	<!-- FOOTER -->
-	<footer th:replace="layout/layout :: footer"></footer>
-	<!-- END FOOTER -->
 
 	<!-- THIS PAGE PLUGINS -->
 	<script th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>
