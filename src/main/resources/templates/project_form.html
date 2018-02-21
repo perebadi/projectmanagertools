@@ -300,6 +300,64 @@
 
 		<script>
 			window.onload = function() {
+				$("#formnewproject").submit(function(event){
+					//Validación add project form
+					var newProjectFormValidator = $("#formnewproject").validate({
+						ignore : [],
+						rules : {
+							projectname : {
+								required : true
+							},
+							objectives : {
+								required : true
+							}, 
+							wbs : {
+								required : true
+							},
+							customer_id : {
+								required : true
+							},
+							TVC : {
+								required : true
+							},
+							TIC : {
+								required : true
+							},
+							OP : {
+								required : true
+							},
+							budgettodate : {
+								required : true
+							},
+							costestimated : {
+								required : true
+							},
+							EACOP : {
+								required : true
+							},
+							variance : {
+								required : true
+							},
+							certifiedprogress : {
+								required : true
+							},
+							invoiced : {
+								required : true
+							},
+							start : {
+								required : true
+							},
+							end : {
+								required : true
+							}
+						}
+					});
+					
+					if(!($("#formnewproject").valid())){
+						event.preventDefault();
+					}
+				});
+				
 				$("#addCustomerModalButton").AJAXmodal(
 						{
 							idModal : "addCustomer",
