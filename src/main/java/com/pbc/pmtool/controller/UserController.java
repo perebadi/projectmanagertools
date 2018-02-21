@@ -65,7 +65,7 @@ public class UserController {
 		ModelAndView mav = new ModelAndView(ViewConstant.LIST_USERS);
 		
 		//Indica los usuarios que se muestran por página
-		int usersByPage = 3;
+		int usersByPage = 10;
 		
 		//Pasamos los resultados de las acciones a la vista
 		mav.addObject("saveerror", saveerror);
