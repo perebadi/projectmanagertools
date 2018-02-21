@@ -65,5 +65,5 @@ public interface UserService extends UserDetailsService {
 	 * Guarda la contraseña reiniciada
 	 */
 	public LoginResetPasswordModel saveNewPassword(LoginResetPasswordModel resetPasswordModel);
-
+	
 }

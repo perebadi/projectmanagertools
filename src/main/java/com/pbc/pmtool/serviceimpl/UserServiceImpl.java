@@ -201,4 +201,6 @@ public class UserServiceImpl implements UserService{
 		// Devolvemos el modelo
 		return resetPasswordConverter.User2LoginResetPasswordModel(passwordResetEntity);
 	}
+	
+	
 }

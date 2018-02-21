@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.model.FormUserAddModel;
 import com.pbc.pmtool.model.LoginResetPasswordModel;
+import com.pbc.pmtool.service.EmailService;
 import com.pbc.pmtool.service.UserService;
 
 
@@ -37,6 +38,10 @@ public class LoginController {
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("emailService")
+	private EmailService emailServiceImpl;
 	
 	/**
 	 * Muestra el formulario para reiniciar el password
@@ -82,33 +87,10 @@ public class LoginController {
 			//Guardamos la nueva contraseña
 			userService.saveNewPassword(resetPassword);
 			
-			//Enviamos un email con la nueva pwd generada
-		    Properties props = System.getProperties();
-		    props.put("mail.smtp.host", "smtp.live.com");  
-		    props.put("mail.smtp.user", "josep_hpe@outlook.com");
-		    props.put("mail.smtp.clave", "Dxc20182018");    
-		    props.put("mail.smtp.auth", "true");    
-		    props.put("mail.smtp.starttls.enable", "true"); 
-		    props.put("mail.smtp.port", "587");
-
-		    Session session = Session.getDefaultInstance(props);
-		    MimeMessage message = new MimeMessage(session);
-
-		    try {
-		        message.setFrom(new InternetAddress("josep_hpe@outlook.com"));
-		        message.addRecipient(Message.RecipientType.TO, new InternetAddress(resetPassword.getUsername())); 
-		        message.setSubject("Your account password has been reset");
-		        message.setText("The new password for the " + resetPassword.getUsername() + " account is " + generatedString);
-		        
-		        Transport transport = session.getTransport("smtp");
-		        transport.connect("smtp.live.com", "josep_hpe@outlook.com", "Dxc20182018");
-		        transport.sendMessage(message, message.getAllRecipients());
-		        transport.close();
-		    }
-		    catch (MessagingException me) {
-		        me.printStackTrace();   //Si se produce un error
-		    }
-			
+		    //Enviem email
+		    emailServiceImpl.sendEmail("The new password for the " + resetPassword.getUsername() + " account is " + generatedString, 
+		    		"Your account password has been reset", resetPassword.getUsername());
+		    
 			//Atributos de la vista
 			mav.addObject("resetusername", resetPassword.getUsername());
 			
