@@ -148,7 +148,7 @@ public class Report {
 							
 			System.out.println("Antes FileOut");
 			// 4) Generamos el odt
-			OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+ViewConstant.OUT));
+			OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".odt"));
 			System.out.println("Antes report");
 			
 			report.process(context, out);
