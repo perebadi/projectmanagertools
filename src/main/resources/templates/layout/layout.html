@@ -43,65 +43,41 @@
 			style="height: 900px;">
 			<!-- START X-NAVIGATION -->
 			<ul class="x-navigation">
-				<li class="xn-logo"><a href="index.html">PM TOOL</a> <a
+				<li class="xn-logo"><a href="/">PM TOOL</a> <a
 					href="#" class="x-navigation-control"></a></li>
 				<li class="xn-title">Navigation</li>
-				<li class="xn-openable"><a href="#"><span
+				<li sec:authorize="hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')" class="xn-openable"><a href="#"><span
 						class="fa fa-files-o"></span> <span class="xn-text">Projects</span></a>
 					<ul>
-						<li><a href="" th:href="@{/projects/createproject}"><span
+						<li sec:authorize="hasAuthority('ROLE_PM')"><a href="" th:href="@{/projects/createproject}"><span
 								class="fa fa-image"></span> Create Project</a></li>
-						<li><a href="#" th:href="@{/projects/__${username}__/}"><span
+						<li sec:authorize="hasAuthority('ROLE_PM')"><a href="#" th:href="@{/projects/__${username}__/}"><span
 								class="fa fa-user"></span> Manage Your Projects</a></li>
 						
 						<li sec:authorize="hasAuthority('ROLE_PMO')"><a href="#" th:href="@{/projects/__${username}__/}"><span
 								class="fa fa-user"></span> Manage PMO Projects</a></li>
-						
-						<li class="xn-openable"><a href="#"><span
-								class="fa fa-clock-o"></span> Budget</a>
-							<ul>
-								<li><a href="pages-timeline.html"><span
-										class="fa fa-align-center"></span> Default</a></li>
-								<li><a href="pages-timeline-simple.html"><span
-										class="fa fa-align-justify"></span> Full Width</a></li>
-							</ul></li>
 					</ul></li>
 
-				<li class="xn-openable"><a href="#"><span
+				<li sec:authorize="hasAuthority('ROLE_PM')" class="xn-openable"><a href="#"><span
 						class="fa fa-files-o"></span> <span class="xn-text">Tasks</span></a>
 					<ul>
 						<li><a href="" th:href="@{/tasks/project/yourprojects/}"><span
 								class="fa fa-image"></span>Tasks Panel</a></li>
+						<!-- 
 						<li><a href="#" th:href="@{/tasks/project/yourprojects/}"><span
-								class="fa fa-user"></span> Manage Project</a></li>
-						<li class="xn-openable"><a href="#"><span
-								class="fa fa-clock-o"></span> Budget</a>
-							<ul>
-								<li><a href="pages-timeline.html"><span
-										class="fa fa-align-center"></span> Default</a></li>
-								<li><a href="pages-timeline-simple.html"><span
-										class="fa fa-align-justify"></span> Full Width</a></li>
-							</ul></li>
+								class="fa fa-user"></span> Manage Project</a></li>-->
 					</ul></li>
 
-				<li class="xn-openable"><a href="#"><span
+				<li sec:authorize="hasAuthority('ROLE_ADMIN')" class="xn-openable"><a href="#"><span
 						class="fa fa-files-o"></span> <span class="xn-text">Resources</span></a>
 					<ul>
-						<li sec:authorize="hasAuthority('ROLE_ADMIN')"><a href="" th:href="@{/users/show/}"><span
+						<li><a href="" th:href="@{/users/show/}"><span
 								class="fa fa-image"></span> Manage users/resources</a></li>
-
+						<!-- 
 						<li><a href="" th:href="@{/projects/createproject}"><span
 								class="fa fa-image"></span> Create Project</a></li>
 						<li><a href="#" th:href="@{/projects/__${username}__/}"><span
-								class="fa fa-user"></span> Manage Project</a></li>
-						<li class="xn-openable"><a href="#"><span
-								class="fa fa-clock-o"></span> Budget</a>
-							<ul>
-								<li><a href="pages-timeline.html"><span
-										class="fa fa-align-center"></span> Default</a></li>
-								<li><a href="pages-timeline-simple.html"><span
-										class="fa fa-align-justify"></span> Full Width</a></li>
-							</ul></li>
+								class="fa fa-user"></span> Manage Project</a></li>-->
 					</ul></li>
 			</ul>
 			<!-- END X-NAVIGATION -->
@@ -267,7 +243,6 @@
 		<!-- END PAGE PLUGINS -->
 
 		<!-- START TEMPLATE -->
-		<script th:src="@{/js/settings.js}"></script>
 		<script th:src="@{/js/plugins.js}"></script>
 		<script th:src="@{/js/actions.js}"></script>
 		<!-- END TEMPLATE -->

@@ -16,14 +16,7 @@
                 <ul th:replace="layout/layout :: page-topbar"></ul>
                 <!-- END X-NAVIGATION VERTICAL -->                     
                 
-                <!-- START BREADCRUMB -->
-                <ul class="breadcrumb">
-                    <li><a href="#">Link</a></li>                    
-                    <li class="active">Active</li>
-                </ul>
-                <!-- END BREADCRUMB -->                
-                
-                <div class="page-title">                    
+                <div class="page-title margin-top-15">                    
                     <h2><span class="fa fa-thumbs-up"></span> Bienvenido  <span th:text="${username}"></span>!!!</h2>
                 </div>               
                 
@@ -189,8 +182,5 @@
          <script type="text/javascript" src="js/plugins/knob/jquery.knob.min.js"></script>
          <script th:src="@{/js/plugins/knob/jquery.knob.min.js}"></script>	
         
-        <!-- START TEMPLATE -->
- 	        	<script th:src="@{/js/settings.jss}"></script>	
-        <!-- END TEMPLATE -->
     </body>
 </html>
