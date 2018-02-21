@@ -430,17 +430,44 @@ $(document).ready(function(){
 	}
 	
 	//Linkamos el botón problemas
+	$("#problemRiskModal").click(function(){
+		document.getElementById('modalProblemForm').reset();
+		
+		$("#titleProblemModal").html("Add Risk");
+		
+		$("#problemRiskRadio").hide();
+		$("#riskOption").prop("checked", true);
+		$("#problemFields").hide();
+		$("#riskFields").show();
+		
+		addProblemButton();
+		
+		$("#problemFormFields").show();
+		$("#loadingProblemForm").hide();
+		
+		//Show modal
+		$("#modalProblem").modal('show');
+		
+		$("#modalProblem").on("hidden.bs.modal", function () {
+		    $("#addProblemButton").unbind( "click" );
+		});
+	});
+	
+	//Linkamos el botón problemas
 	$("#problemModal").click(function(){
 		document.getElementById('modalProblemForm').reset();
+		
+		$("#problemRiskRadio").hide();
+		$("#problemOption").prop("checked", true);
+		$("#problemFields").show();
+		$("#riskFields").hide();
 		
 		$("#titleProblemModal").html("Add problem");
 		
 		addProblemButton();
 		
-		$("#problemRiskRadio").show();
-		$("#problemOption").prop("checked", true);
-		$("#problemFields").show();
-		$("#riskFields").hide();
+		$("#problemFormFields").show();
+		$("#loadingProblemForm").hide();
 		
 		//Show modal
 		$("#modalProblem").modal('show');
@@ -451,20 +478,23 @@ $(document).ready(function(){
 	});
 	
 	//Linkamos los botónes editar problem
-	$("span[name='viewDetailsProblem']").each(function(){
-		$(this).click(function(){			
+	$("button[name='viewDetailsProblem']").each(function(){
+		$(this).click(function(){				
+			$("#problemFormFields").hide();
+			$("#loadingProblemForm").show();
+			
 			var problem = $(this).attr("data-problem");
 			var token = document.getElementsByName("_csrf")[0].value;	
 			
 			if($("#problemrisk_" + problem).val() == "Problem"){
 				//Obtenemos el problema
+				$("#titleProblemModal").html("Save problem");
 				
 				$.ajax({
 		    		type : "GET",
 		    		contentType : "application/json",
 		    		url : "/api/project/" + $("#projectId").val() + "/problem/" + problem + "/",
 		    		dataType : 'json',
-		    		async : false,
 		    		beforeSend: function(request) {
 		    	        return request.setRequestHeader('X-CSRF-Token', token);
 		    	    },
@@ -500,6 +530,9 @@ $(document).ready(function(){
 		    				$("#actionsProblem").val(problem.actions);
 		    				
 		    				$("#estimatedDateCloseProblem").val(problem.estimatedclosingdatestr);
+		    				
+		    				$("#problemFormFields").show();
+		    				$("#loadingProblemForm").hide(100);
 		    			}
 		    		},
 		    		
@@ -508,13 +541,14 @@ $(document).ready(function(){
 		    	});
 				
 			}else{
+				$("#titleProblemModal").html("Save Risk");
+				
 				//Obtenemos el riesgo
 				$.ajax({
 		    		type : "GET",
 		    		contentType : "application/json",
 		    		url : "/api/project/" + $("#projectId").val() + "/risk/" + problem + "/",
 		    		dataType : 'json',
-		    		async : false,
 		    		beforeSend: function(request) {
 		    	        return request.setRequestHeader('X-CSRF-Token', token);
 		    	    },
@@ -555,6 +589,8 @@ $(document).ready(function(){
 		    				$("#strategyRisk").val(risk.strategy);
 		    				$('#strategyRisk').selectpicker('refresh');
 		    				
+		    				$("#problemFormFields").show();
+		    				$("#loadingProblemForm").hide(100);
 		    			}
 		    		},
 		    		
@@ -564,8 +600,6 @@ $(document).ready(function(){
 			}			
 			
 			addProblemButton();
-			
-			$("#titleProblemModal").html("Save problem");
 			
 			//Show modal
 			$("#modalProblem").modal('show');

@@ -188,7 +188,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<h3 class="panel-title">Logros alcanzados</h3>
@@ -234,7 +234,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<h3 class="panel-title">Futuras actividades</h3>
@@ -280,56 +280,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Problemas</h3>
-											<ul class="panel-controls">
-												<!-- 
-												<li><a href="#"
-													th:href="@{/projects/project/__${project.id}__/problem/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a role="button" id="problemModal"><span
-														class="fa fa-wrench"></span></a></li>
-											</ul>
-										</div>
-										<div class="panel-body">
-											<ul class="list-group border-bottom">
-												<li class="list-group-item" th:each="problem : ${problems}">
-													<div class="row">
-														<div>
-															<input type="hidden"
-																th:value="${problem.class.getSimpleName()}"
-																th:id="'problemrisk_' + ${problem.id}" /> <input
-																type="hidden" th:value="${problem.id}"
-																th:id="'idproblem_' + ${problem.id}" /> <input
-																type="hidden" th:value="${problem.dateproblem}"
-																th:id="'dateproblem_' + ${problem.id}" /> <input
-																type="hidden" th:value="${problem.summaryproblem}"
-																th:id="'summaryproblem_' + ${problem.id}" /> <input
-																type="hidden" th:value="${problem.txtproblem}"
-																th:id="'txtproblem_' + ${problem.id}" /> <input
-																type="hidden" th:value="${problem.week}"
-																th:id="'weekproblem_' + ${problem.id}" /> <input
-																type="hidden" th:value="${project.id}"
-																th:id="'projectproblem_' + ${problem.id}" /> <span
-																th:text="${ problem.summaryproblem}"></span>
-														</div>
-														<div class="margin-top-15">
-															<a role="button" class="pull-right"> <span
-																class="badge badge-danger"
-																th:text="'KW'+${problem.week}" name="viewDetailsProblem"
-																th:attr="data-problem=${problem.id}"></span>
-															</a>
-														</div>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3">
-
+								<div class="col-md-4">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<h3 class="panel-title">Escalaciones</h3>
@@ -388,6 +339,114 @@
 			                                    </ul>                                 
 			                                </div>
 			                            </div> -->
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Project Risks</h3>
+									<ul class="panel-controls">
+										<li>
+											<a role="button" id="problemRiskModal" >
+												<span class="fa fa-wrench"></span>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="panel-body">
+									<table class="table datatable-simple" id="projectRisksTable">
+										<thead>
+											<tr>
+												<th style="text-align: center;">Summary</th>
+												<th style="text-align: center;">Details</th>
+												<th style="text-align: center;">Date</th>
+												<th style="text-align: center;">Week</th>
+												<th style="text-align: center;">Date close</th>
+												<th style="text-align: center;">Status</th>
+												<th style="text-align: center;">Responsable</th>
+												<th style="text-align: center;">Type</th>
+												<th style="text-align: center;">Probability</th>
+												<th style="text-align: center;">Impact</th>
+												<th style="text-align: center;">Strategy</th>
+												<th style="text-align: center;">Actions</th>
+												<th style="text-align: center;">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="risk : ${risks}">
+												<td th:text="${risk.summaryproblem}" align="center"></td>
+												<td th:text="${risk.txtproblem}" align="center"></td>
+												<td th:text="${risk.dateproblem}" align="center"></td>
+												<td th:text="${risk.week}" align="center"></td>
+												<td th:text="${risk.dateclose}" align="center"></td>
+												<td th:text="${risk.status}" align="center"></td>
+												<td th:text="${risk.responsable}" align="center"></td>
+												<td th:text="${risk.type}" align="center"></td>
+												<td th:text="${risk.probability}" align="center"></td>
+												<td th:text="${risk.impact}" align="center"></td>
+												<td th:text="${risk.strategy}" align="center"></td>
+												<td th:text="${risk.actions}" align="center"></td>
+												<td align="center">
+													<input type="hidden" th:value="${risk.class.getSimpleName()}" th:id="'problemrisk_' + ${risk.id}" />
+													<button type="button" class="btn btn-primary" name="viewDetailsProblem" th:attr="data-problem=${risk.id}" >
+														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Project Problems</h3>
+									<ul class="panel-controls">
+										<li>
+											<a role="button" id="problemModal" >
+												<span class="fa fa-wrench"></span>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="panel-body">
+									<table class="table datatable-simple" id="projectProblemTable">
+										<thead>
+											<tr>
+												<th style="text-align: center;">Summary</th>
+												<th style="text-align: center;">Details</th>
+												<th style="text-align: center;">Date</th>
+												<th style="text-align: center;">Week</th>
+												<th style="text-align: center;">Estimated date close</th>
+												<th style="text-align: center;">Date close</th>
+												<th style="text-align: center;">Status</th>
+												<th style="text-align: center;">Responsable</th>
+												<th style="text-align: center;">Type</th>
+												<th style="text-align: center;">Impact</th>
+												<th style="text-align: center;">Actions</th>
+												<th style="text-align: center;">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="problem : ${problems}">
+												<td th:text="${problem.summaryproblem}" align="center"></td>
+												<td th:text="${problem.txtproblem}" align="center"></td>
+												<td th:text="${problem.dateproblem}" align="center"></td>
+												<td th:text="${problem.week}" align="center"></td>
+												<td th:text="${problem.estimatedclosingdate}" align="center"></td>
+												<td th:text="${problem.dateclose}" align="center"></td>
+												<td th:text="${problem.status}" align="center"></td>
+												<td th:text="${problem.responsable}" align="center"></td>
+												<td th:text="${problem.type}" align="center"></td>
+												<td th:text="${problem.impact}" align="center"></td>
+												<td th:text="${problem.actions}" align="center"></td>
+												<td align="center">
+													<input type="hidden" th:value="${problem.class.getSimpleName()}" th:id="'problemrisk_' + ${problem.id}" />
+													<button type="button" class="btn btn-primary" name="viewDetailsProblem" th:attr="data-problem=${problem.id}" >
+														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
 							<div class="panel panel-default">

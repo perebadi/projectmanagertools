@@ -4,7 +4,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 
 
@@ -334,7 +344,29 @@ public class Project {
 		this.nextsteps = nextsteps;
 	}
 
-
+	public Set<Problem> getProjectProblems(){
+		Set<Problem> prjproblems = new HashSet<Problem>();
+		
+		for(ProjectProblem problem : problems) {
+			if(problem instanceof Problem) {
+				prjproblems.add((Problem) problem);
+			}
+		}
+		
+		return prjproblems;
+	}
+	
+	public Set<Risk> getProjectRisks(){
+		Set<Risk> risks = new HashSet<Risk>();
+		
+		for(ProjectProblem problem : problems) {
+			if(problem instanceof Risk) {
+				risks.add((Risk) problem);
+			}
+		}
+		
+		return risks;
+	}
 
 	public Set<ProjectProblem> getProblems() {
 		return problems;
