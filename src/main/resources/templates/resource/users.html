@@ -259,8 +259,7 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label  modal-body input">User</label>
 							<div class="col-md-10" name="divuser" id="divuser">
-								<input class="form-control" type="text" name="username"
-									id="username" />
+								
 							</div>
 						</div>
 
@@ -387,7 +386,7 @@
 				.click(
 						function() {
 							var d = $(this).attr("data-username");
-							var re = '<input class="form-control" type="text" value="'+ d +'" name="username" id="username" th:object="${formAssignToProject}" />';
+							var re = '<input class="form-control" type="text" readonly="true" value="'+ d +'" name="username" id="username" th:object="${formAssignToProject}" />';
 
 							jQuery('#divuser').html(re);
 						});
