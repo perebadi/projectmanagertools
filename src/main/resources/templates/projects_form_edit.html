@@ -371,9 +371,9 @@
 													<span class="badge badge-success" th:if="${risk.status.getStatus() == 'Closed'}" th:text="${risk.status.getStatus()}" />
 												</td>
 												<td align="center">
-													<span th:if="${risk.responsable.getResponsable() == 'Dxc'}" th:text="${risk.responsable.getResponsable()}" />
+													<span th:if="${risk.responsable.getResponsable() == 'DxC'}" th:text="${risk.responsable.getResponsable()}" />
 													<span th:if="${risk.responsable.getResponsable() == 'Customer'}" th:text="${project.customer.customer}" />
-													<span th:if="${risk.responsable.getResponsable() == 'Dxc and customer'}" th:text="'Dxc and ' + ${project.customer.customer}" />
+													<span th:if="${risk.responsable.getResponsable() == 'DxC and customer'}" th:text="'DxC and ' + ${project.customer.customer}" />
 												</td>
 												<td align="center">
 													<span class="badge badge-info" th:text="${risk.type.getType()}" ></span>
@@ -443,9 +443,9 @@
 													<span class="badge badge-success" th:if="${problem.status.getStatus() == 'Closed'}" th:text="${problem.status.getStatus()}" />
 												</td>
 												<td align="center">
-													<span th:if="${problem.responsable.getResponsable() == 'Dxc'}" th:text="${problem.responsable.getResponsable()}" />
+													<span th:if="${problem.responsable.getResponsable() == 'DxC'}" th:text="${problem.responsable.getResponsable()}" />
 													<span th:if="${problem.responsable.getResponsable() == 'Customer'}" th:text="${project.customer.customer}" />
-													<span th:if="${problem.responsable.getResponsable() == 'Dxc and customer'}" th:text="'Dxc and ' + ${project.customer.customer}" />
+													<span th:if="${problem.responsable.getResponsable() == 'DxC and customer'}" th:text="'DxC and ' + ${project.customer.customer}" />
 												</td>
 												<td align="center">
 													<span class="badge badge-info" th:text="${problem.type.getType()}" />

@@ -199,8 +199,8 @@
 									</div>
 									<div class="col-md-8">
 										<select id="statusProblem" name="statusProblem" class="form-control select" data-live-search="true">
-											<option value="OPEN">Open</option>
-											<option value="CLOSED">Closed</option>
+											<option th:each="status : ${T(com.pbc.pmtool.enums.ProblemStatusEnum).values()}" th:value="${status}" 
+												th:text="${status.getStatus()}"></option>
 										</select>
 									</div>
 								</div>
@@ -210,9 +210,8 @@
 									</div>
 									<div class="col-md-8">
 										<select id="responsableProblem" name="responsableProblem" class="form-control select" data-live-search="true">
-											<option value="DXC">Dxc</option>
-											<option value="CUSTOMER"><span th:text="${project.customer.customer}"></span></option>
-											<option value="DXCANDCUSTOMER">Dxc and <span th:text="${project.customer.customer}"></span></option>
+											<option th:each="responsable : ${T(com.pbc.pmtool.enums.ProblemResponsableEnum).values()}" th:value="${responsable}" 
+												th:text="${responsable.getResponsable()}"></option>
 										</select>
 									</div>
 								</div>
@@ -222,11 +221,8 @@
 									</div>
 									<div class="col-md-8">
 										<select id="typeProblem" name="typeProblem" class="form-control select" data-live-search="true">
-											<option value="COST">Cost</option>
-											<option value="TIME">Time</option>
-											<option value="QUALITY">Quality</option>
-											<option value="COSTANDTIME">Cost and time</option>
-											<option value="TIMEANDQUALITY">Time and quality</option>
+											<option th:each="type : ${T(com.pbc.pmtool.enums.ProblemTypeEnum).values()}" th:value="${type}" 
+												th:text="${type.getType()}"></option>
 										</select>
 									</div>
 								</div>
@@ -236,9 +232,8 @@
 									</div>
 									<div class="col-md-8">
 										<select id="impactProblem" name="impactProblem" class="form-control select" data-live-search="true">
-											<option value="LOW">Low</option>
-											<option value="MEDIUM">Medium</option>
-											<option value="HIGH">High</option>
+											<option th:each="impact : ${T(com.pbc.pmtool.enums.ProblemImpactEnum).values()}" th:value="${impact}" 
+												th:text="${impact.getImpact()}"></option>
 										</select>
 									</div>
 								</div>
@@ -278,9 +273,8 @@
 										</div>
 										<div class="col-md-8">
 											<select id="probabilityRisk" name="probabilityRisk" class="form-control select" data-live-search="true">
-												<option value="LOW">Low</option>
-												<option value="MEDIUM">Medium</option>
-												<option value="HIGH">High</option>
+												<option th:each="probability : ${T(com.pbc.pmtool.enums.RiskProbabilityEnum).values()}" th:value="${probability}" 
+													th:text="${probability.getProbability()}"></option>
 											</select>
 										</div>
 									</div>
@@ -290,8 +284,8 @@
 										</div>
 										<div class="col-md-8">
 											<select id="strategyRisk" name="strategyRisk" class="form-control select" data-live-search="true">
-												<option value="ACCEPT">Accept</option>
-												<option value="MITIGATE">Mitigate</option>
+												<option th:each="strategy : ${T(com.pbc.pmtool.enums.RiskStrategyEnum).values()}" th:value="${strategy}" 
+													th:text="${strategy.getStrategy()}"></option>
 											</select>
 										</div>
 									</div>
