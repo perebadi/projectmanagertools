@@ -83,6 +83,7 @@ $(document).ready(function(){
 			}
 		}
 	});
+
 	
 	//Función achievement addButton
 	function addAchievementButton(){
@@ -267,95 +268,363 @@ $(document).ready(function(){
 	
 	//Función addProblem button
 	function addProblemButton(){
-		$("#addButton").click(function(){
-			//Validamos el formulario
-			if($("#modalProjectForm").valid()){
-				$("#addButton").prop("disabled",true);
+		$("#addProblemButton").click(function(){
+			//Prevent form submit
+			$("#modalProblemForm").submit(function(e){
+				e.preventDefault();
+			});
 				
-				//Prevent form submit
-				$("#modalProjectForm").submit(function(e){
-			        e.preventDefault();
-			    });
-				
-				//Obtenemos el token
-				var token = document.getElementsByName("_csrf")[0].value;			
+			//Obtenemos el token
+			var token = document.getElementsByName("_csrf")[0].value;			
 		
+			var formData;
+			var urlPOST;
+			
+			//Obtenemos si es un problema o un riesgo
+			var value = $( 'input[name=problemriskopt]:checked' ).val();
+			
+			if(value == "problem"){
 				//Form data
-				var formData = {
-					summaryproblem : $('#summary').val(),
-					dateproblem : $('#date').val(),
-					txtproblem : $('#txt').val(),
-					week : $('#week').val(),
-					idproblem : $('#id').val()
+				formData = {
+					summaryproblem : $('#summaryProblem').val(),
+					dateproblem : $('#dateProblem').val(),
+					txtproblem : $('#txtProblem').val(),
+					week : $('#weekProblem').val(),
+					idproblem : $('#idProblem').val(),
+					status : $('#statusProblem').val(),
+					responsable : $('#responsableProblem').val(),
+					impact : $('#impactProblem').val(),
+					type : $('#typeProblem').val(),
+					actions : $('#actionsProblem').val(),
+					dateclose : $('#dateCloseProblem').val(),
+					responsable : $('#responsableProblem').val(),
+					estimatedclosingdate : $('#estimatedDateCloseProblem').val()					
 				}
-		        	
+				
+				urlPOST = "/api/project/" + $("#projectId").val() + "/problem/save/";
+				
+				//Validación add problem modal form
+				var problemFormValidator = $("#modalProblemForm").validate({
+					ignore : [],
+					rules : {
+						summaryProblem : {
+							required : true
+						},
+						dateProblem : {
+							required : true
+						}, 
+						weekProblem : {
+							required : true
+						},
+						txtProblem : {
+							required : true
+						},
+						statusProblem : {
+							required : true
+						},
+						responsableProblem : {
+							required : true
+						},
+						typeProblem : {
+							required : true
+						},
+						impactProblem : {
+							required : true
+						},
+						actionsProblem : {
+							required : true
+						},
+						estimatedDateCloseProblem : {
+							required : true
+						}
+					}
+				});
+			}else{
+				//Form data
+				formData = {
+					summaryproblem : $('#summaryProblem').val(),
+					dateproblem : $('#dateProblem').val(),
+					txtproblem : $('#txtProblem').val(),
+					week : $('#weekProblem').val(),
+					idproblem : $('#idProblem').val(),
+					status : $('#statusProblem').val(),
+					responsable : $('#responsableProblem').val(),
+					impact : $('#impactProblem').val(),
+					type : $('#typeProblem').val(),
+					actions : $('#actionsProblem').val(),
+					dateclose : $('#dateCloseProblem').val(),
+					responsable : $('#responsableProblem').val(),
+					probability : $('#probabilityRisk').val(),
+					strategy : $('#strategyRisk').val()
+				}
+				
+				urlPOST = "/api/project/" + $("#projectId").val() + "/risk/save/";
+				
+				//Validación add risk modal form
+				var riskFormValidator = $("#modalProblemForm").validate({
+					ignore : [],
+					rules : {
+						summaryProblem : {
+							required : true
+						},
+						dateProblem : {
+							required : true
+						}, 
+						weekProblem : {
+							required : true
+						},
+						txtProblem : {
+							required : true
+						},
+						statusProblem : {
+							required : true
+						},
+						responsableProblem : {
+							required : true
+						},
+						typeProblem : {
+							required : true
+						},
+						impactProblem : {
+							required : true
+						},
+						actionsProblem : {
+							required : true
+						},
+						probabilityRisk : {
+							required : true
+						},
+						strategyRisk : {
+							required : true
+						}
+					}
+				});
+			}
+			
+			if($("#modalProblemForm").valid()){
+				$("#addProblemButton").prop("disabled",true);
+			
 				//AJAX Call
 				$.ajax({
-	    			type : "POST",
-	    			contentType : "application/json",
-	    			url :"/api/project/" + $("#projectId").val() + "/problem/save/",
-	    			data : JSON.stringify(formData),
-	    			dataType : 'json',
-	    			
-	    			beforeSend: function(request) {
-	    		        return request.setRequestHeader('X-CSRF-Token', token);
-	    		    },
-	    		    
-	    			success : function(result) {
-	    				if(result.status == "Done"){
-	    					//Refresh
-	    					window.location.reload();
-	    				}
-	    			},
-	    			error : function(e) {
-	    			}
-	    		});
+		    		type : "POST",
+		    		contentType : "application/json",
+		    		url : urlPOST,
+		    		data : JSON.stringify(formData),
+		    		dataType : 'json',
+		    		
+		    		beforeSend: function(request) {
+		    	        return request.setRequestHeader('X-CSRF-Token', token);
+		    	    },
+		    		    
+		    		success : function(result) {
+		    			if(result.status == "Done"){
+		    				//Refresh
+		    				window.location.reload();
+		    			}
+		    		},
+		    		error : function(e) {
+		    		}
+		    	});
 			}
 		});
 	}
 	
 	//Linkamos el botón problemas
-	$("#problemModal").click(function(){
-		document.getElementById('modalProjectForm').reset();
-		projectFormValidator.resetForm();
+	$("#problemRiskModal").click(function(){
+		document.getElementById('modalProblemForm').reset();
 		
-		$("#titleModal").html("Add problem");
+		$("#titleProblemModal").html("Add Risk");
+		
+		$("#problemRiskRadio").hide();
+		$("#riskOption").prop("checked", true);
+		$("#problemFields").hide();
+		$("#riskFields").show();
 		
 		addProblemButton();
 		
-		//Show modal
-		$("#modalProject").modal('show');
+		$("#problemFormFields").show();
+		$("#loadingProblemForm").hide();
 		
-		$("#modalProject").on("hidden.bs.modal", function () {
-		    $("#addButton").unbind( "click" );
+		//Show modal
+		$("#modalProblem").modal('show');
+		
+		$("#modalProblem").on("hidden.bs.modal", function () {
+		    $("#addProblemButton").unbind( "click" );
+		});
+	});
+	
+	//Linkamos el botón problemas
+	$("#problemModal").click(function(){
+		document.getElementById('modalProblemForm').reset();
+		
+		$("#problemRiskRadio").hide();
+		$("#problemOption").prop("checked", true);
+		$("#problemFields").show();
+		$("#riskFields").hide();
+		
+		$("#titleProblemModal").html("Add problem");
+		
+		addProblemButton();
+		
+		$("#problemFormFields").show();
+		$("#loadingProblemForm").hide();
+		
+		//Show modal
+		$("#modalProblem").modal('show');
+		
+		$("#modalProblem").on("hidden.bs.modal", function () {
+		    $("#addProblemButton").unbind( "click" );
 		});
 	});
 	
 	//Linkamos los botónes editar problem
-	$("span[name='viewDetailsProblem']").each(function(){
-		$(this).click(function(){
-			projectFormValidator.resetForm();
+	$("button[name='viewDetailsProblem']").each(function(){
+		$(this).click(function(){				
+			$("#problemFormFields").hide();
+			$("#loadingProblemForm").show();
 			
 			var problem = $(this).attr("data-problem");
+			var token = document.getElementsByName("_csrf")[0].value;	
 			
-			//Copiamos los valores en el modal
-			$("#summary").val($("#summaryproblem_" + problem).val());
-			$("#date").val($("#dateproblem_" + problem).val());
-			$("#week").val($("#weekproblem_" + problem).val());
-			$("#txt").val($("#txtproblem_" + problem).val());
-			$("#id").val($("#idproblem_" + problem).val());
+			if($("#problemrisk_" + problem).val() == "Problem"){
+				//Obtenemos el problema
+				$("#titleProblemModal").html("Save problem");
+				
+				$.ajax({
+		    		type : "GET",
+		    		contentType : "application/json",
+		    		url : "/api/project/" + $("#projectId").val() + "/problem/" + problem + "/",
+		    		dataType : 'json',
+		    		beforeSend: function(request) {
+		    	        return request.setRequestHeader('X-CSRF-Token', token);
+		    	    },
+		    		    
+		    		success : function(result) {
+		    			if(result.status == "Done"){
+		    				var problem = JSON.parse(result.data);
+		    				
+		    				$("#problemRiskRadio").hide();
+		    				$("#problemOption").prop("checked", true);
+		    				$("#problemFields").show();
+		    				$("#riskFields").hide();
+		    				
+		    				$("#summaryProblem").val(problem.summaryproblem);
+		    				$("#dateProblem").val(problem.dateproblemstr);
+		    				$("#dateCloseProblem").val(problem.dateclosestr);
+		    				$("#weekProblem").val(problem.week);
+		    				$("#txtProblem").val(problem.txtproblem);
+		    				$("#idProblem").val(problem.idproblem);
+		    				
+		    				$("#statusProblem").val(problem.status);
+		    				$('#statusProblem').selectpicker('refresh');
+		    				
+		    				$("#responsableProblem").val(problem.responsable);
+		    				$('#responsableProblem').selectpicker('refresh');
+		    				
+		    				$("#typeProblem").val(problem.type);
+		    				$('#typeProblem').selectpicker('refresh');
+		    				
+		    				$("#impactProblem").val(problem.impact);
+		    				$('#impactProblem').selectpicker('refresh');
+		    				
+		    				$("#actionsProblem").val(problem.actions);
+		    				
+		    				$("#estimatedDateCloseProblem").val(problem.estimatedclosingdatestr);
+		    				
+		    				$("#problemFormFields").show();
+		    				$("#loadingProblemForm").hide(100);
+		    			}
+		    		},
+		    		
+		    		error : function(e) {
+		    		}
+		    	});
+				
+			}else{
+				$("#titleProblemModal").html("Save Risk");
+				
+				//Obtenemos el riesgo
+				$.ajax({
+		    		type : "GET",
+		    		contentType : "application/json",
+		    		url : "/api/project/" + $("#projectId").val() + "/risk/" + problem + "/",
+		    		dataType : 'json',
+		    		beforeSend: function(request) {
+		    	        return request.setRequestHeader('X-CSRF-Token', token);
+		    	    },
+		    		    
+		    		success : function(result) {
+		    			if(result.status == "Done"){
+		    				var risk = JSON.parse(result.data);
+		    				
+		    				$("#problemRiskRadio").hide();
+		    				$("#riskOption").prop("checked", true);
+		    				$("#problemFields").hide();
+		    				$("#riskFields").show();
+		    				
+		    				$("#summaryProblem").val(risk.summaryproblem);
+		    				$("#dateProblem").val(risk.dateproblemstr);
+		    				$("#dateCloseProblem").val(risk.dateclosestr);
+		    				$("#weekProblem").val(risk.week);
+		    				$("#txtProblem").val(risk.txtproblem);
+		    				$("#idProblem").val(risk.idproblem);
+		    				
+		    				$("#statusProblem").val(risk.status);
+		    				$('#statusProblem').selectpicker('refresh');
+		    				
+		    				$("#responsableProblem").val(risk.responsable);
+		    				$('#responsableProblem').selectpicker('refresh');
+		    				
+		    				$("#typeProblem").val(risk.type);
+		    				$('#typeProblem').selectpicker('refresh');
+		    				
+		    				$("#impactProblem").val(risk.impact);
+		    				$('#impactProblem').selectpicker('refresh');
+		    				
+		    				$("#actionsProblem").val(risk.actions);
+		    				
+		    				$("#probabilityRisk").val(risk.probability);
+		    				$('#probabilityRisk').selectpicker('refresh');
+		    				
+		    				$("#strategyRisk").val(risk.strategy);
+		    				$('#strategyRisk').selectpicker('refresh');
+		    				
+		    				$("#problemFormFields").show();
+		    				$("#loadingProblemForm").hide(100);
+		    			}
+		    		},
+		    		
+		    		error : function(e) {
+		    		}
+		    	});
+			}			
 			
 			addProblemButton();
 			
-			$("#titleModal").html("Save problem");
 			//Show modal
-			$("#modalProject").modal('show');
+			$("#modalProblem").modal('show');
 			
-			$("#modalProject").on("hidden.bs.modal", function () {
-			    $("#addButton").unbind( "click" );
+			$("#modalProblem").on("hidden.bs.modal", function () {
+			    $("#addProblemButton").unbind( "click" );
 			});
 		});
 	});
+	
+	//Al cambiar la opcion de tipo de problema mostramos los campos pertinentes
+	$('input[name=problemriskopt]').change(function(){
+		var value = $( 'input[name=problemriskopt]:checked' ).val();
+		
+		if(value == "problem"){
+			$("#riskFields").hide();
+			$("#problemFields").show(100);
+		}else{
+			$("#problemFields").hide();
+			$("#riskFields").show(100);
+		}
+	});
+	
+	//Ocultamos los fields de risk
+	$("#riskFields").hide();
 	
 	//Función addButton escalation
 	function addEscalationButton(){
@@ -458,7 +727,7 @@ $(document).ready(function(){
 				$("#saveFinancialButton").prop("disabled", true);
 			
 				//Prevent form submit
-				$("#financialsModal").submit(function(e){
+				$("#modalFinancialProjectForm").submit(function(e){
 			        e.preventDefault();
 			    });
 			
@@ -491,7 +760,7 @@ $(document).ready(function(){
 	    		    
 	    			success : function(result) {
 	    				if(result.status == "Done"){
-	    					//window.location.reload();
+	    					window.location.reload();
 	    				}
 	    			},
 	    			error : function(e) {

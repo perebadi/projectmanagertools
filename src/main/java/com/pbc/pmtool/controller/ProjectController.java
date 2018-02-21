@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pbc.pmtool.additional.Report;
 import com.pbc.pmtool.component.CustomerConverter;
 import com.pbc.pmtool.constant.ViewConstant;
+import com.pbc.pmtool.entity.Problem;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.ProjectComment;
@@ -37,6 +38,7 @@ import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
 import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
+import com.pbc.pmtool.entity.Risk;
 import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormEscalationModel;
 import com.pbc.pmtool.model.FormFinancialModel;
@@ -276,11 +278,17 @@ public class ProjectController {
 		
 		mav.addObject("nextsteps",nextsteps);
 		
-		List<ProjectProblem> problems = new ArrayList<>(project.getProblems());
+		List<Problem> problems = new ArrayList<>(project.getProjectProblems());
 		
 		Collections.sort(problems);
 				
 		mav.addObject("problems",problems);
+		
+		List<Risk> risks = new ArrayList<>(project.getProjectRisks());
+		
+		Collections.sort(risks);
+		
+		mav.addObject("risks", risks);
 		
 		List<ProjectEscalation> escalations = new ArrayList<>(project.getEscalations());
 		

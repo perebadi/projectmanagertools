@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,35 +18,110 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.pbc.pmtool.enums.ProblemImpactEnum;
+import com.pbc.pmtool.enums.ProblemResponsableEnum;
+import com.pbc.pmtool.enums.ProblemStatusEnum;
+import com.pbc.pmtool.enums.ProblemTypeEnum;
+
 
 
 @Entity
 @Table(name = "projectproblem")
 public class ProjectProblem implements Comparable<ProjectProblem> {
+	
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name = "id", nullable=false)
 	private int id;
 	
-	@NotNull
-	@Column(name = "dateproblem")
+	@Column(name = "dateproblem", nullable=false)
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date dateproblem;
 	
-	@Column(name="week")
+	@Column(name="week", nullable=false)
 	private int week;
 	
-	@Column(name="summaryproblem")
+	@Column(name="summaryproblem", nullable=false)
 	private String summaryproblem;
 	
-	@Column(name="txtproblem")
+	@Column(name="txtproblem", nullable=false)
 	private String txtproblem;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="status", length=6, nullable=false)
+	private ProblemStatusEnum status;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="responsable", length=15, nullable=false)
+	private ProblemResponsableEnum responsable;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="impact", length=6, nullable=false)
+	private ProblemImpactEnum impact;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="type", length=14, nullable=false)
+	private ProblemTypeEnum type;
+	
+	@Column(name="actions", nullable=false)
+	private String actions;
+	
+	@Column(name = "dateclose")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date dateclose;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
 	
-	
+	public ProblemStatusEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(ProblemStatusEnum status) {
+		this.status = status;
+	}
+
+	public ProblemResponsableEnum getResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(ProblemResponsableEnum responsable) {
+		this.responsable = responsable;
+	}
+
+	public ProblemImpactEnum getImpact() {
+		return impact;
+	}
+
+	public void setImpact(ProblemImpactEnum impact) {
+		this.impact = impact;
+	}
+
+	public ProblemTypeEnum getType() {
+		return type;
+	}
+
+	public void setType(ProblemTypeEnum type) {
+		this.type = type;
+	}
+
+	public String getActions() {
+		return actions;
+	}
+
+	public void setActions(String actions) {
+		this.actions = actions;
+	}
+
+	public Date getDateclose() {
+		return dateclose;
+	}
+
+	public void setDateclose(Date dateclose) {
+		this.dateclose = dateclose;
+	}
 
 	public int getId() {
 		return id;
@@ -93,18 +170,25 @@ public class ProjectProblem implements Comparable<ProjectProblem> {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-
+	
 	public ProjectProblem(int id, Date dateproblem, int week, String summaryproblem, String txtproblem,
-			Project project) {
+			ProblemStatusEnum status, ProblemResponsableEnum responsable, ProblemImpactEnum impact,
+			ProblemTypeEnum type, String actions, Date dateclose, Project project) {
 		super();
 		this.id = id;
 		this.dateproblem = dateproblem;
 		this.week = week;
 		this.summaryproblem = summaryproblem;
 		this.txtproblem = txtproblem;
+		this.status = status;
+		this.responsable = responsable;
+		this.impact = impact;
+		this.type = type;
+		this.actions = actions;
+		this.dateclose = dateclose;
 		this.project = project;
 	}
-	
+
 	public ProjectProblem() {
 		
 	}

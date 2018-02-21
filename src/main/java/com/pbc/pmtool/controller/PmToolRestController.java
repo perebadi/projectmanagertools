@@ -10,6 +10,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -21,18 +23,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.jdbc.log.Log;
+import com.google.gson.Gson;
 import com.pbc.pmtool.component.FormCustomerAddConverter;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Comment;
+import com.pbc.pmtool.entity.Problem;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.ProjectComment;
 import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
-import com.pbc.pmtool.entity.ProjectProblem;
 import com.pbc.pmtool.entity.ProjectStatusLight;
+import com.pbc.pmtool.entity.Risk;
 import com.pbc.pmtool.entity.Task;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.CustomerModel;
@@ -48,13 +51,14 @@ import com.pbc.pmtool.model.FormPhaseModel;
 import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
+import com.pbc.pmtool.model.FormRiskModel;
 import com.pbc.pmtool.model.FormSaveBacklogModel;
 import com.pbc.pmtool.model.FormSaveTaskModel;
 import com.pbc.pmtool.model.Response;
-import com.pbc.pmtool.repository.ProjectCommentRepository;
 import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.CustomerService;
+import com.pbc.pmtool.service.ProblemService;
 import com.pbc.pmtool.service.ProjectAchievementService;
 import com.pbc.pmtool.service.ProjectCommentService;
 import com.pbc.pmtool.service.ProjectEscalationService;
@@ -64,106 +68,116 @@ import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
 import com.pbc.pmtool.service.ProjectTaskService;
+import com.pbc.pmtool.service.RiskService;
 import com.pbc.pmtool.service.UserService;
 
 @RestController
 @RequestMapping("/api/")
 public class PmToolRestController {
-	
+
 	@Autowired
 	@Qualifier("projectProblemServiceImpl")
 	private ProjectProblemService projectProblemService;
-	
+
 	@Autowired
 	@Qualifier("projectAchievementServiceImpl")
 	private ProjectAchievementService projectAchievementService;
-	
+
 	@Autowired
 	@Qualifier("projectNextStepServiceImpl")
 	private ProjectNextStepService projectNextStepService;
-	
+
 	@Autowired
 	@Qualifier("projectEscalationServiceImpl")
 	private ProjectEscalationService projectEscalationService;
-	
+
 	@Autowired
 	@Qualifier("projectPhaseServiceImpl")
 	private ProjectPhaseService projectPhaseService;
-	
+
 	@Autowired
 	@Qualifier("projectServiceImpl")
 	private ProjectService projectService;
-	
+
 	@Autowired
 	@Qualifier("projectStatusLightServiceImpl")
 	private ProjectStatusLightService projectStatusLightService;
- 
+
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
-	
+
 	@Autowired
 	@Qualifier("userRepository")
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	@Qualifier("projectRepository")
 	private ProjectRepository projectRepository;
-	
+
 	@Autowired
 	@Qualifier("projectCommentServiceImpl")
 	private ProjectCommentService projectCommentServiceImpl;
-	
+
 	@Autowired
 	@Qualifier("projectTaskServiceImpl")
 	private ProjectTaskService projectTaskServiceImpl;
-	
+
 	@Autowired
 	@Qualifier("formCustomerAddConverter")
 	private FormCustomerAddConverter formCustomerAddConverter;
-	
+
 	@Autowired
 	@Qualifier("customerServiceImpl")
 	private CustomerService customerServiceImpl;
+
+	@Autowired
+	@Qualifier("problemServiceImpl")
+	private ProblemService problemServiceImpl;
+	
+	@Autowired
+	@Qualifier("riskServiceImpl")
+	private RiskService riskServiceImpl;
 	
 	@GetMapping(value = "/projects/all")
-	public List<Project> getProject(){
-			return projectService.listProjects();
+	public List<Project> getProject() {
+		return projectService.listProjects();
 	}
-	
+
 	@PostMapping(value = "/assign/")
-	public Response addToProject( @RequestBody FormAssignToProjectModel formAssignToProjectModel) {
-		
+	public Response addToProject(@RequestBody FormAssignToProjectModel formAssignToProjectModel) {
+
 		Response res = null;
-		User  user = userService.getUser(formAssignToProjectModel.getUsername());
-		
-		if(user.getAssignedsMap().get(formAssignToProjectModel.getProjectid()) == null) {
+		User user = userService.getUser(formAssignToProjectModel.getUsername());
+
+		if (user.getAssignedsMap().get(formAssignToProjectModel.getProjectid()) == null) {
 			Project project = projectService.findProjectById(formAssignToProjectModel.getProjectid());
-			List<Project> projects = user.getAssigneds()	;		
+			List<Project> projects = user.getAssigneds();
 			projects.add(project);
 			user.setAssigneds(projects);
 			userRepository.save(user);
-			
+
 			res = new Response("Done", "Done");
-		}else {
+		} else {
 			res = new Response("AlreadyInProj", "AlreadyInProj");
 		}
-		
+
 		return res;
 	}
-	
+
 	@PostMapping(value = "/createcustomer/")
-	public Response createCustomer(@Valid @RequestBody FormCustomerAddModel customerAddModel, BindingResult bindingResult) {
-		if(!(bindingResult.hasErrors())) {
-			CustomerModel newCustomer = customerServiceImpl.save(
-					formCustomerAddConverter.FormCustomerAdd2CustomerModel(customerAddModel));
-			
+	public Response createCustomer(@Valid @RequestBody FormCustomerAddModel customerAddModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
+			CustomerModel newCustomer = customerServiceImpl
+					.save(formCustomerAddConverter.FormCustomerAdd2CustomerModel(customerAddModel));
+
 			return new Response("Done", newCustomer.getId());
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
 	}
-	
+
 	/**
 	 * Guarda una tarea en backlog
 	 * 
@@ -172,40 +186,39 @@ public class PmToolRestController {
 	 * @return Response
 	 */
 	@PostMapping(value = "/savebacklog/")
-	public Response saveBacklog(@Valid @RequestBody FormSaveBacklogModel formSaveBacklogModel, BindingResult bindingResult) {
-		if(!(bindingResult.hasErrors())) {
+	public Response saveBacklog(@Valid @RequestBody FormSaveBacklogModel formSaveBacklogModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
 			Task task = projectTaskServiceImpl.findProjectTaskById(formSaveBacklogModel.getTaskId());
-			
-			if(!(formSaveBacklogModel.getComment().equals(""))) {
+
+			if (!(formSaveBacklogModel.getComment().equals(""))) {
 				Comment comment = new Comment();
-				
+
 				comment.setDatecomment(new Date());
 				comment.setDetail(formSaveBacklogModel.getComment());
 				comment.setTask(task);
-				
-				task.getComments().add(comment);			
+
+				task.getComments().add(comment);
 			}
-			
-			if(!(formSaveBacklogModel.getUsername().equals("nobody"))) {
+
+			if (!(formSaveBacklogModel.getUsername().equals("nobody"))) {
 				task.setUser(userService.getUser(formSaveBacklogModel.getUsername()));
-				
+
 				task.setStatus(2);
-			}else if(formSaveBacklogModel.getUsername().equals("nobody")){
+			} else if (formSaveBacklogModel.getUsername().equals("nobody")) {
+				task.setUser(null);
+			}
 
-                task.setUser(null);
-            }
-
-			
 			projectTaskServiceImpl.addProjectTask(task);
-			
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
 	}
-	
+
 	/**
-	 * Guarda los cambios en una tarea 
+	 * Guarda los cambios en una tarea
 	 * 
 	 * @param formSaveTaskModel
 	 * @param bindingResult
@@ -213,31 +226,31 @@ public class PmToolRestController {
 	 */
 	@PostMapping(value = "/savetask/")
 	public Response saveTask(@Valid @RequestBody FormSaveTaskModel formSaveTaskModel, BindingResult bindingResult) {
-		if(!(bindingResult.hasErrors())){
+		if (!(bindingResult.hasErrors())) {
 			Task task = projectTaskServiceImpl.findProjectTaskById(formSaveTaskModel.getTaskId());
-			
-			if(formSaveTaskModel.getTime() > 0) {
+
+			if (formSaveTaskModel.getTime() > 0) {
 				task.setHours(task.getHours() + (formSaveTaskModel.getTime() * formSaveTaskModel.getUnit()));
 			}
-			
-			if(!(formSaveTaskModel.getComment().equals(""))) {
+
+			if (!(formSaveTaskModel.getComment().equals(""))) {
 				Comment comment = new Comment();
-				
+
 				comment.setDatecomment(new Date());
 				comment.setDetail(formSaveTaskModel.getComment());
 				comment.setTask(task);
-				
-				task.getComments().add(comment);			
+
+				task.getComments().add(comment);
 			}
-			
+
 			projectTaskServiceImpl.addProjectTask(task);
-			
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
 	}
-	
+
 	/**
 	 * Crea una tarea
 	 * 
@@ -246,37 +259,38 @@ public class PmToolRestController {
 	 * @return Response
 	 */
 	@PostMapping(value = "/createtask/")
-	public Response createTask(@Valid @RequestBody FormCreateTaskModel formCreateTaskModel, BindingResult bindingResult) {
-		if(!(bindingResult.hasErrors())) {
+	public Response createTask(@Valid @RequestBody FormCreateTaskModel formCreateTaskModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
 			Task newTask = new Task();
-			
+
 			newTask.setSummary(formCreateTaskModel.getSummary());
 			newTask.setDetails(formCreateTaskModel.getDetails());
 			newTask.setDatecreation(new Date());
 			newTask.setDatestatus(new Date());
 			newTask.setProject(projectService.findProjectById(formCreateTaskModel.getProjectid()));
-			
-			if(!(formCreateTaskModel.getUsername().equals("nobody"))) {
+
+			if (!(formCreateTaskModel.getUsername().equals("nobody"))) {
 				newTask.setUser(userService.getUser(formCreateTaskModel.getUsername()));
 			}
-			
+
 			newTask.setStatus(1);
-			
+
 			newTask.setEstimatedunit(formCreateTaskModel.getUnit());
-			
+
 			newTask.setEstimatedtime(formCreateTaskModel.getTime());
-			
+
 			newTask.setEstimatedhours(formCreateTaskModel.getUnit() * formCreateTaskModel.getTime());
 			newTask.setHours(0);
-			
+
 			projectTaskServiceImpl.addProjectTask(newTask);
-			
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
 	}
-	
+
 	/**
 	 * Guarda un comentario sobre un proyecto
 	 * 
@@ -285,89 +299,91 @@ public class PmToolRestController {
 	 * @return Response
 	 */
 	@PostMapping("/project/{id}/comment/save")
-	public Response saveComment(@PathVariable int id, @Valid @RequestBody FormCommentModel formCommentModel, BindingResult bindingResult) {
-		if(!(bindingResult.hasErrors())) {
+	public Response saveComment(@PathVariable int id, @Valid @RequestBody FormCommentModel formCommentModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
 			ProjectComment projectComment = projectCommentServiceImpl.findCommentById(formCommentModel.getIdcomment());
-			
-			if(formCommentModel.getIdcomment() == 0) {
+
+			if (formCommentModel.getIdcomment() == 0) {
 				projectComment = new ProjectComment();
-				
-				//Nuevo comentario
+
+				// Nuevo comentario
 				projectComment.setComment(formCommentModel.getComment());
 				projectComment.setProject(projectService.findProjectById(id));
-				projectComment.setPm(userService.getUser(
-						SecurityContextHolder.getContext().getAuthentication().getName()));
+				projectComment
+						.setPm(userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName()));
 				projectComment.setCreatedOn(new Date());
 				projectComment.setTags(formCommentModel.getTags());
-			}else {
-				//Actualización del comentario
-				if(projectComment.getPm().getUsername().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			} else {
+				// Actualización del comentario
+				if (projectComment.getPm().getUsername()
+						.equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
 					projectComment.setComment(formCommentModel.getComment());
 					projectComment.setTags(formCommentModel.getTags());
 					projectComment.setModifiedOn(new Date());
-				}else {
+				} else {
 					return new Response("Error", "Error");
 				}
 			}
-			
+
 			projectCommentServiceImpl.addProjectComment(projectComment);
-			
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
 	}
 
 	@PostMapping("/project/{id}/phase/save/")
-	public Response savePhase(@PathVariable int id, @Valid @RequestBody FormPhaseModel formPhaseModel, BindingResult bindingResult){
-		if(!(bindingResult.hasErrors())) {
-			Project  project = projectService.findProjectById(id);
-			ProjectPhase projectPhase  = new ProjectPhase();
-			
+	public Response savePhase(@PathVariable int id, @Valid @RequestBody FormPhaseModel formPhaseModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
+			Project project = projectService.findProjectById(id);
+			ProjectPhase projectPhase = new ProjectPhase();
+
 			projectPhase.setProject(project);
 			projectPhase.setSummaryphase(formPhaseModel.getSummaryphase());
 			projectPhase.setWeekdelay(formPhaseModel.getWeekdelay());
 			projectPhase.setProgress(formPhaseModel.getProgress());
 			projectPhase.setRag(projectStatusLightService.findProjectStatusLightById(formPhaseModel.getRag()));
-			
-			
-			
+
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        String dateInString;
-	        Date sdate ;
-	        try {
-	
-	        	   dateInString=formPhaseModel.getStartdate();
-	           sdate = formatter.parse(dateInString);
-	        	   projectPhase.setStartdate(sdate);
-	        	   
-	        	   dateInString=formPhaseModel.getEnddate();
-	           sdate = formatter.parse(dateInString);
-	           projectPhase.setEnddate(sdate);
-	           
-	           dateInString=formPhaseModel.getNewdate();
-	           sdate = formatter.parse(dateInString);
-	           projectPhase.setNewdate(sdate);
-	
-	        } catch (ParseException e) {
-	            e.printStackTrace();
-	        }
-	        projectPhase.setId(formPhaseModel.getIdphase());
-	      
-		    projectPhaseService.addProjectPhase(projectPhase);
-		 
+			String dateInString;
+			Date sdate;
+			try {
+
+				dateInString = formPhaseModel.getStartdate();
+				sdate = formatter.parse(dateInString);
+				projectPhase.setStartdate(sdate);
+
+				dateInString = formPhaseModel.getEnddate();
+				sdate = formatter.parse(dateInString);
+				projectPhase.setEnddate(sdate);
+
+				dateInString = formPhaseModel.getNewdate();
+				sdate = formatter.parse(dateInString);
+				projectPhase.setNewdate(sdate);
+
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			projectPhase.setId(formPhaseModel.getIdphase());
+
+			projectPhaseService.addProjectPhase(projectPhase);
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
-	}	
-	
+	}
+
 	@PostMapping("/project/{id}/finance/save")
-	public Response SaveFinance(@PathVariable int id, @Valid @RequestBody FormFinancialModel formFinancialModel, BindingResult bindingResult) {
-		if(!(bindingResult.hasErrors())) {
+	public Response SaveFinance(@PathVariable int id, @Valid @RequestBody FormFinancialModel formFinancialModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
 			Logger.getGlobal().info("ID: " + id);
 			Logger.getGlobal().info("OP: " + formFinancialModel.getOP());
-			
+
 			Project project = projectService.findProjectById(id);
 			project.setBudgettodate(formFinancialModel.getBudgettodate());
 			project.setCertifiedprogress(formFinancialModel.getCertifiedprogress());
@@ -378,214 +394,271 @@ public class PmToolRestController {
 			project.setTIC(formFinancialModel.getTIC());
 			project.setTVC(formFinancialModel.getTVC());
 			project.setVariance(formFinancialModel.getVariance());
-			
+
 			projectService.addProject(project);
-			
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
 	}
-	
+
 	@PostMapping("/project/{id}/rag/save/")
-	public Response saveRAG(@PathVariable int id, @Valid @RequestBody FormRagModel formRagModel, BindingResult bindingResult){
-		if(!(bindingResult.hasErrors())) {
+	public Response saveRAG(@PathVariable int id, @Valid @RequestBody FormRagModel formRagModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
 			ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
-			
-			Project  project = projectService.findProjectById(id);
-			
-			project.setProjectStatus(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus()));
-			project.setProjectDeliveryConfidence(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDeliveryConfidence()));
-			project.setProjectGovernance(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectGovernance()));
-			project.setProjectBusinessChange(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBusinessChange()));
-			project.setProjectBenefitsRealisation(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBenefitsRealisation()));
-			project.setProjectDependency(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDependency()));
-			project.setProjectResourcing(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectResourcing()));
-			project.setProjectScope(projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectScope()));
-			
-			ProjectStatusLight projectStatusLight =projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus());
-	
+
+			Project project = projectService.findProjectById(id);
+
+			project.setProjectStatus(
+					projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectStatus()));
+			project.setProjectDeliveryConfidence(
+					projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDeliveryConfidence()));
+			project.setProjectGovernance(
+					projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectGovernance()));
+			project.setProjectBusinessChange(
+					projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBusinessChange()));
+			project.setProjectBenefitsRealisation(
+					projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectBenefitsRealisation()));
+			project.setProjectDependency(
+					projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectDependency()));
+			project.setProjectResourcing(
+					projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectResourcing()));
+			project.setProjectScope(
+					projectStatusLightService.findProjectStatusLightById(formRagModel.getProjectScope()));
+
+			ProjectStatusLight projectStatusLight = projectStatusLightService
+					.findProjectStatusLightById(formRagModel.getProjectStatus());
+
 			projectService.updateProject(project);
-			
-			mav.addObject("project",projectService.findProjectById(id));
+
+			mav.addObject("project", projectService.findProjectById(id));
 			mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
 			mav.addObject("formRagModel", formRagModel);
-			
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
 	}
-	
+
 	@PostMapping("/project/{id}/escalation/save/")
-	public Response saveScalation(@PathVariable int id, @Valid @RequestBody FormEscalationModel formEscalationModel, BindingResult bindingResult){
-		if(!(bindingResult.hasErrors())) {
-			Project  project = projectService.findProjectById(id);
-			ProjectEscalation projectEscalation  = new ProjectEscalation();
-			
+	public Response saveScalation(@PathVariable int id, @Valid @RequestBody FormEscalationModel formEscalationModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
+			Project project = projectService.findProjectById(id);
+			ProjectEscalation projectEscalation = new ProjectEscalation();
+
 			projectEscalation.setProject(project);
 			projectEscalation.setSummaryescalation(formEscalationModel.getSummaryescalation());
 			projectEscalation.setTxtescalation(formEscalationModel.getTxtescalation());
 			projectEscalation.setWeek(formEscalationModel.getWeek());
 			projectEscalation.setId(formEscalationModel.getIdescalation());
-			
+
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        String dateInString =formEscalationModel.getDateescalation();
-	        try {
+			String dateInString = formEscalationModel.getDateescalation();
+			try {
+
+				Date date = formatter.parse(dateInString);
+				projectEscalation.setDateescalation(date);
+
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			projectEscalationService.addProjectEscalation(projectEscalation);
+
+			return new Response("Done", "Done");
+		} else {
+			return new Response("Error", "Error");
+		}
+	}
+
+	@PostMapping("/project/{id}/risk/save/")
+	public Response saveRisk(@PathVariable int id, @Valid @RequestBody FormRiskModel formRiskModel, 
+			BindingResult bindingResult) {
+		
+		if(!(bindingResult.hasErrors())) {
+			Project project = projectService.findProjectById(id);
 	
-	            Date date = formatter.parse(dateInString);
-	            projectEscalation.setDateescalation(date);
-	
-	        } catch (ParseException e) {
-	            e.printStackTrace();
-	        }
-	        
-	      
-	        projectEscalationService.addProjectEscalation(projectEscalation);
+			Risk projectRisk = new Risk();
+			
+			projectRisk.setProject(project);
+			projectRisk.setSummaryproblem(formRiskModel.getSummaryproblem());
+			projectRisk.setTxtproblem(formRiskModel.getTxtproblem());
+			projectRisk.setWeek(formRiskModel.getWeek());
+			projectRisk.setId(formRiskModel.getIdproblem());
+			projectRisk.setDateproblem(formRiskModel.getDateproblem());
+			projectRisk.setStatus(formRiskModel.getStatus());
+			projectRisk.setResponsable(formRiskModel.getResponsable());
+			projectRisk.setType(formRiskModel.getType());
+			projectRisk.setImpact(formRiskModel.getImpact());
+			projectRisk.setProbability(formRiskModel.getProbability());
+			projectRisk.setStrategy(formRiskModel.getStrategy());
+			projectRisk.setDateclose(formRiskModel.getDateclose());
+			projectRisk.setActions(formRiskModel.getActions());
+			
+			projectProblemService.addProjectProblem(projectRisk);
 			
 			return new Response("Done", "Done");
 		}else {
 			return new Response("Error", "Error");
 		}
-	}	
+	}
+	
+	@GetMapping("/project/{id}/risk/{risk}/")
+	public Response getRisk(@PathVariable int id, @PathVariable int risk){
+		FormRiskModel riskModel = riskServiceImpl.getRisk(risk, id);
+		
+		if(riskModel == null) {
+			riskModel = new FormRiskModel();
+		}
+		
+		Gson json = new Gson();
+		
+		return new Response("Done", json.toJson(riskModel));
+	}
+	
+	@GetMapping("/project/{id}/problem/{problem}/")
+	public Response getProblem(@PathVariable int id, @PathVariable int problem) {
+		FormProblemModel problemModel = problemServiceImpl.getProblem(problem, id);
+		
+		if(problemModel == null) {
+			problemModel = new FormProblemModel();
+		}
+		
+		Gson json = new Gson();
+		
+		return new Response("Done", json.toJson(problemModel));
+	}
 	
 	@PostMapping("/project/{id}/problem/save/")
-	public Response saveNextSteps(@PathVariable int id, @Valid @RequestBody FormProblemModel formProblemModel, BindingResult bindingResult){
+	public Response saveProblem(@PathVariable int id, @Valid @RequestBody FormProblemModel formProblemModel, 
+			BindingResult bindingResult) {
+
 		if(!(bindingResult.hasErrors())) {
-			Project  project = projectService.findProjectById(id);
-			
-			ProjectProblem projectProblem  = new ProjectProblem();
-		
-			
+			Project project = projectService.findProjectById(id);
+	
+			Problem projectProblem = new Problem();
+	
 			projectProblem.setProject(project);
 			projectProblem.setSummaryproblem(formProblemModel.getSummaryproblem());
 			projectProblem.setTxtproblem(formProblemModel.getTxtproblem());
 			projectProblem.setWeek(formProblemModel.getWeek());
 			projectProblem.setId(formProblemModel.getIdproblem());
+			projectProblem.setDateproblem(formProblemModel.getDateproblem());
+			projectProblem.setStatus(formProblemModel.getStatus());
+			projectProblem.setResponsable(formProblemModel.getResponsable());
+			projectProblem.setType(formProblemModel.getType());
+			projectProblem.setImpact(formProblemModel.getImpact());
+			projectProblem.setEstimatedclosingdate(formProblemModel.getEstimatedclosingdate());
+			projectProblem.setDateclose(formProblemModel.getDateclose());
+			projectProblem.setActions(formProblemModel.getActions());
 			
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        String dateInString =formProblemModel.getDateproblem();
+			System.out.println(projectProblem.getSummaryproblem());
 	
-	        try {
+			projectProblemService.addProjectProblem(projectProblem);
 	
-	            Date date = formatter.parse(dateInString);
-	            projectProblem.setDateproblem(date);
-	
-	        } catch (ParseException e) {
-	            e.printStackTrace();
-	        }
-			
-	        
-	        System.out.println(projectProblem.getSummaryproblem());
-	      
-	        projectProblemService.addProjectProblem(projectProblem);
-			
 			return new Response("Done", "Done");
 		}else {
 			return new Response("Error", "Error");
 		}
-	}	
-	
+
+	}
+
 	@PostMapping("/project/{id}/nextstep/save/")
-	public Response saveNextSteps(@PathVariable int id, @Valid @RequestBody FormNextStepModel formNextStepModel, BindingResult bindingResult){
-		if(!(bindingResult.hasErrors())) {
-			Project  project = projectService.findProjectById(id);
-			
-			ProjectNextStep projectNextStep  = new ProjectNextStep();
-		
-			
+	public Response saveNextSteps(@PathVariable int id, @Valid @RequestBody FormNextStepModel formNextStepModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
+			Project project = projectService.findProjectById(id);
+
+			ProjectNextStep projectNextStep = new ProjectNextStep();
+
 			projectNextStep.setProject(project);
 			projectNextStep.setSummarynextstep(formNextStepModel.getSummarynextstep());
 			projectNextStep.setTxtnextstep(formNextStepModel.getTxtnextstep());
 			projectNextStep.setWeek(formNextStepModel.getWeek());
 			projectNextStep.setId(formNextStepModel.getIdnextstep());
-			
+
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        String dateInString =formNextStepModel.getDatenextstep();
-	
-	        try {
-	
-	            Date date = formatter.parse(dateInString);
-	            projectNextStep.setDatenextstep(date);
-	
-	        } catch (ParseException e) {
-	            e.printStackTrace();
-	        }
-			
-	      
-	        projectNextStepService.addProjectNextStep(projectNextStep);
-			
+			String dateInString = formNextStepModel.getDatenextstep();
+
+			try {
+
+				Date date = formatter.parse(dateInString);
+				projectNextStep.setDatenextstep(date);
+
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			projectNextStepService.addProjectNextStep(projectNextStep);
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
-	}	
-	
+	}
+
 	@PostMapping("/project/{id}/achievement/save/")
-	public Response saveAchievement(@PathVariable int id, @Valid @RequestBody FormAchievementModel formAchievementModel, BindingResult bindingResult){
-		if(!(bindingResult.hasErrors())) {
-			Project  project = projectService.findProjectById(id);
-			
-			ProjectAchievement projectAchievement  = new ProjectAchievement();
-		
-			
+	public Response saveAchievement(@PathVariable int id, @Valid @RequestBody FormAchievementModel formAchievementModel,
+			BindingResult bindingResult) {
+		if (!(bindingResult.hasErrors())) {
+			Project project = projectService.findProjectById(id);
+
+			ProjectAchievement projectAchievement = new ProjectAchievement();
+
 			projectAchievement.setProject(project);
 			projectAchievement.setSummaryachievement(formAchievementModel.getSummaryachievement());
 			projectAchievement.setTxtachievement(formAchievementModel.getTxtachievement());
 			projectAchievement.setWeek(formAchievementModel.getWeek());
 			projectAchievement.setId(formAchievementModel.getIdachievement());
-			
+
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        String dateInString =formAchievementModel.getDateachievement();
-	
-	        try {
-	
-	            Date date = formatter.parse(dateInString);
-	            projectAchievement.setDateachievement(date);
-	
-	        } catch (ParseException e) {
-	            e.printStackTrace();
-	        }
-			
-	        System.out.println("Project     :" + project.getProjectname());
-	        System.out.println("Achievement :" + projectAchievement.getSummaryachievement());
-	        
-	        projectAchievementService.addProjectAchievement(projectAchievement);
-			
-	
-			
+			String dateInString = formAchievementModel.getDateachievement();
+
+			try {
+
+				Date date = formatter.parse(dateInString);
+				projectAchievement.setDateachievement(date);
+
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("Project     :" + project.getProjectname());
+			System.out.println("Achievement :" + projectAchievement.getSummaryachievement());
+
+			projectAchievementService.addProjectAchievement(projectAchievement);
+
 			return new Response("Done", "Done");
-		}else {
+		} else {
 			return new Response("Error", "Error");
 		}
 	}
-	
+
 	@PostMapping("/resetpassword")
-	public Response resetPassword(@Valid @RequestBody FormResetPasswordModel resetPassword, 
-			BindingResult bindingResult) {		
-		
-		//Comprovamos que no hayan errores
-		if(!(bindingResult.hasErrors())) {
-			//Obtenemos el usuario logeado
+	public Response resetPassword(@Valid @RequestBody FormResetPasswordModel resetPassword,
+			BindingResult bindingResult) {
+
+		// Comprovamos que no hayan errores
+		if (!(bindingResult.hasErrors())) {
+			// Obtenemos el usuario logeado
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			
-			//Asignamos al modelo de reset password el nombre del usuario
+
+			// Asignamos al modelo de reset password el nombre del usuario
 			resetPassword.setUsername(auth.getName());
-			
-			//Guardamos las credenciales nuevas
+
+			// Guardamos las credenciales nuevas
 			userService.resetPassword(resetPassword);
-			
-			//Redirigimos
+
+			// Redirigimos
 			return new Response("Done", "Done");
-		}else {
-			//Redirigimos
+		} else {
+			// Redirigimos
 			return new Response("Fail", "Fail");
 		}
 	}
 
 }
-
-
-
-
-	

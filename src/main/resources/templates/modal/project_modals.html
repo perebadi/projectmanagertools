@@ -43,6 +43,14 @@
 					$("#week").val(date.getWeek());
 				});
 				
+				$("#dateProblem").change(function(){
+					var let = this.value.split('-');
+					
+					var date = new Date(let[0], (let[1] - 1), let[2]);
+					
+					$("#weekProblem").val(date.getWeek());
+				});
+				
 				//Evento nuevo end date
 				$("#newdate").change(function(){
 					var newEndDate = this.value.split('-');
@@ -131,7 +139,177 @@
 		</div>
 		<!-- END COMMENTS MODAL -->
 		
-		<!-- LOGROS, ACTIVIDADES, PROBLEMAS, ESCALACIONES MODAL -->
+		<!-- PROBLEMS MODAL -->
+		<div class="modal fade" id="modalProblem" role="dialog">
+			<div class="modal-dialog" style="width: 800px;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" id="titleProblemModal"></h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" id="modalProblemForm">
+							<div id="problemFormFields">
+								<input class="hidden" name="idProblem" id="idProblem" />
+	
+								<div class="row">
+									<div class="col-md-3">
+										<label class="control-label">Summary</label>
+									</div>
+									<div class="col-md-8">
+										<input id="summaryProblem" name="summaryProblem" type="text" class="form-control" />
+									</div>
+								</div>
+								<div class="row margin-top-15">
+	
+									<div class="col-md-3">
+										<label class="control-label">Date</label>
+									</div>
+									<div class="col-md-4">
+										<input id="dateProblem" name="dateProblem" type="text" class="form-control datepicker" />
+									</div>
+									<div class="col-md-2">
+										<label class="control-label">Week</label>
+									</div>
+									<div class="col-md-2">
+										<input name="weekProblem" id="weekProblem" type="text" class="form-control" readonly="true" />
+									</div>
+	
+								</div>
+								<div class="row margin-top-15">
+									<div class="col-md-3">
+										<label class="control-label">Closing date</label>
+									</div>
+									<div class="col-md-8">
+										<input id="dateCloseProblem" name="dateCloseProblem" type="text" class="form-control datepicker" />
+									</div>
+								</div>
+								<div class="row margin-top-15">
+									<div class="col-md-3">
+										<label class="control-label">Details</label>
+									</div>
+									<div class="col-md-8">
+										<textarea id="txtProblem" name="txtProblem" class="form-control" rows="5" cols=""></textarea>
+									</div>
+								</div>
+								<div class="row margin-top-15">
+									<div class="col-md-3">
+										<label class="control-label">Status</label>
+									</div>
+									<div class="col-md-8">
+										<select id="statusProblem" name="statusProblem" class="form-control select" data-live-search="true">
+											<option th:each="status : ${T(com.pbc.pmtool.enums.ProblemStatusEnum).values()}" th:value="${status}" 
+												th:text="${status.getStatus()}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="row margin-top-15">
+									<div class="col-md-3">
+										<label class="control-label">Responsable</label>
+									</div>
+									<div class="col-md-8">
+										<select id="responsableProblem" name="responsableProblem" class="form-control select" data-live-search="true">
+											<option th:each="responsable : ${T(com.pbc.pmtool.enums.ProblemResponsableEnum).values()}" th:value="${responsable}" 
+												th:text="${responsable.getResponsable()}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="row margin-top-15">
+									<div class="col-md-3">
+										<label class="control-label">Type</label>
+									</div>
+									<div class="col-md-8">
+										<select id="typeProblem" name="typeProblem" class="form-control select" data-live-search="true">
+											<option th:each="type : ${T(com.pbc.pmtool.enums.ProblemTypeEnum).values()}" th:value="${type}" 
+												th:text="${type.getType()}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="row margin-top-15">
+									<div class="col-md-3">
+										<label class="control-label">Impact</label>
+									</div>
+									<div class="col-md-8">
+										<select id="impactProblem" name="impactProblem" class="form-control select" data-live-search="true">
+											<option th:each="impact : ${T(com.pbc.pmtool.enums.ProblemImpactEnum).values()}" th:value="${impact}" 
+												th:text="${impact.getImpact()}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="row margin-top-15">
+									<div class="col-md-3">
+										<label class="control-label">Actions</label>
+									</div>
+									<div class="col-md-8">
+										<textarea id="actionsProblem" name="actionsProblem" class="form-control" rows="5" cols=""></textarea>
+									</div>
+								</div>
+								<div class="row margin-top-15" id="problemRiskRadio">
+									<div class="col-md-3">
+										<label class="control-label">Problem/Risk</label>
+									</div>
+									<div class="col-md-8">
+										<div class="radio" id="problemRiskOption">
+										  <label><input type="radio" name="problemriskopt" id="problemOption" value="problem" checked="true"/>Problem</label>
+										  <label><input type="radio" name="problemriskopt" id="riskOption" value="risk" />Risk</label>
+										</div>
+									</div>
+								</div>
+								<div id="problemFields">
+									<div class="row margin-top-15">
+										<div class="col-md-3">
+											<label class="control-label">Estimated closing date</label>
+										</div>
+										<div class="col-md-8">
+											<input id="estimatedDateCloseProblem" name="estimatedDateCloseProblem" type="text" class="form-control datepicker" />
+										</div>
+									</div>
+								</div>
+								<div id="riskFields">
+									<div class="row margin-top-15">
+										<div class="col-md-3">
+											<label class="control-label">Probability</label>
+										</div>
+										<div class="col-md-8">
+											<select id="probabilityRisk" name="probabilityRisk" class="form-control select" data-live-search="true">
+												<option th:each="probability : ${T(com.pbc.pmtool.enums.RiskProbabilityEnum).values()}" th:value="${probability}" 
+													th:text="${probability.getProbability()}"></option>
+											</select>
+										</div>
+									</div>
+									<div class="row margin-top-15">
+										<div class="col-md-3">
+											<label class="control-label">Strategy</label>
+										</div>
+										<div class="col-md-8">
+											<select id="strategyRisk" name="strategyRisk" class="form-control select" data-live-search="true">
+												<option th:each="strategy : ${T(com.pbc.pmtool.enums.RiskStrategyEnum).values()}" th:value="${strategy}" 
+													th:text="${strategy.getStrategy()}"></option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<!--  END ROW -->
+	
+								<!--  END PANEL BODY -->
+								<br /> <br />
+	
+								<button class="btn btn-primary pull-right" id="addProblemButton">Save</button>
+	
+								<br /> <br />
+							</div>
+							<div id="loadingProblemForm">
+								<img th:src="@{/img/loader.gif}" class="img-responsive center-block" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END PROBLEMS MODAL -->
+		
+		<!-- LOGROS, ACTIVIDADES, ESCALACIONES MODAL -->
 		<div class="modal fade" id="modalProject" role="dialog">
 			<div class="modal-dialog" style="width: 800px;">
 				<!-- Modal content-->
@@ -200,7 +378,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- END LOGROS, ACTIVIDADES, PROBLEMAS, ESCALACIONES MODAL -->
+		<!-- END LOGROS, ACTIVIDADES, ESCALACIONES MODAL -->
 
 		<!-- RAG MODAL -->
 		<div class="modal fade" id="ragModel" role="dialog">
