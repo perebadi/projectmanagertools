@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -139,11 +140,13 @@ public class PmToolRestController {
 	@Qualifier("riskServiceImpl")
 	private RiskService riskServiceImpl;
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping(value = "/projects/all")
 	public List<Project> getProject() {
 		return projectService.listProjects();
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping(value = "/assign/")
 	public Response addToProject(@RequestBody FormAssignToProjectModel formAssignToProjectModel) {
 
@@ -165,6 +168,7 @@ public class PmToolRestController {
 		return res;
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM')")
 	@PostMapping(value = "/createcustomer/")
 	public Response createCustomer(@Valid @RequestBody FormCustomerAddModel customerAddModel,
 			BindingResult bindingResult) {
@@ -185,6 +189,7 @@ public class PmToolRestController {
 	 * @param bindingResult
 	 * @return Response
 	 */
+	@PreAuthorize("hasAuthority('ROLE_PM')")
 	@PostMapping(value = "/savebacklog/")
 	public Response saveBacklog(@Valid @RequestBody FormSaveBacklogModel formSaveBacklogModel,
 			BindingResult bindingResult) {
@@ -224,6 +229,7 @@ public class PmToolRestController {
 	 * @param bindingResult
 	 * @return Response
 	 */
+	@PreAuthorize("hasAuthority('ROLE_PM')")
 	@PostMapping(value = "/savetask/")
 	public Response saveTask(@Valid @RequestBody FormSaveTaskModel formSaveTaskModel, BindingResult bindingResult) {
 		if (!(bindingResult.hasErrors())) {
@@ -258,6 +264,7 @@ public class PmToolRestController {
 	 * @param bindingResult
 	 * @return Response
 	 */
+	@PreAuthorize("hasAuthority('ROLE_PM')")
 	@PostMapping(value = "/createtask/")
 	public Response createTask(@Valid @RequestBody FormCreateTaskModel formCreateTaskModel,
 			BindingResult bindingResult) {
@@ -298,6 +305,7 @@ public class PmToolRestController {
 	 * @param formCommentModel
 	 * @return Response
 	 */
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/comment/save")
 	public Response saveComment(@PathVariable int id, @Valid @RequestBody FormCommentModel formCommentModel,
 			BindingResult bindingResult) {
@@ -334,6 +342,7 @@ public class PmToolRestController {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/phase/save/")
 	public Response savePhase(@PathVariable int id, @Valid @RequestBody FormPhaseModel formPhaseModel,
 			BindingResult bindingResult) {
@@ -377,6 +386,7 @@ public class PmToolRestController {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/finance/save")
 	public Response SaveFinance(@PathVariable int id, @Valid @RequestBody FormFinancialModel formFinancialModel,
 			BindingResult bindingResult) {
@@ -403,6 +413,7 @@ public class PmToolRestController {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/rag/save/")
 	public Response saveRAG(@PathVariable int id, @Valid @RequestBody FormRagModel formRagModel,
 			BindingResult bindingResult) {
@@ -443,6 +454,7 @@ public class PmToolRestController {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/escalation/save/")
 	public Response saveScalation(@PathVariable int id, @Valid @RequestBody FormEscalationModel formEscalationModel,
 			BindingResult bindingResult) {
@@ -475,6 +487,7 @@ public class PmToolRestController {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/risk/save/")
 	public Response saveRisk(@PathVariable int id, @Valid @RequestBody FormRiskModel formRiskModel, 
 			BindingResult bindingResult) {
@@ -507,6 +520,7 @@ public class PmToolRestController {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@GetMapping("/project/{id}/risk/{risk}/")
 	public Response getRisk(@PathVariable int id, @PathVariable int risk){
 		FormRiskModel riskModel = riskServiceImpl.getRisk(risk, id);
@@ -520,6 +534,7 @@ public class PmToolRestController {
 		return new Response("Done", json.toJson(riskModel));
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@GetMapping("/project/{id}/problem/{problem}/")
 	public Response getProblem(@PathVariable int id, @PathVariable int problem) {
 		FormProblemModel problemModel = problemServiceImpl.getProblem(problem, id);
@@ -533,6 +548,7 @@ public class PmToolRestController {
 		return new Response("Done", json.toJson(problemModel));
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/problem/save/")
 	public Response saveProblem(@PathVariable int id, @Valid @RequestBody FormProblemModel formProblemModel, 
 			BindingResult bindingResult) {
@@ -567,6 +583,7 @@ public class PmToolRestController {
 
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/nextstep/save/")
 	public Response saveNextSteps(@PathVariable int id, @Valid @RequestBody FormNextStepModel formNextStepModel,
 			BindingResult bindingResult) {
@@ -601,6 +618,7 @@ public class PmToolRestController {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/project/{id}/achievement/save/")
 	public Response saveAchievement(@PathVariable int id, @Valid @RequestBody FormAchievementModel formAchievementModel,
 			BindingResult bindingResult) {

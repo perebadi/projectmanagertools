@@ -3,6 +3,7 @@ package com.pbc.pmtool.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import com.pbc.pmtool.service.ProjectTaskService;
 
 @Controller
 @RequestMapping("/tasks")
+@PreAuthorize("hasAuthority('ROLE_PM')")
 public class TaskController {
 	
 	static String sessionuser;

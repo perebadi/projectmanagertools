@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -123,7 +124,7 @@ public class ProjectController {
 	}
 	
 	
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_PM')")
 	@GetMapping("/createproject")
 	public ModelAndView CreateProject(){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORM);
@@ -133,6 +134,7 @@ public class ProjectController {
 		return mav;		
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping("/saveproject")
 	public String SaveProject(@ModelAttribute("formNewProjectModel") FormNewProjectModel formNewProjectModel) {
 		
@@ -218,6 +220,7 @@ public class ProjectController {
 		return "redirect:/projects/";
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@GetMapping("/{username}/")
 	public ModelAndView showProjects(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable String username){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);
@@ -229,7 +232,7 @@ public class ProjectController {
 	
 	
 	
-	
+	@PreAuthorize("hasAuthority('ROLE_PMO')")
 	@GetMapping("/pmo/{username}/")
 	public ModelAndView showPmoProjects(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable String username){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);
@@ -239,7 +242,7 @@ public class ProjectController {
 		return mav;
 	}
 	
-	
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@GetMapping({"/project/{id}/print/","/project/{id}/print"})
 	public String reportProjects( @PathVariable int id) throws IOException{
 		
@@ -254,7 +257,7 @@ public class ProjectController {
 
 	}
 	
-	
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@GetMapping({"/project/{id}/","/project/{id}"})
 	public ModelAndView editProject(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable int id){
 		
@@ -347,210 +350,6 @@ public class ProjectController {
 		mav.addObject("username", sessionuser);
 		return mav;
 	}
-	
-	@GetMapping("/project/{id}/rag/")
-	public ModelAndView editRAG(@PathVariable int id){
-		ModelAndView mav = new ModelAndView(ViewConstant.RAGFORMEDIT);
-		
-		FormRagModel formRagModel = new FormRagModel();
-		
-		formRagModel.setId(id);;
-		formRagModel.setProjectBenefitsRealisation(projectService.findProjectById(id).getProjectBenefitsRealisation().getId());
-		formRagModel.setProjectScope(projectService.findProjectById(id).getProjectScope().getId());
-		formRagModel.setProjectBusinessChange(projectService.findProjectById(id).getProjectBusinessChange().getId());
-		formRagModel.setProjectDeliveryConfidence(projectService.findProjectById(id).getProjectDeliveryConfidence().getId());
-		formRagModel.setProjectDependency(projectService.findProjectById(id).getProjectDependency().getId());
-		formRagModel.setProjectGovernance(projectService.findProjectById(id).getProjectGovernance().getId());
-		formRagModel.setProjectResourcing(projectService.findProjectById(id).getProjectResourcing().getId());
-		formRagModel.setProjectStatus(projectService.findProjectById(id).getProjectStatus().getId());
-		
-		mav.addObject("formRagModel",formRagModel);
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
-		
-		
-		mav.addObject("username", sessionuser);
-
-		return mav;
-	}
-	
- 
-	
-	
-	
-	//******************************************************************ACHIEVEMENTS
-	
-	@GetMapping("/project/{id}/achievement/")
-	public ModelAndView editAchievement(@PathVariable int id){
-		ModelAndView mav = new ModelAndView(ViewConstant.ACHIEVEMENTFORMEDIT);
-		FormAchievementModel formAchievementModel = new FormAchievementModel();
-		
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("formAchievementModel",formAchievementModel);
-		
-		projectService.findProjectById(id).getAchievements();
-		List<ProjectAchievement> achievements = new ArrayList<>(projectService.findProjectById(id).getAchievements());
-		mav.addObject("logros",achievements);
-		
-		mav.addObject("username", sessionuser);
-
-		return mav;
-	}	
-	//******************************************************************END ACHIEVEMENTS
-
-	//******************************************************************NEXT STEPS
-	
-	@GetMapping("/project/{id}/nextstep/")
-	public ModelAndView editNextSteps(@PathVariable int id){
-		ModelAndView mav = new ModelAndView(ViewConstant.NEXTSTEPSFORMEDIT);
-		FormNextStepModel formNextStepModel = new FormNextStepModel();
-		
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("formNextStepModel",formNextStepModel);
-		
-		List<ProjectNextStep> nextsteps = new ArrayList<>(projectService.findProjectById(id).getNextsteps());
-		mav.addObject("nextsteps",nextsteps);
-		
-		mav.addObject("username", sessionuser);
-
-		return mav;
-	}
-	//******************************************************************END NEXTSTEPS
-	
-	
-	//******************************************************************PROBLEMS *****************
-	
-	@GetMapping("/project/{id}/problem/")
-	public ModelAndView editProblems(@PathVariable int id){
-		ModelAndView mav = new ModelAndView(ViewConstant.PROBLEMFORMEDIT);
-		FormProblemModel formProblemModel = new FormProblemModel();
-		
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("formProblemModel",formProblemModel);
-		
-		List<ProjectProblem> problems = new ArrayList<>(projectService.findProjectById(id).getProblems());
-		mav.addObject("problems",problems);
-		
-		
-		mav.addObject("username", sessionuser);
-
-		return mav;
-	}
-	//******************************************************************END PROBLEMS
-	
-	
-	
-	//******************************************************************ESCALATIONS *****************
-	
-	@GetMapping("/project/{id}/escalation/")
-	public ModelAndView editScalations(@PathVariable int id){
-		ModelAndView mav = new ModelAndView(ViewConstant.ESCALATIONFORMEDIT);
-		FormEscalationModel formEscalationModel = new FormEscalationModel();
-		
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("formEscalationModel",formEscalationModel);
-		
-		List<ProjectEscalation> escalations = new ArrayList<>(projectService.findProjectById(id).getEscalations());
-		mav.addObject("escalations",escalations);
-		mav.addObject("username", sessionuser);
-
-		
-		
-		return mav;
-	}
-	//******************************************************************END ESCALATIONS
-	
-	
-	
-
-	//******************************************************************PHASE *****************
-	
-	@GetMapping("/project/{id}/phase/")
-	public ModelAndView editPhases(@PathVariable int id){
-		ModelAndView mav = new ModelAndView(ViewConstant.PHASEFORMEDIT);
-		FormPhaseModel formPhaseModel = new FormPhaseModel();
-		
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("formPhaseModel",formPhaseModel);
-		
-		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
-		mav.addObject("phases",phases);
-		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
-
-
-		mav.addObject("username", sessionuser);
-		
-		return mav;
-	}
-	
-	@GetMapping("/project/{id}/phase/{idphase}/")
-	public ModelAndView editPhase(@PathVariable int id, @PathVariable int idphase){
-		ModelAndView mav = new ModelAndView(ViewConstant.PHASEFORMEDIT);
-		
-		System.out.println("id      : "+ id);
-		System.out.println("idphase : "+ idphase);
-		
-		ProjectPhase projectPhase = projectPhaseService.findProjectPhaseById(idphase);
-		FormPhaseModel formPhaseModel = new FormPhaseModel();
-		
-		System.out.println("progress : "+  projectPhase.getProgress());
-		formPhaseModel.setIdphase(idphase);
-		formPhaseModel.setProgress( projectPhase.getProgress());
-		formPhaseModel.setRag( projectPhase.getRag().getId());
-		formPhaseModel.setSummaryphase(projectPhase.getSummaryphase() );
-		formPhaseModel.setWeekdelay( projectPhase.getWeekdelay());
-		
-		
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		
-		formPhaseModel.setEnddate(df.format(projectPhase.getEnddate()));
-		formPhaseModel.setNewdate( df.format(projectPhase.getNewdate()));
-		formPhaseModel.setStartdate(df.format(projectPhase.getStartdate()));
-		
-
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("formPhaseModel",formPhaseModel);
-		
-		List<ProjectPhase> phases = new ArrayList<>(projectService.findProjectById(id).getPhases());
-		mav.addObject("phases",phases);
-		mav.addObject("lights", projectStatusLightService.listProjectStatusLights());
-		
-		mav.addObject("username", sessionuser);
-		
-		return mav;
-	}
-	//******************************************************************END PHASE
-	
-	
-
-	//******************************************************************FINANCE *****************
-	
-	@GetMapping("/project/{id}/finance/edit")
-	public ModelAndView editFinance(@PathVariable int id){
-		ModelAndView mav = new ModelAndView(ViewConstant.FINANCEFORMEDIT);
-		
-		FormFinancialModel formFinancialModel = new FormFinancialModel();
-		
-		formFinancialModel.setBudgettodate(projectService.findProjectById(id).getBudgettodate());
-		formFinancialModel.setCertifiedprogress(projectService.findProjectById(id).getCertifiedprogress());
-		formFinancialModel.setCostestimated(projectService.findProjectById(id).getCostestimated());
-		formFinancialModel.setEACOP(projectService.findProjectById(id).getEACOP());
-		formFinancialModel.setInvoiced(projectService.findProjectById(id).getInvoiced());
-		formFinancialModel.setOP(projectService.findProjectById(id).getOP());
-		formFinancialModel.setTIC(projectService.findProjectById(id).getTIC());
-		formFinancialModel.setTVC(projectService.findProjectById(id).getTVC());
-		formFinancialModel.setVariance(projectService.findProjectById(id).getVariance());
-		
-				
-		mav.addObject("formFinancialModel",formFinancialModel);
-
-		mav.addObject("project",projectService.findProjectById(id));
-		mav.addObject("username", sessionuser);
-		
-		return mav;
-	}
-	//******************************************************************END FINANCE
-
 	
 }	
 	
