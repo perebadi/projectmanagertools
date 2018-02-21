@@ -1,146 +1,49 @@
 package com.pbc.pmtool.model;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import com.pbc.pmtool.enums.ProblemImpactEnum;
+import com.pbc.pmtool.enums.ProblemResponsableEnum;
+import com.pbc.pmtool.enums.ProblemStatusEnum;
+import com.pbc.pmtool.enums.ProblemTypeEnum;
 
-public class FormProblemModel {
-	
-	@NotEmpty
-	private String dateproblem;
+public class FormProblemModel extends FormProblemRiskModel{
 	
 	@NotNull
-	private int week;
+	private Date estimatedclosingdate;
+
+	private String estimatedclosingdatestr;
 	
-	@NotEmpty
-	private String summaryproblem;
-	
-	private String txtproblem;
-	private int idproblem;
-	
-	
-	
-
-
-
-	public int getIdproblem() {
-		return idproblem;
+	public String getEstimatedclosingdatestr() {
+		return estimatedclosingdatestr;
 	}
 
-
-
-
-
-
-
-	public void setIdproblem(int idproblem) {
-		this.idproblem = idproblem;
+	public void setEstimatedclosingdatestr(String estimatedclosingdatestr) {
+		this.estimatedclosingdatestr = estimatedclosingdatestr;
 	}
 
-
-
-
-
-
-
-	public String getDateproblem() {
-		return dateproblem;
+	public Date getEstimatedclosingdate() {
+		return estimatedclosingdate;
 	}
 
-
-
-
-
-
-
-	public void setDateproblem(String dateproblem) {
-		this.dateproblem = dateproblem;
+	public void setEstimatedclosingdate(Date estimatedclosingdate) {
+		this.estimatedclosingdate = estimatedclosingdate;
 	}
 
-
-
-
-
-
-
-	public int getWeek() {
-		return week;
+	public FormProblemModel(Date dateproblem, String dateproblemstr, int week, String summaryproblem, String txtproblem,
+			ProblemStatusEnum status, ProblemResponsableEnum responsable, ProblemImpactEnum impact,
+			ProblemTypeEnum type, String actions, Date dateclose, String dateclosestr, int idproblem,
+			Date estimatedclosingdate, String estimatedclosingdatestr) {
+		super(dateproblem, dateproblemstr, week, summaryproblem, txtproblem, status, responsable, impact, type, actions,
+				dateclose, dateclosestr, idproblem);
+		this.estimatedclosingdate = estimatedclosingdate;
+		this.estimatedclosingdatestr = estimatedclosingdatestr;
 	}
-
-
-
-
-
-
-
-	public void setWeek(int week) {
-		this.week = week;
-	}
-
-
-
-
-
-
-
-	public String getSummaryproblem() {
-		return summaryproblem;
-	}
-
-
-
-
-
-
-
-	public void setSummaryproblem(String summaryproblem) {
-		this.summaryproblem = summaryproblem;
-	}
-
-
-
-
-
-
-
-	public String getTxtproblem() {
-		return txtproblem;
-	}
-
-
-
-
-
-
-
-	public void setTxtproblem(String txtproblem) {
-		this.txtproblem = txtproblem;
-	}
-
-
-
-
-
-
-
-	public FormProblemModel(String dateproblem, int week, String summaryproblem, String txtproblem, int idproblem) {
-		super();
-		this.dateproblem = dateproblem;
-		this.week = week;
-		this.summaryproblem = summaryproblem;
-		this.txtproblem = txtproblem;
-		this.idproblem = idproblem;
-	}
-
-
-
-
-
-
 
 	public FormProblemModel() {
-		
+		super();
 	}
 	
-
 }

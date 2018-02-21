@@ -30,21 +30,16 @@
 								<div class="col-md-6">
 									<div class="panel panel-default">
 										<div class="panel-heading">
-											<h3 class="panel-title" th:text="${project.projectname}">Custom
-												Content Scroller</h3>
-											<ul class="panel-controls">
-												<!-- 
-												<li><a href="#"
-													th:href="@{/projects/project/__${project.id}__/rag/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a>
-												</li>
-												-->
-											</ul>
+											<h3 class="panel-title" th:text="${project.projectname}"></h3>
+											<h3 class="panel-title pull-right" th:text="${project.customer.customer}"></h3>
 										</div>
 										<div class="panel-body scroll" style="height: 150px;">
 											<p>
-												<span th:text="${project.objectives}">f</span>
+												<span th:text="${project.objectives}"></span>
 											</p>
+										</div>
+										<div class="panel-footer">
+											<strong>WBS: </strong><span th:text="${project.wbs}"></span>
 										</div>
 									</div>
 									<div class="panel panel-default">
@@ -188,7 +183,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<h3 class="panel-title">Logros alcanzados</h3>
@@ -205,30 +200,36 @@
 										<div class="panel-body">
 											<ul class="list-group border-bottom">
 												<li class="list-group-item" th:each="logro : ${logros}">
-													<input type="hidden" th:value="${logro.id}"
-													th:id="'idachievement_' + ${logro.id}" /> <input
-													type="hidden" th:value="${logro.dateachievement}"
-													th:id="'dateachievement_' + ${logro.id}" /> <input
-													type="hidden" th:value="${logro.summaryachievement}"
-													th:id="'summaryachievement_' + ${logro.id}" /> <input
-													type="hidden" th:value="${logro.txtachievement}"
-													th:id="'txtachievement_' + ${logro.id}" /> <input
-													type="hidden" th:value="${logro.week}"
-													th:id="'weekachievement_' + ${logro.id}" /> <input
-													type="hidden" th:value="${project.id}"
-													th:id="'projectachievement_' + ${logro.id}" /> <span
-													th:text="${logro.summaryachievement}"></span> <a role="button"
-													class="pull-right"> <span class="badge badge-success"
-														th:text="${logro.dateachievement}"
-														name="viewDetailsAchievement"
-														th:attr="data-achievement=${logro.id}"></span>
-												</a>
+													<div class="row">
+														<div class="col-md-10">
+															<input type="hidden" th:value="${logro.id}"
+																th:id="'idachievement_' + ${logro.id}" /> <input
+																type="hidden" th:value="${logro.dateachievement}"
+																th:id="'dateachievement_' + ${logro.id}" /> <input
+																type="hidden" th:value="${logro.summaryachievement}"
+																th:id="'summaryachievement_' + ${logro.id}" /> <input
+																type="hidden" th:value="${logro.txtachievement}"
+																th:id="'txtachievement_' + ${logro.id}" /> <input
+																type="hidden" th:value="${logro.week}"
+																th:id="'weekachievement_' + ${logro.id}" /> <input
+																type="hidden" th:value="${project.id}"
+																th:id="'projectachievement_' + ${logro.id}" /> <span
+																th:text="${logro.summaryachievement}"></span>
+														</div>
+														<div class="margin-top-15">
+															<a role="button" class="pull-right"> <span
+																class="badge badge-success" th:text="'KW'+${logro.week}"
+																name="viewDetailsAchievement"
+																th:attr="data-achievement=${logro.id}"></span>
+															</a>
+														</div>
+													</div>
 												</li>
 											</ul>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-4">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<h3 class="panel-title">Futuras actividades</h3>
@@ -244,68 +245,37 @@
 										<div class="panel-body">
 											<ul class="list-group border-bottom">
 												<li class="list-group-item"
-													th:each="nextstep : ${nextsteps}"><input type="hidden"
-													th:value="${nextstep.id}"
-													th:id="'idnextstep_' + ${nextstep.id}" /> <input
-													type="hidden" th:value="${nextstep.datenextstep}"
-													th:id="'datenextstep_' + ${nextstep.id}" /> <input
-													type="hidden" th:value="${nextstep.summarynextstep}"
-													th:id="'summarynextstep_' + ${nextstep.id}" /> <input
-													type="hidden" th:value="${nextstep.txtnextstep}"
-													th:id="'txtnextstep_' + ${nextstep.id}" /> <input
-													type="hidden" th:value="${nextstep.week}"
-													th:id="'weeknextstep_' + ${nextstep.id}" /> <input
-													type="hidden" th:value="${project.id}"
-													th:id="'projectnextstep_' + ${nextstep.id}" /> <span
-													th:text="${ nextstep.summarynextstep}"></span> <a role="button"
-													class="pull-right"> <span class="badge badge-info"
-														th:text="'KW'+${nextstep.week}" name="viewDetailsNextStep"
-														th:attr="data-nextstep=${nextstep.id}"></span>
-												</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Problemas</h3>
-											<ul class="panel-controls">
-												<!-- 
-												<li><a href="#"
-													th:href="@{/projects/project/__${project.id}__/problem/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a></li>-->
-												<li><a role="button" id="problemModal"><span
-														class="fa fa-wrench"></span></a></li>
-											</ul>
-										</div>
-										<div class="panel-body">
-											<ul class="list-group border-bottom">
-												<li class="list-group-item" th:each="problem : ${problems}">
-													<input type="hidden" th:value="${problem.id}"
-													th:id="'idproblem_' + ${problem.id}" /> <input
-													type="hidden" th:value="${problem.dateproblem}"
-													th:id="'dateproblem_' + ${problem.id}" /> <input
-													type="hidden" th:value="${problem.summaryproblem}"
-													th:id="'summaryproblem_' + ${problem.id}" /> <input
-													type="hidden" th:value="${problem.txtproblem}"
-													th:id="'txtproblem_' + ${problem.id}" /> <input
-													type="hidden" th:value="${problem.week}"
-													th:id="'weekproblem_' + ${problem.id}" /> <input
-													type="hidden" th:value="${project.id}"
-													th:id="'projectproblem_' + ${problem.id}" /> <span
-													th:text="${ problem.summaryproblem}"></span> <a role="button"
-													class="pull-right"> <span class="badge badge-danger"
-														th:text="'KW'+${problem.week}" name="viewDetailsProblem"
-														th:attr="data-problem=${problem.id}"></span>
-												</a>
+													th:each="nextstep : ${nextsteps}">
+													<div class="row">
+														<div>
+															<input type="hidden" th:value="${nextstep.id}"
+																th:id="'idnextstep_' + ${nextstep.id}" /> <input
+																type="hidden" th:value="${nextstep.datenextstep}"
+																th:id="'datenextstep_' + ${nextstep.id}" /> <input
+																type="hidden" th:value="${nextstep.summarynextstep}"
+																th:id="'summarynextstep_' + ${nextstep.id}" /> <input
+																type="hidden" th:value="${nextstep.txtnextstep}"
+																th:id="'txtnextstep_' + ${nextstep.id}" /> <input
+																type="hidden" th:value="${nextstep.week}"
+																th:id="'weeknextstep_' + ${nextstep.id}" /> <input
+																type="hidden" th:value="${project.id}"
+																th:id="'projectnextstep_' + ${nextstep.id}" /> <span
+																th:text="${ nextstep.summarynextstep}"></span>
+														</div>
+														<div class="margin-top-15">
+															<a role="button" class="pull-right"> <span
+																class="badge badge-info" th:text="'KW'+${nextstep.week}"
+																name="viewDetailsNextStep"
+																th:attr="data-nextstep=${nextstep.id}"></span>
+															</a>
+														</div>
+													</div>
 												</li>
 											</ul>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3">
-
+								<div class="col-md-4">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<h3 class="panel-title">Escalaciones</h3>
@@ -319,40 +289,36 @@
 											</ul>
 										</div>
 										<div class="panel-body">
-											<div class="panel-body panel-body-table">
-
-												<div class="table-responsive">
-													<table class="table table-bordered table-striped">
-
-														<tbody>
-															<tr th:each="escalation : ${escalations}">
-																<td width="80%"
-																	th:text="${ escalation.summaryescalation}"></td>
-																<td width="20%"><input type="hidden"
-																	th:value="${escalation.id}"
-																	th:id="'idescalation_' + ${escalation.id}" /> <input
-																	type="hidden" th:value="${escalation.dateescalation}"
-																	th:id="'dateescalation_' + ${escalation.id}" /> <input
-																	type="hidden"
-																	th:value="${escalation.summaryescalation}"
-																	th:id="'summaryescalation_' + ${escalation.id}" /> <input
-																	type="hidden" th:value="${escalation.txtescalation}"
-																	th:id="'txtescalation_' + ${escalation.id}" /> <input
-																	type="hidden" th:value="${escalation.week}"
-																	th:id="'weekescalation_' + ${escalation.id}" /> <input
-																	type="hidden" th:value="${project.id}"
-																	th:id="'projectescalation_' + ${escalation.id}" /> <a
-																	role="button"> <span class="badge badge-warning"
-																		th:text="${escalation.dateescalation}"
-																		name="viewDetailsEscalation"
-																		th:attr="data-escalation=${escalation.id}" />
-																</a></td>
-
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
+											<ul class="list-group border-bottom">
+												<li class="list-group-item"
+													th:each="escalation : ${escalations}">
+													<div class="row">
+														
+														<div>
+															<input type="hidden" th:value="${escalation.id}"
+															th:id="'idescalation_' + ${escalation.id}" /> <input
+															type="hidden" th:value="${escalation.dateescalation}"
+															th:id="'dateescalation_' + ${escalation.id}" /> <input
+															type="hidden" th:value="${escalation.summaryescalation}"
+															th:id="'summaryescalation_' + ${escalation.id}" /> <input
+															type="hidden" th:value="${escalation.txtescalation}"
+															th:id="'txtescalation_' + ${escalation.id}" /> <input
+															type="hidden" th:value="${escalation.week}"
+															th:id="'weekescalation_' + ${escalation.id}" /> <input
+															type="hidden" th:value="${project.id}"
+															th:id="'projectescalation_' + ${escalation.id}" /> <span
+															th:text="${ escalation.summaryescalation}"></span>
+														</div>
+														<div class="margin-top-15">
+															<a role="button" class="pull-right">
+															<span class="badge badge-warning"
+																th:text="KW + ${escalation.week}"
+																name="viewDetailsEscalation"
+																th:attr="data-escalation=${escalation.id}" /></a>
+														</div>
+													</div>
+												</li>
+											</ul>
 										</div>
 									</div>
 									<!-- <div class="panel panel-default">
@@ -368,6 +334,148 @@
 			                                    </ul>                                 
 			                                </div>
 			                            </div> -->
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Project Risks</h3>
+									<ul class="panel-controls">
+										<li>
+											<a role="button" id="problemRiskModal" >
+												<span class="fa fa-wrench"></span>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="panel-body">
+									<table class="table datatable-simple" id="projectRisksTable">
+										<thead>
+											<tr>
+												<th style="text-align: center;">Summary</th>
+												<th style="text-align: center;">Details</th>
+												<th style="text-align: center;">Date</th>
+												<th style="text-align: center;">Week</th>
+												<th style="text-align: center;">Date close</th>
+												<th style="text-align: center;">Status</th>
+												<th style="text-align: center;">Responsable</th>
+												<th style="text-align: center;">Type</th>
+												<th style="text-align: center;">Probability</th>
+												<th style="text-align: center;">Impact</th>
+												<th style="text-align: center;">Strategy</th>
+												<th style="text-align: center;">Actions</th>
+												<th style="text-align: center;">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="risk : ${risks}">
+												<td th:text="${risk.summaryproblem}" align="center"></td>
+												<td th:text="${risk.txtproblem}" align="center"></td>
+												<td th:text="${risk.dateproblem}" align="center"></td>
+												<td align="center">
+													<span class="badge badge-default" th:text="'KW'+${risk.week}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-success" th:text="${risk.dateclose}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-warning" th:if="${risk.status.getStatus() == 'Open'}" th:text="${risk.status.getStatus()}" />
+													<span class="badge badge-success" th:if="${risk.status.getStatus() == 'Closed'}" th:text="${risk.status.getStatus()}" />
+												</td>
+												<td align="center">
+													<span th:if="${risk.responsable.getResponsable() == 'DxC'}" th:text="${risk.responsable.getResponsable()}" />
+													<span th:if="${risk.responsable.getResponsable() == 'Customer'}" th:text="${project.customer.customer}" />
+													<span th:if="${risk.responsable.getResponsable() == 'DxC and customer'}" th:text="'DxC and ' + ${project.customer.customer}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-info" th:text="${risk.type.getType()}" ></span>
+												</td>
+												<td th:text="${risk.probability.getProbability()}" align="center"></td>
+												<td align="center">
+													<span class="badge badge-success" th:if="${risk.impact.getImpact() == 'Low'}" th:text="${risk.impact.getImpact()}" />
+													<span class="badge badge-warning" th:if="${risk.impact.getImpact() == 'Medium'}" th:text="${risk.impact.getImpact()}" />
+													<span class="badge badge-danger" th:if="${risk.impact.getImpact() == 'High'}" th:text="${risk.impact.getImpact()}" />
+												</td>
+												<td th:text="${risk.strategy.getStrategy()}" align="center"></td>
+												<td th:text="${risk.actions}" align="center"></td>
+												<td align="center">
+													<input type="hidden" th:value="${risk.class.getSimpleName()}" th:id="'problemrisk_' + ${risk.id}" />
+													<button type="button" class="btn btn-primary" name="viewDetailsProblem" th:attr="data-problem=${risk.id}" >
+														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Project Problems</h3>
+									<ul class="panel-controls">
+										<li>
+											<a role="button" id="problemModal" >
+												<span class="fa fa-wrench"></span>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="panel-body">
+									<table class="table datatable-simple" id="projectProblemTable">
+										<thead>
+											<tr>
+												<th style="text-align: center;">Summary</th>
+												<th style="text-align: center;">Details</th>
+												<th style="text-align: center;">Date</th>
+												<th style="text-align: center;">Week</th>
+												<th style="text-align: center;">Estimated date close</th>
+												<th style="text-align: center;">Date close</th>
+												<th style="text-align: center;">Status</th>
+												<th style="text-align: center;">Responsable</th>
+												<th style="text-align: center;">Type</th>
+												<th style="text-align: center;">Impact</th>
+												<th style="text-align: center;">Actions</th>
+												<th style="text-align: center;">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="problem : ${problems}">
+												<td th:text="${problem.summaryproblem}" align="center"></td>
+												<td th:text="${problem.txtproblem}" align="center"></td>
+												<td th:text="${problem.dateproblem}" align="center"></td>
+												<td align="center">
+													<span class="badge badge-default" th:text="'KW'+${problem.week}" />
+												</td>
+												<td th:text="${problem.estimatedclosingdate}" align="center"></td>
+												<td align="center">
+													<span class="badge badge-success" th:text="${problem.dateclose}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-warning" th:if="${problem.status.getStatus() == 'Open'}" th:text="${problem.status.getStatus()}" />
+													<span class="badge badge-success" th:if="${problem.status.getStatus() == 'Closed'}" th:text="${problem.status.getStatus()}" />
+												</td>
+												<td align="center">
+													<span th:if="${problem.responsable.getResponsable() == 'DxC'}" th:text="${problem.responsable.getResponsable()}" />
+													<span th:if="${problem.responsable.getResponsable() == 'Customer'}" th:text="${project.customer.customer}" />
+													<span th:if="${problem.responsable.getResponsable() == 'DxC and customer'}" th:text="'DxC and ' + ${project.customer.customer}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-info" th:text="${problem.type.getType()}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-success" th:if="${problem.impact.getImpact() == 'Low'}" th:text="${problem.impact.getImpact()}" />
+													<span class="badge badge-warning" th:if="${problem.impact.getImpact() == 'Medium'}" th:text="${problem.impact.getImpact()}" />
+													<span class="badge badge-danger" th:if="${problem.impact.getImpact() == 'High'}" th:text="${problem.impact.getImpact()}" />
+												</td>
+												<td th:text="${problem.actions}" align="center"></td>
+												<td align="center">
+													<input type="hidden" th:value="${problem.class.getSimpleName()}" th:id="'problemrisk_' + ${problem.id}" />
+													<button type="button" class="btn btn-primary" name="viewDetailsProblem" th:attr="data-problem=${problem.id}" >
+														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
+													</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
 							<div class="panel panel-default">
@@ -428,7 +536,8 @@
 														</div>
 													</div>
 												</td>
-												<td align="center"><a role="button" id="financialsModal">
+												<td align="center"><a role="button"
+													id="financialsModal">
 														<button type="button" class="btn btn-primary">
 															<span class="fa fa-wrench" aria-hidden="true"></span>Editar
 														</button>
@@ -536,11 +645,14 @@
 										</div>
 										<div class="panel-body">
 											<!-- START TIMELINE -->
-											<div class="timeline timeline-right"  th:if="${comments.size()} != 0">
+											<div class="timeline timeline-right"
+												th:if="${comments.size()} != 0">
 
 												<!-- START TIMELINE ITEM -->
 												<div class="timeline-item timeline-main">
-													<div class="timeline-date"><span th:text="${comments[0].createdOn.Year} + 1900" ></span></div>
+													<div class="timeline-date">
+														<span th:text="${comments[0].createdOn.Year} + 1900"></span>
+													</div>
 												</div>
 												<!-- END TIMELINE ITEM -->
 
@@ -555,33 +667,33 @@
 													</div>
 													<div class="timeline-item-content">
 														<div class="timeline-heading">
-															<a><span th:text="${comment.pm.username}"></span> </a>
-																<span th:if="${comment.modifiedOn}"> modified on <span th:text="${comment.modifiedOn}"></span></span>
+															<a><span th:text="${comment.pm.username}"></span> </a> <span
+																th:if="${comment.modifiedOn}"> modified on <span
+																th:text="${comment.modifiedOn}"></span></span>
 														</div>
 														<div class="timeline-body">
 
 															<p>
 																<input type="hidden" th:value="${comment.comment}"
-																	th:id="'commentcomment_' + ${comment.id}" /> 
-																<input
+																	th:id="'commentcomment_' + ${comment.id}" /> <input
 																	type="hidden" th:value="${comment.id}"
-																	th:id="'idcomment_' + ${comment.id}" />
-																
-																<input type="hidden" th:value="${comment.getTagsJSON()}" th:id="'tagscomment_' + ${comment.id}" />
-																
-																<ul class="panel-controls" th:if="${username} == ${comment.pm.username}">
-																	<li><a href="javascript: void();"
-																		name="editCommentButton"
-																		th:attr="data-comment=${comment.id}"> <span
-																			class="glyphicon glyphicon-pencil"></span>
-																	</a></li>
-																</ul>
-																<span th:text="${comment.comment}"></span>
+																	th:id="'idcomment_' + ${comment.id}" /> <input
+																	type="hidden" th:value="${comment.getTagsJSON()}"
+																	th:id="'tagscomment_' + ${comment.id}" />
+															<ul class="panel-controls"
+																th:if="${username} == ${comment.pm.username}">
+																<li><a href="javascript: void();"
+																	name="editCommentButton"
+																	th:attr="data-comment=${comment.id}"> <span
+																		class="glyphicon glyphicon-pencil"></span>
+																</a></li>
+															</ul>
+															<span th:text="${comment.comment}"></span>
 															</p>
 
 															<ul class="list-tags">
-																<li th:each="tag : ${comment.tags}">
-																	<a><span class="fa fa-tag"></span> <span th:text="${tag}"></span></a>
+																<li th:each="tag : ${comment.tags}"><a><span
+																		class="fa fa-tag"></span> <span th:text="${tag}"></span></a>
 																</li>
 															</ul>
 														</div>
@@ -646,7 +758,7 @@
 	<!-- END PAGE PLUGINS -->
 
 	<!-- START TEMPLATE -->
-	<script th:src="@{/js/settings.jss}"></script>
+	<script th:src="@{/js/settings.js}"></script>
 	<!-- END TEMPLATE -->
 </body>
 </html>
