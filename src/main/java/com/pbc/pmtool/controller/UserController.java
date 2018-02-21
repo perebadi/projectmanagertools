@@ -1,7 +1,10 @@
 package com.pbc.pmtool.controller;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
+
 import java.util.HashMap;
 
+import javax.persistence.PersistenceException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.model.FormUserAdminModel;
 import com.pbc.pmtool.service.ProjectService;
@@ -59,7 +63,8 @@ public class UserController {
 			@RequestParam(name="removesuccess", required=false) String removesuccess,
 			@RequestParam(name="removeerror", required=false) String removeerror, 
 			@RequestParam(name="page", required=false, defaultValue="0") int page, 
-			@RequestParam(name="search", required=false, defaultValue="") String search) {
+			@RequestParam(name="search", required=false, defaultValue="") String search,
+			@RequestParam(name="userinproject", required=false) String userinproject) {
 		
 		//Creamos la vista
 		ModelAndView mav = new ModelAndView(ViewConstant.LIST_USERS);
@@ -76,6 +81,7 @@ public class UserController {
 		mav.addObject("removeerror", removeerror);
 		mav.addObject("page", page);
 		mav.addObject("lastSearch", search);
+		mav.addObject("userinproject", userinproject);
 		
 		//Mapa de usuarios
 		HashMap<String, Object> usuarios = new HashMap<String, Object>();
@@ -136,8 +142,12 @@ public class UserController {
 		
 		//Validamos que el usuario a eliminar sea correcto
 		if(!(username.equals(""))) {
-			//Eliminamos el usuario
-			userService.removeUser(username);
+			try {
+				//Eliminamos el usuario
+				userService.removeUser(username);
+			}catch(Exception e) {
+				return "redirect:/users/show?page=" + page + "&search=" + search + "&userinproject";
+			}
 			
 			//Redirigimos al listado de usuarios
 			return "redirect:/users/show?page=" + page + "&search=" + search + "&removesuccess";

@@ -66,6 +66,14 @@
 									</button>
 									<strong>Ups!</strong> The user could not be deleted.
 								</div>
+								
+								<div class="alert alert-danger" role="alert"
+									th:if="${userinproject}">
+									<button type="button" class="close" data-dismiss="alert">
+										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+									</button>
+									<strong>Ups!</strong> The user can not be deleted since he is in projects or tasks. Try disabling it.
+								</div>
 								<!-- FIN ALERTAS AL ELIMINAR UN USUARIO -->
 
 								<!-- CONTACT TABLE -->
