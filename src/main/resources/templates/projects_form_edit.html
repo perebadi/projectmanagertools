@@ -30,32 +30,16 @@
 								<div class="col-md-6">
 									<div class="panel panel-default">
 										<div class="panel-heading">
-											<h3 class="panel-title" th:text="${project.projectname}">Custom
-												Content Scroller</h3>
-											<ul class="panel-controls">
-												<!-- 
-												<li><a href="#"
-													th:href="@{/projects/project/__${project.id}__/rag/}"
-													class="panel-fullscreen"><span class="fa fa-wrench"></span></a>
-												</li>
-												-->
-											</ul>
+											<h3 class="panel-title" th:text="${project.projectname}"></h3>
+											<h3 class="panel-title pull-right" th:text="${project.customer.customer}"></h3>
 										</div>
 										<div class="panel-body scroll" style="height: 150px;">
 											<p>
-												<span th:text="${project.objectives}">f</span>
+												<span th:text="${project.objectives}"></span>
 											</p>
 										</div>
-									</div>
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">WBS</h3>
-											<ul class="panel-controls"></ul>
-										</div>
-										<div class="panel-body scroll">
-											<p>
-												<span th:text="${project.wbs}">f</span>
-											</p>
+										<div class="panel-footer">
+											<strong>WBS: </strong><span th:text="${project.wbs}"></span>
 										</div>
 									</div>
 								</div>
@@ -376,14 +360,31 @@
 												<td th:text="${risk.summaryproblem}" align="center"></td>
 												<td th:text="${risk.txtproblem}" align="center"></td>
 												<td th:text="${risk.dateproblem}" align="center"></td>
-												<td th:text="${risk.week}" align="center"></td>
-												<td th:text="${risk.dateclose}" align="center"></td>
-												<td th:text="${risk.status}" align="center"></td>
-												<td th:text="${risk.responsable}" align="center"></td>
-												<td th:text="${risk.type}" align="center"></td>
-												<td th:text="${risk.probability}" align="center"></td>
-												<td th:text="${risk.impact}" align="center"></td>
-												<td th:text="${risk.strategy}" align="center"></td>
+												<td align="center">
+													<span class="badge badge-default" th:text="'KW'+${risk.week}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-success" th:text="${risk.dateclose}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-warning" th:if="${risk.status.getStatus() == 'Open'}" th:text="${risk.status.getStatus()}" />
+													<span class="badge badge-success" th:if="${risk.status.getStatus() == 'Closed'}" th:text="${risk.status.getStatus()}" />
+												</td>
+												<td align="center">
+													<span th:if="${risk.responsable.getResponsable() == 'Dxc'}" th:text="${risk.responsable.getResponsable()}" />
+													<span th:if="${risk.responsable.getResponsable() == 'Customer'}" th:text="${project.customer.customer}" />
+													<span th:if="${risk.responsable.getResponsable() == 'Dxc and customer'}" th:text="'Dxc and ' + ${project.customer.customer}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-info" th:text="${risk.type.getType()}" ></span>
+												</td>
+												<td th:text="${risk.probability.getProbability()}" align="center"></td>
+												<td align="center">
+													<span class="badge badge-success" th:if="${risk.impact.getImpact() == 'Low'}" th:text="${risk.impact.getImpact()}" />
+													<span class="badge badge-warning" th:if="${risk.impact.getImpact() == 'Medium'}" th:text="${risk.impact.getImpact()}" />
+													<span class="badge badge-danger" th:if="${risk.impact.getImpact() == 'High'}" th:text="${risk.impact.getImpact()}" />
+												</td>
+												<td th:text="${risk.strategy.getStrategy()}" align="center"></td>
 												<td th:text="${risk.actions}" align="center"></td>
 												<td align="center">
 													<input type="hidden" th:value="${risk.class.getSimpleName()}" th:id="'problemrisk_' + ${risk.id}" />
@@ -430,13 +431,30 @@
 												<td th:text="${problem.summaryproblem}" align="center"></td>
 												<td th:text="${problem.txtproblem}" align="center"></td>
 												<td th:text="${problem.dateproblem}" align="center"></td>
-												<td th:text="${problem.week}" align="center"></td>
+												<td align="center">
+													<span class="badge badge-default" th:text="'KW'+${problem.week}" />
+												</td>
 												<td th:text="${problem.estimatedclosingdate}" align="center"></td>
-												<td th:text="${problem.dateclose}" align="center"></td>
-												<td th:text="${problem.status}" align="center"></td>
-												<td th:text="${problem.responsable}" align="center"></td>
-												<td th:text="${problem.type}" align="center"></td>
-												<td th:text="${problem.impact}" align="center"></td>
+												<td align="center">
+													<span class="badge badge-success" th:text="${problem.dateclose}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-warning" th:if="${problem.status.getStatus() == 'Open'}" th:text="${problem.status.getStatus()}" />
+													<span class="badge badge-success" th:if="${problem.status.getStatus() == 'Closed'}" th:text="${problem.status.getStatus()}" />
+												</td>
+												<td align="center">
+													<span th:if="${problem.responsable.getResponsable() == 'Dxc'}" th:text="${problem.responsable.getResponsable()}" />
+													<span th:if="${problem.responsable.getResponsable() == 'Customer'}" th:text="${project.customer.customer}" />
+													<span th:if="${problem.responsable.getResponsable() == 'Dxc and customer'}" th:text="'Dxc and ' + ${project.customer.customer}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-info" th:text="${problem.type.getType()}" />
+												</td>
+												<td align="center">
+													<span class="badge badge-success" th:if="${problem.impact.getImpact() == 'Low'}" th:text="${problem.impact.getImpact()}" />
+													<span class="badge badge-warning" th:if="${problem.impact.getImpact() == 'Medium'}" th:text="${problem.impact.getImpact()}" />
+													<span class="badge badge-danger" th:if="${problem.impact.getImpact() == 'High'}" th:text="${problem.impact.getImpact()}" />
+												</td>
 												<td th:text="${problem.actions}" align="center"></td>
 												<td align="center">
 													<input type="hidden" th:value="${problem.class.getSimpleName()}" th:id="'problemrisk_' + ${problem.id}" />
