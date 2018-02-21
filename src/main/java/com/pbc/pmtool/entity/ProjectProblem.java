@@ -43,6 +43,8 @@ public class ProjectProblem implements Comparable<ProjectProblem> {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
+	
+	
 
 	public int getId() {
 		return id;

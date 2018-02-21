@@ -4,7 +4,15 @@ jQuery.fn.AJAXmodal = function(opciones) {
 		idModal : "",
 		copyData : function(){},
 		url : "",
-		formData : function(){}
+		formData : function(){},
+		ajaxSucces : function(){
+			//Refresh page
+			window.location.reload();
+		},
+		disableButton: true,
+		FormValid: function(){
+			return true;
+		}
 	}
 	
 	//Combinamos con las configuraciones recibidas por parametro
@@ -18,37 +26,40 @@ jQuery.fn.AJAXmodal = function(opciones) {
 			
 			//Evento click en el submit del modal
 			$(".submitAJAXModal").click(function(){
-				//Obtenemos los datos POST
-				var datosPost = configuracion.formData();
-				
-				//Desactivamos el botón submit
-				$(".submitAJAXModal").prop("disabled",true);
-				
-				//Obtenemos el token
-				var token = document.getElementsByName("_csrf")[0].value;
-				
-				//AJAX Call
-				$.ajax({
-	    			type : "POST",
-	    			contentType : "application/json",
-	    			url : configuracion.url,
-	    			data : JSON.stringify(datosPost),
-	    			dataType : 'json',
-	    			
-	    			beforeSend: function(request) {
-	    		        return request.setRequestHeader('X-CSRF-Token', token);
-	    		    },
-	    		    
-	    			success : function(result) {
-	    				if(result.status == "Done"){
-	    					//Refresh
-	    					window.location.reload();
-	    				}
-	    			},
-	    			error : function(e) {
-	    				alert("error");
-	    			}
-	    		});
+				if(configuracion.FormValid()){
+					//Obtenemos los datos POST
+					var datosPost = configuracion.formData();
+					
+					//Desactivamos el botón submit
+					if(configuracion.disableButton){
+						$(".submitAJAXModal").prop("disabled",true);
+					}
+					
+					//Obtenemos el token
+					var token = document.getElementsByName("_csrf")[0].value;
+					
+					//AJAX Call
+					$.ajax({
+		    			type : "POST",
+		    			contentType : "application/json",
+		    			url : configuracion.url,
+		    			data : JSON.stringify(datosPost),
+		    			dataType : 'json',
+		    			
+		    			beforeSend: function(request) {
+		    		        return request.setRequestHeader('X-CSRF-Token', token);
+		    		    },
+		    		    
+		    			success : function(result) {
+		    				if(result.status == "Done"){
+		    					configuracion.ajaxSucces(result);
+		    				}
+		    			},
+		    			error : function(e) {
+		    				alert("error");
+		    			}
+		    		});
+				}
 				
 			});
 			
