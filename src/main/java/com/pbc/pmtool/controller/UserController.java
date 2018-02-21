@@ -1,10 +1,7 @@
 package com.pbc.pmtool.controller;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
-
 import java.util.HashMap;
 
-import javax.persistence.PersistenceException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.model.FormUserAdminModel;
 import com.pbc.pmtool.service.ProjectService;
