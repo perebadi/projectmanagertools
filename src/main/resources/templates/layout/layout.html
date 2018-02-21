@@ -54,7 +54,7 @@
 						<li sec:authorize="hasAuthority('ROLE_PM')"><a href="#" th:href="@{/projects/__${username}__/}"><span
 								class="fa fa-user"></span> Manage Your Projects</a></li>
 						
-						<li sec:authorize="hasAuthority('ROLE_PMO')"><a href="#" th:href="@{/projects/__${username}__/}"><span
+						<li sec:authorize="hasAuthority('ROLE_PMO')"><a href="#" th:href="@{/projects/pmo/__${username}__/}"><span
 								class="fa fa-user"></span> Manage PMO Projects</a></li>
 					</ul></li>
 
