@@ -95,7 +95,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public SumValuesModel getActiveSum(String username) {
 				
-		SumValuesModel sumValuesModel = new   SumValuesModel();;
+		SumValuesModel sumValuesModel = new   SumValuesModel();
 				
 		List<Object[]> ops =projectRepository.getActiveSum(username);
 
@@ -108,8 +108,16 @@ public class ProjectServiceImpl implements ProjectService {
 			
 			sumValuesModel.setEACOP((1-(double) op[2]/(double) op[0])*100);
 			sumValuesModel.setOP((1-(double) op[1]/(double) op[0])*100);
+			
+			if(Double.isNaN(sumValuesModel.getEACOP())) {
+				sumValuesModel.setEACOP(0);
 			}
-
+			
+			if(Double.isNaN(sumValuesModel.getOP())) {
+				sumValuesModel.setOP(0);
+			}
+			
+			}
 		
 		return sumValuesModel;
 	}
