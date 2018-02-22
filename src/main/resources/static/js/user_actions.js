@@ -1,4 +1,10 @@
 window.onload = function(){
+	
+	$("#assign_project_modal").on("hidden.bs.modal", function () {
+	    $("#addedProjectOk").hide();
+	    $("#userInProject").hide();
+	});
+	
 	//--- EDICIÓN USUARIO---
     //Obtenemos todos los botones de editar
     var userEditButton = document.getElementsByName("userEditButton");
