@@ -16,6 +16,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -119,8 +120,9 @@ public class ProjectController {
 		
 		sessionuser=user.getUsername();
 		
-		
-		mav.addObject("sumValuesModel", projectService.getActiveSum(user.getUsername()));
+		mav.addObject("sumValuesModel", projectService.getActiveSum(user.getUsername(), 
+				SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+				.contains(new SimpleGrantedAuthority("ROLE_PMO"))));
 		
 		
 		mav.addObject("username", sessionuser);

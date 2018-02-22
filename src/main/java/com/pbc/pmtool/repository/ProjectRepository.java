@@ -26,6 +26,9 @@ public interface ProjectRepository  extends JpaRepository<Project, Serializable>
 
 	@Query(value = "SELECT coalesce(sum(TVC), 0) as sTVC, coalesce(sum(TIC), 0) as sTIC, coalesce(sum(costestimated), 0) as scostestimatedl FROM project WHERE  user_username =?1 AND projectactive=true", nativeQuery = true)	
 	public  List<Object[]> getActiveSum(String username);
+	
+	@Query(value = "SELECT coalesce(sum(TVC), 0) as sTVC, coalesce(sum(TIC), 0) as sTIC, coalesce(sum(costestimated), 0) as scostestimatedl FROM project WHERE  (user_username =?1 OR pmo_username=?2) AND projectactive=true", nativeQuery = true)
+	public  List<Object[]> getPMOActiveSum(String username, String PMOusername);
 
 
 }

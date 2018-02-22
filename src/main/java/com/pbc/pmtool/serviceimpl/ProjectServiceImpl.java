@@ -1,5 +1,6 @@
 package com.pbc.pmtool.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -93,12 +94,18 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public SumValuesModel getActiveSum(String username) {
+	public SumValuesModel getActiveSum(String username, boolean isPmo) {
 				
 		SumValuesModel sumValuesModel = new   SumValuesModel();
 				
-		List<Object[]> ops =projectRepository.getActiveSum(username);
+		List<Object[]> ops = new ArrayList<Object[]>();
 
+		if(isPmo) {
+			ops=projectRepository.getPMOActiveSum(username, username);
+		}else {
+			ops=projectRepository.getActiveSum(username);
+		}
+		
 		for (Object[] op : ops ){
 			sumValuesModel.setsTIC((double) op[1]);
 			sumValuesModel.setsTVC((double) op[0]);

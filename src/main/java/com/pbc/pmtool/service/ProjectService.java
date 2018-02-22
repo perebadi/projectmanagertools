@@ -25,5 +25,5 @@ public interface ProjectService {
 	
 	public abstract Project updateProject(Project project);
 	
-	public abstract SumValuesModel getActiveSum(String username);
+	public abstract SumValuesModel getActiveSum(String username, boolean isPmo);
 }
