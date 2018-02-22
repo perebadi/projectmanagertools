@@ -20,7 +20,7 @@
 						<h4 class="modal-title" id="largeModalHead">Edit Task</h4>
 					</div>
 					<div class="modal-body">
-						<div class="row">
+						<div class="row" sec:authorize="hasAuthority('ROLE_PM')" >
 							<form class="form-horizontal" role="form" id="editbacklogtaskForm"
 								name="editbacklogtaskForm" method="POST">
 								<input type="hidden" id="editBacklogTaskTaskId" />
@@ -32,7 +32,7 @@
 								</div>
 							</form>
 						</div>
-						<div class="row">
+						<div class="row" sec:authorize="hasAuthority('ROLE_PM')" >
 							<br />
 							<h3 class="panel-title">
 								Assign to:
@@ -82,12 +82,12 @@
 							<form class="form-horizontal" role="form" id="edittaskForm"
 								name="edittaskForm" method="POST">
 								<input type="hidden" id="editTaskTaskId" />
-								<div class="form-group">
+								<div class="form-group" sec:authorize="hasAuthority('ROLE_PM')" >
 									<div class="col-md-12">
 										<textarea class="form-control" id="editTaskComment" rows="5" placeholder="Write a comment..." ></textarea>
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group" sec:authorize="hasAuthority('ROLE_PM')" >
 									<div class="col-md-4">
 										<div class="row">
 											<div class="pull-left">

@@ -58,7 +58,7 @@
 								class="fa fa-user"></span> Manage PMO Projects</a></li>
 					</ul></li>
 
-				<li sec:authorize="hasAuthority('ROLE_PM')" class="xn-openable"><a href="#"><span
+				<li sec:authorize="hasAuthority('ROLE_PM') or hasAuthority('ROLE_SPECIALIST')" class="xn-openable"><a href="#"><span
 						class="fa fa-files-o"></span> <span class="xn-text">Tasks</span></a>
 					<ul>
 						<li><a href="" th:href="@{/tasks/project/yourprojects/}"><span

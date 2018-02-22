@@ -22,7 +22,7 @@
 					<span class="fa fa-arrow-circle-o-left"></span> Kanban Tasks
 				</h2>
 			</div>
-			<div class="panel-footer">
+			<div class="panel-footer" sec:authorize="hasAuthority('ROLE_PM')" >
 				<button class="btn btn-default" data-toggle="modal" data-target="#create_task_modal">Create Task</button>
 			</div>
 			<!-- END PAGE TITLE -->
@@ -53,7 +53,7 @@
 												<span th:text="${backlog.summary}"></span>
 											</h3>
 			
-											<ul class="panel-controls">
+											<ul class="panel-controls" >
 												<li><a href="javascript: void();" class="showBacklogmodal" th:id="'showBacklogModal_' + ${backlog.id}"
 													th:attr="data-idTask=${backlog.id}"> <span
 														class="glyphicon glyphicon-pencil"></span>
@@ -268,7 +268,7 @@
 	
 	<!-- CREATE TASK MODAL -->
 	<div class="modal" id="create_task_modal" tabindex="-1" role="dialog"
-		aria-labelledby="#create_task_modal" aria-hidden="true">
+		aria-labelledby="#create_task_modal" aria-hidden="true" sec:authorize="hasAuthority('ROLE_PM')">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -384,13 +384,21 @@
 	<script th:src="@{/js/plugins/modal/modal-AJAX.js}"></script>
 
 	<!-- START TEMPLATE -->
-	<script th:src="@{/js/portlet.js}"></script>
+	<script sec:authorize="hasAuthority('ROLE_PM')" th:src="@{/js/portlet.js}"></script>
 	<script th:src="@{/js/tasks_actions.js}"></script>
 	<script th:src="@{/js/plugins/table/jquery.floatThead.min.js}"></script>
 	<!-- END PAGE PLUGINS -->
 	<!-- END SCRIPTS -->
 
 	<script type="text/javascript">
+	window.onload = function() {
+		//Head de estat de tasques sempre visible
+		var $table = $('#tableTasks');
+		$table.floatThead();
+	}
+	</script>
+
+	<script type="text/javascript" sec:authorize="hasAuthority('ROLE_PM')" >
 		function updateTaskStatus(taskId, status, currentstatus) {
 			if(parseInt(currentstatus) > 1){
 				window.location.assign('/tasks/project/' + $("#projectid").val()
@@ -407,10 +415,6 @@
 		}
 	
 		window.onload = function() {
-			//Head de estat de tasques sempre visible
-			var $table = $('#tableTasks');
-			$table.floatThead();
-			
 			//Validación formulario add task
 			var addTaskFormValidator = $("#createtaskForm").validate({
 				ignore : [],

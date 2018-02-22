@@ -28,7 +28,6 @@ import com.pbc.pmtool.service.ProjectTaskService;
 
 @Controller
 @RequestMapping("/tasks")
-@PreAuthorize("hasAuthority('ROLE_PM')")
 public class TaskController {
 	
 	static String sessionuser;
@@ -70,6 +69,7 @@ public class TaskController {
 	private ProjectTaskService projectTaskService;
 	
 	@GetMapping("/")
+	@PreAuthorize("hasAuthority('ROLE_PM')")
 	public ModelAndView Welcome() throws IllegalArgumentException, IllegalAccessException{
 		ModelAndView mav = new ModelAndView(ViewConstant.TASKFORMEDIT);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -91,6 +91,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("/project/{idproject}/move/{idtask}/{status}/")
+	@PreAuthorize("hasAuthority('ROLE_PM')")
 	public String Movetask(@PathVariable int idproject,@PathVariable int idtask, @PathVariable String status) {
 		
 		
@@ -130,6 +131,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("/project/yourprojects/")
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_SPECIALIST')")
 	public ModelAndView viewProject(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno) {
 		ModelAndView mav = new ModelAndView(ViewConstant.TASKPROJECTS);
 
@@ -145,6 +147,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("/project/{idproject}/")
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_SPECIALIST')")
 	public ModelAndView Projecttask(@PathVariable int idproject) {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.TASKFORMEDIT);
