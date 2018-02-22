@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.velocity.tools.generic.NumberTool;
 import org.codehaus.groovy.control.Phases;
 import org.hibernate.criterion.PropertyProjection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,78 +89,88 @@ public class Report {
 			InputStream in = new FileInputStream(new File(System.getProperty("user.dir")+ViewConstant.TEMPLATE_ODT));
 			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
 
-			// 2) Creamos las filas a pintar
 			FieldsMetadata metadata = new FieldsMetadata();
-			metadata.addFieldAsList("phases.summaryphase");
-			metadata.addFieldAsList("phases.startdate");
-			metadata.addFieldAsList("phases.enddate");
-			metadata.addFieldAsList("phases.weekdelay");
-			metadata.addFieldAsList("phases.newdate");
-			metadata.addFieldAsList("phases.progress");
-			metadata.addFieldAsList("phases.getRag().getStatusdescription()");
 			
-			metadata.addFieldAsList("achievements.summaryachievement");
-			metadata.addFieldAsList("achievements.dateachievement");
-			metadata.addFieldAsList("achievements.txtachievement");
+			metadata.addFieldAsList("achievement.summaryachievement");
+			metadata.addFieldAsList("achievement.dateachievement");
+			metadata.addFieldAsList("achievement.txtachievement");
 			
-			metadata.addFieldAsList("nextsteps.summarynextstep");
-			metadata.addFieldAsList("nextsteps.week");
-			metadata.addFieldAsList("nextsteps.txtnextstep");
+			metadata.addFieldAsList("phase.summaryphase");
+			metadata.addFieldAsList("phase.startdate");
+			metadata.addFieldAsList("phase.enddate");
+			metadata.addFieldAsList("phase.weekdelay");
+			metadata.addFieldAsList("phase.newdate");
+			metadata.addFieldAsList("phase.progress");
+			metadata.addFieldAsList("phase.rag");
 			
-			metadata.addFieldAsList("problems.summaryproblem");
-			metadata.addFieldAsList("problems.dateproblem");
-			metadata.addFieldAsList("problems.txtproblem");
+			metadata.addFieldAsList("nextstep.summarynextstep");
+			metadata.addFieldAsList("nextstep.week");
+			metadata.addFieldAsList("nextstep.txtnextstep");
 			
-			metadata.addFieldAsList("escalations.summaryescalation");
-			metadata.addFieldAsList("escalations.dateescalation");
-			metadata.addFieldAsList("escalations.txtescalation");
+			metadata.addFieldAsList("problem.summaryproblem");
+			metadata.addFieldAsList("problem.dateproblem");
+			metadata.addFieldAsList("problem.txtproblem");
 			
-			metadata.addFieldAsList("comments.createdOn");
-			metadata.addFieldAsList("comments.modifiedOn");
-			metadata.addFieldAsList("comments.comment");
+			metadata.addFieldAsList("escalation.summaryescalation");
+			metadata.addFieldAsList("escalation.dateescalation");
+			metadata.addFieldAsList("escalation.txtescalation");
+			
+			metadata.addFieldAsList("comment.createdOn");
+			metadata.addFieldAsList("comment.modifiedOn");
+			metadata.addFieldAsList("comment.comment");
+			
 			report.setFieldsMetadata(metadata);
 			
-
 			// 3) Cargamos el modelo
 			IContext context = report.createContext();
-			List<ProjectComment> list = new ArrayList<ProjectComment>(project.getComments());
-			List<ProjectPhase> phases = new ArrayList<ProjectPhase>(project.getPhases());
-			List<ProjectAchievement> achievements = new ArrayList<ProjectAchievement>(project.getAchievements());
-			List<ProjectNextStep> nextsteps = new ArrayList<ProjectNextStep>(project.getNextsteps());
-			List<ProjectProblem> problems = new ArrayList<ProjectProblem>(project.getProblems());
-			List<ProjectEscalation> escalations = new ArrayList<ProjectEscalation>(project.getEscalations());
-			List<ProjectComment> comments =  new ArrayList<ProjectComment>(project.getComments());
-
-			Collections.sort(phases);
 			
 			context.put("project", project);
 			
-			context.put("phases", phases);
-			context.put("achievements", achievements);
-			context.put("nextsteps", nextsteps);
-			context.put("escalations", escalations);
-			context.put("problems", problems);
-			context.put("comments", comments);
-
-			for (ProjectComment projectComment : list) {
-				System.out.println(projectComment.getId());
-				System.out.println(projectComment.getComment());
-			}
-							
-			System.out.println("Antes FileOut");
+			List<ProjectAchievement> achievements = new ArrayList<ProjectAchievement>(project.getAchievements());
+			
+			Collections.sort(achievements);
+			
+			context.put("achievement", achievements);
+			
+			List<ProjectPhase> phases = new ArrayList<ProjectPhase>(project.getPhases());
+			
+			Collections.sort(phases);
+			
+			context.put("phase", phases);
+			
+			List<ProjectNextStep> nextsteps = new ArrayList<ProjectNextStep>(project.getNextsteps());
+			
+			Collections.sort(nextsteps);
+			
+			context.put("nextstep", nextsteps);
+			
+			List<ProjectProblem> problems = new ArrayList<ProjectProblem>(project.getProblems());
+			
+			Collections.sort(problems);
+			
+			context.put("problem", problems);
+			
+			List<ProjectEscalation> escalation = new ArrayList<ProjectEscalation>(project.getEscalations());
+			
+			Collections.sort(escalation);
+			
+			context.put("escalation", escalation);
+			
+			List<ProjectComment> comments = new ArrayList<ProjectComment>(project.getComments());
+			
+			Collections.sort(comments);
+			
+			context.put("comment", comments);
+			
+			context.put("numberTool", new NumberTool());
+			
 			// 4) Generamos el odt
-			OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".odt"));
-			System.out.println("Antes report");
+			OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".docx"));
 			
 			report.process(context, out);
 			
 			out.close();
 			in.close();
-			
-			System.out.println("parse");
-			parseOdtToPdf(System.getProperty("user.dir")+ViewConstant.OUT, System.getProperty("user.dir")+"/"+project.getProjectname()+".pdf");
-
-			System.out.println("FIN DE LA CREACIÓN DEL ODT");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (XDocReportException e) {
