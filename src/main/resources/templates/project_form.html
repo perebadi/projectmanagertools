@@ -60,7 +60,16 @@
 
 			<!-- PAGE CONTENT WRAPPER -->
 			<div class="page-content-wrap">
-
+				<div class="row">
+					<div class="col-md-12">
+						<div id="clientAddSuccesAlert" style="display: none;" >
+							<br /> <br />
+							<div class="alert alert-success" role="alert">
+								<strong>Success!</strong> Customer added correctly.
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-12">
 
@@ -115,13 +124,15 @@
 											<div class="col-md-9">
 												<select name="customer_id" id="customer_id"
 													class="form-control select" data-live-search="true">
+													<option></option>
 													<option th:each="customer : ${customers}"
 														th:value="${customer.id}" th:text="${customer.customer}"></option>
 												</select>
 											</div>
 											<div class="col-md-1">
 												<ul class="panel-controls">
-													<li><a role="button"><span class="glyphicon glyphicon-plus"
+													<li><a role="button"><span
+															class="glyphicon glyphicon-plus"
 															id="addCustomerModalButton"></span></a></li>
 												</ul>
 											</div>
@@ -134,16 +145,16 @@
 												<label class="col-md-5 control-label">Total Contract
 													Value (TCV) - Baseline</label>
 												<div class="col-md-5">
-													<input name="TVC" id="TVC" type="number" class="form-control"
-														value="0" />
+													<input name="TVC" id="TVC" type="number"
+														class="form-control" value="0" />
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-5 control-label">Total Internal
 													Cost (TIC) - Baseline</label>
 												<div class="col-md-5">
-													<input name="TIC" id="TIC" type="number" class="form-control"
-														value="0" />
+													<input name="TIC" id="TIC" type="number"
+														class="form-control" value="0" />
 												</div>
 											</div>
 											<div class="form-group">
@@ -166,8 +177,8 @@
 												<label class="col-md-5 control-label">EstimaciÃ³n de
 													coste al cierre</label>
 												<div class="col-md-5">
-													<input name="costestimated" id="costestimated" type="number"
-														class="form-control" value="0" />
+													<input name="costestimated" id="costestimated"
+														type="number" class="form-control" value="0" />
 												</div>
 											</div>
 										</div>
@@ -281,14 +292,6 @@
 								</div>
 							</div>
 						</form>
-						<div class="row">
-							<div id="clientAddSuccesAlert">
-								<br /> <br />
-								<div class="alert alert-success" role="alert">
-									<strong>Success!</strong> Customer added correctly.
-								</div>
-							</div>
-						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default submitAJAXModal"
@@ -300,64 +303,66 @@
 
 		<script>
 			window.onload = function() {
-				$("#formnewproject").submit(function(event){
-					//Validación add project form
-					var newProjectFormValidator = $("#formnewproject").validate({
-						ignore : [],
-						rules : {
-							projectname : {
-								required : true
-							},
-							objectives : {
-								required : true
-							}, 
-							wbs : {
-								required : true
-							},
-							customer_id : {
-								required : true
-							},
-							TVC : {
-								required : true
-							},
-							TIC : {
-								required : true
-							},
-							OP : {
-								required : true
-							},
-							budgettodate : {
-								required : true
-							},
-							costestimated : {
-								required : true
-							},
-							EACOP : {
-								required : true
-							},
-							variance : {
-								required : true
-							},
-							certifiedprogress : {
-								required : true
-							},
-							invoiced : {
-								required : true
-							},
-							start : {
-								required : true
-							},
-							end : {
-								required : true
+				$("#formnewproject").submit(
+						function(event) {
+							//Validación add project form
+							var newProjectFormValidator = $("#formnewproject")
+									.validate({
+										ignore : [],
+										rules : {
+											projectname : {
+												required : true
+											},
+											objectives : {
+												required : true
+											},
+											wbs : {
+												required : true
+											},
+											customer_id : {
+												required : true
+											},
+											TVC : {
+												required : true
+											},
+											TIC : {
+												required : true
+											},
+											OP : {
+												required : true
+											},
+											budgettodate : {
+												required : true
+											},
+											costestimated : {
+												required : true
+											},
+											EACOP : {
+												required : true
+											},
+											variance : {
+												required : true
+											},
+											certifiedprogress : {
+												required : true
+											},
+											invoiced : {
+												required : true
+											},
+											start : {
+												required : true
+											},
+											end : {
+												required : true
+											}
+										}
+									});
+
+							if (!($("#formnewproject").valid())) {
+								event.preventDefault();
 							}
-						}
-					});
-					
-					if(!($("#formnewproject").valid())){
-						event.preventDefault();
-					}
-				});
-				
+						});
+
 				$("#addCustomerModalButton").AJAXmodal(
 						{
 							idModal : "addCustomer",
@@ -377,29 +382,30 @@
 										"<option value=" + response.data + ">"
 												+ $("#customerNameInput").val()
 												+ "</option>");
+								$("#customer_id").val(response.data);
 								$("#customer_id").selectpicker("refresh");
 
 								$("#customerNameInput").val('');
+								$("#addCustomer").modal('toggle');
 
 								$("#clientAddSuccesAlert").show(100);
-
 							},
 							disableButton : false,
 							FormValid : function() {
-								var customerFormValidator = $("#addCustomerForm")
-										.validate({
-											ignore : [],
-											rules : {
-												customerNameInput : {
-													required : true
-												}
-											}
-										});
+								var customerFormValidator = $(
+										"#addCustomerForm").validate({
+									ignore : [],
+									rules : {
+										customerNameInput : {
+											required : true
+										}
+									}
+								});
 
 								return $("#addCustomerForm").valid();
 							},
-							preventForm: true,
-							formId: "addCustomerForm"
+							preventForm : true,
+							formId : "addCustomerForm"
 						});
 			}
 		</script>
