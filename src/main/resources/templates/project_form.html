@@ -121,20 +121,13 @@
 										</div>
 										<div class="form-group">
 											<label class="col-md-2 control-label">PMO</label>
-											<div class="col-md-9">
+											<div class="col-md-10">
 												<select name="pmo" id="pmo"
 													class="form-control select" data-live-search="true">
 													<option></option>
 													<option th:each="pmo : ${pmos}"
 														th:value="${pmo.username}" th:text="${pmo.name}"></option>
 												</select>
-											</div>
-											<div class="col-md-1">
-												<ul class="panel-controls">
-													<li><a role="button"><span
-															class="glyphicon glyphicon-plus"
-															id="addCustomerModalButton"></span></a></li>
-												</ul>
 											</div>
 										</div>
 										<div class="form-group">
