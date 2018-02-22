@@ -202,5 +202,15 @@ public class UserServiceImpl implements UserService{
 		return resetPasswordConverter.User2LoginResetPasswordModel(passwordResetEntity);
 	}
 	
+	public List<FormUserAdminModel> getUsersByRole(String role){
+		List<User> usersEntity = userRepository.findByRole(role);
+		List<FormUserAdminModel> usersModel = new ArrayList<FormUserAdminModel>();
+		
+		for(User userEntity : usersEntity) {
+			usersModel.add(userConverter.UserEntity2FormUserAdminModel(userEntity));
+		}
+		
+		return usersModel;
+	}
 	
 }

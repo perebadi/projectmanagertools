@@ -1,6 +1,7 @@
 package com.pbc.pmtool.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -65,5 +66,7 @@ public interface UserService extends UserDetailsService {
 	 * Guarda la contraseña reiniciada
 	 */
 	public LoginResetPasswordModel saveNewPassword(LoginResetPasswordModel resetPasswordModel);
+	
+	public List<FormUserAdminModel> getUsersByRole(String role);
 	
 }

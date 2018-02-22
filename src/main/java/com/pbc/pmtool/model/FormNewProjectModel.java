@@ -2,6 +2,7 @@ package com.pbc.pmtool.model;
 
 public class FormNewProjectModel {
 
+	private String pmo;
 	private String projectname;
 	private String objectives;
 	private Double TVC;
@@ -18,6 +19,14 @@ public class FormNewProjectModel {
 	private String wbs;
 	private int customer_id;
 	
+	public String getPmo() {
+		return pmo;
+	}
+
+	public void setPmo(String pmo) {
+		this.pmo = pmo;
+	}
+
 	public int getCustomer_id() {
 		return customer_id;
 	}
@@ -138,10 +147,11 @@ public class FormNewProjectModel {
 		this.end = end;
 	}
 
-	public FormNewProjectModel(String projectname, String objectives, Double tVC, Double tIC, Double oP,
+	public FormNewProjectModel(String pmo, String projectname, String objectives, Double tVC, Double tIC, Double oP,
 			Double budgettodate, Double costestimated, Double eACOP, Double variance, Double certifiedprogress,
-			Double invoiced, String start, String end, String wbs) {
+			Double invoiced, String start, String end, String wbs, int customer_id) {
 		super();
+		this.pmo = pmo;
 		this.projectname = projectname;
 		this.objectives = objectives;
 		TVC = tVC;
@@ -156,6 +166,7 @@ public class FormNewProjectModel {
 		this.start = start;
 		this.end = end;
 		this.wbs = wbs;
+		this.customer_id = customer_id;
 	}
 
 	public FormNewProjectModel() {

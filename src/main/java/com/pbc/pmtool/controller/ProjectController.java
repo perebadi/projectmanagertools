@@ -58,6 +58,7 @@ import com.pbc.pmtool.service.ProjectPhaseService;
 import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
+import com.pbc.pmtool.service.UserService;
 
 
 @Controller
@@ -106,6 +107,10 @@ public class ProjectController {
 	@Qualifier("customerConverter")
 	private CustomerConverter customerConverter;
 	
+	@Autowired
+	@Qualifier("userService")
+	private UserService userService;
+	
 	@GetMapping("/")
 	public ModelAndView Welcome() throws IllegalArgumentException, IllegalAccessException{
 		ModelAndView mav = new ModelAndView(ViewConstant.WELCOME);
@@ -130,6 +135,7 @@ public class ProjectController {
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORM);
 		
 		mav.addObject("customers", customerServiceImpl.getAll());
+		mav.addObject("pmos", userService.getUsersByRole("ROLE_PMO"));
 		
 		return mav;		
 	}
@@ -141,6 +147,7 @@ public class ProjectController {
 		System.out.println(formNewProjectModel.getProjectname());
 		Project project = new Project();
 		
+		project.setPmo(userService.getUser(formNewProjectModel.getPmo()));
 		project.setProjectname(formNewProjectModel.getProjectname());
 		project.setObjectives(formNewProjectModel.getObjectives());
 		project.setWbs(formNewProjectModel.getWbs());
