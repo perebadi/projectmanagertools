@@ -59,6 +59,7 @@ import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.CustomerService;
+import com.pbc.pmtool.service.EmailService;
 import com.pbc.pmtool.service.ProblemService;
 import com.pbc.pmtool.service.ProjectAchievementService;
 import com.pbc.pmtool.service.ProjectCommentService;
@@ -140,6 +141,10 @@ public class PmToolRestController {
 	@Qualifier("riskServiceImpl")
 	private RiskService riskServiceImpl;
 	
+	@Autowired
+	@Qualifier("emailService")
+	private EmailService emailServiceImpl;
+	
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping(value = "/projects/all")
 	public List<Project> getProject() {
@@ -206,10 +211,26 @@ public class PmToolRestController {
 				task.getComments().add(comment);
 			}
 
-			if (!(formSaveBacklogModel.getUsername().equals("nobody"))) {
+			if (!(formSaveBacklogModel.getUsername().equals("nobody"))) {				
+				if(task.getUser() == null) {
+					Project project = projectService.findProjectById(task.getProject().getId());
+					
+					String emailText = "You have a new task in a project.";
+					
+					emailText += "<br/><br/>";
+					emailText += "<strong>Project: </strong> " + project.getProjectname() + " <br/>";
+					emailText += "<strong>Objectives: </strong> " + project.getObjectives() + " <br/>";
+					emailText += "<strong>Customer: </strong> " + project.getCustomer().getCustomer() + " <br/>";
+					emailText += "<strong>Task: </strong> " + task.getSummary() + " <br/>";
+					emailText += "<strong>Task details: </strong> " + task.getDetails() + " <br/>";
+					
+					emailServiceImpl.sendEmail(emailText, "You have a new task in a project.", formSaveBacklogModel.getUsername());
+				}
+				
 				task.setUser(userService.getUser(formSaveBacklogModel.getUsername()));
 
 				task.setStatus(2);
+				
 			} else if (formSaveBacklogModel.getUsername().equals("nobody")) {
 				task.setUser(null);
 			}
@@ -270,15 +291,28 @@ public class PmToolRestController {
 			BindingResult bindingResult) {
 		if (!(bindingResult.hasErrors())) {
 			Task newTask = new Task();
-
+			Project project = projectService.findProjectById(formCreateTaskModel.getProjectid());
+			
 			newTask.setSummary(formCreateTaskModel.getSummary());
 			newTask.setDetails(formCreateTaskModel.getDetails());
 			newTask.setDatecreation(new Date());
 			newTask.setDatestatus(new Date());
-			newTask.setProject(projectService.findProjectById(formCreateTaskModel.getProjectid()));
+			newTask.setProject(project);
 
 			if (!(formCreateTaskModel.getUsername().equals("nobody"))) {
 				newTask.setUser(userService.getUser(formCreateTaskModel.getUsername()));
+				
+				String emailText = "You have a new task in a project.";
+				
+				emailText += "<br/><br/>";
+				emailText += "<strong>Project: </strong> " + project.getProjectname() + " <br/>";
+				emailText += "<strong>Objectives: </strong> " + project.getObjectives() + " <br/>";
+				emailText += "<strong>Customer: </strong> " + project.getCustomer().getCustomer() + " <br/>";
+				emailText += "<strong>Task: </strong> " + formCreateTaskModel.getSummary() + " <br/>";
+				emailText += "<strong>Task details: </strong> " + formCreateTaskModel.getDetails() + " <br/>";
+				
+				emailServiceImpl.sendEmail(emailText, "You have a new task in a project.", formCreateTaskModel.getUsername());
+				
 			}
 
 			newTask.setStatus(1);
@@ -291,7 +325,7 @@ public class PmToolRestController {
 			newTask.setHours(0);
 
 			projectTaskServiceImpl.addProjectTask(newTask);
-
+			
 			return new Response("Done", "Done");
 		} else {
 			return new Response("Error", "Error");

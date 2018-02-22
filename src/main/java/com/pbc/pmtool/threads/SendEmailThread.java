@@ -40,7 +40,7 @@ public class SendEmailThread implements Runnable {
 	        message.setFrom(new InternetAddress("josep_hpe@outlook.com"));
 	        message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient)); 
 	        message.setSubject(subject);
-	        message.setText(text);
+	        message.setContent(text, "text/html; charset=utf-8");
 	        
 	        Transport transport = session.getTransport("smtp");
 	        transport.connect("smtp.live.com", "josep_hpe@outlook.com", "Dxc20182018");
