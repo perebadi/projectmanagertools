@@ -147,7 +147,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean uploadE3T(MultipartFile e3tFile, int id) {
-		File file = new File(System.getProperty("user.dir")+"/e3t/e3tfile_" + id + "." + FilenameUtils.getExtension(e3tFile.getOriginalFilename()));
+		File file = new File(System.getProperty("user.dir")+ViewConstant.E3TFOLDER+"e3tfile_" + id + "." + FilenameUtils.getExtension(e3tFile.getOriginalFilename()));
 
 		try {
 			FileUtils.writeByteArrayToFile(file, e3tFile.getBytes());

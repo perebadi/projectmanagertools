@@ -3,7 +3,6 @@ package com.pbc.pmtool.additional;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,13 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.velocity.tools.generic.NumberTool;
-import org.codehaus.groovy.control.Phases;
-import org.hibernate.criterion.PropertyProjection;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.Phased;
 
 import com.pbc.pmtool.constant.ViewConstant;
+import com.pbc.pmtool.entity.Problem;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.ProjectComment;
@@ -27,11 +22,7 @@ import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
 import com.pbc.pmtool.entity.ProjectProblem;
-import com.pbc.pmtool.repository.UserRepository;
-import com.pbc.pmtool.service.ProjectAchievementService;
-import com.pbc.pmtool.service.ProjectEscalationService;
-import com.pbc.pmtool.service.ProjectNextStepService;
-import com.pbc.pmtool.service.ProjectProblemService;
+import com.pbc.pmtool.entity.Risk;
 
 import fr.opensagres.xdocreport.converter.ConverterRegistry;
 import fr.opensagres.xdocreport.converter.ConverterTypeTo;
@@ -40,31 +31,12 @@ import fr.opensagres.xdocreport.converter.Options;
 import fr.opensagres.xdocreport.core.XDocReportException;
 import fr.opensagres.xdocreport.core.document.DocumentKind;
 import fr.opensagres.xdocreport.document.IXDocReport;
-import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
-import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
 
 public class Report {
-	
-	@Autowired
-	@Qualifier("projectAchievementServiceImpl")
-	private ProjectAchievementService projectAchievementService;
-	
-	@Autowired
-	@Qualifier("projectNextStepServiceImpl")
-	private ProjectNextStepService projectNextStepService;
-	
-	@Autowired
-	@Qualifier("projectProblemServiceImpl")
-	private ProjectProblemService projectProblemService;
-	
-	
-	@Autowired
-	@Qualifier("projectEscalationServiceImpl")
-	private ProjectEscalationService projectEscalationService;
 	
 	private  void parseOdtToPdf(String file, String namefile) {
 		Options options = Options.getFrom(DocumentKind.ODT).to(ConverterTypeTo.PDF);
@@ -107,9 +79,30 @@ public class Report {
 			metadata.addFieldAsList("nextstep.week");
 			metadata.addFieldAsList("nextstep.txtnextstep");
 			
-			metadata.addFieldAsList("problem.summaryproblem");
-			metadata.addFieldAsList("problem.dateproblem");
-			metadata.addFieldAsList("problem.txtproblem");
+			metadata.addFieldAsList("risks.summaryproblem");
+			metadata.addFieldAsList("risks.txtproblem");
+			metadata.addFieldAsList("risks.dateproblem");
+			metadata.addFieldAsList("risks.week");
+			metadata.addFieldAsList("risks.status");
+			metadata.addFieldAsList("risks.responsable");
+			metadata.addFieldAsList("risks.impact");
+			metadata.addFieldAsList("risks.type");
+			metadata.addFieldAsList("risks.actions");
+			metadata.addFieldAsList("risks.dateclose");
+			metadata.addFieldAsList("risks.probability");
+			metadata.addFieldAsList("risks.strategy");
+			
+			metadata.addFieldAsList("problems.summaryproblem");
+			metadata.addFieldAsList("problems.txtproblem");
+			metadata.addFieldAsList("problems.dateproblem");
+			metadata.addFieldAsList("problems.week");
+			metadata.addFieldAsList("problems.status");
+			metadata.addFieldAsList("problems.responsable");
+			metadata.addFieldAsList("problems.impact");
+			metadata.addFieldAsList("problems.type");
+			metadata.addFieldAsList("problems.actions");
+			metadata.addFieldAsList("problems.dateclose");
+			metadata.addFieldAsList("problems.estimatedclosingdate");
 			
 			metadata.addFieldAsList("escalation.summaryescalation");
 			metadata.addFieldAsList("escalation.dateescalation");
@@ -144,11 +137,24 @@ public class Report {
 			
 			context.put("nextstep", nextsteps);
 			
-			List<ProjectProblem> problems = new ArrayList<ProjectProblem>(project.getProblems());
+			List<Risk> risks = new ArrayList<Risk>();
+			List<Problem> problems = new ArrayList<Problem>();
+			
+			for(ProjectProblem problem : project.getProblems()) {
+				if(problem instanceof Risk) {
+					risks.add((Risk) problem);
+				}else {
+					problems.add((Problem) problem);
+				}
+			}
+			
+			Collections.sort(risks);
+			
+			context.put("risks", risks);
 			
 			Collections.sort(problems);
 			
-			context.put("problem", problems);
+			context.put("problems", problems);
 			
 			List<ProjectEscalation> escalation = new ArrayList<ProjectEscalation>(project.getEscalations());
 			
@@ -165,12 +171,14 @@ public class Report {
 			context.put("numberTool", new NumberTool());
 			
 			// 4) Generamos el odt
-			OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".docx"));
+			OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".odt"));
 			
 			report.process(context, out);
 			
 			out.close();
 			in.close();
+			
+			parseOdtToPdf(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".odt", System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".pdf");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (XDocReportException e) {

@@ -21,9 +21,10 @@ public class ViewConstant {
 	public static final String LIST_USERS = "resource/users";
 	public static final String CREATEACOUNT = "createacount";
 	public static final String RESETPASSWORD = "resetpassword";
-	public static final String TEMPLATE_ODT = "/docs/Plantilla.docx";
+	public static final String TEMPLATE_ODT = "/docs/Plantilla.odt";
 	public static final String OUT = "/docs/salida.docx";
 	public static final String OUTPDF = "/docs/PlantillaPDF.pdf";
+	public static final String E3TFOLDER = "/e3t/";
 	
 	public static final String GREEN = "/docs/green.png";
 	public static final String YELLOW = "/docs/yellow.png";

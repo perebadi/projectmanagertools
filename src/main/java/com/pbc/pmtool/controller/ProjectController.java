@@ -137,11 +137,9 @@ public class ProjectController {
 				ServletContext context = request.getServletContext();
 				
 		        // construct the complete absolute path of the file
-		        String fullPath = System.getProperty("user.dir")+"/e3t/"+project.getE3t();
+		        String fullPath = System.getProperty("user.dir")+ViewConstant.E3TFOLDER+project.getE3t();
 		        File downloadFile = new File(fullPath);
 		        FileInputStream inputStream = new FileInputStream(downloadFile);
-		         
-		        System.out.println(downloadFile);
 		        
 		        // get MIME type of the file
 		        String mimeType = context.getMimeType(fullPath);
@@ -149,7 +147,6 @@ public class ProjectController {
 		            // set to binary type if MIME mapping not found
 		            mimeType = "application/octet-stream";
 		        }
-		        System.out.println("MIME type: " + mimeType);
 		 
 		        // set content attributes for the response
 		        response.setContentType(mimeType);
