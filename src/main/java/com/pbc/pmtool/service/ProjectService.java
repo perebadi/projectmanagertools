@@ -2,6 +2,8 @@ package com.pbc.pmtool.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.SumValuesModel;
@@ -22,6 +24,7 @@ public interface ProjectService {
 	
 	public abstract List<Project> listPageablePmoProjects(int pageno, User user);
 
+	public abstract boolean uploadE3T(MultipartFile e3tFile, int id);
 	
 	public abstract Project updateProject(Project project);
 	

@@ -35,6 +35,9 @@ public class Project {
 	@Column(name = "WBS")
 	private String wbs;
 
+	@Column(name = "e3t")
+	private String e3t;
+	
 	@Column(name = "objectives", columnDefinition = "TEXT")
 	private String objectives;
 
@@ -132,6 +135,14 @@ public class Project {
 	
 	public Customer getCustomer() {
 		return customer;
+	}
+
+	public String getE3t() {
+		return e3t;
+	}
+
+	public void setE3t(String e3t) {
+		this.e3t = e3t;
 	}
 
 
@@ -561,8 +572,11 @@ public class Project {
 	}
 
 
+	
 
-	public Project(int id, String projectname, boolean projectactive, String wbs, String objectives,
+
+
+	public Project(int id, String projectname, boolean projectactive, String wbs, String e3t, String objectives,
 			ProjectStatusLight projectStatus, ProjectStatusLight projectStatusConfidence,
 			ProjectStatusLight projectDeliveryConfidence, ProjectStatusLight projectGovernance,
 			ProjectStatusLight projectBusinessChange, ProjectStatusLight projectBenefitsRealisation,
@@ -570,12 +584,14 @@ public class Project {
 			Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps,
 			Set<ProjectProblem> problems, Set<ProjectPhase> phases, List<User> assigneds, User user, User pmo,
 			Double tVC, Double tIC, Double oP, Double budgettodate, Double costestimated, Double eACOP, Double variance,
-			Double certifiedprogress, Double invoiced, Set<Task> tasks, Set<ProjectComment> comments) {
+			Double certifiedprogress, Double invoiced, Set<Task> tasks, Set<ProjectComment> comments,
+			Customer customer) {
 		super();
 		this.id = id;
 		this.projectname = projectname;
 		this.projectactive = projectactive;
 		this.wbs = wbs;
+		this.e3t = e3t;
 		this.objectives = objectives;
 		this.projectStatus = projectStatus;
 		this.projectStatusConfidence = projectStatusConfidence;
@@ -605,9 +621,8 @@ public class Project {
 		this.invoiced = invoiced;
 		this.tasks = tasks;
 		this.comments = comments;
+		this.customer = customer;
 	}
-
-
 
 	public Project() {
 

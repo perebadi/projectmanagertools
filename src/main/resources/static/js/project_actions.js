@@ -84,6 +84,10 @@ $(document).ready(function(){
 		}
 	});
 
+	//Click del botón añadir modal
+	$("#e3tUploadModal").click(function(){
+		$("#modalUploadE3T").modal('show');
+	});
 	
 	//Función achievement addButton
 	function addAchievementButton(){

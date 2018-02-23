@@ -5,13 +5,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.additional.Report;
@@ -38,18 +35,10 @@ import com.pbc.pmtool.entity.ProjectComment;
 import com.pbc.pmtool.entity.ProjectEscalation;
 import com.pbc.pmtool.entity.ProjectNextStep;
 import com.pbc.pmtool.entity.ProjectPhase;
-import com.pbc.pmtool.entity.ProjectProblem;
-import com.pbc.pmtool.entity.ProjectStatusLight;
 import com.pbc.pmtool.entity.Risk;
-import com.pbc.pmtool.model.FormAchievementModel;
-import com.pbc.pmtool.model.FormEscalationModel;
 import com.pbc.pmtool.model.FormFinancialModel;
 import com.pbc.pmtool.model.FormNewProjectModel;
-import com.pbc.pmtool.model.FormNextStepModel;
-import com.pbc.pmtool.model.FormPhaseModel;
-import com.pbc.pmtool.model.FormProblemModel;
 import com.pbc.pmtool.model.FormRagModel;
-import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.CustomerService;
 import com.pbc.pmtool.service.ProjectAchievementService;
@@ -130,6 +119,14 @@ public class ProjectController {
 		return mav;
 	}
 	
+	@PostMapping("/project/{id}/e3t/upload")
+	public String uploadE3T(@PathVariable int id, MultipartFile file) {
+		if(projectService.uploadE3T(file, id)) {
+			return "redirect:/projects/project/" + id + "/?e3tuploadsucessful";
+		}else {
+			return "redirect:/projects/project/" + id + "/?e3tuploaderror";
+		}
+	}
 	
 	@PreAuthorize("hasRole('ROLE_PM')")
 	@GetMapping("/createproject")

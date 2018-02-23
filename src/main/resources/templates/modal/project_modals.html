@@ -99,6 +99,37 @@
 		<!-- SCRIPTS -->
 
 		<!-- PROJECT MODALS -->
+		
+		<!-- UPLOAD E3T MODAL -->
+		<div class="modal fade" id="modalUploadE3T" role="dialog">
+			<div class="modal-dialog" style="width: 800px;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Upload E3T</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" id="uploadE3TForm" method="POST" th:action="@{/projects/project/__${project.id}__/e3t/upload}"
+							enctype="multipart/form-data">
+							<div class="row">
+								<div class="col-md-2">
+									<label>File</label>
+								</div>
+								<div class="col-md-12">
+									<input type="file" name="file" class="form-control-file" required="true" />
+								</div>
+							</div>
+							<br /> <br />
+							<button class="btn btn-primary pull-right">Upload E3T</button>
+							<br /> <br />
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END UPLOAD E3T MODAL -->
+		
 		<!-- COMMENTS MODAL -->
 		<div class="modal fade" id="modalComment" role="dialog">
 			<div class="modal-dialog" style="width: 800px;">
