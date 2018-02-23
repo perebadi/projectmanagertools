@@ -1,6 +1,9 @@
 package com.pbc.pmtool.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,6 +12,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -118,6 +126,57 @@ public class ProjectController {
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(user.getUsername())));
 		return mav;
 	}
+	
+	@GetMapping("/project/{id}/e3t/download")
+	public void getE3T(@PathVariable int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Project project = projectService.findProjectById(id);
+		
+		if(project != null) {
+			if(project.getE3t() != null) {
+				ServletContext context = request.getServletContext();
+				
+		        // construct the complete absolute path of the file
+		        String fullPath = System.getProperty("user.dir")+"/e3t/"+project.getE3t();
+		        File downloadFile = new File(fullPath);
+		        FileInputStream inputStream = new FileInputStream(downloadFile);
+		         
+		        System.out.println(downloadFile);
+		        
+		        // get MIME type of the file
+		        String mimeType = context.getMimeType(fullPath);
+		        if (mimeType == null) {
+		            // set to binary type if MIME mapping not found
+		            mimeType = "application/octet-stream";
+		        }
+		        System.out.println("MIME type: " + mimeType);
+		 
+		        // set content attributes for the response
+		        response.setContentType(mimeType);
+		        response.setContentLength((int) downloadFile.length());
+		 
+		        // set headers for the response
+		        String headerKey = "Content-Disposition";
+		        String headerValue = String.format("attachment; filename=\"%s\"",
+		                downloadFile.getName());
+		        response.setHeader(headerKey, headerValue);
+		 
+		        // get output stream of the response
+		        OutputStream outStream = response.getOutputStream();
+		 
+		        byte[] buffer = new byte[4096];
+		        int bytesRead = -1;
+		 
+		        // write bytes read from the input stream into the output stream
+		        while ((bytesRead = inputStream.read(buffer)) != -1) {
+		            outStream.write(buffer, 0, bytesRead);
+		        }
+		 
+		        inputStream.close();
+		        outStream.close();
+			}
+		}
+ 
+    }
 	
 	@PostMapping("/project/{id}/e3t/upload")
 	public String uploadE3T(@PathVariable int id, MultipartFile file) {
