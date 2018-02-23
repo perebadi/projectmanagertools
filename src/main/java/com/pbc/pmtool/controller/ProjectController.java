@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -180,8 +181,12 @@ public class ProjectController {
 	
 	@PostMapping("/project/{id}/e3t/upload")
 	public String uploadE3T(@PathVariable int id, MultipartFile file) {
-		if(projectService.uploadE3T(file, id)) {
-			return "redirect:/projects/project/" + id + "/?e3tuploadsucessful";
+		if(file.getSize() > 0) {
+			if(projectService.uploadE3T(file, id)) {
+				return "redirect:/projects/project/" + id + "/?e3tuploadsucessful";
+			}else {
+				return "redirect:/projects/project/" + id + "/?e3tuploaderror";
+			}
 		}else {
 			return "redirect:/projects/project/" + id + "/?e3tuploaderror";
 		}
@@ -324,10 +329,17 @@ public class ProjectController {
 	
 	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@GetMapping({"/project/{id}/","/project/{id}"})
-	public ModelAndView editProject(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable int id){
+	public ModelAndView editProject(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable int id, 
+			@RequestParam(name="e3tuploadsucessful", required=false) String e3tuploadsucessful,
+			@RequestParam(name="e3tuploaderror", required=false) String e3tuploaderror){
 		
 		System.out.println("id : "+id);
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTFORMEDIT);
+		
+		System.out.println(e3tuploadsucessful);
+		
+		mav.addObject("e3tuploadsucessful", e3tuploadsucessful);
+		mav.addObject("e3tuploaderror", e3tuploaderror);
 		
 		System.out.println("id : "+id);
 		Project project = projectService.findProjectById(id);

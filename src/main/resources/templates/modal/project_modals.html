@@ -113,14 +113,22 @@
 						<form class="form-horizontal" id="uploadE3TForm" method="POST" th:action="@{/projects/project/__${project.id}__/e3t/upload}"
 							enctype="multipart/form-data">
 							<div class="row">
-								<div class="col-md-2">
-									<label>File</label>
-								</div>
 								<div class="col-md-12">
-									<input type="file" name="file" class="form-control-file" required="true" />
+									<input type="file" name="file" class="fileinput" required="true" />
 								</div>
 							</div>
-							<br /> <br />
+							<br />
+							<div class="row" th:if="${project.e3t}">
+								<div class="col-md-12">
+									<div class="alert alert-info" role="alert" >
+										<button type="button" class="close" data-dismiss="alert">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										The current E3T file will be updated.
+									</div>
+								</div>
+							</div>
+							<br />
 							<button class="btn btn-primary pull-right">Upload E3T</button>
 							<br /> <br />
 						</form>

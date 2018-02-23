@@ -23,6 +23,24 @@
 
 			<!-- PAGE CONTENT WRAPPER -->
 			<div class="page-content-wrap">
+				<div class="col-md-12">
+					<div class="alert alert-success" role="alert" th:if="${e3tuploadsucessful}" >
+						<button type="button" class="close" data-dismiss="alert">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<strong>Success!</strong> E3T file uploaded correctly.
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="alert alert-danger" role="alert" th:if="${e3tuploaderror}" >
+						<button type="button" class="close" data-dismiss="alert">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<strong>Ups!</strong> E3T file uploaded with errors.
+					</div>
+				</div>
+
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row">
@@ -533,33 +551,27 @@
 												</div>
 											</td>
 											<td align="center">
-													<!-- 
+												<!-- 
 													<button type="button" class="btn btn-primary">
 														<span class="fa fa-wrench" aria-hidden="true"></span>Editar
 													</button>-->
-													<div class="btn-group">
-														<div class="btn-group" align="center">
-															<a href="#" data-toggle="dropdown"
-																class="btn btn-primary dropdown-toggle">Actions <span class="caret"></span></a>
-															<ul class="dropdown-menu" role="menu">
-																<li><a role="button" id="financialsModal" >
-																		Edit Financials
-																	</a>
-																</li>
-																<li>
-																	<a role="button" id="" >
-																		Get E3T
-																	</a>
-																</li>
-																<li>
-																	<a role="button" id="e3tUploadModal" >
-																		Upload E3T
-																	</a>
-																</li>
-															</ul>
-														</div>
-														<!-- END ACTION BUTTONS -->
+												<div class="btn-group">
+													<div class="btn-group" align="center">
+														<a href="#" data-toggle="dropdown"
+															class="btn btn-primary dropdown-toggle">Actions <span
+															class="caret"></span></a>
+														<ul class="dropdown-menu" role="menu">
+															<li><a role="button" id="financialsModal"> Edit
+																	Financials </a></li>
+															<li th:if="${project.e3t}"><a role="button"
+																th:href="@{/projects/project/__${project.id}__/e3t/download}">
+																	Get E3T </a></li>
+															<li><a role="button" id="e3tUploadModal">
+																	Upload E3T </a></li>
+														</ul>
 													</div>
+													<!-- END ACTION BUTTONS -->
+												</div>
 											</td>
 
 										</tr>
@@ -754,11 +766,11 @@
 				</div>
 			</div>
 			<!-- END PAGE CONTENT WRAPPER -->
-			
+
 			<!-- FOOTER -->
 			<footer th:replace="layout/layout :: footer"></footer>
 			<!-- END FOOTER -->
-			
+
 		</div>
 		<!-- END PAGE CONTENT -->
 
@@ -773,6 +785,7 @@
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-tagsinput.min.js}"></script>
+	<script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>
 	<script th:src="@{/js/project_actions.js}"></script>
 	<!-- END PAGE PLUGINS -->
 </body>
