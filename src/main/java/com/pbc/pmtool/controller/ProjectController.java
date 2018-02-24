@@ -311,17 +311,45 @@ public class ProjectController {
 	
 	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@GetMapping({"/project/{id}/print/","/project/{id}/print"})
-	public String reportProjects( @PathVariable int id) throws IOException{
+	public void reportProjects( @PathVariable int id, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
 		
 		Report report = new Report();
-		report.createTemplate(projectService.findProjectById(id));
+		File projectReport = report.createTemplate(projectService.findProjectById(id));
 		
-	
-        
-		return "redirect:/project/"+id+"/";
-
-
+		FileInputStream inputStream = new FileInputStream(projectReport);
+		ServletContext context = request.getServletContext();
+        // get MIME type of the file
+        String mimeType = context.getMimeType(projectReport.getName());
+        if (mimeType == null) {
+            // set to binary type if MIME mapping not found
+            mimeType = "application/octet-stream";
+        }
+ 
+        // set content attributes for the response
+        response.setContentType(mimeType);
+        response.setContentLength((int) projectReport.length());
+ 
+        // set headers for the response
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                projectReport.getName());
+        response.setHeader(headerKey, headerValue);
+ 
+        // get output stream of the response
+        OutputStream outStream = response.getOutputStream();
+ 
+        byte[] buffer = new byte[4096];
+        int bytesRead = -1;
+ 
+        // write bytes read from the input stream into the output stream
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+ 
+        inputStream.close();
+        outStream.close();
+        projectReport.delete();
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")

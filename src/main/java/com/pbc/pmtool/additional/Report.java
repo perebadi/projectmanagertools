@@ -39,7 +39,7 @@ import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 public class Report {
 	
 	private  void parseOdtToPdf(String file, String namefile) {
-		Options options = Options.getFrom(DocumentKind.ODT).to(ConverterTypeTo.PDF);
+		Options options = Options.getFrom(DocumentKind.DOCX).to(ConverterTypeTo.PDF);
 		IConverter converter = ConverterRegistry.getRegistry().getConverter(options);
 		try {
 			InputStream in = new FileInputStream(new File(file));
@@ -53,7 +53,7 @@ public class Report {
 		}
 	}
 	
-	public void createTemplate(Project project) {
+	public File createTemplate(Project project) {
 		try {
 			// Freemarker : Hello ${name} !
 			// Velocity : Hello $name !
@@ -171,18 +171,28 @@ public class Report {
 			context.put("numberTool", new NumberTool());
 			
 			// 4) Generamos el odt
-			OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".odt"));
+			Options options = Options.getFrom(DocumentKind.DOCX).to(ConverterTypeTo.PDF);
+			File tempFile = File.createTempFile("projectReport", ".pdf");
+			OutputStream out = new FileOutputStream(tempFile);
+			//OutputStream out = new FileOutputStream(new File(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".pdf"));
 			
-			report.process(context, out);
+			//report.process(context, out);
+			report.convert(context, options, out);
 			
 			out.close();
 			in.close();
 			
-			parseOdtToPdf(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".odt", System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".pdf");
+			return tempFile;
+			
+			//parseOdtToPdf(System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".docx", System.getProperty("user.dir")+"/docs/"+project.getProjectname()+".pdf");
 		} catch (IOException e) {
 			e.printStackTrace();
+			
+			return null;
 		} catch (XDocReportException e) {
 			e.printStackTrace();
+			
+			return null;
 		}
 	}
 
