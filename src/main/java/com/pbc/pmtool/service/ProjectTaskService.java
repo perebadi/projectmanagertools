@@ -23,7 +23,7 @@ public interface ProjectTaskService {
 	public abstract List<Task> listProjectTasks();
 	
 	public abstract List<Task> listProjectTasks(int status);
-	public abstract List<FormShowTaskModel> listProjectTasksShow(Project project, int status);
+	public abstract List<FormShowTaskModel> listProjectTasksShow(Project project, int status, Integer sprint);
 	public abstract List<Task> listProjectTasks(Project project, int status);
 
 	public abstract List<ProjectTaskModel> countRecordsByProject(String username);

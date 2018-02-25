@@ -55,8 +55,10 @@ import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormRiskModel;
 import com.pbc.pmtool.model.FormSaveBacklogModel;
 import com.pbc.pmtool.model.FormSaveTaskModel;
+import com.pbc.pmtool.model.FormSprint;
 import com.pbc.pmtool.model.Response;
 import com.pbc.pmtool.repository.ProjectRepository;
+import com.pbc.pmtool.repository.SprintRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.CustomerService;
 import com.pbc.pmtool.service.EmailService;
@@ -71,6 +73,7 @@ import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
 import com.pbc.pmtool.service.ProjectTaskService;
 import com.pbc.pmtool.service.RiskService;
+import com.pbc.pmtool.service.SprintService;
 import com.pbc.pmtool.service.UserService;
 
 @RestController
@@ -145,6 +148,14 @@ public class PmToolRestController {
 	@Qualifier("emailService")
 	private EmailService emailServiceImpl;
 	
+	@Autowired
+	@Qualifier("sprintServiceImpl")
+	private SprintService sprintServiceImpl;
+	
+	@Autowired
+	@Qualifier("sprintRepository")
+	private SprintRepository sprintRepository;
+	
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping(value = "/projects/all")
 	public List<Project> getProject() {
@@ -173,6 +184,19 @@ public class PmToolRestController {
 		return res;
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM')")
+	@PostMapping(value = "/project/{id}/createsprint")
+	public Response createSprint(@PathVariable int id, @Valid @RequestBody FormSprint sprintAddModel, 
+			BindingResult bindingResult) {
+		if(!(bindingResult.hasErrors())) {
+			FormSprint newSprint = sprintServiceImpl.add(sprintAddModel, id);
+			
+			return new Response("Done", newSprint.getId());
+		}else {
+			return new Response("Error", "Error");
+		}
+	}
+	
 	@PreAuthorize("hasAuthority('ROLE_PM')")
 	@PostMapping(value = "/createcustomer/")
 	public Response createCustomer(@Valid @RequestBody FormCustomerAddModel customerAddModel,
@@ -298,7 +322,8 @@ public class PmToolRestController {
 			newTask.setDatecreation(new Date());
 			newTask.setDatestatus(new Date());
 			newTask.setProject(project);
-
+			newTask.setSprint(sprintRepository.findById(formCreateTaskModel.getSprint()));			
+			
 			if (!(formCreateTaskModel.getUsername().equals("nobody"))) {
 				newTask.setUser(userService.getUser(formCreateTaskModel.getUsername()));
 				

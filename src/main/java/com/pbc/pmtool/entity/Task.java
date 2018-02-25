@@ -47,6 +47,9 @@ public class Task {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date datestatus;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Sprint sprint;
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
 	
@@ -70,6 +73,16 @@ public class Task {
 	
 	@Column(name = "status")
 	private int status;
+
+	
+	
+	public Sprint getSprint() {
+		return sprint;
+	}
+
+	public void setSprint(Sprint sprint) {
+		this.sprint = sprint;
+	}
 
 	public int getEstimatedtime() {
 		return estimatedtime;

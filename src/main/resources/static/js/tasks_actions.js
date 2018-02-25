@@ -1,6 +1,51 @@
 $(document).ready(function(){
 	
-	//Modal edición tareas backlog
+	$("#addSprintModalButton").AJAXmodal(
+			{
+				idModal : "addSprint",
+				copyData : function() {
+					$("#sprintAddSuccesAlert").hide();
+				},
+				url : "/api/project/" + $("#projectid").val() + "/createsprint",
+				formData : function() {
+					var data = {
+						sprint : $('#sprintInput').val()
+					}
+
+					return data;
+				},
+				ajaxSucces : function(response) {
+					$("#sprint").append(
+							"<option value=" + response.data + ">"
+									+ $("#sprintInput").val()
+									+ "</option>");
+					$("#sprint").val(response.data);
+					$("#sprint").selectpicker("refresh");
+
+					$("#sprintInput").val('');
+					$("#addSprint").modal('toggle');
+
+					$("#sprintAddSuccesAlert").show(100);
+				},
+				disableButton : false,
+				FormValid : function() {
+					var customerFormValidator = $(
+							"#addSprintForm").validate({
+						ignore : [],
+						rules : {
+							sprintInput : {
+								required : true
+							}
+						}
+					});
+
+					return $("#addSprintForm").valid();
+				},
+				preventForm : true,
+				formId : "addSprintForm"
+			});
+	
+	// Modal edición tareas backlog
 	$(".showBacklogmodal").each(
 			function() {
 				var button = $(this);

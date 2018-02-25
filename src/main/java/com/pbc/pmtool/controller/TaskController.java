@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Task;
+import com.pbc.pmtool.repository.SprintRepository;
 import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.ProjectAchievementService;
 import com.pbc.pmtool.service.ProjectEscalationService;
@@ -24,6 +25,7 @@ import com.pbc.pmtool.service.ProjectProblemService;
 import com.pbc.pmtool.service.ProjectService;
 import com.pbc.pmtool.service.ProjectStatusLightService;
 import com.pbc.pmtool.service.ProjectTaskService;
+import com.pbc.pmtool.service.SprintService;
 
 
 @Controller
@@ -67,6 +69,10 @@ public class TaskController {
 	@Autowired
 	@Qualifier("projectTaskServiceImpl")
 	private ProjectTaskService projectTaskService;
+	
+	@Autowired
+	@Qualifier("sprintServiceImpl")
+	private SprintService sprintServiceImpl;
 	
 	@GetMapping("/")
 	@PreAuthorize("hasAuthority('ROLE_PM')")
@@ -148,12 +154,15 @@ public class TaskController {
 	
 	@GetMapping("/project/{idproject}/")
 	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_SPECIALIST')")
-	public ModelAndView Projecttask(@PathVariable int idproject) {
+	public ModelAndView Projecttask(@PathVariable int idproject, 
+			@RequestParam(name="sprint", required=false) Integer sprint) {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.TASKFORMEDIT);
 		
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(sessionuser)));
 		mav.addObject("projects", projectService.listProjectByUser(userRepository.findByUsername(sessionuser)));
+		mav.addObject("sprints", sprintServiceImpl.getByProject(idproject));
+		mav.addObject("sprintid", sprint);
 		
 		/*
 		mav.addObject("backlogs", projectTaskService.listProjectTasks(projectService.findProjectById(idproject), 1));
@@ -162,10 +171,10 @@ public class TaskController {
 		mav.addObject("dones", projectTaskService.listProjectTasks(projectService.findProjectById(idproject),4));
 		*/
 		
-		mav.addObject("backlogs", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject), 1));
-		mav.addObject("todos", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),2));
-		mav.addObject("progresses", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),3));
-		mav.addObject("dones", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),4));
+		mav.addObject("backlogs", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject), 1, sprint));
+		mav.addObject("todos", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),2, sprint));
+		mav.addObject("progresses", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),3, sprint));
+		mav.addObject("dones", projectTaskService.listProjectTasksShow(projectService.findProjectById(idproject),4, sprint));
 		
 		mav.addObject("assigneds",projectService.findProjectById(idproject).getAssigneds());
 		mav.addObject("projectid", idproject);

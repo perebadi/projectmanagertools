@@ -22,9 +22,23 @@ public class FormCreateTaskModel {
 	@NotNull
 	private int unit;
 	
+	@NotNull
+	private int sprint;
+	
 	private String username;
 
 	
+	
+	public int getSprint() {
+		return sprint;
+	}
+
+
+	public void setSprint(int sprint) {
+		this.sprint = sprint;
+	}
+
+
 	public String getUsername() {
 		return username;
 	}

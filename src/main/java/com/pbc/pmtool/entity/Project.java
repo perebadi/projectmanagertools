@@ -67,7 +67,10 @@ public class Project {
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private ProjectStatusLight projectScope;
-
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+	private Set<Sprint> sprints = new HashSet<Sprint>();
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
 	private Set<ProjectAchievement> achievements = new HashSet<ProjectAchievement>();
 
@@ -129,10 +132,18 @@ public class Project {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="project")
 	private Set<ProjectComment> comments = new HashSet<ProjectComment>();
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Customer customer;
 	
+	public Set<Sprint> getSprints() {
+		return sprints;
+	}
+
+	public void setSprints(Set<Sprint> sprints) {
+		this.sprints = sprints;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -571,21 +582,18 @@ public class Project {
 		this.pmo = pmo;
 	}
 
-
 	
-
-
 
 	public Project(int id, String projectname, boolean projectactive, String wbs, String e3t, String objectives,
 			ProjectStatusLight projectStatus, ProjectStatusLight projectStatusConfidence,
 			ProjectStatusLight projectDeliveryConfidence, ProjectStatusLight projectGovernance,
 			ProjectStatusLight projectBusinessChange, ProjectStatusLight projectBenefitsRealisation,
 			ProjectStatusLight projectDependency, ProjectStatusLight projectResourcing, ProjectStatusLight projectScope,
-			Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations, Set<ProjectNextStep> nextsteps,
-			Set<ProjectProblem> problems, Set<ProjectPhase> phases, List<User> assigneds, User user, User pmo,
-			Double tVC, Double tIC, Double oP, Double budgettodate, Double costestimated, Double eACOP, Double variance,
-			Double certifiedprogress, Double invoiced, Set<Task> tasks, Set<ProjectComment> comments,
-			Customer customer) {
+			Set<Sprint> sprints, Set<ProjectAchievement> achievements, Set<ProjectEscalation> escalations,
+			Set<ProjectNextStep> nextsteps, Set<ProjectProblem> problems, Set<ProjectPhase> phases,
+			List<User> assigneds, User user, User pmo, Double tVC, Double tIC, Double oP, Double budgettodate,
+			Double costestimated, Double eACOP, Double variance, Double certifiedprogress, Double invoiced,
+			Set<Task> tasks, Set<ProjectComment> comments, Customer customer) {
 		super();
 		this.id = id;
 		this.projectname = projectname;
@@ -602,6 +610,7 @@ public class Project {
 		this.projectDependency = projectDependency;
 		this.projectResourcing = projectResourcing;
 		this.projectScope = projectScope;
+		this.sprints = sprints;
 		this.achievements = achievements;
 		this.escalations = escalations;
 		this.nextsteps = nextsteps;

@@ -8,7 +8,7 @@
 		<!-- START PAGE SIDEBAR -->
 		<div th:replace="layout/layout :: page-sidebar"></div>
 		<!-- END PAGE SIDEBAR -->
-		
+
 		<!-- PAGE CONTENT -->
 		<div class="page-content sortableContent" id="grid_content_1">
 			<!-- START X-NAVIGATION VERTICAL -->
@@ -18,22 +18,38 @@
 			<!-- PAGE TITLE -->
 			<div class="page-title">
 				<h2>
-					<br/>
-					<span class="fa fa-arrow-circle-o-left"></span> Kanban Tasks
+					<br /> <span class="fa fa-arrow-circle-o-left"></span> Kanban
+					Tasks
 				</h2>
 			</div>
-			<div class="panel-footer" sec:authorize="hasAuthority('ROLE_PM')" >
-				<button class="btn btn-default" data-toggle="modal" data-target="#create_task_modal">Create Task</button>
+			<div class="panel-footer" sec:authorize="hasAuthority('ROLE_PM')">
+				<button class="btn btn-default" data-toggle="modal"
+					data-target="#create_task_modal">Create Task</button>
 			</div>
 			<!-- END PAGE TITLE -->
-			
-			<br/>
+
+			<br />
 			<!-- PAGE CONTENT WRAPPER -->
 			<div class="page-content-wrap">
+				
+				<div class="row">
+					<label class="col-md-12 control-label">Sprint</label>
+					<div class="col-md-12">
+						<select name="sprintTasks" id="sprintTasks" class="form-control select"
+							data-live-search="true">
+							<option value="0">All</option>
+							<option th:each="sprint : ${sprints}" th:value="${sprint.id}"
+								th:text="${sprint.sprint}" th:selected="${sprint.id}==${sprintid}" ></option>
+						</select>
+					</div>
+				</div>
+				
+				<br/><br/>
+
 				<!-- START PORTLET -->
 				<div class="row scRow col-md-12">
 					<table id="tableTasks" style="width: 100%;">
-						<thead >
+						<thead>
 							<tr class="theadTasks">
 								<th><h3>BackLog</h3></th>
 								<th><h3>To Do</h3></th>
@@ -43,7 +59,9 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="col-md-3 scCol droptarget tdTasks" id="backlog" name="backlog" data-task_status="backlog" style="vertical-align: top;">
+								<td class="col-md-3 scCol droptarget tdTasks" id="backlog"
+									name="backlog" data-task_status="backlog"
+									style="vertical-align: top;">
 									<div class="panel panel-danger" draggable="true"
 										th:value="${backlog.id}" th:name="${backlog.id}"
 										th:attr="data-id_task=${backlog.id}, data-task_currentStatus=${backlog.status}"
@@ -52,19 +70,22 @@
 											<h3 class="panel-title">
 												<span th:text="${backlog.summary}"></span>
 											</h3>
-			
-											<ul class="panel-controls" >
-												<li><a href="javascript: void();" class="showBacklogmodal" th:id="'showBacklogModal_' + ${backlog.id}"
+
+											<ul class="panel-controls">
+												<li><a href="javascript: void();"
+													class="showBacklogmodal"
+													th:id="'showBacklogModal_' + ${backlog.id}"
 													th:attr="data-idTask=${backlog.id}"> <span
 														class="glyphicon glyphicon-pencil"></span>
 												</a></li>
 											</ul>
 										</div>
 										<div class="panel-body">
-											<input type="hidden" th:value="${backlog.getCommentsJSON()}" th:id="'comments_' + ${backlog.id}" />	
-											<input type="hidden" th:if="${backlog.user}" th:value="${backlog.user.username}" th:id="'userassigned_' + ${backlog.id}" />
-											
-											<span th:text="${backlog.details}"></span>
+											<input type="hidden" th:value="${backlog.getCommentsJSON()}"
+												th:id="'comments_' + ${backlog.id}" /> <input type="hidden"
+												th:if="${backlog.user}" th:value="${backlog.user.username}"
+												th:id="'userassigned_' + ${backlog.id}" /> <span
+												th:text="${backlog.details}"></span>
 										</div>
 										<div class="panel-footer" th:if="${backlog.user}">
 											<div class="pull-right">
@@ -74,18 +95,20 @@
 										</div>
 									</div>
 								</td>
-			
-								<td class="col-md-3 scCol droptarget tdTasks" id="todo" name="todo"
-									data-task_status="todo" style="vertical-align: top;" >
-			
+
+								<td class="col-md-3 scCol droptarget tdTasks" id="todo"
+									name="todo" data-task_status="todo"
+									style="vertical-align: top;">
+
 									<div class="panel panel-warning" draggable="true"
 										th:value="${todo.id}" th:name="${todo.id}"
-										th:attr="data-id_task=${todo.id}, data-task_currentStatus=${todo.status}" th:each="todo : ${todos}">
+										th:attr="data-id_task=${todo.id}, data-task_currentStatus=${todo.status}"
+										th:each="todo : ${todos}">
 										<div class="panel-heading">
 											<h3 class="panel-title">
 												<span th:text="${todo.summary}"></span>
 											</h3>
-			
+
 											<ul class="panel-controls">
 												<li><a href="javascript: void();" class="showAJAXmodal"
 													th:attr="data-idTask=${todo.id}"> <span
@@ -95,15 +118,13 @@
 										</div>
 										<div class="panel-body">
 											<input type="hidden" th:value="${todo.estimatedhours}"
-												th:id="estimatedhours_ + ${todo.id}" /> 
-											<input type="hidden"
-												th:value="${todo.hours}" th:id="hours_ + ${todo.id}" /> 
-											<input
-												type="hidden" th:value="${todo.realvsestimated}"
-												th:id="realvsestimated_ + ${todo.id}" /> 
-											<input type="hidden" th:value="${todo.getCommentsJSON()}" th:id="'comments_' + ${todo.id}" />	
-											
-												<span
+												th:id="estimatedhours_ + ${todo.id}" /> <input
+												type="hidden" th:value="${todo.hours}"
+												th:id="hours_ + ${todo.id}" /> <input type="hidden"
+												th:value="${todo.realvsestimated}"
+												th:id="realvsestimated_ + ${todo.id}" /> <input
+												type="hidden" th:value="${todo.getCommentsJSON()}"
+												th:id="'comments_' + ${todo.id}" /> <span
 												th:text="${todo.details}"></span>
 										</div>
 										<div class="panel-footer">
@@ -115,10 +136,11 @@
 																<strong>Hours</strong>
 															</div>
 															<div class="pull-right">
-																<span th:text="${todo.estimatedhours}"></span>/
-																<span th:text="${todo.hours}"></span>
+																<span th:text="${todo.estimatedhours}"></span>/ <span
+																	th:text="${todo.hours}"></span>
 															</div>
-															<div class="progress progress-small progress-striped active">
+															<div
+																class="progress progress-small progress-striped active">
 																<div class="progress-bar progress-bar-primary"
 																	role="progressbar"
 																	th:style="'width:'+${todo.realvsestimated}+'%;'"></div>
@@ -128,17 +150,18 @@
 												</div>
 											</div>
 											<div class="pull-right">
-												<strong>Assigned to: &nbsp;</strong> <a>
-												<span th:text="${todo.user.name}" th:if="${todo.user}"></span>
+												<strong>Assigned to: &nbsp;</strong> <a> <span
+													th:text="${todo.user.name}" th:if="${todo.user}"></span>
 												</a>
 											</div>
 										</div>
 									</div>
 								</td>
-			
+
 								<td class="col-md-3 scCol droptarget tdTasks" id="progress"
-									name="progress" data-task_status="progress" style="vertical-align: top;" >
-			
+									name="progress" data-task_status="progress"
+									style="vertical-align: top;">
+
 									<div class="panel panel-info" draggable="true"
 										th:value="${progress.id}" th:name="${progress.id}"
 										th:attr="data-id_task=${progress.id}, data-task_currentStatus=${progress.status}"
@@ -147,7 +170,7 @@
 											<h3 class="panel-title">
 												<span th:text="${progress.summary}"></span>
 											</h3>
-			
+
 											<ul class="panel-controls">
 												<li><a href="javascript: void();" class="showAJAXmodal"
 													th:attr="data-idTask=${progress.id}"> <span
@@ -157,15 +180,14 @@
 										</div>
 										<div class="panel-body">
 											<input type="hidden" th:value="${progress.estimatedhours}"
-												th:id="estimatedhours_ + ${progress.id}" /> 
-											<input type="hidden"
-												th:value="${progress.hours}" th:id="hours_ + ${progress.id}" /> 
-											<input
-												type="hidden" th:value="${progress.realvsestimated}"
-												th:id="realvsestimated_ + ${progress.id}" />
-											<input type="hidden" th:value="${progress.getCommentsJSON()}" th:id="'comments_' + ${progress.id}" />	
-										
-											<span th:text="${progress.details}"></span>
+												th:id="estimatedhours_ + ${progress.id}" /> <input
+												type="hidden" th:value="${progress.hours}"
+												th:id="hours_ + ${progress.id}" /> <input type="hidden"
+												th:value="${progress.realvsestimated}"
+												th:id="realvsestimated_ + ${progress.id}" /> <input
+												type="hidden" th:value="${progress.getCommentsJSON()}"
+												th:id="'comments_' + ${progress.id}" /> <span
+												th:text="${progress.details}"></span>
 										</div>
 										<div class="panel-footer">
 											<div class="panel-body panel-body-table">
@@ -176,9 +198,11 @@
 																<strong>Hours</strong>
 															</div>
 															<div class="pull-right">
-																<span th:text="${progress.estimatedhours}"></span>/<span th:text="${progress.hours}"></span>
+																<span th:text="${progress.estimatedhours}"></span>/<span
+																	th:text="${progress.hours}"></span>
 															</div>
-															<div class="progress progress-small progress-striped active">
+															<div
+																class="progress progress-small progress-striped active">
 																<div class="progress-bar progress-bar-primary"
 																	role="progressbar"
 																	th:style="'width:'+${progress.realvsestimated}+'%;'"></div>
@@ -188,25 +212,27 @@
 												</div>
 											</div>
 											<div class="pull-right">
-												<strong>Assigned to: &nbsp;</strong> <a>
-			  									<span th:text="${progress.user.name}" th:if="${progress.user}" ></span>
+												<strong>Assigned to: &nbsp;</strong> <a> <span
+													th:text="${progress.user.name}" th:if="${progress.user}"></span>
 												</a>
 											</div>
 										</div>
 									</div>
 								</td>
-			
-								<td class="col-md-3 scCol droptarget tdTasks" id="done" name="done"
-									data-task_status="done" style="vertical-align: top;" >
-			
+
+								<td class="col-md-3 scCol droptarget tdTasks" id="done"
+									name="done" data-task_status="done"
+									style="vertical-align: top;">
+
 									<div class="panel panel-success" draggable="true"
 										th:value="${done.id}" th:name="${done.id}"
-										th:attr="data-id_task=${done.id}, data-task_currentStatus=${done.status}" th:each="done : ${dones}">
+										th:attr="data-id_task=${done.id}, data-task_currentStatus=${done.status}"
+										th:each="done : ${dones}">
 										<div class="panel-heading">
 											<h3 class="panel-title">
 												<span th:text="${done.summary}"></span>
 											</h3>
-											
+
 											<ul class="panel-controls">
 												<li><a href="javascript: void();" class="showAJAXmodal"
 													th:attr="data-idTask=${done.id}"> <span
@@ -216,15 +242,14 @@
 										</div>
 										<div class="panel-body">
 											<input type="hidden" th:value="${done.estimatedhours}"
-												th:id="estimatedhours_ + ${done.id}" /> 
-											<input type="hidden"
-												th:value="${done.hours}" th:id="hours_ + ${done.id}" /> 
-											<input
-												type="hidden" th:value="${done.realvsestimated}"
-												th:id="realvsestimated_ + ${done.id}" /> 
-											<input type="hidden" th:value="${done.getCommentsJSON()}" th:id="'comments_' + ${done.id}" />	
-										
-											<span th:text="${done.details}"></span>
+												th:id="estimatedhours_ + ${done.id}" /> <input
+												type="hidden" th:value="${done.hours}"
+												th:id="hours_ + ${done.id}" /> <input type="hidden"
+												th:value="${done.realvsestimated}"
+												th:id="realvsestimated_ + ${done.id}" /> <input
+												type="hidden" th:value="${done.getCommentsJSON()}"
+												th:id="'comments_' + ${done.id}" /> <span
+												th:text="${done.details}"></span>
 										</div>
 										<div class="panel-footer">
 											<div class="panel-body panel-body-table">
@@ -235,9 +260,11 @@
 																<strong>Hours</strong>
 															</div>
 															<div class="pull-right">
-																<span th:text="${done.estimatedhours}"></span>/<span th:text="${done.hours}"></span>
+																<span th:text="${done.estimatedhours}"></span>/<span
+																	th:text="${done.hours}"></span>
 															</div>
-															<div class="progress progress-small progress-striped active">
+															<div
+																class="progress progress-small progress-striped active">
 																<div class="progress-bar progress-bar-primary"
 																	role="progressbar"
 																	th:style="'width:'+${done.realvsestimated}+'%;'"></div>
@@ -247,8 +274,8 @@
 												</div>
 											</div>
 											<div class="pull-right">
-												<strong>Assigned to: &nbsp;</strong> <a>
-			 									<span th:text="${done.user.name}" th:if="${done.user}" ></span>
+												<strong>Assigned to: &nbsp;</strong> <a> <span
+													th:text="${done.user.name}" th:if="${done.user}"></span>
 												</a>
 											</div>
 										</div>
@@ -261,14 +288,15 @@
 				<!-- END PORTLET -->
 			</div>
 			<!-- PAGE CONTENT WRAPPER -->
-			
+
 		</div>
 		<!-- END PAGE CONTENT -->
 	</div>
-	
+
 	<!-- CREATE TASK MODAL -->
 	<div class="modal" id="create_task_modal" tabindex="-1" role="dialog"
-		aria-labelledby="#create_task_modal" aria-hidden="true" sec:authorize="hasAuthority('ROLE_PM')">
+		aria-labelledby="#create_task_modal" aria-hidden="true"
+		sec:authorize="hasAuthority('ROLE_PM')">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -278,6 +306,13 @@
 					<h4 class="modal-title" id="largeModalHead">Create Task</h4>
 				</div>
 				<div class="modal-body">
+					<div class="row" id="sprintAddSuccesAlert" style="display: none;">
+						<div class="col-md-12">
+							<div class="alert alert-success" role="alert">
+								<strong>Success!</strong> Sprint added correctly.
+							</div>
+						</div>
+					</div>
 					<form class="form-horizontal" role="form" id="createtaskForm"
 						name="createtaskForm" method="POST" action="#"
 						th:action="@{/api/createtask/}">
@@ -297,6 +332,24 @@
 							<div class="col-md-10">
 								<textarea class="form-control" id="details" name="details"
 									rows="5"></textarea>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label">Sprint</label>
+							<div class="col-md-9">
+								<select name="sprint" id="sprint" class="form-control select"
+									data-live-search="true">
+									<option></option>
+									<option th:each="sprint : ${sprints}" th:value="${sprint.id}"
+										th:text="${sprint.sprint}"></option>
+								</select>
+							</div>
+							<div class="col-md-1">
+								<ul class="panel-controls">
+									<li><a role="button"><span
+											class="glyphicon glyphicon-plus" id="addSprintModalButton"></span></a></li>
+								</ul>
 							</div>
 						</div>
 
@@ -370,7 +423,7 @@
 		</div>
 	</div>
 	<!-- END CREATE TASK MODAL-->
-	
+
 	<!-- TASKS MODALS -->
 	<div th:replace="modal/tasks_modals :: tasks_modals"></div>
 	<!-- END TASKS MODALS -->
@@ -384,37 +437,50 @@
 	<script th:src="@{/js/plugins/modal/modal-AJAX.js}"></script>
 
 	<!-- START TEMPLATE -->
-	<script sec:authorize="hasAuthority('ROLE_PM')" th:src="@{/js/portlet.js}"></script>
+	<script sec:authorize="hasAuthority('ROLE_PM')"
+		th:src="@{/js/portlet.js}"></script>
 	<script th:src="@{/js/tasks_actions.js}"></script>
 	<script th:src="@{/js/plugins/table/jquery.floatThead.min.js}"></script>
 	<!-- END PAGE PLUGINS -->
 	<!-- END SCRIPTS -->
 
 	<script type="text/javascript">
-	window.onload = function() {
-		//Head de estat de tasques sempre visible
-		var $table = $('#tableTasks');
-		$table.floatThead();
-	}
+		window.onload = function() {
+			//Head de estat de tasques sempre visible
+			var $table = $('#tableTasks');
+			$table.floatThead();
+		}
 	</script>
 
-	<script type="text/javascript" sec:authorize="hasAuthority('ROLE_PM')" >
+	<script type="text/javascript" sec:authorize="hasAuthority('ROLE_PM')">
 		function updateTaskStatus(taskId, status, currentstatus) {
-			if(parseInt(currentstatus) > 1){
-				window.location.assign('/tasks/project/' + $("#projectid").val()
-						+ '/' + 'move/' + taskId + '/' + status + '/');
-			}else{
-				if($("#userassigned_" + taskId).val() == undefined){
-					$("#showBacklogModal_" + taskId).trigger( "click" );
+			if (parseInt(currentstatus) > 1) {
+				window.location.assign('/tasks/project/'
+						+ $("#projectid").val() + '/' + 'move/' + taskId + '/'
+						+ status + '/');
+			} else {
+				if ($("#userassigned_" + taskId).val() == undefined) {
+					$("#showBacklogModal_" + taskId).trigger("click");
 					return false;
-				}else{
-					window.location.assign('/tasks/project/' + $("#projectid").val()
-							+ '/' + 'move/' + taskId + '/' + status + '/');
+				} else {
+					window.location.assign('/tasks/project/'
+							+ $("#projectid").val() + '/' + 'move/' + taskId
+							+ '/' + status + '/');
 				}
 			}
 		}
-	
+
 		window.onload = function() {
+			
+			//Filtrar tareas por sprint
+			$("#sprintTasks").change(function() {
+				if($(this).val() != 0){
+					window.location.replace(window.location.pathname + "?sprint=" + $(this).val());
+				}else{
+					window.location.replace(window.location.pathname);
+				}
+			});
+			
 			//Validación formulario add task
 			var addTaskFormValidator = $("#createtaskForm").validate({
 				ignore : [],
@@ -430,6 +496,9 @@
 					},
 					unit : {
 						required : true
+					},
+					sprint : {
+						required : true
 					}
 				}
 			});
@@ -437,7 +506,7 @@
 		$('#myFormSubmit').click(function(e) {
 			e.preventDefault();
 			if ($("#createtaskForm").valid()) {
-				$("#myFormSubmit").prop("disabled",true);
+				$("#myFormSubmit").prop("disabled", true);
 				ajaxPost();
 				$('#assign_project_modal').modal('hide');
 			}
@@ -450,7 +519,8 @@
 				details : $("#details").val(),
 				time : $("#time").val(),
 				unit : $("#unit").val(),
-				username : $("#username").val()
+				username : $("#username").val(),
+				sprint : $("#sprint").val()
 			}
 			var token = document.getElementsByName("_csrf")[0].value;
 			// DO POST
@@ -473,8 +543,7 @@
 				}
 			});
 		}
-		
 	</script>
-	
+
 </body>
 </html>

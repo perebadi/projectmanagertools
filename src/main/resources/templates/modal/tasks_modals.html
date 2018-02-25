@@ -9,6 +9,37 @@
 <body>
 	<div th:fragment="tasks_modals">
 
+		<!-- ADD SPRINT MODAL -->
+		<div id="addSprint" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Add sprint</h4>
+					</div>
+					<div class="modal-body">
+						<form id="addSprintForm">
+							<div class="row">
+								<div class="col-md-3">
+									<label>Sprint: </label>
+								</div>
+
+								<div class="col-md-9">
+									<input type="text" class="form-control" id="sprintInput"
+										name="sprintInput" />
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default submitAJAXModal"
+							id="addSprintButton">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END SPRINT MODAL -->
+
 		<!-- EDIT BACKLOG TASK MODAL -->
 		<div class="modal" id="edit_backlogtask_modal" role="dialog">
 			<div class="modal-dialog modal-lg">
