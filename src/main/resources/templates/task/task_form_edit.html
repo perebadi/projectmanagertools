@@ -148,14 +148,26 @@
 																<strong>Hours</strong>
 															</div>
 															<div class="pull-right">
-																<span th:text="${todo.estimatedhours}"></span>/ <span
-																	th:text="${todo.hours}"></span>
+																Estimated: 
+																<span th:text="${todo.estimatedhours}"></span>/ 
+																Real:
+																<span th:text="${todo.hours}"></span>
 															</div>
-															<div
-																class="progress progress-small progress-striped active">
-																<div class="progress-bar progress-bar-primary"
-																	role="progressbar"
-																	th:style="'width:'+${todo.realvsestimated}+'%;'"></div>
+															<div class="progress progress-small progress-striped active">
+																<div class="progress-bar progress-bar-info"
+																	role="progressbar" th:if="${todo.hours} &lt; ${todo.estimatedhours}"
+																	th:style="'width:'+${todo.realvsestimated}+'%;'">
+																</div>
+																
+																<div class="progress-bar progress-bar-success"
+																	role="progressbar" th:if="${todo.hours} == ${todo.estimatedhours}"
+																	th:style="'width:'+${todo.realvsestimated}+'%;'">
+																</div>
+																
+																<div class="progress-bar progress-bar-danger"
+																	role="progressbar" th:if="${todo.hours} &gt; ${todo.estimatedhours}"
+																	th:style="'width:'+${todo.realvsestimated}+'%;'">
+																</div>
 															</div>
 														</div>
 													</div>
@@ -210,14 +222,25 @@
 																<strong>Hours</strong>
 															</div>
 															<div class="pull-right">
-																<span th:text="${progress.estimatedhours}"></span>/<span
-																	th:text="${progress.hours}"></span>
+																Estimated: 
+																<span th:text="${progress.estimatedhours}"></span>/
+																Real: <span th:text="${progress.hours}"></span>
 															</div>
-															<div
-																class="progress progress-small progress-striped active">
-																<div class="progress-bar progress-bar-primary"
-																	role="progressbar"
-																	th:style="'width:'+${progress.realvsestimated}+'%;'"></div>
+															<div class="progress progress-small progress-striped active">
+																<div class="progress-bar progress-bar-info"
+																	role="progressbar" th:if="${progress.hours} &lt; ${progress.estimatedhours}"
+																	th:style="'width:'+${progress.realvsestimated}+'%;'">
+																</div>
+																
+																<div class="progress-bar progress-bar-success"
+																	role="progressbar" th:if="${progress.hours} == ${progress.estimatedhours}"
+																	th:style="'width:'+${progress.realvsestimated}+'%;'">
+																</div>
+																
+																<div class="progress-bar progress-bar-danger"
+																	role="progressbar" th:if="${progress.hours} &gt; ${progress.estimatedhours}"
+																	th:style="'width:'+${progress.realvsestimated}+'%;'">
+																</div>
 															</div>
 														</div>
 													</div>
@@ -272,14 +295,26 @@
 																<strong>Hours</strong>
 															</div>
 															<div class="pull-right">
-																<span th:text="${done.estimatedhours}"></span>/<span
-																	th:text="${done.hours}"></span>
+																Estimated: 
+																<span th:text="${done.estimatedhours}"></span>/
+																Real:
+																<span th:text="${done.hours}"></span>
 															</div>
-															<div
-																class="progress progress-small progress-striped active">
-																<div class="progress-bar progress-bar-primary"
-																	role="progressbar"
-																	th:style="'width:'+${done.realvsestimated}+'%;'"></div>
+															<div class="progress progress-small progress-striped active">
+																<div class="progress-bar progress-bar-info"
+																	role="progressbar" th:if="${done.hours} &lt; ${done.estimatedhours}"
+																	th:style="'width:'+${done.realvsestimated}+'%;'">
+																</div>
+																
+																<div class="progress-bar progress-bar-success"
+																	role="progressbar" th:if="${done.hours} == ${done.estimatedhours}"
+																	th:style="'width:'+${done.realvsestimated}+'%;'">
+																</div>
+																
+																<div class="progress-bar progress-bar-danger"
+																	role="progressbar" th:if="${done.hours} &gt; ${done.estimatedhours}"
+																	th:style="'width:'+${done.realvsestimated}+'%;'">
+																</div>
 															</div>
 														</div>
 													</div>
