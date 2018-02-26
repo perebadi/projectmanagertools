@@ -19,9 +19,9 @@ public class FormUserAddModel extends MatchPasswordModel {
 	 * Atributos
 	 */
 	@UniqueUsernameConstraint
-	@NotEmpty
+	@NotEmpty(message="This field is missing")
 	private String username;
-	@NotEmpty
+	@NotEmpty(message="This field is missing")
 	private String name;
 	
 	public FormUserAddModel() {

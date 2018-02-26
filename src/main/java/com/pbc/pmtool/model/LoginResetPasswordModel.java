@@ -7,7 +7,7 @@ import com.pbc.pmtool.validation.ExistUsernameConstraint;
 public class LoginResetPasswordModel {
 
 	@ExistUsernameConstraint
-	@NotEmpty
+	@NotEmpty(message="This field is missing")
 	private String username;
 	private String password;
 	

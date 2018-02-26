@@ -17,7 +17,7 @@
                 <!-- END X-NAVIGATION VERTICAL -->                     
                 
                 <div class="page-title margin-top-15">                    
-                    <h2><span class="fa fa-thumbs-up"></span> Bienvenido  <span th:text="${username}"></span>!!!</h2>
+                    <h2><span class="fa fa-thumbs-up"></span> Welcome  <span th:text="${nameuser}"></span>!!!</h2>
                 </div>               
                 
                  <!-- PAGE CONTENT WRAPPER -->
@@ -55,10 +55,6 @@
 		                            <div class="widget widget-info widget-no-subtitle">
 		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.sTVC, 0, 'POINT', 0, 'COMMA')}+ ' €'">1.200.000 €</span></div>                            
 		                                <div class="widget-subtitle">Global Active Projects TCV</div>
-		                                <div class="widget-controls">
-		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
-		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
-		                                </div>                            
 		                            </div>                        
 		
 		                        </div>
@@ -68,10 +64,6 @@
 		                            <div class="widget widget-danger widget-no-subtitle">
 		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.sTIC, 0, 'POINT', 0, 'COMMA')}+ ' €'">888.000 €</span></div>                            
 		                                <div class="widget-subtitle">Global Active Projects TIC</div>
-		                                <div class="widget-controls">
-		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
-		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
-		                                </div>                            
 		                            </div>                        
 		
 		                        </div>
@@ -88,9 +80,6 @@
 		                                    <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.OP, 1, 'POINT', 2, 'COMMA')}">20</span>%</div>
 		                                    <div class="widget-title">Global OP Margin</div>
 		                                    <div class="widget-subtitle">Active Projects</div>                                
-		                                </div>                            
-		                                <div class="widget-controls">                                
-		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
 		                                </div>                            
 		                            </div>                        
 	
@@ -109,10 +98,6 @@
 		                            <div class="widget widget-danger widget-no-subtitle">
 		                                <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.scostestimated, 0, 'POINT',0, 'COMMA')}+ ' €'">888.000 €</span></div>                            
 		                                <div class="widget-subtitle">Global Active Projects Cost Estimated</div>
-		                                <div class="widget-controls">
-		                                    <a href="#" class="widget-control-left"><span class="fa fa-cloud"></span></a>
-		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
-		                                </div>                            
 		                            </div>                        
 		
 		                        </div>
@@ -128,9 +113,6 @@
 		                                    <div class="widget-big-int"><span class="num-count" th:text="${#numbers.formatDecimal(sumValuesModel.EACOP, 1, 'POINT', 2, 'COMMA')}">20</span>%</div>
 		                                    <div class="widget-title">Global EAC OP Margin</div>
 		                                    <div class="widget-subtitle">Active Projects</div>                                
-		                                </div>                            
-		                                <div class="widget-controls">                                
-		                                    <a href="#" class="widget-control-right"><span class="fa fa-times"></span></a>
 		                                </div>                            
 		                            </div>                        
 	

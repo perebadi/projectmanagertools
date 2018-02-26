@@ -4,9 +4,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class MatchPasswordModel {
 	
-	@NotEmpty
+	@NotEmpty(message="This field is missing")
 	private String confirmPassword;
-	@NotEmpty
+	@NotEmpty(message="This field is missing")
 	private String password;
 
 	public MatchPasswordModel() {

@@ -46,13 +46,14 @@
 						<div class="col-md-9">
 							<input type="password" class="form-control" th:field="*{password}" th:value="${user.password}" />
 							<span class="help-block" th:errors="*{password}"></span>
+							<span class="help-block" th:errors="${user}"></span>
 						</div>
 					</div>
 					<div class="form-group" >
 						<label class="col-md-3 control-label" style="color: #AAB2BD;">Confirm password:</label>
 						<div class="col-md-9">
 							<input type="password" class="form-control" th:field="*{confirmPassword}" th:value="${confirmPassword}" />
-							<span class="help-block" th:errors="${user}"></span>
+							<span class="help-block" th:errors="*{confirmPassword}"></span>
 						</div>
 					</div>
 					<br />
@@ -96,7 +97,6 @@
 	<!-- END THIS PAGE PLUGINS -->
 
 	<!-- START TEMPLATE -->
-	<script type="text/javascript" src="js/settings.js"></script>
 	<script type="text/javascript" src="js/plugins.js"></script>
 	<script type="text/javascript" src="js/actions.js"></script>
 	<!-- END TEMPLATE -->

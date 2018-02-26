@@ -76,12 +76,28 @@
 		        		
 		        		
 		        		var op = (1-tic/tcv)*100;
+		        		
+		        		if(isNaN(op)){
+		        			op = 0;
+		        		}
+		        		
 		        		$('#OP').val(parseFloat(op).toFixed(2));
 		        		
 		        		var eacop =  (1-costestimated/tcv)*100;
+		        		
+		        		if(isNaN(eacop)){
+		        			eacop = 0;
+		        		}
+		        		
 		        		$('#EACOP').val(parseFloat(eacop).toFixed(2));
 		        		
-		        		$('#variance').val(parseFloat(tcv-costestimated).toFixed(2));
+		        		var variance = parseFloat(tcv-costestimated).toFixed(2);
+		        		
+		        		if(isNaN(variance)){
+		        			variance = 0;
+		        		}
+		        		
+		        		$('#variance').val(variance);
 
 		        	
 		        }
@@ -593,8 +609,7 @@
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-md-5 control-label">Budget
-															gastado hasta la fecha</label>
+														<label class="col-md-5 control-label">Budget spent till the date</label>
 														<div class="col-md-5">
 															<input name="budgettodate" id="budgettodate"
 																th:field="${formFinancialModel.budgettodate}"
@@ -602,8 +617,7 @@
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-md-5 control-label">Estimación
-															de coste al cierre</label>
+														<label class="col-md-5 control-label">Cost estimate at closing</label>
 														<div class="col-md-5">
 															<input name="costestimated" id="costestimated"
 																th:field="${formFinancialModel.costestimated}"
@@ -632,7 +646,7 @@
 													</div>
 													<div class="form-group">
 														<label class="col-md-5 control-label">Total Avance
-															Certificado %</label>
+															certificate %</label>
 														<div class="col-md-5">
 															<input name="certifiedprogress" id="certifiedprogress"
 																th:field="${formFinancialModel.certifiedprogress}"
@@ -640,8 +654,7 @@
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="col-md-5 control-label">Total
-															Facturado hasta la fecha</label>
+														<label class="col-md-5 control-label">Total billed to date</label>
 														<div class="col-md-5">
 															<input name="invoiced" id="invoiced"
 																th:field="${formFinancialModel.invoiced}" type="number"
@@ -719,7 +732,7 @@
 									<label class="col-md-2 control-label">Week Delay</label>
 									<div class="col-md-2">
 										<input name="weekdelay" id="weekdelay" type="text"
-											class="form-control" />
+											class="form-control" readonly="true" />
 									</div>
 								</div>
 							</div>
@@ -739,8 +752,8 @@
 								<div class="form-group">
 									<label class="col-md-2 control-label">Progress</label>
 									<div class="col-md-9">
-										<input name="progress" id="progress" type="text"
-											class="form-control" />
+										<input name="progress" id="progress" type="number"
+											class="form-control" min="0" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" />
 									</div>
 								</div>
 								<!--  END PANEL BODY -->

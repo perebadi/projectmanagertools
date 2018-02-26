@@ -19,12 +19,28 @@
 				var costestimated = $('#costestimated').val();
 
 				var op = (1 - tic / tcv) * 100;
+				
+				if(isNaN(op)){
+        			op = 0;
+        		}
+				
 				$('#OP').val(parseFloat(op).toFixed(2));
 
 				var eacop = (1 - costestimated / tcv) * 100;
+				
+				if(isNaN(eacop)){
+        			eacop = 0;
+        		}
+				
 				$('#EACOP').val(parseFloat(eacop).toFixed(2));
 
-				$('#variance').val(parseFloat(tcv - costestimated).toFixed(2));
+				var variance = parseFloat(tcv-costestimated).toFixed(2);
+        		
+        		if(isNaN(variance)){
+        			variance = 0;
+        		}
+				
+				$('#variance').val(variance);
 			}
 		}
 	</script>
@@ -44,16 +60,11 @@
 			<ul th:replace="layout/layout :: page-topbar"></ul>
 			<!-- END X-NAVIGATION VERTICAL -->
 
-			<!-- START BREADCRUMB -->
-			<ul class="breadcrumb">
-				<li><a href="#">Link</a></li>
-				<li class="active">Active</li>
-			</ul>
-			<!-- END BREADCRUMB -->
+			<div class="col-xs-12" style="height: 20px;"></div>
 
 			<div class="page-title">
 				<h2>
-					<span class="fa fa-plus-square"></span> Alta de proyecto
+					<span class="fa fa-plus-square"></span> Add project
 				</h2>
 			</div>
 
@@ -72,10 +83,19 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
+						<div id="projectAddFormErrors" style="display: none;" >
+							<br /> <br />
+							<div class="alert alert-danger" role="alert">
+								<strong>Ups!</strong> Some fields do not have a valid value.
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
 
 						<!-- START WIZARD WITH SUBMIT BUTTON -->
 						<div class="block">
-							<h4>Wizard Alta Básica de Proyectot</h4>
 							<form name="formnewproject" id="formnewproject" role="form"
 								class="form-horizontal" th:action="@{/projects/saveproject}"
 								th:object="${formNewProjectModel}" method="POST">
@@ -83,34 +103,32 @@
 								<div class="wizard show-submit">
 									<ul>
 										<li><a href="#step-5"> <span class="stepNumber">1</span>
-												<span class="stepDesc">Proyecto<br /> <small>Descripción
-														del proyecto</small></span>
+												<span class="stepDesc">Project<br /> 
+												<small>Project description</small></span>
 										</a></li>
 										<li><a href="#step-6"> <span class="stepNumber">2</span>
-												<span class="stepDesc">Finanzas<br /> <small>Datos
-														Financieros</small></span>
+												<span class="stepDesc">Finance<br /> 
+												<small>Financial data</small></span>
 										</a></li>
 										<li><a href="#step-7"> <span class="stepNumber">3</span>
-												<span class="stepDesc">Plan<br /> <small>Plan
-														Básico de proyecto</small></span>
+												<span class="stepDesc">Project plan<br /> 
+												<small>Basic project plan</small></span>
 										</a></li>
 									</ul>
 									<div id="step-5">
 										<div class="form-group">
-											<label class="col-md-2 control-label">Nombre de
-												Proyecto</label>
+											<label class="col-md-2 control-label">Project name</label>
 											<div class="col-md-10">
 												<input name="projectname" id="projectname" type="text"
-													class="form-control" placeholder="Your name"
+													class="form-control"
 													required="true" />
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-2 control-label">Objetivos</label>
+											<label class="col-md-2 control-label">Goals</label>
 											<div class="col-md-10">
 												<textarea name="objectives" id="objectives"
-													class="form-control" rows="5"
-													placeholder="Something about you"></textarea>
+													class="form-control" rows="5" ></textarea>
 											</div>
 										</div>
 										<div class="form-group">
@@ -177,16 +195,14 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-md-5 control-label">Budget gastado
-													hasta la fecha</label>
+												<label class="col-md-5 control-label">Budget spent till the date</label>
 												<div class="col-md-5">
 													<input name="budgettodate" id="budgettodate" type="number"
 														class="form-control" value="0" />
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-md-5 control-label">Estimación de
-													coste al cierre</label>
+												<label class="col-md-5 control-label">Cost estimate at closing</label>
 												<div class="col-md-5">
 													<input name="costestimated" id="costestimated"
 														type="number" class="form-control" value="0" />
@@ -212,16 +228,14 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-md-5 control-label">Total Avance
-													Certificado %</label>
+												<label class="col-md-5 control-label">Total Avance certificate %</label>
 												<div class="col-md-5">
 													<input name="certifiedprogress" id="certifiedprogress"
 														type="number" class="form-control" value="0" />
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-md-5 control-label">Total
-													Facturado hasta la fecha</label>
+												<label class="col-md-5 control-label">Total billed to date</label>
 												<div class="col-md-5">
 													<input name="invoiced" id="invoiced" type="number"
 														class="form-control" value="0" />
@@ -235,14 +249,14 @@
 												<label class="col-md-3 control-label">Kick-Off</label>
 												<div class="col-md-3">
 													<input name="start" id="start" type="text"
-														class="form-control datepicker" value="2014-11-01" />
+														class="form-control datepicker" />
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-3 control-label">Go-live</label>
 												<div class="col-md-3">
 													<input name="end" id="end" type="text"
-														class="form-control datepicker" value="2014-11-01" />
+														class="form-control datepicker" />
 												</div>
 											</div>
 										</div>
@@ -258,29 +272,6 @@
 			<!-- END PAGE CONTENT WRAPPER -->
 
 		</div>
-		<!-- MESSAGE BOX-->
-		<div class="message-box animated fadeIn" data-sound="alert"
-			id="mb-signout">
-			<div class="mb-container">
-				<div class="mb-middle">
-					<div class="mb-title">
-						<span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?
-					</div>
-					<div class="mb-content">
-						<p>Are you sure you want to log out?</p>
-						<p>Press No if youwant to continue work. Press Yes to logout
-							current user.</p>
-					</div>
-					<div class="mb-footer">
-						<div class="pull-right">
-							<a href="pages-login.html" class="btn btn-success btn-lg">Yes</a>
-							<button class="btn btn-default btn-lg mb-control-close">No</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- END MESSAGE BOX-->
 
 		<!-- ADD CUSTOMER MODAL -->
 		<div id="addCustomer" class="modal fade" role="dialog">
@@ -374,6 +365,9 @@
 
 							if (!($("#formnewproject").valid())) {
 								event.preventDefault();
+								$("#projectAddFormErrors").show(100);
+							}else{
+								$("#projectAddFormErrors").hide();
 							}
 						});
 
@@ -415,7 +409,7 @@
 										}
 									}
 								});
-
+								
 								return $("#addCustomerForm").valid();
 							},
 							preventForm : true,

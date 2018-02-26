@@ -116,14 +116,11 @@ public class ProjectController {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println("user : " + user.getUsername());
 		
-		sessionuser=user.getUsername();
-		
 		mav.addObject("sumValuesModel", projectService.getActiveSum(user.getUsername(), 
 				SecurityContextHolder.getContext().getAuthentication().getAuthorities()
 				.contains(new SimpleGrantedAuthority("ROLE_PMO"))));
 		
 		
-		mav.addObject("username", sessionuser);
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(user.getUsername())));
 		return mav;
 	}

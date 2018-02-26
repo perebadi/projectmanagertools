@@ -14,6 +14,7 @@
 	rel="stylesheet" />
 <link rel="stylesheet" href="/css/bootstrap/bootstrap-select.min.css" />
 <link rel="stylesheet" href="/css/bootstrap/bootstrap-tagsinput.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 <!-- EOF CSS INCLUDE -->
 
 <!-- CSS SECTION -->
@@ -46,33 +47,33 @@
 				<li class="xn-logo"><a href="/">PM TOOL</a> <a
 					href="#" class="x-navigation-control"></a></li>
 				<li class="xn-title">Navigation</li>
-				<li sec:authorize="hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')" class="xn-openable"><a href="#"><span
-						class="fa fa-files-o"></span> <span class="xn-text">Projects</span></a>
+				<li sec:authorize="hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')" class="xn-openable"><a href="#">
+					<i class="material-icons" style="font-size: 15px; margin-right: 15px;">work</i> <span class="xn-text">Projects</span></a>
 					<ul>
 						<li sec:authorize="hasAuthority('ROLE_PM')"><a href="" th:href="@{/projects/createproject}"><span
-								class="fa fa-image"></span> Create Project</a></li>
-						<li sec:authorize="hasAuthority('ROLE_PM')"><a href="#" th:href="@{/projects/__${username}__/}"><span
-								class="fa fa-user"></span> Manage Your Projects</a></li>
+								class="glyphicon glyphicon-plus"></span> Create Project</a></li>
+						<li sec:authorize="hasAuthority('ROLE_PM')"><a href="#" th:href="@{/projects/__${username}__/}">
+						<i class="material-icons" style="font-size: 15px; margin-right: 15px;">work</i> Manage Your Projects</a></li>
 						
-						<li sec:authorize="hasAuthority('ROLE_PMO')"><a href="#" th:href="@{/projects/pmo/__${username}__/}"><span
-								class="fa fa-user"></span> Manage PMO Projects</a></li>
+						<li sec:authorize="hasAuthority('ROLE_PMO')"><a href="#" th:href="@{/projects/pmo/__${username}__/}">
+						<i class="material-icons" style="font-size: 15px; margin-right: 15px;">work</i> Manage PMO Projects</a></li>
 					</ul></li>
 
 				<li sec:authorize="hasAuthority('ROLE_PM') or hasAuthority('ROLE_SPECIALIST')" class="xn-openable"><a href="#"><span
-						class="fa fa-files-o"></span> <span class="xn-text">Tasks</span></a>
+						class="glyphicon glyphicon-tasks"></span> <span class="xn-text">Tasks</span></a>
 					<ul>
 						<li><a href="" th:href="@{/tasks/project/yourprojects/}"><span
-								class="fa fa-image"></span>Tasks Panel</a></li>
+								class="glyphicon glyphicon-tasks"></span>Tasks Panel</a></li>
 						<!-- 
 						<li><a href="#" th:href="@{/tasks/project/yourprojects/}"><span
 								class="fa fa-user"></span> Manage Project</a></li>-->
 					</ul></li>
 
 				<li sec:authorize="hasAuthority('ROLE_ADMIN')" class="xn-openable"><a href="#"><span
-						class="fa fa-files-o"></span> <span class="xn-text">Resources</span></a>
+						class="fa fa-gear"></span> <span class="xn-text">Resources</span></a>
 					<ul>
 						<li><a href="" th:href="@{/users/show/}"><span
-								class="fa fa-image"></span> Manage users/resources</a></li>
+								class="glyphicon glyphicon-user"></span> Manage users/resources</a></li>
 						<!-- 
 						<li><a href="" th:href="@{/projects/createproject}"><span
 								class="fa fa-image"></span> Create Project</a></li>

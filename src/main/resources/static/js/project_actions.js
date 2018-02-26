@@ -129,7 +129,7 @@ $(document).ready(function(){
 	    			success : function(result) {
 	    				if(result.status == "Done"){
 	    					//Refresh
-	    					window.location.reload();
+	    					window.location.replace(window.location.pathname);
 	    				}
 	    			},
 	    			error : function(e) {
@@ -221,7 +221,7 @@ $(document).ready(function(){
 	    			success : function(result) {
 	    				if(result.status == "Done"){
 	    					//Refresh
-	    					window.location.reload();
+	    					window.location.replace(window.location.pathname);
 	    				}
 	    			},
 	    			error : function(e) {
@@ -267,6 +267,10 @@ $(document).ready(function(){
 			$("#titleModal").html("Save next step");
 			//Show modal
 			$("#modalProject").modal('show');
+			
+			$("#modalProject").on("hidden.bs.modal", function () {
+			    $("#addButton").unbind( "click" );
+			});
 		});
 	});
 	
@@ -423,7 +427,7 @@ $(document).ready(function(){
 		    		success : function(result) {
 		    			if(result.status == "Done"){
 		    				//Refresh
-		    				window.location.reload();
+		    				window.location.replace(window.location.pathname);
 		    			}
 		    		},
 		    		error : function(e) {
@@ -545,7 +549,7 @@ $(document).ready(function(){
 		    	});
 				
 			}else{
-				$("#titleProblemModal").html("Save Risk");
+				$("#titleProblemModal").html("Edit Risk");
 				
 				//Obtenemos el riesgo
 				$.ajax({
@@ -669,7 +673,7 @@ $(document).ready(function(){
 	    			success : function(result) {
 	    				if(result.status == "Done"){
 	    					//Refresh
-	    					window.location.reload();
+	    					window.location.replace(window.location.pathname);
 	    				}
 	    			},
 	    			error : function(e) {
@@ -764,7 +768,7 @@ $(document).ready(function(){
 	    		    
 	    			success : function(result) {
 	    				if(result.status == "Done"){
-	    					window.location.reload();
+	    					window.location.replace(window.location.pathname);
 	    				}
 	    			},
 	    			error : function(e) {
@@ -813,7 +817,7 @@ $(document).ready(function(){
     			success : function(result) {
     				if(result.status == "Done"){
     					//Refresh
-    					window.location.reload();
+    					window.location.replace(window.location.pathname);
     				}
     			},
     			error : function(e) {
@@ -825,6 +829,7 @@ $(document).ready(function(){
 	//Linkamos el botón para añadir comentarios del proyecto
 	$("#commentsModal").click(function(){
 		commentFormValidator.resetForm();
+		document.getElementById("commentProjectForm").reset();
 		
 		//Show modal
 		$("#modalComment").modal('show');
@@ -895,7 +900,7 @@ $(document).ready(function(){
     			success : function(result) {
     				if(result.status == "Done"){
     					//Refresh
-    					window.location.reload();
+    					window.location.replace(window.location.pathname);
     				}
     			},
     			error : function(e) {
@@ -907,6 +912,7 @@ $(document).ready(function(){
 	//Linkamos el botón fases del proyecto
 	$("#phaseModal").click(function(){
 		phaseFormValidator.resetForm();
+		document.getElementById("phaseModalForm").reset();
 		
 		//Show modal
 		$("#modalPhaseProject").modal('show');
@@ -979,7 +985,7 @@ $(document).ready(function(){
     			success : function(result) {
     				if(result.status == "Done"){
     					//Refresh
-    					window.location.reload();
+    					window.location.replace(window.location.pathname);
     				}
     			},
     			error : function(e) {
