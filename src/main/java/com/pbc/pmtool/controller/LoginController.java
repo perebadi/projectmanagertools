@@ -1,5 +1,7 @@
 package com.pbc.pmtool.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.constant.ViewConstant;
+import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormUserAddModel;
+import com.pbc.pmtool.model.FormUserAdminModel;
 import com.pbc.pmtool.model.LoginResetPasswordModel;
 import com.pbc.pmtool.service.EmailService;
 import com.pbc.pmtool.service.UserService;
@@ -87,9 +91,13 @@ public class LoginController {
 			//Guardamos la nueva contraseña
 			userService.saveNewPassword(resetPassword);
 			
-		    //Enviem email
+			List<String> recipients = new ArrayList<String>();
+			
+			recipients.add(resetPassword.getUsername());
+			
+		    //Enviamos email
 		    emailServiceImpl.sendEmail("The new password for the " + resetPassword.getUsername() + " account is " + generatedString, 
-		    		"Your account password has been reset", resetPassword.getUsername());
+		    		"PMTOOL: Your account password has been reset", recipients);
 		    
 			//Atributos de la vista
 			mav.addObject("resetusername", resetPassword.getUsername());
@@ -111,6 +119,19 @@ public class LoginController {
 		if(!(bindingResult.hasErrors())) {
 			//Añadimos el usuario
 			userService.addUser(newUser);
+			
+			List<String> recipients = new ArrayList<String>();
+			
+			for(FormUserAdminModel user : userService.getUsersByRole("ROLE_ADMIN")) {
+				recipients.add(user.getUsername());
+			}
+			
+			String text = "A new user account has been created. <br /><br />"
+					+ "<strong>Name: </strong>" + newUser.getName() + "<br />"
+					+ "<strong>Username: </strong>" + newUser.getUsername() + "<br />";
+			String subject = "PMTOOL: A new user account has been created.";
+			
+			emailServiceImpl.sendEmail(text, subject, recipients);
 			
 			//Redirigimos al form de login
 			return "redirect:/login?newaccountsuccess=" + newUser.getUsername();

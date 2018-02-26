@@ -1,5 +1,7 @@
 package com.pbc.pmtool.serviceimpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.task.TaskExecutor;
@@ -18,8 +20,8 @@ public class EmailServiceImpl implements EmailService {
     private TaskExecutor taskExecutor;
 
 	@Override
-	public void sendEmail(String text, String subject, String recipient) {
-		taskExecutor.execute(new SendEmailThread(text, subject, recipient));
+	public void sendEmail(String text, String subject, List<String> recipients) {
+		taskExecutor.execute(new SendEmailThread(text, subject, recipients));
 	}
 	
 }

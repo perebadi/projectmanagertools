@@ -2,6 +2,7 @@ package com.pbc.pmtool.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -248,7 +249,11 @@ public class PmToolRestController {
 					emailText += "<strong>Task: </strong> " + task.getSummary() + " <br/>";
 					emailText += "<strong>Task details: </strong> " + task.getDetails() + " <br/>";
 					
-					emailServiceImpl.sendEmail(emailText, "You have a new task in a project.", formSaveBacklogModel.getUsername());
+					List<String> recipients = new ArrayList<String>();
+					
+					recipients.add(formSaveBacklogModel.getUsername());
+					
+					emailServiceImpl.sendEmail(emailText, "PMTOOL: You have a new task in a project.", recipients);
 				}
 				
 				task.setUser(userService.getUser(formSaveBacklogModel.getUsername()));
@@ -336,7 +341,11 @@ public class PmToolRestController {
 				emailText += "<strong>Task: </strong> " + formCreateTaskModel.getSummary() + " <br/>";
 				emailText += "<strong>Task details: </strong> " + formCreateTaskModel.getDetails() + " <br/>";
 				
-				emailServiceImpl.sendEmail(emailText, "You have a new task in a project.", formCreateTaskModel.getUsername());
+				List<String> recipients = new ArrayList<String>();
+				
+				recipients.add(formCreateTaskModel.getUsername());
+				
+				emailServiceImpl.sendEmail(emailText, "PMTOOL: You have a new task in a project.", recipients);
 				
 			}
 

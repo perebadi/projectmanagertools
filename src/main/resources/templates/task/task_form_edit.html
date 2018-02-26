@@ -342,7 +342,7 @@
 									data-live-search="true">
 									<option></option>
 									<option th:each="sprint : ${sprints}" th:value="${sprint.id}"
-										th:text="${sprint.sprint}"></option>
+										th:text="${sprint.sprint}" th:selected="${sprint.id}==${sprintid}" ></option>
 								</select>
 							</div>
 							<div class="col-md-1">
