@@ -35,6 +35,8 @@
                 var sorted = {};
                 var row = 0;
                 
+                $('.taskTdHover').removeClass('taskTdHover');
+                
                 //Call task status AJAX method update 
                 return updateTaskStatus(ui.item.data("id_task"), ui.item.parent().data("task_status"), ui.item.attr("data-task_currentStatus"));
                 

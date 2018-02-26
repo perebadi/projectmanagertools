@@ -48,7 +48,7 @@
 					href="#" class="x-navigation-control"></a></li>
 				<li class="xn-title">Navigation</li>
 				<li sec:authorize="hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')" class="xn-openable"><a href="#">
-					<i class="material-icons" style="font-size: 15px; margin-right: 15px;">work</i> <span class="xn-text">Projects</span></a>
+					<span class="glyphicon glyphicon-briefcase"></span> <span class="xn-text">Projects</span></a>
 					<ul>
 						<li sec:authorize="hasAuthority('ROLE_PM')"><a href="" th:href="@{/projects/createproject}"><span
 								class="glyphicon glyphicon-plus"></span> Create Project</a></li>
@@ -97,7 +97,7 @@
 				</li>
 
 				<!-- USER PROFILE -->
-				<li class="xn-icon-button pull-right"><a href="#"><span
+				<li class="xn-icon-button pull-right" id="myAccountButton"><a href="#"><span
 						class="fa fa-user"></span></a>
 					<div class="panel panel-primary animated zoomIn xn-drop-left" style="z-index: 9999;">
 						<!-- BOTON PARA DESPLEGAR LAS OPCIONES DE MI CUENTA -->
@@ -267,6 +267,12 @@
 						equalTo : "#passwordText"
 					}
 				}
+			});
+			
+			$("#myAccountButton").click(function(){
+				$("#resetPasswordForm").hide();
+				document.getElementById("resetPasswordForm").reset();
+				jvalidate.resetForm();
 			});
 		</script>
 		<!-- END RESET PASSWORD VALIDATION -->

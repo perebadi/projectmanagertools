@@ -110,6 +110,7 @@ public class ProjectController {
 	@Qualifier("userService")
 	private UserService userService;
 	
+	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO') or hasRole('ROLE_ADMIN')")
 	@GetMapping("/")
 	public ModelAndView Welcome() throws IllegalArgumentException, IllegalAccessException{
 		ModelAndView mav = new ModelAndView(ViewConstant.WELCOME);
@@ -125,6 +126,7 @@ public class ProjectController {
 		return mav;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO')")
 	@GetMapping("/project/{id}/e3t/download")
 	public void getE3T(@PathVariable int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Project project = projectService.findProjectById(id);
@@ -173,6 +175,7 @@ public class ProjectController {
  
     }
 	
+	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO')")
 	@PostMapping("/project/{id}/e3t/upload")
 	public String uploadE3T(@PathVariable int id, MultipartFile file) {
 		if(file.getSize() > 0) {

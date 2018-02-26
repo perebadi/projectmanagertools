@@ -17,6 +17,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -179,7 +181,15 @@ public class LoginController {
 	@GetMapping({"/loginsuccess","/","/logincheck"})
 	public String loginCheck() {
 		System.out.println("*********AQUI**********");
-		return "redirect:/projects/";
+		
+		if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().
+				contains(new SimpleGrantedAuthority("ROLE_PMO")) || SecurityContextHolder.getContext().getAuthentication().getAuthorities().
+				contains(new SimpleGrantedAuthority("ROLE_PM")) || SecurityContextHolder.getContext().getAuthentication().getAuthorities().
+				contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+			return "redirect:/projects/";
+		}else {
+			return "redirect:/tasks/project/yourprojects/";
+		}
 		
 	}
 }

@@ -765,9 +765,13 @@ body.page-container-boxed .page-container {
   display: none;
 }
 .x-navigation.x-navigation-minimized > li.xn-logo > a:first-child {
-  padding: 0px;
-  width: 50px;
-  background-image: url("../img/logo-small.png");
+    padding: 0px;
+    width: 50px;
+    background-image: url(../img/logo-small.png);
+    background-position-x: -7px;
+    background-size: 190px;
+    background-color: white;
+    background-position-y: 2px;
 }
 .x-navigation.x-navigation-minimized .xn-search input {
   width: 30px;

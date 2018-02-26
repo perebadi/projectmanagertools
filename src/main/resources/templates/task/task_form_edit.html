@@ -18,33 +18,45 @@
 			<!-- PAGE TITLE -->
 			<div class="page-title">
 				<h2>
-					<br /> <span class="fa fa-arrow-circle-o-left"></span> Kanban
+					<br /> <span class="glyphicon glyphicon-tasks"></span> Kanban
 					Tasks
 				</h2>
+
+				<ul class="panel-controls" style="margin-top: 25px;"
+					sec:authorize="hasAuthority('ROLE_PM')">
+					<li><a role="button" data-toggle="modal"
+						data-target="#create_task_modal"> <span
+							class="glyphicon glyphicon-plus"></span>
+					</a></li>
+				</ul>
 			</div>
+			<!-- 
 			<div class="panel-footer" sec:authorize="hasAuthority('ROLE_PM')">
 				<button class="btn btn-default" data-toggle="modal"
 					data-target="#create_task_modal">Create Task</button>
-			</div>
+			</div>-->
 			<!-- END PAGE TITLE -->
 
 			<br />
 			<!-- PAGE CONTENT WRAPPER -->
 			<div class="page-content-wrap">
-				
+
 				<div class="row">
-					<label class="col-md-12 control-label">Sprint</label>
+					<h6>
+						<label class="col-md-12 control-label">Sprint</label>
+					</h6>
 					<div class="col-md-12">
-						<select name="sprintTasks" id="sprintTasks" class="form-control select"
-							data-live-search="true">
+						<select name="sprintTasks" id="sprintTasks"
+							class="form-control select" data-live-search="true">
 							<option value="0">All</option>
 							<option th:each="sprint : ${sprints}" th:value="${sprint.id}"
-								th:text="${sprint.sprint}" th:selected="${sprint.id}==${sprintid}" ></option>
+								th:text="${sprint.sprint}"
+								th:selected="${sprint.id}==${sprintid}"></option>
 						</select>
 					</div>
 				</div>
-				
-				<br/><br/>
+
+				<br /> <br />
 
 				<!-- START PORTLET -->
 				<div class="row scRow col-md-12">
@@ -342,7 +354,8 @@
 									data-live-search="true">
 									<option></option>
 									<option th:each="sprint : ${sprints}" th:value="${sprint.id}"
-										th:text="${sprint.sprint}" th:selected="${sprint.id}==${sprintid}" ></option>
+										th:text="${sprint.sprint}"
+										th:selected="${sprint.id}==${sprintid}"></option>
 								</select>
 							</div>
 							<div class="col-md-1">
@@ -445,11 +458,23 @@
 	<!-- END SCRIPTS -->
 
 	<script type="text/javascript">
-		window.onload = function() {
+	$( document ).ready(function() {
 			//Head de estat de tasques sempre visible
 			var $table = $('#tableTasks');
 			$table.floatThead();
-		}
+
+			//Filtrar tareas por sprint
+			$("#sprintTasks").change(
+				function() {
+					if ($(this).val() != 0) {
+						window.location.replace(window.location.pathname
+								+ "?sprint=" + $(this).val());
+					} else {
+						window.location.replace(window.location.pathname);
+					}
+				}
+			);
+		});
 	</script>
 
 	<script type="text/javascript" sec:authorize="hasAuthority('ROLE_PM')">
@@ -470,17 +495,7 @@
 			}
 		}
 
-		window.onload = function() {
-			
-			//Filtrar tareas por sprint
-			$("#sprintTasks").change(function() {
-				if($(this).val() != 0){
-					window.location.replace(window.location.pathname + "?sprint=" + $(this).val());
-				}else{
-					window.location.replace(window.location.pathname);
-				}
-			});
-			
+		$( document ).ready(function() {
 			//Validación formulario add task
 			var addTaskFormValidator = $("#createtaskForm").validate({
 				ignore : [],
@@ -502,7 +517,7 @@
 					}
 				}
 			});
-		}
+		});
 		$('#myFormSubmit').click(function(e) {
 			e.preventDefault();
 			if ($("#createtaskForm").valid()) {
