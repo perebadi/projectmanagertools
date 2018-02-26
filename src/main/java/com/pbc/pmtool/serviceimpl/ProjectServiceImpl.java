@@ -23,8 +23,10 @@ import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.ProjectAchievement;
 import com.pbc.pmtool.entity.User;
+import com.pbc.pmtool.model.FormChangeProjectPM;
 import com.pbc.pmtool.model.SumValuesModel;
 import com.pbc.pmtool.repository.ProjectRepository;
+import com.pbc.pmtool.repository.UserRepository;
 import com.pbc.pmtool.service.ProjectService;
 
 @Service("projectServiceImpl")
@@ -34,6 +36,10 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	@Qualifier("projectRepository")
 	private ProjectRepository projectRepository;
+	
+	@Autowired
+	@Qualifier("userRepository")
+	private UserRepository userRepository;
 	
 	@Override
 	public Project addProject(Project project) {
@@ -164,6 +170,19 @@ public class ProjectServiceImpl implements ProjectService {
 			
 			return false;
 		}
+	}
+
+	@Override
+	public Project changePMProject(int id, FormChangeProjectPM formChangeProjectPm) {
+		Project project = projectRepository.findById(id);
+		
+		if(project != null) {
+			project.setUser(userRepository.findByUsername(formChangeProjectPm.getNewPm()));
+			
+			project = this.updateProject(project);
+		}
+		
+		return project;
 	}
 
 }

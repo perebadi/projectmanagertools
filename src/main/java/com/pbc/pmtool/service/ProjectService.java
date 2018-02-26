@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pbc.pmtool.entity.Project;
 import com.pbc.pmtool.entity.User;
+import com.pbc.pmtool.model.FormChangeProjectPM;
 import com.pbc.pmtool.model.SumValuesModel;
 
 
@@ -29,4 +30,6 @@ public interface ProjectService {
 	public abstract Project updateProject(Project project);
 	
 	public abstract SumValuesModel getActiveSum(String username, boolean isPmo);
+	
+	public abstract Project changePMProject(int id, FormChangeProjectPM formChangeProjectPm);
 }

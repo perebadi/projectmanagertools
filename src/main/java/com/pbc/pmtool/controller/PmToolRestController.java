@@ -11,8 +11,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,6 +41,7 @@ import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.CustomerModel;
 import com.pbc.pmtool.model.FormAchievementModel;
 import com.pbc.pmtool.model.FormAssignToProjectModel;
+import com.pbc.pmtool.model.FormChangeProjectPM;
 import com.pbc.pmtool.model.FormCommentModel;
 import com.pbc.pmtool.model.FormCreateTaskModel;
 import com.pbc.pmtool.model.FormCustomerAddModel;
@@ -156,6 +155,18 @@ public class PmToolRestController {
 	@Autowired
 	@Qualifier("sprintRepository")
 	private SprintRepository sprintRepository;
+
+	@PreAuthorize("hasAuthority('ROLE_PMO')")
+	@PostMapping(value = "/project/{id}/changepm")
+	public Response updatePMProject(@PathVariable int id, @Valid @RequestBody FormChangeProjectPM formChangeProjectPM, BindingResult bindingResult) {
+		if(!(bindingResult.hasErrors())) {
+			projectService.changePMProject(id, formChangeProjectPM);
+			
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
+	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping(value = "/projects/all")

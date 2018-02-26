@@ -305,7 +305,7 @@ public class ProjectController {
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);
 		
 		mav.addObject("projects", projectService.listPageablePmoProjects(pageno,userRepository.findByUsername(username)));
-		mav.addObject("username", sessionuser);
+		mav.addObject("pms", userService.getUsersByRole("ROLE_PM"));
 		return mav;
 	}
 	

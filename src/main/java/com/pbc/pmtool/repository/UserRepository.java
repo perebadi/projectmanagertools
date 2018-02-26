@@ -33,7 +33,7 @@ public interface UserRepository extends JpaRepository<User, Serializable>{
 	 */
 	public abstract Page<User> findUsersByUsernameContainingOrNameContaining(String username, String name, Pageable pageable);
 	
-	@Query("SELECT u FROM User u JOIN u.userRole r WHERE r.role=:userRole")
+	@Query("SELECT u FROM User u JOIN u.userRole r WHERE r.role=:userRole AND u.enabled is true")
 	public abstract List<User> findByRole(@Param("userRole") String userRole);
 	
 }
