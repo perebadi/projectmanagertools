@@ -287,7 +287,7 @@ public class ProjectController {
 		return "redirect:/projects/";
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
+	@PreAuthorize("hasAuthority('ROLE_PM')")
 	@GetMapping("/{username}/")
 	public ModelAndView showProjects(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable String username){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);

@@ -22,7 +22,7 @@
                 
                  <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-                    <div class="row">
+                    <div class="row" sec:authorize="hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')" >
                         <div class="col-md-12">
                             <!-- <div class="col-md-3">                        
 	                            <a href="#" th:href="@{/projects/__${username}__/}" class="tile tile-primary">
@@ -35,7 +35,7 @@
                         		<div class="row"><!-- START ROW -->
 	                        		<div class="col-md-4">
 	
-		                            <div class="widget widget-primary">
+		                            <div class="widget widget-primary" sec:authorize="hasAuthority('ROLE_PM')">
 		                                <div class="widget-subtitle">Your Active Projects</div>
 		                                <div class="widget-subtitle"></div>
 		                                

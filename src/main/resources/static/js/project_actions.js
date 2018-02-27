@@ -172,7 +172,7 @@ $(document).ready(function(){
 			
 			addAchievementButton();
 			
-			$("#titleModal").html("Save achievement");
+			$("#titleModal").html("Edit achievement");
 			//Show modal
 			$("#modalProject").modal('show');
 			
@@ -264,7 +264,7 @@ $(document).ready(function(){
 			
 			addNextStepButton();
 			
-			$("#titleModal").html("Save next step");
+			$("#titleModal").html("Edit next step");
 			//Show modal
 			$("#modalProject").modal('show');
 			
@@ -496,7 +496,7 @@ $(document).ready(function(){
 			
 			if($("#problemrisk_" + problem).val() == "Problem"){
 				//Obtenemos el problema
-				$("#titleProblemModal").html("Save problem");
+				$("#titleProblemModal").html("Edit problem");
 				
 				$.ajax({
 		    		type : "GET",
@@ -716,7 +716,7 @@ $(document).ready(function(){
 			
 			addEscalationButton();
 			
-			$("#titleModal").html("Save escalation");
+			$("#titleModal").html("Edit escalation");
 			//Show modal
 			$("#modalProject").modal('show');
 			

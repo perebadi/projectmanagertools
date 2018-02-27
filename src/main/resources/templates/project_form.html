@@ -2,50 +2,6 @@
 <html lang="en">
 <head th:replace="layout/layout :: head"></head>
 <body>
-
-	<!-- SCRIPT PAGE -->
-	<script>
-		window.onload = function() {
-			document.getElementsByName("TVC")[0].addEventListener('change',
-					calc);
-			document.getElementsByName("TIC")[0].addEventListener('change',
-					calc);
-			document.getElementsByName("costestimated")[0].addEventListener(
-					'change', calc);
-
-			function calc() {
-				var tcv = $('#TVC').val();
-				var tic = $('#TIC').val();
-				var costestimated = $('#costestimated').val();
-
-				var op = (1 - tic / tcv) * 100;
-				
-				if(isNaN(op)){
-        			op = 0;
-        		}
-				
-				$('#OP').val(parseFloat(op).toFixed(2));
-
-				var eacop = (1 - costestimated / tcv) * 100;
-				
-				if(isNaN(eacop)){
-        			eacop = 0;
-        		}
-				
-				$('#EACOP').val(parseFloat(eacop).toFixed(2));
-
-				var variance = parseFloat(tcv-costestimated).toFixed(2);
-        		
-        		if(isNaN(variance)){
-        			variance = 0;
-        		}
-				
-				$('#variance').val(variance);
-			}
-		}
-	</script>
-	<!-- END SCRIPT PAGE -->
-
 	<!-- START PAGE CONTAINER -->
 	<div class="page-container">
 
@@ -142,7 +98,7 @@
 											<div class="col-md-10">
 												<select name="pmo" id="pmo"
 													class="form-control select" data-live-search="true">
-													<option></option>
+													<option selected="true"></option>
 													<option th:each="pmo : ${pmos}"
 														th:value="${pmo.username}" th:text="${pmo.name}"></option>
 												</select>
@@ -153,7 +109,7 @@
 											<div class="col-md-9">
 												<select name="customer_id" id="customer_id"
 													class="form-control select" data-live-search="true">
-													<option></option>
+													<option selected="true"></option>
 													<option th:each="customer : ${customers}"
 														th:value="${customer.id}" th:text="${customer.customer}"></option>
 												</select>
@@ -305,6 +261,44 @@
 
 		<script>
 			window.onload = function() {
+				
+				document.getElementsByName("TVC")[0].addEventListener('change',
+						calc);
+				document.getElementsByName("TIC")[0].addEventListener('change',
+						calc);
+				document.getElementsByName("costestimated")[0].addEventListener(
+						'change', calc);
+	
+				function calc() {
+					var tcv = $('#TVC').val();
+					var tic = $('#TIC').val();
+					var costestimated = $('#costestimated').val();
+	
+					var op = (1 - tic / tcv) * 100;
+					
+					if(isNaN(op)){
+	        			op = 0;
+	        		}
+					
+					$('#OP').val(parseFloat(op).toFixed(2));
+	
+					var eacop = (1 - costestimated / tcv) * 100;
+					
+					if(isNaN(eacop)){
+	        			eacop = 0;
+	        		}
+					
+					$('#EACOP').val(parseFloat(eacop).toFixed(2));
+	
+					var variance = parseFloat(tcv-costestimated).toFixed(2);
+	        		
+	        		if(isNaN(variance)){
+	        			variance = 0;
+	        		}
+					
+					$('#variance').val(variance);
+				}
+				
 				$("#formnewproject").submit(
 						function(event) {
 							//Validación add project form
@@ -448,6 +442,7 @@
 		<script type="text/javascript"
 			th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
 		<!-- END PAGE PLUGINS -->
+		
 	</div>
 </body>
 </html>
