@@ -32,4 +32,7 @@ public interface ProjectService {
 	public abstract SumValuesModel getActiveSum(String username, boolean isPmo);
 	
 	public abstract Project changePMProject(int id, FormChangeProjectPM formChangeProjectPm);
+	
+	public abstract Project closeProject(int id);
+	
 }

@@ -31,10 +31,10 @@ window.onload = function(){
     		
     		//Mostramos el alert para confirmar que se quiere eliminar el usuario
     		bootbox.confirm({
-    		    message: "¿Quieres eliminar el usuario?",
+    		    message: "Are you sure you want to delete the user?",
     		    buttons: {
     		        confirm: {
-    		            label: 'Si',
+    		            label: 'Yes',
     		            className: 'btn-success'
     		        },
     		        cancel: {

@@ -130,6 +130,11 @@
 																		Change PM
 																	</a>
 																</li>
+																<li>
+																	<a class="closeProjectButton" role="button" th:attr="data-project=${project.id}" >
+																		Close project
+																	</a>
+																</li>
 															</ul>
 														</div>
 														<!-- END ACTION BUTTONS -->
@@ -189,28 +194,78 @@
  	<footer th:replace="layout/layout :: footer"></footer>
  	
  	<!-- THIS PAGE PLUGINS -->
- 	        	<script th:src="@{/js/plugins/icheck/icheck.min.js}"></script>	
- 	        	<script th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
+ 	<script th:src="@{/js/plugins/icheck/icheck.min.js}"></script>	
+ 	<script th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
  	        	
- 	       	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>	
- 	        	<script th:src="@{/js/plugins/bootstrap/bootstrap-timepicker.min.js}"></script>	
- 	        	<script th:src="@{/js/plugins/bootstrap/bootstrap-colorpicker.js}"></script>	
- 	        	<script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>	
- 	        	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>	
- 	        	<script th:src="@{/js/plugins/tagsinput/jquery.tagsinput.min.js}"></script>	
- 	        	<script th:src="@{/js/plugins/modal/modal-AJAX.js}"></script>
+ 	<script th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>	
+ 	<script th:src="@{/js/plugins/bootstrap/bootstrap-timepicker.min.js}"></script>	
+ 	<script th:src="@{/js/plugins/bootstrap/bootstrap-colorpicker.js}"></script>	
+ 	<script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>	
+ 	<script th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>	
+ 	<script th:src="@{/js/plugins/tagsinput/jquery.tagsinput.min.js}"></script>	
+ 	<script th:src="@{/js/plugins/modal/modal-AJAX.js}"></script>
         
        
-        <!-- END THIS PAGE PLUGINS -->       
+    <!-- END THIS PAGE PLUGINS -->       
         
-        <!-- THIS PAGE PLUGINS -->    
-	        <script type='text/javascript' th:src="@{/js/plugins/icheck/icheck.min.js}"></script>
-	        <script type="text/javascript" th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
-	        
-	        <script type="text/javascript" th:src="@{/js/plugins/smartwizard/jquery.smartWizard-2.0.min.js}"></script>        
-	        <script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
-	        <script type="text/javascript" th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>    
-        <!-- END PAGE PLUGINS -->
+    <!-- THIS PAGE PLUGINS -->    
+	<script type='text/javascript' th:src="@{/js/plugins/icheck/icheck.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
+	<script th:src="@{/js/bootbox.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/plugins/smartwizard/jquery.smartWizard-2.0.min.js}"></script>        
+	<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>    
+    <!-- END PAGE PLUGINS -->
+        
+        <script type="text/javascript" >
+        	$(document).ready(function(){
+        		$(".closeProjectButton").each(function(){
+        			$(this).click(function(){
+	        			var projectId = $(this).attr("data-project");
+	        			
+	        			bootbox.confirm({
+	            		    message: "Are you sure you want to close the project?",
+	            		    buttons: {
+	            		        confirm: {
+	            		            label: 'Yes',
+	            		            className: 'btn-success'
+	            		        },
+	            		        cancel: {
+	            		            label: 'No',
+	            		            className: 'btn-danger'
+	            		        }
+	            		    },
+	            		    callback: function (result) {
+	            		    	if(result){
+	            		    		var token = document.getElementsByName("_csrf")[0].value;
+	            		    		
+	            		    		$.ajax({
+	            		    			type : "POST",
+	            		    			contentType : "application/json",
+	            		    			url : "/api/project/" + projectId + "/close",
+	            		    			data : JSON.stringify(""),
+	            		    			dataType : 'json',
+	            		    			
+	            		    			beforeSend: function(request) {
+	            		    		        return request.setRequestHeader('X-CSRF-Token', token);
+	            		    		    },
+	            		    		    
+	            		    			success : function(result) {
+	            		    				if(result.status == "Done"){
+	            		    					window.location.reload();
+	            		    				}
+	            		    			},
+	            		    			error : function(e) {
+	            		    				
+	            		    			}
+	            		    		});
+	            		    	}
+	            		    }
+	            		});
+        			});
+        		});
+        	});
+        </script>
         
         <script type="text/javascript" sec:authorize="hasAuthority('ROLE_PMO')">
         	$( document ).ready(function() {

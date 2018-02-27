@@ -156,6 +156,18 @@ public class PmToolRestController {
 	@Qualifier("sprintRepository")
 	private SprintRepository sprintRepository;
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
+	@PostMapping(value = "/project/{id}/close")
+	public Response closeProject(@PathVariable int id) {
+		Project project = projectService.closeProject(id);
+		
+		if(project != null) {
+			return new Response("Done", "Done");
+		}else {
+			return new Response("Error", "Error");
+		}
+	}
+	
 	@PreAuthorize("hasAuthority('ROLE_PMO')")
 	@PostMapping(value = "/project/{id}/changepm")
 	public Response updatePMProject(@PathVariable int id, @Valid @RequestBody FormChangeProjectPM formChangeProjectPM, BindingResult bindingResult) {

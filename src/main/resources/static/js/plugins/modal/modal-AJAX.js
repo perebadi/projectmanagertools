@@ -67,7 +67,7 @@ jQuery.fn.AJAXmodal = function(opciones) {
 		    				}
 		    			},
 		    			error : function(e) {
-		    				alert("error");
+		    				
 		    			}
 		    		});
 				}

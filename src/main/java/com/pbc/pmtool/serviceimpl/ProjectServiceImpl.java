@@ -62,7 +62,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<Project> listProjectByUser(User user) {
 		
-		List<Project> projects = projectRepository.findByUser(user);
+		List<Project> projects = projectRepository.findByUserAndProjectactive(user, true);
 		return projects;
 	
 	}
@@ -77,7 +77,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> listPageableProjects(int pageno, User user) {
-		Page<Project> pageprojects = projectRepository.findByUser(user, new PageRequest(pageno, 20, Sort.Direction.DESC, "id"));
+		Page<Project> pageprojects = projectRepository.findByUserAndProjectactive(user, true, new PageRequest(pageno, 20, Sort.Direction.DESC, "id"));
 		List<Project> projects = pageprojects.getContent();
 		return projects;
 	}
@@ -90,7 +90,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public int countRecords(User user) {
-		List<Project> projects = projectRepository.findByUser(user);
+		List<Project> projects = projectRepository.findByUserAndProjectactive(user, true);
 		return projects.size();
 	}
 
@@ -146,7 +146,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> listPageablePmoProjects(int pageno, User user) {
-		Page<Project> pageprojects = projectRepository.findByPmo(user, new PageRequest(pageno, 20, Sort.Direction.DESC, "id"));
+		Page<Project> pageprojects = projectRepository.findByPmoAndProjectactive(user, true, new PageRequest(pageno, 20, Sort.Direction.DESC, "id"));
 		List<Project> projects = pageprojects.getContent();
 		return projects;
 	}
@@ -180,6 +180,19 @@ public class ProjectServiceImpl implements ProjectService {
 			project.setUser(userRepository.findByUsername(formChangeProjectPm.getNewPm()));
 			
 			project = this.updateProject(project);
+		}
+		
+		return project;
+	}
+
+	@Override
+	public Project closeProject(int id) {
+		Project project = projectRepository.findById(id);
+		
+		if(project != null) {
+			project.setProjectactive(false);
+			
+			project = projectRepository.save(project);
 		}
 		
 		return project;
