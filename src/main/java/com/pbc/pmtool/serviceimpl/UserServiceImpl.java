@@ -212,5 +212,16 @@ public class UserServiceImpl implements UserService{
 		
 		return usersModel;
 	}
+
+	@Override
+	public List<FormUserAdminModel> getActiveUsers() {
+		List<FormUserAdminModel> activeUsers = new ArrayList<FormUserAdminModel>();
+		
+		for(User user : userRepository.findByEnabled(true)) {
+			activeUsers.add(userConverter.UserEntity2FormUserAdminModel(user));
+		}
+		
+		return activeUsers;
+	}
 	
 }

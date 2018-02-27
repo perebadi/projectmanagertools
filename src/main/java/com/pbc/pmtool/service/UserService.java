@@ -23,6 +23,8 @@ public interface UserService extends UserDetailsService {
 
 	public HashMap<String, Object> getUsersByUsernameOrName(Pageable pageable, String username);
 	
+	public List<FormUserAdminModel> getActiveUsers();
+	
 	/**
 	 * Obtiene todos los usuarios de la base de datos
 	 * 

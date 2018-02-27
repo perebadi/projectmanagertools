@@ -292,6 +292,7 @@ public class ProjectController {
 	public ModelAndView showProjects(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable String username){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);
 		
+		mav.addObject("users", userService.getActiveUsers());
 		mav.addObject("projects", projectService.listPageableProjects(pageno,userRepository.findByUsername(username)));
 		mav.addObject("username", sessionuser);
 		return mav;

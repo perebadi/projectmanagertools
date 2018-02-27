@@ -186,7 +186,7 @@ public class PmToolRestController {
 		return projectService.listProjects();
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping(value = "/assign/")
 	public Response addToProject(@RequestBody FormAssignToProjectModel formAssignToProjectModel) {
 

@@ -17,6 +17,8 @@ import com.pbc.pmtool.entity.UserRole;
 @Repository("userRepository")
 public interface UserRepository extends JpaRepository<User, Serializable>{
 	
+	public abstract List<User> findByEnabled(boolean enabled);
+	
 	public abstract User findByUsername(String username);
 	
 	/**

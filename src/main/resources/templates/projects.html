@@ -131,6 +131,12 @@
 																	</a>
 																</li>
 																<li>
+																	<a role="button" class="dateChanger" data-toggle="modal" data-target="#assign_project_modal"
+																	name="userAddProjectButton" id="userAddProjectButton" th:attr="data-project=${project.id}">
+																		Add user to project
+																	</a>
+																</li>
+																<li>
 																	<a class="closeProjectButton" role="button" th:attr="data-project=${project.id}" >
 																		Close project
 																	</a>
@@ -191,6 +197,65 @@
 		<!-- END CHANGE PM MODAL -->
 		</div>
 
+	<!-- CREATE ASSIGN MODAL -->
+	<div class="modal" id="assign_project_modal" tabindex="-1"
+		role="dialog" aria-labelledby="#assign_project_modal"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="largeModalHead">Assign to project</h4>
+				</div>
+				<div class="modal-body">
+
+					<form class="form-horizontal" role="form" id="assignForm"
+						name="assignForm" method="POST" action="#"
+						th:action="@{/users/assign/}">
+						<input type="hidden" id="projectid" name="projectid" />
+
+						<div class="form-group">
+							<label class="col-md-2 control-label  modal-body input">User</label>
+							<div class="col-md-10" name="divuser" id="divuser">
+								<select  class="form-control select" data-live-search="true" id="username" >
+									<option th:each="user : ${users}"
+										th:value="${user.username}" th:text="${user.name}"></option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-12">
+								<div class="alert alert-success" role="alert" id="addedProjectOk" style="display: none;">
+									<button type="button" class="close" onclick="$('#addedProjectOk').hide()">
+										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+									</button>
+									<strong>Success!</strong> User added to the project.
+								</div>
+
+								<div class="alert alert-danger" role="alert" id="userInProject" style="display: none;">
+									<button type="button" class="close" onclick="$('#userInProject').hide()">
+										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+									</button>
+									<strong>Ups!</strong> User already in the project.
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="myFormSubmit" name="myFormSubmit"
+						class="btn btn-primary">
+						<span class="glyphicon glyphicon-save" aria-hidden="true"></span>Assign
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END CREATE ASSIGN MODAL-->
+
  	<footer th:replace="layout/layout :: footer"></footer>
  	
  	<!-- THIS PAGE PLUGINS -->
@@ -219,6 +284,61 @@
         
         <script type="text/javascript" >
         	$(document).ready(function(){
+        		//Copia el id de proyecto en el modal de asignación de usuario a proyecto
+        		$(".dateChanger").each(function(){
+        			$(this).click(function(){
+        				var projectId = $(this).attr("data-project");
+        				
+        				$('#addedProjectOk').hide();
+    					$('#userInProject').hide();
+        				
+        				$("#projectid").val(projectId);
+        			});
+        		});
+        		
+        		//Asigna un nuevo usuario a un proyecto
+        		$('#myFormSubmit').click(function(e) {
+        			$('#addedProjectOk').hide();
+					$('#userInProject').hide();
+        			e.preventDefault();
+        			ajaxPost();
+        		});
+
+        		function ajaxPost() {
+        			// PREPARE FORM DATA
+        			var formData = {
+        				username : $("#username").val(),
+        				projectid : $("#projectid").val()
+        			}
+
+        			var token = document.getElementsByName("_csrf")[0].value;
+
+        			// DO POST
+        			$.ajax({
+        				type : "POST",
+        				contentType : "application/json",
+        				url : "/api/assign/",
+        				data : JSON.stringify(formData),
+        				dataType : 'json',
+        				beforeSend : function(request) {
+        					return request.setRequestHeader('X-CSRF-Token', token);
+        				},
+
+        				success : function(result) {
+        					if (result.status == "Done") {
+        						$('#addedProjectOk').show(100);
+        					} else if (result.status == "AlreadyInProj") {
+        						$('#userInProject').show(100);
+        					}
+
+        				},
+        				error : function(e) {
+
+        				}
+        			});
+        		}
+        		
+        		//Muestra el modal de cierre de proyecto
         		$(".closeProjectButton").each(function(){
         			$(this).click(function(){
 	        			var projectId = $(this).attr("data-project");
@@ -269,6 +389,7 @@
         
         <script type="text/javascript" sec:authorize="hasAuthority('ROLE_PMO')">
         	$( document ).ready(function() {
+        		//Muestra el modal de cambio de PM del proyecto
         	  $(".changePMButton").each(function(){
         		    var projectId = $(this).attr("data-project");
         		  

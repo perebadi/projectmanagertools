@@ -72,7 +72,7 @@
 									<button type="button" class="close" data-dismiss="alert">
 										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 									</button>
-									<strong>Ups!</strong> The user can not be deleted since he is in projects or tasks. Try disabling it.
+									<strong>Ups!</strong> The user can not be deleted since he is in tasks. Try disabling it.
 								</div>
 								<!-- FIN ALERTAS AL ELIMINAR UN USUARIO -->
 
@@ -113,11 +113,6 @@
 															<li><a href="#" data-toggle="modal"
 																name="userEditButton"
 																th:attr="data-username=${user.username}">Edit User</a></li>
-															<li><a href="#" class="dateChanger"
-																data-toggle="modal" data-target="#assign_project_modal"
-																name="userAddProjectButton" id="userAddProjectButton"
-																th:attr="data-username=${user.username}">Add to
-																	project</a></li>
 															<li><a href="#" data-toggle="modal"
 																name="userDeleteButton"
 																th:attr="data-username=${user.username}">Disable
@@ -237,78 +232,6 @@
 	</div>
 	<!-- END PAGE CONTAINER -->
 
-	<!-- CREATE ASSIGN MODAL -->
-	<div class="modal" id="assign_project_modal" tabindex="-1"
-		role="dialog" aria-labelledby="#assign_project_modal"
-		aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title" id="largeModalHead">Assign to project</h4>
-				</div>
-				<div class="modal-body">
-
-					<form class="form-horizontal" role="form" id="assignForm"
-						name="assignForm" method="POST" action="#"
-						th:action="@{/users/assign/}">
-
-
-						<div class="form-group">
-							<label class="col-md-2 control-label  modal-body input">User</label>
-							<div class="col-md-10" name="divuser" id="divuser">
-								
-							</div>
-						</div>
-
-
-
-						<div class="form-group">
-							<label class="col-md-2 control-label">Project</label>
-							<div class="col-md-10">
-
-								<select id="projectid" name="projectid"
-									class="form-control selectpicker" data-live-search="true">
-									<option th:each="project : ${projects}"
-										th:value="${project.id}" th:text="${project.projectname}"></option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-12">
-								<div class="alert alert-success" role="alert" id="addedProjectOk">
-									<button type="button" class="close" onclick="$('#addedProjectOk').hide()">
-										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-									</button>
-									<strong>Success!</strong> User added to the project.
-								</div>
-
-								<div class="alert alert-danger" role="alert" id="userInProject">
-									<button type="button" class="close" onclick="$('#userInProject').hide()">
-										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-									</button>
-									<strong>Ups!</strong> User already in the project.
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" id="myFormSubmit" name="myFormSubmit"
-						class="btn btn-primary">
-						<span class="glyphicon glyphicon-save" aria-hidden="true"></span>Assign
-					</button>
-					<!-- 	                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                        
- -->
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- END CREATE ASSIGN MODAL-->
-
 	<footer th:replace="layout/layout :: footer"></footer>
 
 	<!-- THIS PAGE PLUGINS -->
@@ -330,71 +253,5 @@
 	<!-- START TEMPLATE -->
 	<script th:src="@{/js/settings.jss}"></script>
 	<!-- END TEMPLATE -->
-
-
-
-
-	<script type="text/javascript">
-		$('#myFormSubmit').click(function(e) {
-			e.preventDefault();
-			ajaxPost();
-		});
-
-		function ajaxPost() {
-			// PREPARE FORM DATA
-			var formData = {
-				username : $("#username").val(),
-				projectid : $("#projectid").val()
-			}
-
-			var token = document.getElementsByName("_csrf")[0].value;
-
-			// DO POST
-			$.ajax({
-				type : "POST",
-				contentType : "application/json",
-				url : "/api/assign/",
-				data : JSON.stringify(formData),
-				dataType : 'json',
-				beforeSend : function(request) {
-					return request.setRequestHeader('X-CSRF-Token', token);
-				},
-
-				success : function(result) {
-					if (result.status == "Done") {
-						$('#addedProjectOk').show(100);
-					} else if (result.status == "AlreadyInProj") {
-						$('#userInProject').show(100);
-					}
-
-				},
-				error : function(e) {
-
-				}
-			});
-
-			//xºxººresetData();
-		}
-
-		function resetData() {
-			$('#assign_project_modal').modal('hide');
-			$("#username").val("");
-			$("#projectid").val("");
-		}
-
-		$(".dateChanger")
-				.click(
-						function() {
-							var d = $(this).attr("data-username");
-							var re = '<input class="form-control" type="text" readonly="true" value="'+ d +'" name="username" id="username" th:object="${formAssignToProject}" />';
-
-							jQuery('#divuser').html(re);
-						});
-
-		$(document).ready(function() {
-			$('#addedProjectOk').hide();
-			$('#userInProject').hide();
-		});
-	</script>
 </body>
 </html>
