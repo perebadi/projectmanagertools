@@ -211,6 +211,7 @@ public class ProjectController {
 		project.setProjectname(formNewProjectModel.getProjectname());
 		project.setObjectives(formNewProjectModel.getObjectives());
 		project.setWbs(formNewProjectModel.getWbs());
+		project.setPo(formNewProjectModel.getPo());
 		project.setEACOP(formNewProjectModel.getEACOP());
 		project.setInvoiced(formNewProjectModel.getInvoiced());
 		project.setTIC(formNewProjectModel.getTIC());
@@ -284,7 +285,7 @@ public class ProjectController {
 		
 		
 	
-		return "redirect:/projects/";
+		return "redirect:/projects/project/" + newproject.getId();
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_PM')")
@@ -451,6 +452,9 @@ public class ProjectController {
 		//*** END FINANCIAL MODEL***//
 		
 		mav.addObject("username", sessionuser);
+		
+		mav.addObject("customers", customerServiceImpl.getAll());
+		
 		return mav;
 	}
 	

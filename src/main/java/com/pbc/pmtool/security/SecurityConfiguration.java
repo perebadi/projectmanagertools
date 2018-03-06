@@ -31,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/login*", "/static/css/*","/css/*","/css/codemirror/*","/css/*/*" ,"/fonts/*","/js/plugins/*","/js/*","/sass/*","/tables/*","/assets/*","/img/*","/audio/*","/css/bootstrap/*","/css/fontawesonme/*","/css/summernote/*","/css/jquery/*","/css/blueimp/*","/css/codemirror/*","/css/dropzone/*","/css/nvd3/*","/css/rickshaw/*", "/createuser", "/resetpassword").permitAll()
+			.antMatchers("/login*", "static/**", "/static/css/*","/css/*","/css/codemirror/*","/css/*/*", "/js/plugins/*/*", "/js/plugins/*/*/*", "/js/plugins/maskedinput/*" ,"/fonts/*","/js/plugins/*","/js/*","/sass/*","/tables/*","/assets/*","/img/*","/audio/*","/css/bootstrap/*","/css/fontawesonme/*","/css/summernote/*","/css/jquery/*","/css/blueimp/*","/css/codemirror/*","/css/dropzone/*","/css/nvd3/*","/css/rickshaw/*", "/createuser", "/resetpassword").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.formLogin().loginPage("/login").loginProcessingUrl("/logincheck")

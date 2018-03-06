@@ -50,6 +50,7 @@ import com.pbc.pmtool.model.FormFinancialModel;
 import com.pbc.pmtool.model.FormNextStepModel;
 import com.pbc.pmtool.model.FormPhaseModel;
 import com.pbc.pmtool.model.FormProblemModel;
+import com.pbc.pmtool.model.FormProjectInfoModel;
 import com.pbc.pmtool.model.FormRagModel;
 import com.pbc.pmtool.model.FormResetPasswordModel;
 import com.pbc.pmtool.model.FormRiskModel;
@@ -57,6 +58,7 @@ import com.pbc.pmtool.model.FormSaveBacklogModel;
 import com.pbc.pmtool.model.FormSaveTaskModel;
 import com.pbc.pmtool.model.FormSprint;
 import com.pbc.pmtool.model.Response;
+import com.pbc.pmtool.repository.CustomerRepository;
 import com.pbc.pmtool.repository.ProjectRepository;
 import com.pbc.pmtool.repository.SprintRepository;
 import com.pbc.pmtool.repository.UserRepository;
@@ -156,6 +158,10 @@ public class PmToolRestController {
 	@Qualifier("sprintRepository")
 	private SprintRepository sprintRepository;
 
+	@Autowired
+	@Qualifier("customerRepository")
+	private CustomerRepository customerRepository;
+	
 	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
 	@PostMapping(value = "/project/{id}/close")
 	public Response closeProject(@PathVariable int id) {
@@ -389,6 +395,33 @@ public class PmToolRestController {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
+	@PostMapping("/project/{id}/projectinfo/save")
+	public Response saveProjectInfo(@PathVariable int id, 
+			@Valid @RequestBody FormProjectInfoModel formProjectInfoModel, 
+			BindingResult bindingResults) {
+		
+		if(!(bindingResults.hasErrors())) {
+			Project project = projectService.findProjectById(id);
+			
+			if(project != null) {
+				project.setProjectname(formProjectInfoModel.getProjectname());
+				project.setObjectives(formProjectInfoModel.getObjectives());
+				project.setWbs(formProjectInfoModel.getWbs());
+				project.setPo(formProjectInfoModel.getPo());
+				project.setCustomer(customerRepository.findById(formProjectInfoModel.getCustomerid()));
+				
+				projectService.addProject(project);
+				
+				return new Response("Done", "Done");
+			}else {
+				return new Response("Error", "Error");
+			}
+		}else {
+			return new Response("Error", "Error");
+		}
+	}
+	
 	/**
 	 * Guarda un comentario sobre un proyecto
 	 * 

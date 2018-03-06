@@ -35,6 +35,9 @@ public class Project {
 	@Column(name = "WBS")
 	private String wbs;
 
+	@Column(name = "PO")
+	private String po;
+	
 	@Column(name = "e3t")
 	private String e3t;
 	
@@ -136,6 +139,14 @@ public class Project {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Customer customer;
 	
+	public String getPo() {
+		return po;
+	}
+
+	public void setPo(String po) {
+		this.po = po;
+	}
+
 	public Set<Sprint> getSprints() {
 		return sprints;
 	}
@@ -584,8 +595,8 @@ public class Project {
 
 	
 
-	public Project(int id, String projectname, boolean projectactive, String wbs, String e3t, String objectives,
-			ProjectStatusLight projectStatus, ProjectStatusLight projectStatusConfidence,
+	public Project(int id, String projectname, boolean projectactive, String wbs, String po, String e3t,
+			String objectives, ProjectStatusLight projectStatus, ProjectStatusLight projectStatusConfidence,
 			ProjectStatusLight projectDeliveryConfidence, ProjectStatusLight projectGovernance,
 			ProjectStatusLight projectBusinessChange, ProjectStatusLight projectBenefitsRealisation,
 			ProjectStatusLight projectDependency, ProjectStatusLight projectResourcing, ProjectStatusLight projectScope,
@@ -599,6 +610,7 @@ public class Project {
 		this.projectname = projectname;
 		this.projectactive = projectactive;
 		this.wbs = wbs;
+		this.po = po;
 		this.e3t = e3t;
 		this.objectives = objectives;
 		this.projectStatus = projectStatus;

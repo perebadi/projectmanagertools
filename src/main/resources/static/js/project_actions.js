@@ -84,6 +84,28 @@ $(document).ready(function(){
 		}
 	});
 
+	//Validación project info modal form
+	var projectInfoFormValidator = $("#infoProjectForm").validate({
+		ignore : [],
+		rules : {
+			projectnameproject : {
+				required : true
+			},
+			goalsproject : {
+				required : true
+			},
+			wbsproject : {
+				required : true
+			},
+			poproject : {
+				required : true
+			},
+			customerproject : {
+				required : true
+			}
+		}
+	});
+	
 	//Click del botón añadir modal
 	$("#e3tUploadModal").click(function(){
 		$("#modalUploadE3T").modal('show');
@@ -858,6 +880,104 @@ $(document).ready(function(){
 			$("#modalComment").modal('show');
 		});
 	});
+	
+	//Añadir un cliente
+	$("#addCustomerModalButton").AJAXmodal(
+			{
+				idModal : "addCustomer",
+				copyData : function() {
+					$("#clientAddSuccesAlert").hide();
+				},
+				url : "/api/createcustomer/",
+				formData : function() {
+					var data = {
+						customer : $('#customerNameInput').val()
+					}
+
+					return data;
+				},
+				ajaxSucces : function(response) {
+					$("#customerproject").append(
+							"<option value=" + response.data + ">"
+									+ $("#customerNameInput").val()
+									+ "</option>");
+					$("#customerproject").val(response.data);
+					$("#customerproject").selectpicker("refresh");
+
+					$("#customerNameInput").val('');
+					$("#addCustomer").modal('toggle');
+
+					$("#clientAddSuccesAlert").show(100);
+				},
+				disableButton : false,
+				FormValid : function() {
+					var customerFormValidator = $(
+							"#addCustomerForm").validate({
+						ignore : [],
+						rules : {
+							customerNameInput : {
+								required : true
+							}
+						}
+					});
+					
+					return $("#addCustomerForm").valid();
+				},
+				preventForm : true,
+				formId : "addCustomerForm"
+			});
+	
+	//AJAX formulario información proyecto
+	$("#saveProjectInfoButton").click(function(){
+		//Validamos el formulario
+		if($("#infoProjectForm").valid()){
+			$("#saveProjectInfoButton").prop("disabled",true);
+			
+			//Prevent form submit
+			$("#infoProjectForm").submit(function(e){
+		        e.preventDefault();
+		    });
+			
+			//Obtenemos el token
+			var token = document.getElementsByName("_csrf")[0].value;			
+			
+			//Form data
+			var formData = {
+				projectname : $('#projectnameproject').val(),
+				objectives : $('#goalsproject').val(),
+				wbs : $('#wbsproject').val(),
+				po : $('#poproject').val(),
+				customerid : $('#customerproject').val(),
+			}
+			
+			//AJAX Call
+			$.ajax({
+    			type : "POST",
+    			contentType : "application/json",
+    			url :"/api/project/" + $("#idProjectInfo").val() + "/projectinfo/save/",
+    			data : JSON.stringify(formData),
+    			dataType : 'json',
+    			
+    			beforeSend: function(request) {
+    		        return request.setRequestHeader('X-CSRF-Token', token);
+    		    },
+    		    
+    			success : function(result) {
+    				if(result.status == "Done"){
+    					//Refresh
+    					window.location.replace(window.location.pathname);
+    				}
+    			},
+    			error : function(e) {
+    			}
+    		});
+		}
+	});
+	
+	//Linkamos el botón para editar información del proyecto
+	$("#projectInfoModal").click(function(){
+		$("#modalProjectInfo").modal('show');
+	});	
 	
 	//AJAX formulario fases
 	$("#addPhaseButton").click(function(){

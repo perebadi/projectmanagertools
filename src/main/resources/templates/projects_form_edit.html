@@ -48,6 +48,10 @@
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h3 class="panel-title" th:text="${project.projectname}"></h3>
+										<ul class="panel-controls pull-right" style="margin-left: 15px;">
+											<li><a role="button" id="projectInfoModal"><span
+													class="fa fa-wrench "></span></a></li>
+										</ul>
 										<h3 class="panel-title pull-right"
 											th:text="${project.customer.customer}"></h3>
 									</div>
@@ -57,7 +61,12 @@
 										</p>
 									</div>
 									<div class="panel-footer">
-										<strong>WBS: </strong><span th:text="${project.wbs}"></span>
+										<div class="row">
+											<strong>WBS: </strong><span th:text="${project.wbs}"></span>
+										</div>
+										<div class="row">
+											<strong>PO: </strong><span th:text="${project.po}"></span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -786,6 +795,7 @@
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-tagsinput.min.js}"></script>
 	<script th:src="@{/js/plugins/bootstrap/bootstrap-file-input.js}"></script>
 	<script th:src="@{/js/project_actions.js}"></script>
+	<script th:src="@{/js/plugins/modal/modal-AJAX.js}"></script>
 	<!-- END PAGE PLUGINS -->
 </body>
 </html>

@@ -17,8 +17,17 @@ public class FormNewProjectModel {
 	private String start;
 	private String end;
 	private String wbs;
+	private String po;
 	private int customer_id;
 	
+	public String getPo() {
+		return po;
+	}
+
+	public void setPo(String po) {
+		this.po = po;
+	}
+
 	public String getPmo() {
 		return pmo;
 	}
@@ -149,7 +158,7 @@ public class FormNewProjectModel {
 
 	public FormNewProjectModel(String pmo, String projectname, String objectives, Double tVC, Double tIC, Double oP,
 			Double budgettodate, Double costestimated, Double eACOP, Double variance, Double certifiedprogress,
-			Double invoiced, String start, String end, String wbs, int customer_id) {
+			Double invoiced, String start, String end, String wbs, String po, int customer_id) {
 		super();
 		this.pmo = pmo;
 		this.projectname = projectname;
@@ -166,6 +175,7 @@ public class FormNewProjectModel {
 		this.start = start;
 		this.end = end;
 		this.wbs = wbs;
+		this.po = po;
 		this.customer_id = customer_id;
 	}
 

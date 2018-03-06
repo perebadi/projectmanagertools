@@ -26,7 +26,7 @@ public interface ProjectTaskRepository   extends JpaRepository<Task, Serializabl
 	public abstract List<Task>  findByStatus(int status);
 
 
-	@Query(value = "SELECT id, projectname, user_username, projectactive, backlog, todo, inprogress, done FROM view_project_task WHERE user_username = ?1 and projectactive = 1 or id in (SELECT project_id FROM projectmanagertools.project_user WHERE user_username = ?1 and projectactive = 1);", nativeQuery = true)	
+	@Query(value = "SELECT id, projectname, user_username, projectactive, backlog, todo, inprogress, done FROM view_project_task WHERE user_username = ?1 and projectactive = 1 or id in (SELECT project_id FROM project_user WHERE user_username = ?1 and projectactive = 1);", nativeQuery = true)	
 	public List<Object[]> findProjectTask(String username);
 
 
