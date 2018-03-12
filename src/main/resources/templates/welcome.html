@@ -22,7 +22,9 @@
                 
                  <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-                    <div class="row" sec:authorize="hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')" >
+                    <div class="row" sec:authorize="${#authorization.expression('hasAuthority(''' + T(com.pbc.pmtool.constant.RoleConstant).ROLE_ALLPROJ + ''')') 
+						or #authorization.expression('hasAuthority(''ROLE_PM'')') 
+						or #authorization.expression('hasAuthority(''ROLE_PMO'')') }" >
                         <div class="col-md-12">
                             <!-- <div class="col-md-3">                        
 	                            <a href="#" th:href="@{/projects/__${username}__/}" class="tile tile-primary">

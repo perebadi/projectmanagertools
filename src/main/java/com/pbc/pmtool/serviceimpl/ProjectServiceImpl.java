@@ -109,16 +109,20 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public SumValuesModel getActiveSum(String username, boolean isPmo) {
+	public SumValuesModel getActiveSum(String username, boolean isPmo, boolean allProjects) {
 				
 		SumValuesModel sumValuesModel = new   SumValuesModel();
 				
 		List<Object[]> ops = new ArrayList<Object[]>();
 
-		if(isPmo) {
-			ops=projectRepository.getPMOActiveSum(username, username);
+		if(allProjects) {
+			ops=projectRepository.getAllActiveSum();
 		}else {
-			ops=projectRepository.getActiveSum(username);
+			if(isPmo) {
+				ops=projectRepository.getPMOActiveSum(username, username);
+			}else {
+				ops=projectRepository.getActiveSum(username);
+			}
 		}
 		
 		for (Object[] op : ops ){
@@ -151,6 +155,14 @@ public class ProjectServiceImpl implements ProjectService {
 		return projects;
 	}
 
+	@Override
+	public List<Project> listPageableAllProjects(int pageno){
+		Page<Project> pageprojects = projectRepository.findByProjectactive(true, new PageRequest(pageno, 20, Sort.Direction.DESC, "id"));
+		List<Project> projects = pageprojects.getContent();
+		
+		return projects;
+	}
+	
 	@Override
 	public boolean uploadE3T(MultipartFile e3tFile, int id) {
 		File file = new File(System.getProperty("user.dir")+ViewConstant.E3TFOLDER+"e3tfile_" + id + "." + FilenameUtils.getExtension(e3tFile.getOriginalFilename()));

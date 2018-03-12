@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -45,6 +46,7 @@ public class ProjectProblem implements Comparable<ProjectProblem> {
 	@Column(name="summaryproblem", nullable=false)
 	private String summaryproblem;
 	
+	@Lob
 	@Column(name="txtproblem", nullable=false)
 	private String txtproblem;
 	

@@ -17,8 +17,13 @@
                 </ul>
                 <!-- END X-NAVIGATION VERTICAL -->                     
                 
-                <div class="page-title margin-top-15">                    
-                    <h2><i class="material-icons">work</i> Your projects  <span th:text="${nameuser}"></span></h2>
+                <div class="page-title margin-top-15">        
+                	<div th:if="${#httpServletRequest.requestURI == '/projects/allprojects/'}">
+						<h2><i class="material-icons">work</i> All projects</h2>
+					</div>
+					<div th:if="${!(#httpServletRequest.requestURI == '/projects/allprojects/')}">            
+                    	<h2><i class="material-icons">work</i> Your projects  <span th:text="${nameuser}"></span></h2>
+                    </div>
                 </div>               
                 
                  <!-- PAGE CONTENT WRAPPER -->
@@ -125,7 +130,8 @@
 																		Create Report
 																	</a>
 																</li>
-																<li sec:authorize="hasAuthority('ROLE_PMO')" >
+																<li sec:authorize="${#authorization.expression('hasAuthority(''' + T(com.pbc.pmtool.constant.RoleConstant).ROLE_ALLPROJ + ''')') 
+			 														or #authorization.expression('hasAuthority(''ROLE_PMO'')') }" th:if="${!(#httpServletRequest.requestURI == '/projects/__${username}__/')}" >
 																	<a class="changePMButton" role="button" th:attr="data-project=${project.id}" >
 																		Change PM
 																	</a>
@@ -163,7 +169,8 @@
         </div>
         <!-- END PAGE CONTAINER -->
 
-		<div sec:authorize="hasAuthority('ROLE_PMO')" >
+		<div sec:authorize="${#authorization.expression('hasAuthority(''' + T(com.pbc.pmtool.constant.RoleConstant).ROLE_ALLPROJ + ''')') 
+			 														or #authorization.expression('hasAuthority(''ROLE_PMO'')') }" >
 		<!-- CHANGE PM MODAL -->
 			<div id="changePMModal" class="modal fade" role="dialog">
 				<div class="modal-dialog">
@@ -387,7 +394,8 @@
         	});
         </script>
         
-        <script type="text/javascript" sec:authorize="hasAuthority('ROLE_PMO')">
+        <script type="text/javascript" sec:authorize="${#authorization.expression('hasAuthority(''' + T(com.pbc.pmtool.constant.RoleConstant).ROLE_ALLPROJ + ''')') 
+			 or #authorization.expression('hasAuthority(''ROLE_PMO'')') }">
         	$( document ).ready(function() {
         		//Muestra el modal de cambio de PM del proyecto
         	  $(".changePMButton").each(function(){

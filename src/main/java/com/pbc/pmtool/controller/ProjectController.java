@@ -36,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pbc.pmtool.additional.Report;
 import com.pbc.pmtool.component.CustomerConverter;
+import com.pbc.pmtool.constant.RoleConstant;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.Problem;
 import com.pbc.pmtool.entity.Project;
@@ -110,7 +111,7 @@ public class ProjectController {
 	@Qualifier("userService")
 	private UserService userService;
 	
-	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO') or hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO') or hasRole('ROLE_ADMIN') or hasRole('" + RoleConstant.ROLE_ALLPROJ + "') ")
 	@GetMapping("/")
 	public ModelAndView Welcome() throws IllegalArgumentException, IllegalAccessException{
 		ModelAndView mav = new ModelAndView(ViewConstant.WELCOME);
@@ -119,14 +120,17 @@ public class ProjectController {
 		
 		mav.addObject("sumValuesModel", projectService.getActiveSum(user.getUsername(), 
 				SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-				.contains(new SimpleGrantedAuthority("ROLE_PMO"))));
+				.contains(new SimpleGrantedAuthority("ROLE_PMO")),
+				SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+				.contains(new SimpleGrantedAuthority(RoleConstant.ROLE_ALLPROJ))
+				));
 		
 		
 		mav.addObject("numprojects",projectService.countRecords(userRepository.findByUsername(user.getUsername())));
 		return mav;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO')")
+	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO') or hasRole('" + RoleConstant.ROLE_ALLPROJ + "')")
 	@GetMapping("/project/{id}/e3t/download")
 	public void getE3T(@PathVariable int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Project project = projectService.findProjectById(id);
@@ -175,7 +179,7 @@ public class ProjectController {
  
     }
 	
-	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO')")
+	@PreAuthorize("hasRole('ROLE_PM') or hasRole('ROLE_PMO') or hasRole('" + RoleConstant.ROLE_ALLPROJ + "')")
 	@PostMapping("/project/{id}/e3t/upload")
 	public String uploadE3T(@PathVariable int id, MultipartFile file) {
 		if(file.getSize() > 0) {
@@ -200,7 +204,7 @@ public class ProjectController {
 		return mav;		
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO') or hasAuthority('" + RoleConstant.ROLE_ALLPROJ + "')")
 	@PostMapping("/saveproject")
 	public String SaveProject(@ModelAttribute("formNewProjectModel") FormNewProjectModel formNewProjectModel) {
 		
@@ -306,12 +310,25 @@ public class ProjectController {
 	public ModelAndView showPmoProjects(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable String username){
 		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);
 		
+		mav.addObject("users", userService.getActiveUsers());
 		mav.addObject("projects", projectService.listPageablePmoProjects(pageno,userRepository.findByUsername(username)));
 		mav.addObject("pms", userService.getUsersByRole("ROLE_PM"));
 		return mav;
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
+	@PreAuthorize("hasRole('" + RoleConstant.ROLE_ALLPROJ + "')")
+	@GetMapping("/allprojects")
+	public ModelAndView showAllProjects(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno) {
+		ModelAndView mav = new ModelAndView(ViewConstant.PROJECTS);
+		
+		mav.addObject("users", userService.getActiveUsers());
+		mav.addObject("projects", projectService.listPageableAllProjects(pageno));
+		mav.addObject("pms", userService.getUsersByRole("ROLE_PM"));
+		
+		return mav;
+	}
+	
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO') or hasAuthority('" + RoleConstant.ROLE_ALLPROJ + "')")
 	@GetMapping({"/project/{id}/print/","/project/{id}/print"})
 	public void reportProjects( @PathVariable int id, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
@@ -354,7 +371,7 @@ public class ProjectController {
         projectReport.delete();
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO')")
+	@PreAuthorize("hasAuthority('ROLE_PM') or hasAuthority('ROLE_PMO') or hasAuthority('" + RoleConstant.ROLE_ALLPROJ + "')")
 	@GetMapping({"/project/{id}/","/project/{id}"})
 	public ModelAndView editProject(@RequestParam(name="pageno", required=false, defaultValue="0") int pageno, @PathVariable int id, 
 			@RequestParam(name="e3tuploadsucessful", required=false) String e3tuploadsucessful,

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pbc.pmtool.constant.RoleConstant;
 import com.pbc.pmtool.constant.ViewConstant;
 import com.pbc.pmtool.entity.User;
 import com.pbc.pmtool.model.FormUserAddModel;
@@ -185,7 +186,8 @@ public class LoginController {
 		if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().
 				contains(new SimpleGrantedAuthority("ROLE_PMO")) || SecurityContextHolder.getContext().getAuthentication().getAuthorities().
 				contains(new SimpleGrantedAuthority("ROLE_PM")) || SecurityContextHolder.getContext().getAuthentication().getAuthorities().
-				contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+				contains(new SimpleGrantedAuthority("ROLE_ADMIN")) || SecurityContextHolder.getContext().getAuthentication().getAuthorities().
+				contains(new SimpleGrantedAuthority(RoleConstant.ROLE_ALLPROJ))) {
 			return "redirect:/projects/";
 		}else {
 			return "redirect:/tasks/project/yourprojects/";

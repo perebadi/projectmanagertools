@@ -25,11 +25,13 @@ public interface ProjectService {
 	
 	public abstract List<Project> listPageablePmoProjects(int pageno, User user);
 
+	public abstract List<Project> listPageableAllProjects(int pageno);
+	
 	public abstract boolean uploadE3T(MultipartFile e3tFile, int id);
 	
 	public abstract Project updateProject(Project project);
 	
-	public abstract SumValuesModel getActiveSum(String username, boolean isPmo);
+	public abstract SumValuesModel getActiveSum(String username, boolean isPmo, boolean allProjects);
 	
 	public abstract Project changePMProject(int id, FormChangeProjectPM formChangeProjectPm);
 	

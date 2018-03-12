@@ -1,7 +1,7 @@
 package com.pbc.pmtool.enums;
 
 public enum ProblemResponsableEnum {
-	DXC("DxC"),CUSTOMER("Customer"),DXCANDCUSTOMER("DxC and customer");
+	DXC("DxC"),CUSTOMER("Customer"),DXCANDCUSTOMER("DxC and customer"), OUTSIDE("Outside");
 	
 	private String responsable;
 

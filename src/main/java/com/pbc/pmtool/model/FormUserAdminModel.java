@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.pbc.pmtool.constant.RoleConstant;
 import com.pbc.pmtool.entity.UserRole;
 
 /**
@@ -61,6 +62,7 @@ public class FormUserAdminModel {
 		roles.add("ROLE_PMO");
 		roles.add("ROLE_PM");
 		roles.add("ROLE_ADMIN");
+		roles.add(RoleConstant.ROLE_ALLPROJ);
 		
 		return roles;
 	}

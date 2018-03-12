@@ -397,7 +397,10 @@
 												th:if="${risk.responsable.getResponsable() == 'Customer'}"
 												th:text="${project.customer.customer}" /> <span
 												th:if="${risk.responsable.getResponsable() == 'DxC and customer'}"
-												th:text="'DxC and ' + ${project.customer.customer}" /></td>
+												th:text="'DxC and ' + ${project.customer.customer}" />
+												<span th:if="${risk.responsable.getResponsable() == 'Outside'}"
+												th:text="${risk.responsable.getResponsable()}" />
+												</td>
 											<td align="center"><span class="badge badge-info"
 												th:text="${risk.type.getType()}"></span></td>
 											<td th:text="${risk.probability.getProbability()}"
@@ -474,7 +477,10 @@
 												th:if="${problem.responsable.getResponsable() == 'Customer'}"
 												th:text="${project.customer.customer}" /> <span
 												th:if="${problem.responsable.getResponsable() == 'DxC and customer'}"
-												th:text="'DxC and ' + ${project.customer.customer}" /></td>
+												th:text="'DxC and ' + ${project.customer.customer}" />
+												<span th:if="${problem.responsable.getResponsable() == 'Outside'}"
+												th:text="${problem.responsable.getResponsable()}" />
+											</td>
 											<td align="center"><span class="badge badge-info"
 												th:text="${problem.type.getType()}" /></td>
 											<td align="center"><span class="badge badge-success"

@@ -1,7 +1,7 @@
 package com.pbc.pmtool.enums;
 
 public enum RiskStrategyEnum {
-	ACCEPT("Accept"), MITIGATE("Mitigate");
+	ACCEPT("Accept"), MITIGATE("Mitigate"), TRANSFER("Transfer");
 	
 	private String strategy;
 

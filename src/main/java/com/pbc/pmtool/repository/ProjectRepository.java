@@ -20,9 +20,12 @@ public interface ProjectRepository  extends JpaRepository<Project, Serializable>
 	public Page<Project> findAllByOrderByIdDesc( Pageable pageable);
 	public abstract List<Project> findByUserAndProjectactive(User user, boolean active);
 	
+	public abstract Page<Project> findByProjectactive(boolean active, Pageable pageable);
 	public abstract Page<Project> findByPmoAndProjectactive(User user, boolean active, Pageable pageable);
 	public abstract Page<Project> findByUserAndProjectactive(User user, boolean active, Pageable pageable);
 
+	@Query(value = "SELECT coalesce(sum(TVC), 0) as sTVC, coalesce(sum(TIC), 0) as sTIC, coalesce(sum(costestimated), 0) as scostestimatedl FROM project WHERE  projectactive is true", nativeQuery = true)	
+	public  List<Object[]> getAllActiveSum();
 
 	@Query(value = "SELECT coalesce(sum(TVC), 0) as sTVC, coalesce(sum(TIC), 0) as sTIC, coalesce(sum(costestimated), 0) as scostestimatedl FROM project WHERE  user_username =?1 AND projectactive is true", nativeQuery = true)	
 	public  List<Object[]> getActiveSum(String username);
