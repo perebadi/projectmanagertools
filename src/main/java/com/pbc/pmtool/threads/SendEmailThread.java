@@ -2,6 +2,7 @@ package com.pbc.pmtool.threads;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -26,20 +27,23 @@ public class SendEmailThread implements Runnable {
 	@Override
 	public void run() {
 		if(recipients.size() > 0) {
+			
+			ResourceBundle prop = ResourceBundle.getBundle("email");
+			
 			//Enviamos un email con la nueva pwd generada
 		    Properties props = System.getProperties();
-		    props.put("mail.smtp.host", "smtp.live.com");  
-		    props.put("mail.smtp.user", "josep_hpe@outlook.com");
-		    props.put("mail.smtp.clave", "Dxc20182018");    
-		    props.put("mail.smtp.auth", "true");    
-		    props.put("mail.smtp.starttls.enable", "true"); 
-		    props.put("mail.smtp.port", "587");
+		    props.put("mail.smtp.host", prop.getString("smtp"));  
+		    props.put("mail.smtp.user", prop.getString("email_from"));
+		    props.put("mail.smtp.clave", prop.getString("email_from_pwd"));    
+		    props.put("mail.smtp.auth", prop.getObject("smtp_auth"));    
+		    props.put("mail.smtp.starttls.enable", prop.getObject("smtp_starttls")); 
+		    props.put("mail.smtp.port", prop.getString("smtp_port"));
 	
 		    Session session = Session.getDefaultInstance(props);
 		    MimeMessage message = new MimeMessage(session);
 	
 		    try {
-		        message.setFrom(new InternetAddress("josep_hpe@outlook.com"));
+		        message.setFrom(new InternetAddress(prop.getString("email_from")));
 		        
 		        for(String recipient : recipients) {
 		        	message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
@@ -49,7 +53,7 @@ public class SendEmailThread implements Runnable {
 		        message.setContent(text, "text/html; charset=utf-8");
 		        
 		        Transport transport = session.getTransport("smtp");
-		        transport.connect("smtp.live.com", "josep_hpe@outlook.com", "Dxc20182018");
+		        transport.connect(prop.getString("smtp"), prop.getString("email_from"), prop.getString("email_from_pwd"));
 		        transport.sendMessage(message, message.getAllRecipients());
 		        transport.close();
 		    }
